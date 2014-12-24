@@ -33,30 +33,30 @@ set wildignore=*.o,*~,*.pyc
 " Line numbering
 set number                              " Turn on line numbering
 if v:version >= 700
-  set numberwidth=5                     " with space for at least four digits (plus 1 for space)
+    set numberwidth=5                   " with space for at least four digits (plus 1 for space)
 endif
 
 if has("mac")
-  if has("terminfo")                      " from http://nicksergeant.com/2008/make-your-leopard-terminal-and-vim-shine-with-simbl-terminalcolors-and-the-ir-black-theme/
-    set t_Co=16
-    set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm
-    set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm
-  else
-    set t_Co=16
-    set t_Sf=[3%dm
-    set t_Sb=[4%dm
-  endif
+    if has("terminfo")                  " from http://nicksergeant.com/2008/make-your-leopard-terminal-and-vim-shine-with-simbl-terminalcolors-and-the-ir-black-theme/
+        set t_Co=16
+        set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm
+        set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm
+    else
+        set t_Co=16
+        set t_Sf=[3%dm
+        set t_Sb=[4%dm
+    endif
 endif
 
 set showcmd                             " Show partial commands in the status line
 if has("syntax")
-  syntax on                             " Turn on syntax coloring
+    syntax on                           " Turn on syntax coloring
 endif
 colorscheme neds                        " Use my colors to whatever extent possible.
 "let python_highlight_all=1
 "let python_slow_sync=1
 if exists('+colorcolumn')
-  set colorcolumn=80
+    set colorcolumn=80
 endif
 
 set listchars=tab:>-,eol:$,trail:-      " When in show-all-chars mode (set list), use >-- for tabs.
@@ -79,16 +79,16 @@ set display=lastline,uhex               " Display as much as possible of a last 
 set ignorecase smartcase                " If all lower-case, match any case, else be case-sensitive
 set virtualedit=onemore                 " One virtual character at the ends of lines, makes ^V work properly.
 set noerrorbells                        " Don't ring the bell on errors
-set visualbell t_vb=                    "  and don't flash either.
+set visualbell t_vb=                    "   and don't flash either.
 set mouse=a                             " Mice are wonderful.
 set fillchars=vert:\ ,fold:-            " Spaces are enough for vertical split separators.
 
 if v:version >= 700
-  augroup CursorLine
-    autocmd!
-    autocmd InsertEnter * set cursorline
-    autocmd InsertLeave * set nocursorline
-  augroup end
+    augroup CursorLine
+        autocmd!
+        autocmd InsertEnter * set cursorline
+        autocmd InsertLeave * set nocursorline
+    augroup end
 endif
 
 set laststatus=2                        " Always show a status line
@@ -108,17 +108,17 @@ let filestatus .= '  %P '
 let &statusline = filestatus
 
 function! StatusQuickfixTitle()
-  if exists('w:quickfix_title')
-    let title = ': '
-    let titleparts = split(w:quickfix_title)
-    if titleparts[0] =~ 'gerp.py'
-      let titleparts[0] = 'gerp'
+    if exists('w:quickfix_title')
+        let title = ': '
+        let titleparts = split(w:quickfix_title)
+        if titleparts[0] =~ 'gerp.py'
+            let titleparts[0] = 'gerp'
+        endif
+        let title .= join(titleparts, '  ')
+    else
+        let title = ''
     endif
-    let title .= join(titleparts, '  ')
-  else
-    let title = ''
-  endif
-  return title
+    return title
 endfunction
 
 let quickfixstatus = ''
@@ -130,22 +130,22 @@ let quickfixstatus .= '%l of %L  %P '
 let helpstatus = ' %-3n Help: %f%=%6l  %P '
 
 augroup StatusLines
-  autocmd!
-  autocmd FileType qf let &l:statusline = quickfixstatus
-  autocmd FileType qf setlocal nobuflisted colorcolumn=
-  autocmd FileType qf nnoremap <silent> <buffer> ,         :colder<CR>
-  autocmd FileType qf nnoremap <silent> <buffer> .         :cnewer<CR>
-  autocmd FileType qf nnoremap <silent> <buffer> <Leader>c :cclose<CR>
-  " <Leader>a in quickfix means re-do the search.
-  autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a ":<C-U>grep! " . join(split(w:quickfix_title)[1:])
+    autocmd!
+    autocmd FileType qf let &l:statusline = quickfixstatus
+    autocmd FileType qf setlocal nobuflisted colorcolumn=
+    autocmd FileType qf nnoremap <silent> <buffer> ,            :colder<CR>
+    autocmd FileType qf nnoremap <silent> <buffer> .            :cnewer<CR>
+    autocmd FileType qf nnoremap <silent> <buffer> <Leader>c    :cclose<CR>
+    " <Leader>a in quickfix means re-do the search.
+    autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a    ":<C-U>grep! " . join(split(w:quickfix_title)[1:])
 
-  autocmd FileType help let &l:statusline = helpstatus
-  autocmd FileType help setlocal colorcolumn=
+    autocmd FileType help let &l:statusline = helpstatus
+    autocmd FileType help setlocal colorcolumn=
 augroup end
 
 " Abbreviations
-abbrev pdbxx      import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
-abbrev pudbxx     import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-
+abbrev pdbxx    import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
+abbrev pudbxx   import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-
 
 " Use ; instead of :, so my pinky doesn't fall off.
 nnoremap ; :
@@ -176,11 +176,11 @@ noremap <silent> <Leader><Leader>1 :only!<CR>
 " Backspace and cursor keys wrap to previous/next line
 set backspace=indent,eol,start
 set whichwrap+=<,>,[,]
-set t_kb=                             " Use the delete key for backspace (the blot is ^?)
+set t_kb=                           " Use the delete key for backspace (the blot is ^?)
 
 " Indenting in visual mode keeps the visual highlight.
-vnoremap <    <gv
-vnoremap >    >gv
+vnoremap < <gv
+vnoremap > >gv
 
 " Yank from the cursor to the end of the line, to be consistent with C and D
 nnoremap Y y$
@@ -196,15 +196,15 @@ nnoremap L $
 
 " Fix the filetype for .md files
 augroup MarkDownType
-  autocmd!
-  autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+    autocmd!
+    autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 augroup end
 
 " Idea from https://github.com/Julian/dotfiles/blob/master/.vimrc
 augroup FormatStupidity
-  " ftplugins are stupid and try to mess with indentkeys
-  autocmd!
-  autocmd BufNewFile,BufRead * setlocal indentkeys=o,O " Only new lines should get auto-indented.
+    " ftplugins are stupid and try to mess with indentkeys
+    autocmd!
+    autocmd BufNewFile,BufRead * setlocal indentkeys=o,O " Only new lines should get auto-indented.
 augroup end
 
 noremap <silent> <C-PageUp>     :bprevious<CR>
@@ -229,27 +229,27 @@ nnoremap <leader>} <C-W>>
 " Windows-style ctrl-up and ctrl-down: scroll the text without moving cursor.
 noremap <C-Up> <C-Y>
 noremap <C-Down> <C-E>
-inoremap <silent> <C-Up>        <C-O><C-Y>
-inoremap <silent> <C-Down>      <C-O><C-E>
+inoremap <silent> <C-Up>    <C-O><C-Y>
+inoremap <silent> <C-Down>  <C-O><C-E>
 
-inoremap <silent> <C-BS>        <C-O>db
-inoremap <silent> <C-Del>       <C-O>dw
+inoremap <silent> <C-BS>    <C-O>db
+inoremap <silent> <C-Del>   <C-O>dw
 
-cnoremap <C-BS>   <C-W>
+cnoremap <C-BS> <C-W>
 
-noremap <silent> <PageUp>       <C-U>
-noremap <silent> <PageDown>     <C-D>
+noremap <silent> <PageUp>   <C-U>
+noremap <silent> <PageDown> <C-D>
 
 " backspace in Visual mode deletes selection
-vnoremap <BS>   d
+vnoremap <BS> d
 " CTRL-X is Cut
-vnoremap <C-X>  "+x
+vnoremap <C-X> "+x
 " CTRL-C is Copy
-vnoremap <C-C>  "+y
+vnoremap <C-C> "+y
 " CTRL-V is Paste
-noremap <C-V>       "+gP
-inoremap <C-V>      <C-O>"+gP
-cnoremap <C-V>      <C-R>+
+noremap <C-V> "+gP
+inoremap <C-V> <C-O>"+gP
+cnoremap <C-V> <C-R>+
 
 " Quick escape from insert mode.
 inoremap jj <ESC>
@@ -263,32 +263,32 @@ inoremap <C-U> <C-G>u<C-U>
 nnoremap <Leader>d  P']j
 
 " Use CTRL-Q to do what CTRL-V used to do
-noremap <C-Q>   <C-V>
+noremap <C-Q> <C-V>
 
 " CTRL-S saves
-noremap <silent> <C-S>          :update<CR>
-vnoremap <silent> <C-S>         <C-C>:update<CR>
-inoremap <silent> <C-S>         <C-O>:update<CR>
+noremap <silent> <C-S>  :update<CR>
+vnoremap <silent> <C-S> <C-C>:update<CR>
+inoremap <silent> <C-S> <C-O>:update<CR>
 
 " Use F3 to navigate among grep results
-noremap <silent> <F3>       :cnext<CR> zz
-noremap <silent> <S-F3>     :cprev<CR> zz
+noremap <silent> <F3>   :cnext<CR> zz
+noremap <silent> <S-F3> :cprev<CR> zz
 
 " My own crazy grep program
 set grepprg=~/bin/gerp.py
 
 function! RunGrep(word)
-  call inputsave()
-  let l:pattern = input('gerp /', a:word)
-  echo "\n"
-  call inputrestore()
-  if l:pattern == ''
-    echo "No pattern entered, search aborted."
-  else
-    let l:command = ':grep! %:h /' . shellescape(l:pattern)
-    execute l:command
-    botright copen
-  endif
+    call inputsave()
+    let l:pattern = input('gerp /', a:word)
+    echo "\n"
+    call inputrestore()
+    if l:pattern == ''
+        echo "No pattern entered, search aborted."
+    else
+        let l:command = ':grep! %:h /' . shellescape(l:pattern)
+        execute l:command
+        botright copen
+    endif
 endfunction
 
 noremap <Leader>s :call RunGrep('')<CR>
@@ -310,29 +310,29 @@ let g:miniBufExplCycleArround = 1           " Cycle when doing buffer movement.
 " http://vim.wikia.com/wiki/Move_cursor_by_display_lines_when_wrapping
 noremap <silent> <Leader>r :call ToggleWrap()<CR>
 function! ToggleWrap()
-  if &wrap
-    echo "Wrap OFF"
-    setlocal nowrap
-    silent! nunmap <buffer> <Up>
-    silent! nunmap <buffer> <Down>
-    silent! nunmap <buffer> <Home>
-    silent! nunmap <buffer> <End>
-    silent! iunmap <buffer> <Up>
-    silent! iunmap <buffer> <Down>
-    silent! iunmap <buffer> <Home>
-    silent! iunmap <buffer> <End>
-  else
-    echo "Wrap ON"
-    setlocal wrap
-    noremap  <buffer> <silent> <Up>   gk
-    noremap  <buffer> <silent> <Down> gj
-    noremap  <buffer> <silent> <Home> g<Home>
-    noremap  <buffer> <silent> <End>  g<End>
-    inoremap <buffer> <silent> <Up>   <C-o>gk
-    inoremap <buffer> <silent> <Down> <C-o>gj
-    inoremap <buffer> <silent> <Home> <C-o>g<Home>
-    inoremap <buffer> <silent> <End>  <C-o>g<End>
-  endif
+    if &wrap
+        echo "Wrap OFF"
+        setlocal nowrap
+        silent! nunmap <buffer> <Up>
+        silent! nunmap <buffer> <Down>
+        silent! nunmap <buffer> <Home>
+        silent! nunmap <buffer> <End>
+        silent! iunmap <buffer> <Up>
+        silent! iunmap <buffer> <Down>
+        silent! iunmap <buffer> <Home>
+        silent! iunmap <buffer> <End>
+    else
+        echo "Wrap ON"
+        setlocal wrap
+        noremap  <buffer> <silent> <Up>     gk
+        noremap  <buffer> <silent> <Down>   gj
+        noremap  <buffer> <silent> <Home>   g<Home>
+        noremap  <buffer> <silent> <End>    g<End>
+        inoremap <buffer> <silent> <Up>     <C-o>gk
+        inoremap <buffer> <silent> <Down>   <C-o>gj
+        inoremap <buffer> <silent> <Home>   <C-o>g<Home>
+        inoremap <buffer> <silent> <End>    <C-o>g<End>
+    endif
 endfunction
 
 " Ctrlp
@@ -341,21 +341,21 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_height = 30
 let g:ctrlp_root_markers = ['.treerc']
-nnoremap <silent> <Leader>e   :CtrlP<CR>
+nnoremap <silent> <Leader>e :CtrlP<CR>
 
 " NERDTree settings
 if v:version >= 700
-  let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.pyd$', '\.o$', '\.so$', '__pycache__', '\.egg-info$']
-  let g:NERDTreeShowBookmarks = 1
-  let g:NERDTreeMinimalUI = 1
-  let g:NERDTreeBookmarksSort = 0
-  if has("gui_win32")
-    let g:NERDTreeDirArrows = 0
-  endif
-  noremap <silent> <Leader>f :NERDTreeFind<CR>
+    let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.pyd$', '\.o$', '\.so$', '__pycache__', '\.egg-info$']
+    let g:NERDTreeShowBookmarks = 1
+    let g:NERDTreeMinimalUI = 1
+    let g:NERDTreeBookmarksSort = 0
+    if has("gui_win32")
+        let g:NERDTreeDirArrows = 0
+    endif
+    noremap <silent> <Leader>f :NERDTreeFind<CR>
 else
-  " Don't load NERDTree, it will just complain.
-  let g:loaded_nerd_tree = 1
+    " Don't load NERDTree, it will just complain.
+    let g:loaded_nerd_tree = 1
 endif
 
 " Tagbar
@@ -364,7 +364,7 @@ let g:tagbar_show_visibility = 0
 let g:tagbar_show_linenumbers = 1
 let g:tagbar_autofocus = 1
 let g:tagbar_iconchars = ['▸', '▾']
-nnoremap <silent> <Leader>t   :TagbarToggle<CR>
+nnoremap <silent> <Leader>t :TagbarToggle<CR>
 
 " YankStack
 let g:yankstack_map_keys = 0
@@ -423,4 +423,4 @@ EOF_PY
     command! Pjson :python pretty_it('json')
 endif
 
-" vim: softtabstop=2 shiftwidth=2 expandtab
+" vim: tabstop=4 softtabstop=4 shiftwidth=4 expandtab
