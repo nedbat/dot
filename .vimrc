@@ -133,6 +133,11 @@ augroup StatusLines
   autocmd!
   autocmd FileType qf let &l:statusline = quickfixstatus
   autocmd FileType qf setlocal nobuflisted colorcolumn=
+  autocmd FileType qf nnoremap <silent> <buffer> ,         :colder<CR>
+  autocmd FileType qf nnoremap <silent> <buffer> .         :cnewer<CR>
+  autocmd FileType qf nnoremap <silent> <buffer> <Leader>c :cclose<CR>
+  " <Leader>a in quickfix means re-do the search.
+  autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a ":<C-U>grep! " . join(split(w:quickfix_title)[1:])
 
   autocmd FileType help let &l:statusline = helpstatus
   autocmd FileType help setlocal colorcolumn=
@@ -269,20 +274,25 @@ inoremap <silent> <C-S>         <C-O>:update<CR>
 noremap <silent> <F3>       :cnext<CR> zz
 noremap <silent> <S-F3>     :cprev<CR> zz
 
-function! OpenQuickFix()
-  botright copen
-  nnoremap <silent> <buffer> ,         :colder<CR>
-  nnoremap <silent> <buffer> .         :cnewer<CR>
-  nnoremap <silent> <buffer> <Leader>c :cclose<CR>
-  " <Leader>a in quickfix means re-do the search.
-  nnoremap <expr>   <buffer> <Leader>a ":<C-U>grep! " . join(split(w:quickfix_title)[1:])
-endfunction
-nnoremap <silent> <Leader>c   :call OpenQuickFix()<CR>
-
 " My own crazy grep program
 set grepprg=~/bin/gerp.py
-noremap <Leader>s :<C-U>grep! % /
-noremap <Leader>a :<C-U>grep! % /<C-R><C-W>
+
+function! RunGrep(word)
+  call inputsave()
+  let l:pattern = input('gerp /', a:word)
+  echo "\n"
+  call inputrestore()
+  if l:pattern == ''
+    echo "No pattern entered, search aborted."
+  else
+    let l:command = ':grep! %:h /' . shellescape(l:pattern)
+    execute l:command
+    botright copen
+  endif
+endfunction
+
+noremap <Leader>s :call RunGrep('')<CR>
+noremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
 
 " Minibufexplorer
 noremap <silent> <Leader>b :MBEOpen<CR>:MBEFocus<CR>
