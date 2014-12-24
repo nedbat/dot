@@ -12,40 +12,40 @@ set t_vb=
 
 " Set the normal font face and size.
 function! FontNormal()
-  if has("gui_win32")
-    set guifont=Consolas:h11
-    set printfont=Consolas:h6
-    set linespace=0
-  else
-    if has("mac")
-      set guifont=Consolas:h11 
-      set printfont=Consolas:h6
-      set linespace=0
+    if has("gui_win32")
+        set guifont=Consolas:h11
+        set printfont=Consolas:h6
+        set linespace=0
     else
-      set guifont=Consolas\ 11
-      set printfont=Consolas\ 6
-      set linespace=0
+        if has("mac")
+            set guifont=Consolas:h11 
+            set printfont=Consolas:h6
+            set linespace=0
+        else
+            set guifont=Consolas\ 11
+            set printfont=Consolas\ 6
+            set linespace=0
+        endif
     endif
-  endif
-  set lines=999 columns=999             " Maximize the window
+    set lines=999 columns=999           " Maximize the window
 endfunction
 
 " Increase/decrease font size.
 function! FontSmaller()
-  if has('win32') || has('win64') || has('mac')
-    let &guifont = substitute(&guifont, ':h\(\d\+\)', '\=":h" . (submatch(1) - 1)', '')
-  else
-    let &guifont = substitute(&guifont, ' \(\d\+\)', '\=" " . (submatch(1) - 1)', '')
-  endif
-  set lines=999 columns=999
+    if has('win32') || has('win64') || has('mac')
+        let &guifont = substitute(&guifont, ':h\(\d\+\)', '\=":h" . (submatch(1) - 1)', '')
+    else
+        let &guifont = substitute(&guifont, ' \(\d\+\)', '\=" " . (submatch(1) - 1)', '')
+    endif
+    set lines=999 columns=999
 endfunction
 
 function! FontBigger()
-  if has('win32') || has('win64') || has('mac')
-    let &guifont = substitute(&guifont, ':h\(\d\+\)', '\=":h" . (submatch(1) + 1)', '')
-  else
-    let &guifont = substitute(&guifont, ' \(\d\+\)', '\=" " . (submatch(1) + 1)', '')
-  endif
+    if has('win32') || has('win64') || has('mac')
+        let &guifont = substitute(&guifont, ':h\(\d\+\)', '\=":h" . (submatch(1) + 1)', '')
+    else
+        let &guifont = substitute(&guifont, ' \(\d\+\)', '\=" " . (submatch(1) + 1)', '')
+    endif
 endfunction
 
 nnoremap <leader>0 :call FontNormal()<cr>
@@ -54,4 +54,4 @@ nnoremap <leader>= :call FontBigger()<cr>
 
 call FontNormal()
 
-" vim: softtabstop=2 shiftwidth=2 expandtab
+" vim: tabstop=4 softtabstop=4 shiftwidth=4 expandtab
