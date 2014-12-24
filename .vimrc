@@ -251,6 +251,9 @@ inoremap jj <ESC>
 inoremap fj <ESC>
 inoremap jf <ESC>
 
+" Allow undoing <C-u> (delete text typed in the current line)
+inoremap <C-U> <C-G>u<C-U>
+
 " \d (duplicate) pastes lines, and then moves to the first line after the paste
 nnoremap <Leader>d  P']j
 
@@ -282,11 +285,12 @@ noremap <Leader>s :<C-U>grep! % /
 noremap <Leader>a :<C-U>grep! % /<C-R><C-W>
 
 " Minibufexplorer
-noremap <silent> <Leader>b :MBEFocus<CR>
+noremap <silent> <Leader>b :MBEOpen<CR>:MBEFocus<CR>
 noremap <silent> <Leader><tab> :MBEbb<CR>
 let g:miniBufExplTabWrap = 1                " Don't break a minibuf tab across lines
-let g:miniBufExplModSelTarget = 1           " Don't open buffers into windows hosting unmodifiable buffers.
-let g:miniBufExplorerMoreThanOne = 1        " Show the minibuff explorer even if only one buffer.
+"let g:miniBufExplModSelTarget = 1           " Don't open buffers into windows hosting unmodifiable buffers.
+"let g:miniBufExplorerMoreThanOne = 1        " Show the minibuff explorer even if only one buffer.
+let g:miniBufExplBuffersNeeded = 0
 let g:miniBufExplVSplit = 20                " Make minibuf explorer vertical.
 let g:did_minibufexplorer_syntax_inits = 1  " Use my colors.
 let g:miniBufExplCycleArround = 1           " Cycle when doing buffer movement.
