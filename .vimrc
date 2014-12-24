@@ -293,6 +293,7 @@ endfunction
 
 noremap <Leader>s :call RunGrep('')<CR>
 noremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
+nnoremap <silent> <Leader>c :botright copen<CR>
 
 " Minibufexplorer
 noremap <silent> <Leader>b :MBEOpen<CR>:MBEFocus<CR>
