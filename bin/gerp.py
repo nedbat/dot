@@ -1,0 +1,224 @@
+#!/usr/bin/env python
+"""
+- gerp *tree* pattern modifiers
+
+- *tree*:
+    - a tree.ini file
+    - a filename, look upwards for tree.ini
+
+- tree.ini:
+
+    ignore = .hg .svn *.pyc *.pyo *.pyd *.jpg *.png *.gif
+    [subset]
+    ignore = patterns
+    root = roots
+
+- pattern: /pat/
+- modifiers:
+    =subset
+    .po     only search these extensions
+    -.po    ignore these extensions
+"""
+
+import fnmatch, os, os.path, re, sys
+import ConfigParser
+from cStringIO import StringIO
+
+INI = ".treerc"
+ROOT_MARKERS = [".git", ".hg"]
+IGNORE = """
+    *.o *.bak 
+    *.so *.dll
+    *.pyc *.pyo *.pyd 
+    *.png *.jpg *.jpeg *.gif *.ico *.bmp
+    .svn .git .hg
+    *.ttf *.eot
+    *.pdf
+    *.zip *.tar *.gz
+    """
+DEFAULTS = {
+    'root': '.',
+    }
+
+class GerpException(Exception):
+    pass
+
+SENSITIVE, INSENSITIVE, SMART = range(3)
+
+class Gerp(object):
+    def __init__(self):
+        # arguments
+        self.tree = None
+        self.pattern = None
+        self.section = "default"
+        self.adhoc_ignore = []
+        self.adhoc_include = []
+        self.word = False
+        self.sensitivity = SMART
+
+        self.ini = None
+        self.ini_text = None
+        self.ini_dir = None
+
+    def from_args(self, args):
+        if len(args) < 1:
+            raise GerpException("Need a tree spec")
+        self.tree = args[0]
+
+        for arg in args[1:]:
+            if arg[0] == "/":
+                self.pattern = arg[1:]
+                if self.pattern.endswith("/"):
+                    self.pattern = self.pattern[:-1]
+            elif arg[0:2] == "-.":
+                self.adhoc_ignore.append("*"+arg[1:])
+            elif arg[0:3] == "-*.":
+                self.adhoc_ignore.append(arg[1:])
+            elif arg == "-w":
+                self.word = True
+            elif arg == "-i":
+                self.sensitivity = INSENSITIVE
+            elif arg == "-c":
+                self.sensitivity = SENSITIVE
+            elif arg == "-e":
+                self.sensitivity = SENSITIVE
+                self.word = True
+            elif arg[0] == ".":
+                self.adhoc_include.append("*"+arg)
+            elif arg[0:2] == "*.":
+                self.adhoc_include.append(arg)
+
+    def find_ini(self):
+        folder = os.path.abspath(self.tree)
+        if not os.path.isdir(folder):
+            folder = os.path.split(folder)[0]
+        folder0 = folder
+        while folder:
+            # Does this folder have .treerc?
+            try_ini = os.path.join(folder, INI)
+            if os.path.exists(try_ini):
+                self.ini = try_ini
+                self.ini_dir = os.path.split(self.ini)[0] + os.sep
+                break
+            # Is this folder the root of a repo?
+            for root_marker in ROOT_MARKERS:
+                try_root = os.path.join(folder, root_marker)
+                if os.path.exists(try_root):
+                    folder0 = folder
+                    break
+            next_folder = os.path.split(folder)[0]
+            if next_folder == folder:
+                break
+            folder = next_folder
+        if self.ini is None:
+            # Didn't find a .treerc, use the self.tree folder as the root.
+            self.ini_text = "[default]\nroot = %s\n" % folder0
+            self.ini_dir = folder0
+
+    def run(self):
+        # Find the tree.ini file.
+        self.find_ini()
+
+        # Parse the ini file.
+        config = ConfigParser.RawConfigParser(DEFAULTS)
+        if self.ini:
+            config.read(self.ini)
+        if self.ini_text:
+            config.readfp(StringIO(self.ini_text))
+
+        cur_dir = os.getcwd()
+        self.roots = []
+        for r in config.get(self.section, "root").split('\n'):
+            if not r:
+                continue
+            self.roots.append(os.path.normpath(os.path.join(self.ini_dir, r)))
+
+        # Build the ignore regex.
+        ignores = set(IGNORE.split())
+        if config.has_option(self.section, "ignore"):
+            ignores.update(config.get(self.section, "ignore").split())
+        ignores.update(self.adhoc_ignore)
+        self.ignore_re = self.pats_to_regex(ignores)
+
+        # Build the include regex.
+        if self.adhoc_include:
+            self.include_re = self.pats_to_regex(self.adhoc_include)
+        else:
+            self.include_re = None
+
+        # Get the pattern ready.
+        if not self.pattern:
+            raise GerpException("No pattern to find!")
+        insensitive = (self.sensitivity == INSENSITIVE)
+        if (self.sensitivity == SMART) and not re.search("[A-Z]", self.pattern):
+            # Smart-casing: if the pattern has no upper-case, then be case-insensitive
+            insensitive = True
+        if self.word:
+            # Not sure why, but "foo(\b" doesn't match "foo(", so for true 
+            # wordiness, also match against beginning or end of string.
+            self.pattern = r"(^|\b)" + self.pattern + r"(\b|$)"
+        if insensitive:
+            self.pattern = r"(?i)" + self.pattern
+
+        try:
+            pat = re.compile(self.pattern)
+        except Exception, e:
+            raise GerpException("Bad pattern: %s" % e)
+
+        # Grep through the files!
+        for f in self.files():
+            try:
+                fopened = open(f)
+            except:
+                continue
+            with fopened:
+                ftrimmed = None
+                for lineno, line in enumerate(fopened, start=1):
+                    # Crazy-long lines mean we're looking at minified text, skip it.
+                    if len(line) > 500:
+                        break
+                    if pat.search(line):
+                        if not ftrimmed:
+                            ftrimmed = f
+                            #if ftrimmed.startswith(cur_dir):
+                            #    ftrimmed = ftrimmed.replace(cur_dir, "")
+                        print "%s:%d:%s" % (ftrimmed, lineno, line[:-1])
+
+    def files(self):
+        # Walk the trees specified by roots, skipping stuff mentioned in ignores.
+        for root in self.roots:
+            for dirpath, dirnames, filenames in os.walk(root, topdown=True):
+                for f in filenames:
+                    include = False
+                    if self.include_re:
+                        include = self.include_re.match(f)
+                    else:
+                        include = not self.ignore_re.match(f)
+                    if include:
+                        yield os.path.join(dirpath, f)
+                baddirs = []
+                for i, d in enumerate(dirnames):
+                    if self.ignore_re.match(d):
+                        baddirs.append(i)
+                baddirs.reverse()
+                for i in baddirs:
+                    del dirnames[i]
+
+    def pats_to_regex(self, pats):
+        """Turn a list of fnmatch-style patterns into a regex."""
+        regex = "(" + ")|(".join(fnmatch.translate(pat) for pat in pats) + ")"
+        return re.compile(regex)
+
+def main(args):
+    try:
+        gerp = Gerp()
+        gerp.from_args(args)
+        gerp.run()
+    except GerpException, ge:
+        print >>sys.stderr, str(ge)
+    except KeyboardInterrupt:
+        print >>sys.stderr, "** Stopped"
+
+if __name__ == '__main__':
+    main(sys.argv[1:])
+

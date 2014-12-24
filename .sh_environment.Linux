@@ -1,0 +1,12 @@
+#
+# Linux specific defines
+#
+
+echo '.sh_environment.Linux'
+
+#
+# Alias list...
+#
+alias ls='ls -F --color=auto'
+alias la='ls -aF --color=auto'
+

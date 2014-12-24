@@ -1,0 +1,6 @@
+user=root
+db=bitty
+delay=15
+port=1433
+idle=0
+

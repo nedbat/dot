@@ -1,0 +1,54 @@
+#!/bin/bash
+# By Aron Griffis
+
+shopt -s extglob nullglob
+
+main() {
+    if [[ $(type -t "apt-$1") == function ]]; then
+        "apt-$1" "$@"
+    elif [[ $EUID == 0 || $1 == +(search|show|why|why-not|help) ]]; then
+        # don't need root
+        exec aptitude "$@"
+    else
+        exec sudo aptitude "$@"
+    fi
+}
+
+apt-search() {
+    if [[ " $* " != *' -F '* ]]; then
+        shift
+        if [[ -t 1 ]]; then
+            export w=$({ stty size </dev/tty || echo '24 80'; } | cut -d' ' -f2)
+        else
+            export w=0
+        fi
+        exec aptitude search --disable-columns -F "%c%a%M :: %p %V %v :: %d" "$@" | \
+        perl -we '
+            my @results;
+            while (<>) {
+                /^(.*?\S)\s+::\s+(\S+)\s+(\S+)\s+(\S+)\s+(::.*)/ or do {
+                    warn "regex fail: $_";
+                    next;
+                };
+                push @results, [ $1, $2, $3, $4, $5 ];
+            }
+            exit 0 unless @results;
+            my @lengths = (0) x @{$results[0]};
+            for my $r (@results) {
+                for (my $i = 0; $i < @$r; $i++) {
+                    my ($o, $l) = ($lengths[$i], length($r->[$i]));
+                    $lengths[$i] = ($l > $o) ? $l : $o;
+                }
+            }
+            my $format = "%-" . join("s %-", @lengths) . "s";
+            for my $r (@results) {
+                $r = sprintf($format, @$r);
+                $r = substr($r, 0, $ENV{"w"}) if $ENV{"w"};
+                print $r . "\n";
+            }
+        '
+        exit ${PIPESTATUS[0]}
+    fi
+}
+
+main "$@"

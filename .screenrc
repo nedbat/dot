@@ -1,0 +1,16 @@
+# Ned's .screenrc
+escape ^L^L
+vbell off
+defscrollback 8000
+hardstatus alwayslastline
+hardstatus string '%{= KW}%-w%{= gW}%50> %n %t %{= KW}%+w%< %{= kG}%-=%{-}'
+
+autodetach on
+
+# auto-log
+logfile $HOME/log/screen/%Y%m%d-%n.log
+deflog on
+
+# Key bindings
+bindkey -k k9 prev	# F9 is previous session
+bindkey -k F2 next	# F12 is next session

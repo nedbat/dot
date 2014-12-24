@@ -1,0 +1,14 @@
+# This file controls the behaviour of line input editing for
+# programs that use the Gnu Readline library.  Existing programs
+# include FTP, Bash, and Gdb.
+
+# Case-insensitive tab completion!
+set completion-ignore-case on
+
+# Windows has taught me that ESC means to clear the line.
+"\e\e": kill-whole-line
+
+# Cycle through choices during tab-completion.
+TAB: menu-complete
+# iTerm sends \e[Z for shift-tab
+"\e[Z": menu-complete-backward

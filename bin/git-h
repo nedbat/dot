@@ -1,0 +1,3 @@
+echo
+git --no-pager log -n 30 --pretty=format:"%h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)" --graph --date=relative $*
+echo

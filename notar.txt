@@ -1,0 +1,15 @@
+*.cmd
+*.bat
+*.pub
+*.ahk
+*.pyc
+*.pyo
+.git
+.gitignore
+notar.txt
+dot.tar
+dot.tgz
+Makefile
+README.txt
+.DS_Store
+._*

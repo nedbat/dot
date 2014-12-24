@@ -1,0 +1,57 @@
+" Ned's .gvimrc file
+
+set guioptions-=T                     " No toolbar
+set guioptions-=m                     " No menubar
+set guioptions-=R                     " No scrollbars on right for vsplit windows
+set guioptions-=l                     " No scrollbars on left
+set guioptions-=L                     " No scrollbars on left
+set guioptions-=b                     " No scrollbars on bottom
+
+set visualbell
+set t_vb=
+
+" Set the normal font face and size.
+function! FontNormal()
+  if has("gui_win32")
+    set guifont=Consolas:h11
+    set printfont=Consolas:h6
+    set linespace=0
+  else
+    if has("mac")
+      set guifont=Consolas:h11 
+      set printfont=Consolas:h6
+      set linespace=0
+    else
+      set guifont=Consolas\ 11
+      set printfont=Consolas\ 6
+      set linespace=0
+    endif
+  endif
+  set lines=999 columns=999             " Maximize the window
+endfunction
+
+" Increase/decrease font size.
+function! FontSmaller()
+  if has('win32') || has('win64') || has('mac')
+    let &guifont = substitute(&guifont, ':h\(\d\+\)', '\=":h" . (submatch(1) - 1)', '')
+  else
+    let &guifont = substitute(&guifont, ' \(\d\+\)', '\=" " . (submatch(1) - 1)', '')
+  endif
+  set lines=999 columns=999
+endfunction
+
+function! FontBigger()
+  if has('win32') || has('win64') || has('mac')
+    let &guifont = substitute(&guifont, ':h\(\d\+\)', '\=":h" . (submatch(1) + 1)', '')
+  else
+    let &guifont = substitute(&guifont, ' \(\d\+\)', '\=" " . (submatch(1) + 1)', '')
+  endif
+endfunction
+
+nnoremap <leader>0 :call FontNormal()<cr>
+nnoremap <leader>- :call FontSmaller()<cr>
+nnoremap <leader>= :call FontBigger()<cr>
+
+call FontNormal()
+
+" vim: softtabstop=2 shiftwidth=2 expandtab

@@ -1,0 +1,58 @@
+;; hg init file.
+;; http://www.selenic.com/mercurial/hgrc.5.html
+
+[ui]
+username = Ned Batchelder <ned@nedbatchelder.com>
+merge = internal:merge
+
+[extensions]
+bookmarks =
+color =
+hgext.convert =
+hgext.extdiff =
+hgext.fetch =
+hgext.mq =
+hgext.purge =
+record =
+transplant =
+shelve =
+
+[extdiff]
+; Beyond Compare for diffing on Windows
+cmd.bc = C:\Program Files (x86)\Beyond Compare 3\BCompare.exe
+opts.bc = /leftreadonly /expandall
+
+; Meld for diffing on Linux
+cmd.meld =
+
+[defaults]
+commit = -v
+update = -v
+revert = --no-backup
+qseries = -v
+
+[color]
+custom.rev = yellow bold
+custom.author = cyan
+custom.branch = red bold
+custom.when = green
+
+diff.diffline = bold
+diff.extended = cyan bold
+diff.file_a = red bold
+diff.file_b = green bold
+diff.hunk = magenta
+diff.deleted = red
+diff.inserted = green bold
+diff.changed = white
+diff.trailingwhitespace = bold red_background
+
+status.modified = blue bold
+status.added = green bold
+status.removed = red bold
+status.deleted = cyan bold
+status.unknown = magenta bold
+status.ignored = white bold
+
+[alias]
+h = log -l 30 --template "{label('custom.rev', short(node))} {label('custom.when', date|age)}  {ifeq(branch,'default','',label('custom.branch','[{branch}] '))}{if(bookmarks,label('custom.branch','[{bookmarks}] '))}{desc|firstline} {label('custom.author', author|person)}\n" -M

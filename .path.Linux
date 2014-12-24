@@ -1,0 +1,25 @@
+#
+# OS specific Unix path assignments
+#
+
+[ -n "$PS1" ] && echo '(.path.Linux)'
+
+#
+# Shared object library
+#
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH$/usr/X11R6/lib
+export LD_LIBRARY_PATH
+
+#
+# Execute search path
+#
+PATH=$PATH:/usr/X11R6/bin:/usr/bin:/usr/sbin
+export PATH
+
+#
+# MAN utility search path
+#
+MANPATH=$MANPATH:/usr/X11R6/man
+export MANPATH
+
+#/usr/kerberos/man:/usr/apache/man
