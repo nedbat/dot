@@ -277,14 +277,15 @@ set grepprg=~/bin/gerp.py
 
 function! RunGrep(word)
     call inputsave()
-    let l:pattern = input('gerp /', a:word)
-    echo "\n"
+    let l:cmdline = input('gerp /', a:word)
     call inputrestore()
-    if l:pattern == ''
+    if l:cmdline == ''
         echo "No pattern entered, search aborted."
     else
-        let l:words = split(l:pattern)
-        execute ':grep! %:h /' . shellescape(l:words[0]) . ' ' . join(l:words[1:])
+        let l:words = split(l:cmdline)
+        let l:pattern = shellescape(substitute(l:words[0], '[%#]', '\\&', 'g'))
+        let l:options = join(l:words[1:])
+        execute ':grep! %:h /' . l:pattern . ' ' . l:options
         botright copen
     endif
 endfunction
