@@ -93,12 +93,11 @@ endif
 
 set laststatus=2                        " Always show a status line
 let filestatus = ''
-let filestatus .= ' %-3n '
-let filestatus .= '%<'
+let filestatus .= ' %1*%{&readonly ? "" : &modified ? " + " : &modifiable ? "" : " - "}%*'
+let filestatus .= '%3*%{&readonly ? (&modified ? " + " : " ∅ ") : ""}%*'
+let filestatus .= '%{&readonly? "" : &modified ? "" : &modifiable ? "   " : ""}'
+let filestatus .= ' %<'
 let filestatus .= '%f  '
-let filestatus .= '%1*%{&modified ? " + " : &modifiable ? "" : " - "}%*'
-let filestatus .= '%3*%{&readonly ? " ∅ " : ""}%*'
-let filestatus .= '%{&readonly? " " : &modified ? " " : &modifiable ? "" : " "}'
 let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
 let filestatus .= '%='
 let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}'
@@ -121,13 +120,12 @@ function! StatusQuickfixTitle()
     return title
 endfunction
 
-let quickfixstatus = ''
-let quickfixstatus .= ' %-3n Quickfix'
+let quickfixstatus = '     Quickfix'
 let quickfixstatus .= '%{StatusQuickfixTitle()}'
 let quickfixstatus .= '%='
 let quickfixstatus .= '%l of %L  %P '
 
-let helpstatus = ' %-3n Help: %f%=%6l  %P '
+let helpstatus = ' Help: %f%=%P '
 
 augroup StatusLines
     autocmd!
@@ -285,8 +283,8 @@ function! RunGrep(word)
     if l:pattern == ''
         echo "No pattern entered, search aborted."
     else
-        let l:command = ':grep! %:h /' . shellescape(l:pattern)
-        execute l:command
+        let l:words = split(l:pattern)
+        execute ':grep! %:h /' . shellescape(l:words[0]) . ' ' . join(l:words[1:])
         botright copen
     endif
 endfunction
@@ -305,6 +303,7 @@ let g:miniBufExplBuffersNeeded = 0
 let g:miniBufExplVSplit = 20                " Make minibuf explorer vertical.
 let g:did_minibufexplorer_syntax_inits = 1  " Use my colors.
 let g:miniBufExplCycleArround = 1           " Cycle when doing buffer movement.
+let g:miniBufExplShowBufNumbers = 0         " Don't show buffer numbers.
 
 " Wrapped lines, adapted from
 " http://vim.wikia.com/wiki/Move_cursor_by_display_lines_when_wrapping
