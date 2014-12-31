@@ -96,8 +96,7 @@ let filestatus = ''
 let filestatus .= ' %1*%{&readonly ? "" : &modified ? " + " : &modifiable ? "" : " - "}%*'
 let filestatus .= '%3*%{&readonly ? (&modified ? " + " : " ∅ ") : ""}%*'
 let filestatus .= '%{&readonly? "" : &modified ? "" : &modifiable ? "   " : ""}'
-let filestatus .= ' %<'
-let filestatus .= '%f  '
+let filestatus .= ' %<%f  '
 let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
 let filestatus .= '%='
 let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}'
@@ -127,7 +126,7 @@ let quickfixstatus .= '%l of %L  %P '
 
 let helpstatus = ' Help: %f%=%P '
 
-augroup StatusLines
+augroup QuickFixSettings
     autocmd!
     autocmd FileType qf let &l:statusline = quickfixstatus
     autocmd FileType qf setlocal nobuflisted colorcolumn=
@@ -135,15 +134,21 @@ augroup StatusLines
     autocmd FileType qf nnoremap <silent> <buffer> .            :cnewer<CR>
     autocmd FileType qf nnoremap <silent> <buffer> <Leader>c    :cclose<CR>
     " <Leader>a in quickfix means re-do the search.
-    autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a    ":<C-U>grep! " . join(split(w:quickfix_title)[1:])
+    autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a    ':<C-U>grep! ' . join(split(w:quickfix_title)[1:])
+augroup end
 
+augroup HelpSettings
     autocmd FileType help let &l:statusline = helpstatus
     autocmd FileType help setlocal colorcolumn=
 augroup end
 
 " Abbreviations
-abbrev pdbxx    import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
-abbrev pudbxx   import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-
+iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
+iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-
+
+iabbrev loremx      lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt.
+iabbrev loremxx     lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
+iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.
 
 " Use ; instead of :, so my pinky doesn't fall off.
 nnoremap ; :
@@ -151,27 +156,30 @@ nnoremap : ;
 vnoremap ; :
 vnoremap : ;
 
-" %/ in the command line expands to the directory of the current file
+" %/ in the command line expands to the directory of the current file.
 cnoremap <expr> %/ getcmdtype() == ':' ? expand('%:p:h').'/' : '%/'
 
-" Shortcuts to things I want to do often
+" Run a command, but keep the output in a buffer.
+command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n'))
+
+" Shortcuts to things I want to do often.
 noremap <Leader>p gqap
 noremap <Leader><Leader>p gq}
 noremap <Leader>q :quit<CR>
-"noremap <Leader>r :setlocal wrap!<CR>
+noremap <Leader><Leader>q :bwipeout!<CR>
 noremap <Leader>w :write<CR>
 
 noremap <Leader>2 :setlocal shiftwidth=2 softtabstop=2<CR>
 noremap <Leader>4 :setlocal shiftwidth=4 softtabstop=4<CR>
 noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 
-" Toggle list mode to see special characters
+" Toggle list mode to see special characters.
 noremap <Leader>l :set list!<CR>
 " Show only one window on the screen, but keep the explorers open.
 noremap <silent> <Leader>1 :only!<CR>:NERDTreeToggle<CR>:vertical resize 30<CR>:MBEOpen<CR>:wincmd b<CR>
 noremap <silent> <Leader><Leader>1 :only!<CR>
 
-" Backspace and cursor keys wrap to previous/next line
+" Backspace and cursor keys wrap to previous/next line.
 set backspace=indent,eol,start
 set whichwrap+=<,>,[,]
 set t_kb=                           " Use the delete key for backspace (the blot is ^?)
@@ -180,19 +188,19 @@ set t_kb=                           " Use the delete key for backspace (the blo
 vnoremap < <gv
 vnoremap > >gv
 
-" Yank from the cursor to the end of the line, to be consistent with C and D
+" Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
 
-" Remove annoying F1 help
+" Remove annoying F1 help.
 inoremap <F1> <nop>
 nnoremap <F1> <nop>
 vnoremap <F1> <nop>
 
-" Jump to start and end of line using the home row keys
+" Jump to start and end of line using the home row keys.
 nnoremap H ^
 nnoremap L $
 
-" Fix the filetype for .md files
+" Fix the filetype for .md files.
 augroup MarkDownType
     autocmd!
     autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
@@ -200,7 +208,7 @@ augroup end
 
 " Idea from https://github.com/Julian/dotfiles/blob/master/.vimrc
 augroup FormatStupidity
-    " ftplugins are stupid and try to mess with indentkeys
+    " ftplugins are stupid and try to mess with indentkeys.
     autocmd!
     autocmd BufNewFile,BufRead * setlocal indentkeys=o,O " Only new lines should get auto-indented.
 augroup end
@@ -262,11 +270,6 @@ nnoremap <Leader>d  P']j
 
 " Use CTRL-Q to do what CTRL-V used to do
 noremap <C-Q> <C-V>
-
-" CTRL-S saves
-noremap <silent> <C-S>  :update<CR>
-vnoremap <silent> <C-S> <C-C>:update<CR>
-inoremap <silent> <C-S> <C-O>:update<CR>
 
 " Use F3 to navigate among grep results
 noremap <silent> <F3>   :cnext<CR> zz
