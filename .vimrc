@@ -32,12 +32,12 @@ set wildignore=*.o,*~,*.pyc
 
 " Line numbering
 set number                              " Turn on line numbering
-if v:version >= 700
+if exists('+numberwidth')
     set numberwidth=5                   " with space for at least four digits (plus 1 for space)
 endif
 
 if has("mac")
-    if has("terminfo")                  " from http://nicksergeant.com/2008/make-your-leopard-terminal-and-vim-shine-with-simbl-terminalcolors-and-the-ir-black-theme/
+    if has("terminfo")                  " from https://nicksergeant.com/make-your-leopard-terminal-and-vim-shine-with-simbl-terminalcolors-and-the-ir_black-theme/
         set t_Co=16
         set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm
         set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm
@@ -83,7 +83,7 @@ set visualbell t_vb=                    "   and don't flash either.
 set mouse=a                             " Mice are wonderful.
 set fillchars=vert:\ ,fold:-            " Spaces are enough for vertical split separators.
 
-if v:version >= 700
+if exists("+cursorline")
     augroup CursorLine
         autocmd!
         autocmd InsertEnter * set cursorline
@@ -151,13 +151,14 @@ iabbrev loremxx     lorem ipsum quia dolor sit amet consectetur adipisci velit, 
 iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.
 
 " Use ; instead of :, so my pinky doesn't fall off.
-nnoremap ; :
-nnoremap : ;
-vnoremap ; :
-vnoremap : ;
+"- nnoremap ; :
+"- nnoremap : ;
+"- vnoremap ; :
+"- vnoremap : ;
 
 " %/ in the command line expands to the directory of the current file.
 cnoremap <expr> %/ getcmdtype() == ':' ? expand('%:p:h').'/' : '%/'
+cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
 
 " Run a command, but keep the output in a buffer.
 command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n'))
@@ -168,6 +169,7 @@ noremap <Leader><Leader>p gq}
 noremap <Leader>q :quit<CR>
 noremap <Leader><Leader>q :bwipeout!<CR>
 noremap <Leader>w :write<CR>
+noremap <Leader><Leader>w :wall<CR>
 
 noremap <Leader>2 :setlocal shiftwidth=2 softtabstop=2<CR>
 noremap <Leader>4 :setlocal shiftwidth=4 softtabstop=4<CR>
@@ -316,6 +318,8 @@ function! ToggleWrap()
     if &wrap
         echo "Wrap OFF"
         setlocal nowrap
+        silent! nunmap <buffer> k
+        silent! nunmap <buffer> j
         silent! nunmap <buffer> <Up>
         silent! nunmap <buffer> <Down>
         silent! nunmap <buffer> <Home>
@@ -327,6 +331,8 @@ function! ToggleWrap()
     else
         echo "Wrap ON"
         setlocal wrap
+        noremap  <buffer> <silent> k        gk
+        noremap  <buffer> <silent> j        gj
         noremap  <buffer> <silent> <Up>     gk
         noremap  <buffer> <silent> <Down>   gj
         noremap  <buffer> <silent> <Home>   g<Home>
@@ -340,11 +346,10 @@ endfunction
 
 " Ctrlp
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_height = 30
 let g:ctrlp_root_markers = ['.treerc']
-nnoremap <silent> <Leader>e :CtrlP<CR>
 
 " NERDTree settings
 if v:version >= 700
@@ -363,10 +368,13 @@ endif
 
 " Tagbar
 let g:tagbar_width = 20
+let g:tagbar_zoomwidth = 30
+let g:tagbar_sort = 0                               " sort by order in file
 let g:tagbar_show_visibility = 0
-let g:tagbar_show_linenumbers = 1
+let g:tagbar_show_linenumbers = 0
 let g:tagbar_autofocus = 1
-let g:tagbar_iconchars = ['▸', '▾']
+let g:tagbar_autoclose = 1
+let g:tagbar_iconchars = ['+', '-']
 nnoremap <silent> <Leader>t :TagbarToggle<CR>
 
 " YankStack
@@ -388,11 +396,15 @@ let g:pymode_syntax_string_templates = 1
 let g:pymode_syntax_doctests = 1
 let g:pymode_rope = 0
 let g:pymode_rope_complete_on_dot = 0
+let g:pymode_breakpoint = 0
 
 " Gist
 let g:gist_clip_command = 'pbcopy'
 let g:gist_detect_filetype = 1
 let g:gist_post_private = 1
+
+" InterestingWords
+let g:interestingWordsGUIColors = ['#FFCCCC', '#FFCCFF', '#DDDDFF', '#AAFFFF', '#CCFFCC', '#FFFFAA']
 
 " Custom formatters
 if has("python")
