@@ -15,7 +15,7 @@ let g:colors_name="neds"
 
 hi Normal		cterm=NONE		ctermfg=Black		ctermbg=White		gui=NONE			guifg=NONE			guibg=NONE
 hi NonText		cterm=NONE		ctermfg=Black		ctermbg=Grey		gui=NONE			guifg=NONE			guibg=LightGrey
-hi LineNr		cterm=NONE		ctermfg=Black		ctermbg=LightGrey	gui=italic			guifg=NONE			guibg=LightGrey
+hi LineNr		cterm=NONE		ctermfg=Black       ctermbg=LightGrey	gui=italic			guifg=#444444		guibg=#dddddd
 hi Comment		cterm=NONE		ctermfg=DarkGreen	ctermbg=White		gui=italic			guifg=DarkGreen		guibg=NONE
 hi Constant		cterm=NONE		ctermfg=DarkCyan	ctermbg=White		gui=NONE			guifg=DarkCyan		guibg=NONE
 hi Identifier	cterm=NONE		ctermfg=LightBlue	ctermbg=White		gui=NONE			guifg=#6666FF		guibg=NONE
@@ -52,10 +52,10 @@ hi DiffDelete	cterm=NONE		ctermfg=White		ctermbg=LightGrey	gui=NONE			guifg=Dark
 
 " MinibufferExplorer colors
 hi MBENormal                                                                                guifg=#808080
-hi MBEChanged                                                                               guifg=#808080       guibg=yellow
+hi MBEChanged                                       ctermbg=Yellow                          guifg=#808080       guibg=yellow
 hi MBEVisibleNormal                                                                         guifg=#505050
 hi MBEVisibleActiveNormal                                               gui=bold            guifg=#505050
-hi MBEVisibleChanged                                                                        guifg=#505050       guibg=yellow
-hi MBEVisibleActiveChanged                                              gui=bold            guifg=#505050       guibg=yellow
+hi MBEVisibleChanged                                ctermbg=Yellow                          guifg=#505050       guibg=yellow
+hi MBEVisibleActiveChanged                          ctermbg=Yellow      gui=bold            guifg=#505050       guibg=yellow
 
 " vim: tabstop=4 softtabstop=4 shiftwidth=4 expandtab
