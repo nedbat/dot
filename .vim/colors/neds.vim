@@ -26,7 +26,7 @@ hi Underlined	cterm=NONE		ctermfg=Black		ctermbg=White		gui=underline		guifg=NON
 hi Error		cterm=NONE		ctermfg=Yellow		ctermbg=Red			gui=NONE			guifg=Yellow		guibg=Red
 hi Todo			cterm=NONE		ctermfg=Black		ctermbg=Yellow		gui=NONE			guifg=NONE			guibg=LightYellow
 
-hi CursorLine   cterm=NONE      ctermfg=NONE        ctermbg=LightGrey   gui=NONE            guifg=NONE          guibg=#f0d8d8
+hi CursorLine   cterm=NONE      ctermfg=NONE        ctermbg=LightRed    gui=NONE            guifg=NONE          guibg=#f0d8d8
 hi StatusLine   cterm=bold,reverse                                      gui=NONE            guifg=White         guibg=Black
 hi StatusLineNC cterm=reverse                                           gui=NONE            guifg=White         guibg=#a0a0a0
 hi VertSplit    cterm=reverse                                           gui=NONE            guifg=White         guibg=#808080
