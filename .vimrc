@@ -1,6 +1,5 @@
 " Ned's .vimrc file
 
-set nocompatible
 filetype off
 
 " Windows thinks personal vim stuff should be in ~/vimfiles, make it look in ~/.vim instead
@@ -35,6 +34,10 @@ set number                              " Turn on line numbering
 if exists('+numberwidth')
     set numberwidth=5                   " with space for at least four digits (plus 1 for space)
 endif
+
+" mac iTerm2 cursor control for insert mode.
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
 if has("mac")
     if has("terminfo")                  " from https://nicksergeant.com/make-your-leopard-terminal-and-vim-shine-with-simbl-terminalcolors-and-the-ir_black-theme/
@@ -135,6 +138,8 @@ augroup QuickFixSettings
     autocmd FileType qf nnoremap <silent> <buffer> <Leader>c    :cclose<CR>
     " <Leader>a in quickfix means re-do the search.
     autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a    ':<C-U>grep! ' . join(split(w:quickfix_title)[1:])
+    " <leader>s means start a new search, but from the same place.
+    autocmd FileType qf nnoremap <expr>   <buffer> <Leader>s    ':<C-U>grep! ' . split(w:quickfix_title)[1] . ' /'
 augroup end
 
 augroup HelpSettings
@@ -156,8 +161,7 @@ iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, 
 "- vnoremap ; :
 "- vnoremap : ;
 
-" %/ in the command line expands to the directory of the current file.
-cnoremap <expr> %/ getcmdtype() == ':' ? expand('%:p:h').'/' : '%/'
+" ./ in the command line expands to the directory of the current file.
 cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
 
 " Run a command, but keep the output in a buffer.
@@ -299,6 +303,20 @@ noremap <Leader>s :call RunGrep('')<CR>
 noremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
 nnoremap <silent> <Leader>c :botright copen<CR>
 
+" Adapted from:
+" Barry Arthur 2014 06 25 Jump to the last cursor position in a File Jump
+function! FileJumpLastPos(jump_type)
+    let jump_mark = nr2char(getchar())
+    let the_jump = a:jump_type . jump_mark
+    if jump_mark =~# '[A-Z]'
+        let the_jump .= "'\""
+    endif
+    return the_jump
+endfunction
+
+nnoremap <expr> ' FileJumpLastPos("'")
+nnoremap <expr> ` FileJumpLastPos("`")
+
 " Minibufexplorer
 noremap <silent> <Leader>b :MBEOpen<CR>:MBEFocus<CR>
 noremap <silent> <Leader><tab> :MBEbb<CR>
@@ -350,6 +368,10 @@ let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_height = 30
 let g:ctrlp_root_markers = ['.treerc']
+nnoremap <silent> <Leader>e :CtrlP<CR>
+let g:ctrlp_prompt_mappings = {
+    \ 'ToggleType(1)':        ['<c-f>', '<c-up>', ',', '<space>'],
+    \ }
 
 " NERDTree settings
 if v:version >= 700
