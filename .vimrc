@@ -56,8 +56,7 @@ if has("syntax")
     syntax on                           " Turn on syntax coloring
 endif
 colorscheme neds                        " Use my colors to whatever extent possible.
-"let python_highlight_all=1
-"let python_slow_sync=1
+
 if exists('+colorcolumn')
     set colorcolumn=80
 endif
@@ -101,6 +100,7 @@ let filestatus .= '%3*%{&readonly ? (&modified ? " + " : " ∅ ") : ""}%*'
 let filestatus .= '%{&readonly? "" : &modified ? "" : &modifiable ? "   " : ""}'
 let filestatus .= ' %<%f  '
 let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
+let filestatus .= ' %{fugitive#statusline()}'
 let filestatus .= '%='
 let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}'
 let filestatus .= ' [%{strpart(&fileencoding,0,1)}%{strpart(&fileformat,0,1)}]'
@@ -237,6 +237,10 @@ nnoremap <leader>[ <C-W>-
 nnoremap <leader>] <C-W>+
 nnoremap <leader>{ <C-W><
 nnoremap <leader>} <C-W>>
+
+" More intuitive splits.
+nnoremap <leader>_ <C-W>s
+nnoremap <leader><bar> <C-W>v
 
 " Windows-style ctrl-up and ctrl-down: scroll the text without moving cursor.
 noremap <C-Up> <C-Y>
@@ -459,5 +463,3 @@ EOF_PY
     command! Pxml :python pretty_it('xml')
     command! Pjson :python pretty_it('json')
 endif
-
-" vim: tabstop=4 softtabstop=4 shiftwidth=4 expandtab
