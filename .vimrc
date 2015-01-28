@@ -147,6 +147,16 @@ augroup HelpSettings
     autocmd FileType help setlocal colorcolumn=
 augroup end
 
+augroup GitCommitSettings
+    " auto-fill paragraphs
+    autocmd FileType gitcommit setlocal formatoptions+=a
+augroup end
+
+augroup HgCommitSettings
+    autocmd BufRead,BufNewFile hg-editor-*.txt set filetype=hgcommit
+    autocmd FileType hgcommit setlocal formatoptions+=a
+augroup end
+
 " Abbreviations
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
 iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-
@@ -154,12 +164,6 @@ iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_
 iabbrev loremx      lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt.
 iabbrev loremxx     lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
 iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.
-
-" Use ; instead of :, so my pinky doesn't fall off.
-"- nnoremap ; :
-"- nnoremap : ;
-"- vnoremap ; :
-"- vnoremap : ;
 
 " ./ in the command line expands to the directory of the current file.
 cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
@@ -170,8 +174,8 @@ command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | cal
 " Shortcuts to things I want to do often.
 noremap <Leader>p gqap
 noremap <Leader><Leader>p gq}
-noremap <Leader>q :quit<CR>
-noremap <Leader><Leader>q :bwipeout!<CR>
+noremap <silent> <Leader>q :quit<CR>
+noremap <silent> <Leader><Leader>q :split<CR><C-^><C-W>j:bwipeout!<CR>
 noremap <Leader>w :write<CR>
 noremap <Leader><Leader>w :wall<CR>
 
@@ -182,7 +186,7 @@ noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 " Toggle list mode to see special characters.
 noremap <Leader>l :set list!<CR>
 " Show only one window on the screen, but keep the explorers open.
-noremap <silent> <Leader>1 :only!<CR>:NERDTreeToggle<CR>:vertical resize 30<CR>:MBEOpen<CR>:wincmd b<CR>
+noremap <silent> <Leader>1 :only!<CR>:NERDTreeToggle<CR>:vertical resize 30<CR>:wincmd b<CR>
 noremap <silent> <Leader><Leader>1 :only!<CR>
 
 " Backspace and cursor keys wrap to previous/next line.
@@ -324,9 +328,8 @@ nnoremap <expr> ` FileJumpLastPos("`")
 " Minibufexplorer
 noremap <silent> <Leader>b :MBEOpen<CR>:MBEFocus<CR>
 noremap <silent> <Leader><tab> :MBEbb<CR>
+let g:miniBufExplorerAutoStart = 0          " Open MBE manually when needed.
 let g:miniBufExplTabWrap = 1                " Don't break a minibuf tab across lines
-"let g:miniBufExplModSelTarget = 1           " Don't open buffers into windows hosting unmodifiable buffers.
-"let g:miniBufExplorerMoreThanOne = 1        " Show the minibuff explorer even if only one buffer.
 let g:miniBufExplBuffersNeeded = 0
 let g:miniBufExplVSplit = 20                " Make minibuf explorer vertical.
 let g:did_minibufexplorer_syntax_inits = 1  " Use my colors.
@@ -407,6 +410,9 @@ nnoremap <silent> <Leader>t :TagbarToggle<CR>
 let g:yankstack_map_keys = 0
 nnoremap <C-t> <Plug>yankstack_substitute_older_paste
 nnoremap <C-n> <Plug>yankstack_substitute_newer_paste
+
+call yankstack#setup()
+nmap Y y$
 
 " Pymode
 let g:pymode_folding = 0
