@@ -50,6 +50,9 @@ hi DiffChange	cterm=NONE		ctermfg=Red			ctermbg=LightGrey	gui=NONE			guifg=Red		
 hi DiffText		cterm=NONE		ctermfg=White		ctermbg=DarkRed		gui=bold,italic		guifg=Red			guibg=#fff0f0
 hi DiffDelete	cterm=NONE		ctermfg=White		ctermbg=LightGrey	gui=NONE			guifg=DarkGrey		guibg=#f0f0f0
 
+hi diffAdded    cterm=NONE      ctermfg=NONE        ctermbg=LightGreen  gui=NONE            guifg=NONE          guibg=LightGreen
+hi diffRemoved  cterm=NONE      ctermfg=NONE        ctermbg=LightRed    gui=NONE            guifg=NONE          guibg=LightRed
+
 " MinibufferExplorer colors
 hi MBENormal                                                                                guifg=#808080
 hi MBEChanged                                       ctermbg=Yellow                          guifg=#808080       guibg=yellow

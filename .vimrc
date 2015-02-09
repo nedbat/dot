@@ -150,12 +150,20 @@ augroup end
 augroup GitCommitSettings
     " auto-fill paragraphs
     autocmd FileType gitcommit setlocal formatoptions+=a
+    autocmd FileType gitcommit DiffGitCached | wincmd r
 augroup end
 
 augroup HgCommitSettings
     autocmd BufRead,BufNewFile hg-editor-*.txt set filetype=hgcommit
     autocmd FileType hgcommit setlocal formatoptions+=a
 augroup end
+
+" Suggested by fmoralesc, but doesn't work yet.  XML doesn't spell check
+" regular text?
+"augroup XmlSettings
+"    autocmd FileType xml syntax match xmlAURL /["']\zs.*\ze["']/ contained containedin=xmlString contains=@NoSpell transparent
+"    autocmd FileType xml syntax spell default
+"augroup end
 
 " Abbreviations
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
@@ -171,13 +179,36 @@ cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
 " Run a command, but keep the output in a buffer.
 command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n'))
 
+" Don't close window, when deleting a buffer
+" from: https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim
+command! Bclose call <SID>BufcloseCloseIt()
+function! <SID>BufcloseCloseIt()
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
+
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
+
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
+
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
+endfunction
+
 " Shortcuts to things I want to do often.
 noremap <Leader>p gqap
 noremap <Leader><Leader>p gq}
 noremap <silent> <Leader>q :quit<CR>
-noremap <silent> <Leader><Leader>q :split<CR><C-^><C-W>j:bwipeout!<CR>
+noremap <silent> <Leader><Leader>q :Bclose<CR>
 noremap <Leader>w :write<CR>
 noremap <Leader><Leader>w :wall<CR>
+noremap <Leader>x :exit<CR>
 
 noremap <Leader>2 :setlocal shiftwidth=2 softtabstop=2<CR>
 noremap <Leader>4 :setlocal shiftwidth=4 softtabstop=4<CR>
@@ -373,12 +404,15 @@ endfunction
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_max_height = 30
-let g:ctrlp_root_markers = ['.treerc']
-nnoremap <silent> <Leader>e :CtrlP<CR>
+let g:ctrlp_max_height = 50
+let g:ctrlp_mruf_max = 1000
+let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
+let g:ctrlp_open_multiple_files = '2vjr'
 let g:ctrlp_prompt_mappings = {
     \ 'ToggleType(1)':        ['<c-f>', '<c-up>', ',', '<space>'],
     \ }
+let g:ctrlp_root_markers = ['.treerc']
+nnoremap <silent> <Leader>e :CtrlP<CR>
 
 " NERDTree settings
 if v:version >= 700
@@ -396,7 +430,7 @@ else
 endif
 
 " Tagbar
-let g:tagbar_width = 20
+let g:tagbar_width = 40
 let g:tagbar_zoomwidth = 30
 let g:tagbar_sort = 0                               " sort by order in file
 let g:tagbar_show_visibility = 0
