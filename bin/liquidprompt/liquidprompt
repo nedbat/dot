@@ -1,6 +1,6 @@
 ################################################################################
 # LIQUID PROMPT
-# An intelligent and non intrusive prompt for bash and zsh
+# An intelligent and non-intrusive prompt for Bash and zsh
 ################################################################################
 
 
@@ -72,6 +72,7 @@ if test -n "$BASH_VERSION" -a -n "$PS1" ; then
     _LP_MARK_SYMBOL='\$'
     _LP_FIRST_INDEX=0
     _LP_PWD_SYMBOL="\\w"
+    _LP_PERCENT='%' # percent must be escaped on zsh
     # Disable the DEBUG trap used by the RUNTIME feature
     # (in case we are reloading LP in the same shell after disabling
     # the feature in .liquidpromptrc)
@@ -87,11 +88,29 @@ elif test -n "$ZSH_VERSION" ; then
     _LP_TIME_SYMBOL="%*"
     _LP_MARK_SYMBOL='%(!.#.%%)'
     _LP_FIRST_INDEX=1
+    _LP_PERCENT='%%'
     _LP_PWD_SYMBOL="%~"
 else
     echo "liquidprompt: shell not supported" >&2
     return
 fi
+
+# Store $2 (or $?) as a true/false value in variable named $1
+# $? is propagated
+#   _lp_bool foo 5
+#   => foo=false
+#   _lp_bool foo 0
+#   => foo=true
+_lp_bool()
+{
+    local res=${2:-$?}
+    if [[ $res = 0 ]]; then
+        eval $1=true
+    else
+        eval $1=false
+    fi
+    return $res
+}
 
 # Save $IFS as we want to restore the default value at the beginning of the
 # prompt function
@@ -140,7 +159,7 @@ case "$LP_OS" in
             # If you have problems with syntax coloring due to the following
             # line, do this: ln -s liquidprompt liquidprompt.bash
             # and edit liquidprompt.bash
-            read bol load eol <<<$( LANG=C sysctl -n vm.loadavg )
+            read bol load eol <<<"$( LANG=C sysctl -n vm.loadavg )"
             echo "$load"
         }
         ;;
@@ -161,7 +180,7 @@ unset LP_OLD_PWD
 # to benefit of 'local' variables.
 #
 # What we do here:
-# 1. Setup variables that can be used by the user: the "API" of liquidprompt
+# 1. Setup variables that can be used by the user: the "API" of Liquid Prompt
 #    for config/theme. Those variables are local to the function.
 #    In practice, this is only color variables.
 # 2. Setup default values
@@ -173,17 +192,30 @@ _lp_source_config()
     local ti_sgr0="$( { tput sgr0 || tput me ; } 2>/dev/null )"
     local ti_bold="$( { tput bold || tput md ; } 2>/dev/null )"
     local ti_setaf
-    if tput setaf >/dev/null 2>&1 ; then
-        ti_setaf () { tput setaf "$1" ; }
-    elif tput AF >/dev/null 2>&1 ; then
-        # *BSD
-        ti_setaf () { tput AF "$1" ; }
-    elif tput AF 1 >/dev/null 2>&1 ; then
+    local ti_setab
+    if tput setaf 0 >/dev/null 2>&1; then
+        ti_setaf() { tput setaf "$1" ; }
+    elif tput AF 0 >/dev/null 2>&1; then
+        # FreeBSD
+        ti_setaf() { tput AF "$1" ; }
+    elif tput AF 0 0 0 >/dev/null 2>&1; then
         # OpenBSD
-        ti_setaf () { tput AF "$1" ; }
+        ti_setaf() { tput AF "$1" 0 0 ; }
     else
         echo "liquidprompt: terminal $TERM not supported" >&2
         ti_setaf () { : ; }
+    fi
+    if tput setab 0 >/dev/null 2>&1; then
+        ti_setab() { tput setab "$1" ; }
+    elif tput AB 0 >/dev/null 2>&1; then
+        # FreeBSD
+        ti_setab() { tput AB "$1" ; }
+    elif tput AB 0 0 0 >/dev/null 2>&1; then
+        # OpenBSD
+        ti_setab() { tput AB "$1" 0 0 ; }
+    else
+        echo "liquidprompt: terminal $TERM not supported" >&2
+        ti_setab() { : ; }
     fi
 
     # Colors: variables are local so they will have a value only
@@ -198,9 +230,9 @@ _lp_source_config()
 
     local RED="${_LP_OPEN_ESC}$(ti_setaf 1)${_LP_CLOSE_ESC}"
     local BOLD_RED="${_LP_OPEN_ESC}${ti_bold}$(ti_setaf 1)${_LP_CLOSE_ESC}"
-    local WARN_RED="${_LP_OPEN_ESC}$(ti_setaf 0 ; tput setab 1)${_LP_CLOSE_ESC}"
-    local CRIT_RED="${_LP_OPEN_ESC}${ti_bold}$(ti_setaf 7 ; tput setab 1)${_LP_CLOSE_ESC}"
-    local DANGER_RED="${_LP_OPEN_ESC}${ti_bold}$(ti_setaf 3 ; tput setab 1)${_LP_CLOSE_ESC}"
+    local WARN_RED="${_LP_OPEN_ESC}$(ti_setaf 0 ; ti_setab 1)${_LP_CLOSE_ESC}"
+    local CRIT_RED="${_LP_OPEN_ESC}${ti_bold}$(ti_setaf 7 ; ti_setab 1)${_LP_CLOSE_ESC}"
+    local DANGER_RED="${_LP_OPEN_ESC}${ti_bold}$(ti_setaf 3 ; ti_setab 1)${_LP_CLOSE_ESC}"
 
     local GREEN="${_LP_OPEN_ESC}$(ti_setaf 2)${_LP_CLOSE_ESC}"
     local BOLD_GREEN="${_LP_OPEN_ESC}${ti_bold}$(ti_setaf 2)${_LP_CLOSE_ESC}"
@@ -220,7 +252,13 @@ _lp_source_config()
     # NO_COL is special: it will be used at runtime, not just during config loading
     NO_COL="${_LP_OPEN_ESC}${ti_sgr0}${_LP_CLOSE_ESC}"
 
-    unset ti_sgr0 ti_bold ti_setaf
+    # compute the hash of the hostname
+    # and get the corresponding number in [1-6] (red,green,yellow,blue,purple or cyan)
+    # FIXME check portability of cksum and add more formats (bold? 256 colors?)
+    local hash=$(( 1 + $(hostname | cksum | cut -d " " -f 1) % 6 ))
+    LP_COLOR_HOST_HASH="${_LP_OPEN_ESC}$(ti_setaf $hash)${_LP_CLOSE_ESC}"
+
+    unset ti_sgr0 ti_bold ti_setaf ti_setab
 
 
     # Default values (globals)
@@ -269,7 +307,7 @@ _lp_source_config()
     LP_ENABLE_SSH_COLORS=${LP_ENABLE_SSH_COLORS:-0}
     # LP_DISABLED_VCS_PATH="${LP_DISABLED_VCS_PATH}"
 
-    # LP_MARK_DEFAULT="$LP_MARK_DEFAULT"
+    LP_MARK_DEFAULT="${LP_MARK_DEFAULT:-$_LP_MARK_SYMBOL}"
     LP_MARK_BATTERY="${LP_MARK_BATTERY:-"⌁"}"
     LP_MARK_ADAPTER="${LP_MARK_ADAPTER:-"⏚"}"
     LP_MARK_LOAD="${LP_MARK_LOAD:-"⌂"}"
@@ -287,7 +325,7 @@ _lp_source_config()
     LP_MARK_BRACKET_OPEN="${LP_MARK_BRACKET_OPEN:-"["}"
     LP_MARK_BRACKET_CLOSE="${LP_MARK_BRACKET_CLOSE:-"]"}"
     LP_MARK_SHORTEN_PATH="${LP_MARK_SHORTEN_PATH:-" … "}"
-    # LP_MARK_PREFIX="$LP_MARK_PREFIX"
+    LP_MARK_PREFIX="${LP_MARK_PREFIX:-" "}"
 
     LP_COLOR_PATH=${LP_COLOR_PATH:-$BOLD}
     LP_COLOR_PATH_ROOT=${LP_COLOR_PATH_ROOT:-$BOLD_YELLOW}
@@ -320,6 +358,7 @@ _lp_source_config()
     LP_COLOR_TIME=${LP_COLOR_TIME:-$BLUE}
     LP_COLOR_IN_MULTIPLEXER=${LP_COLOR_IN_MULTIPLEXER:-$BOLD_BLUE}
     LP_COLOR_RUNTIME=${LP_COLOR_RUNTIME:-$YELLOW}
+    LP_COLOR_VIRTUALENV=${LP_COLOR_VIRTUALENV:-$CYAN}
 
     LP_COLORMAP_0=${LP_COLORMAP_0:-""}
     LP_COLORMAP_1=${LP_COLORMAP_1:-$GREEN}
@@ -371,6 +410,9 @@ case "$LP_OS" in
     Darwin) [[ "$LP_ENABLE_BATT" = 1 ]] && { command -v pmset >/dev/null || LP_ENABLE_BATT=0 ; };;
     *)      [[ "$LP_ENABLE_BATT" = 1 ]] && { command -v acpi >/dev/null || LP_ENABLE_BATT=0 ; };;
 esac
+command -v screen >/dev/null ; _lp_bool _LP_ENABLE_SCREEN $?
+command -v tmux >/dev/null   ; _lp_bool _LP_ENABLE_TMUX $?
+$_LP_ENABLE_SCREEN || $_LP_ENABLE_TMUX ; _lp_bool _LP_ENABLE_DETACHED_SESSIONS $?
 
 if [[ "$LP_ENABLE_RUNTIME" == 1 ]] && ! $_LP_SHELL_bash; then
     echo Unfortunately, runtime printing for zsh is not yet supported. Turn LP_ENABLE_RUNTIME off in your config to hide this message.
@@ -424,7 +466,7 @@ _lp_escape()
 # Yellow for root, bold if the user is not the login one, else no color.
 if [[ "$EUID" -ne "0" ]] ; then  # if user is not root
     # if user is not login user
-    if [[ ${USER} != "$(logname 2>/dev/null || echo $LOGNAME)" ]]; then
+    if [[ ${USER} != "$(logname 2>/dev/null || echo "$LOGNAME")" ]]; then
         LP_USER="${LP_COLOR_USER_ALT}${_LP_USER_SYMBOL}${NO_COL}"
     else
         if [[ "${LP_USER_ALWAYS}" -ne "0" ]] ; then
@@ -469,23 +511,14 @@ _lp_connection()
 
 # Put the hostname if not locally connected
 # color it in cyan within SSH, and a warning red if within telnet
-# else diplay the host without color
+# else display the host without color
 # The connection is not expected to change from inside the shell, so we
 # build this just once
 LP_HOST=""
-_chroot()
-{
-    if [[ -r /etc/debian_chroot ]] ; then
-        local debchroot
-        debchroot="$(< /etc/debian_chroot)"
-        echo "(${debchroot})"
-    fi
-}
-LP_HOST="$(_chroot)"
-unset _chroot
+[[ -r /etc/debian_chroot ]] && LP_HOST="($(< /etc/debian_chroot))"
 
 # If we are connected with a X11 support
-if [[ -n "$DISPLAY" ]] ; then
+if [[ -n "$DISPLAY" ]]; then
     LP_HOST="${LP_COLOR_X11_ON}${LP_HOST}@${NO_COL}"
 else
     LP_HOST="${LP_COLOR_X11_OFF}${LP_HOST}@${NO_COL}"
@@ -502,19 +535,8 @@ lcl)
     ;;
 ssh)
     # If we want a different color for each host
-    if [[ "$LP_ENABLE_SSH_COLORS" -eq "1" ]]; then
-        # compute the hash of the hostname
-        # and get the corresponding number in [1-6] (red,green,yellow,blue,purple or cyan)
-        # FIXME check portability of cksum and add more formats (bold? 256 colors?)
-        hash=$(( 1 + $(hostname | cksum | cut -d " " -f 1) % 6 ))
-        color=${_LP_OPEN_ESC}$(ti_setaf $hash)${_LP_CLOSE_ESC}
-        LP_HOST="${LP_HOST}${color}${_LP_HOST_SYMBOL}${NO_COL}"
-        unset hash
-        unset color
-    else
-        # the same color for all hosts
-        LP_HOST="${LP_HOST}${LP_COLOR_SSH}${_LP_HOST_SYMBOL}${NO_COL}"
-    fi
+    [[ "$LP_ENABLE_SSH_COLORS" -eq 1 ]] && LP_COLOR_SSH="$LP_COLOR_HOST_HASH"
+    LP_HOST="${LP_HOST}${LP_COLOR_SSH}${_LP_HOST_SYMBOL}${NO_COL}"
     ;;
 su)
     LP_HOST="${LP_HOST}${LP_COLOR_SU}${_LP_HOST_SYMBOL}${NO_COL}"
@@ -534,7 +556,7 @@ unset _lp_connection
 _lp_get_home_tilde_collapsed()
 {
     local tilde="~"
-    echo ${PWD/#$HOME/$tilde}
+    echo "${PWD/#$HOME/$tilde}"
 }
 
 # Shorten the path of the current working directory
@@ -557,13 +579,13 @@ _lp_shorten_path()
 
     local p="$(_lp_get_home_tilde_collapsed)"
     local mask="${LP_MARK_SHORTEN_PATH}"
-    local -i max_len=$(( ${COLUMNS:-80} * $LP_PATH_LENGTH / 100 ))
+    local -i max_len=$(( ${COLUMNS:-80} * LP_PATH_LENGTH / 100 ))
 
     if [[ ${LP_PATH_KEEP} == -1 ]]; then
         # only show the current directory, excluding any parent dirs
-        ret="${p##*/}" # discard everything upto and including the last slash
+        ret="${p##*/}" # discard everything up to and including the last slash
         [[ "${ret}" == "" ]] && ret="/" # if in root directory
-    elif (( ${#p} <= ${max_len} )); then
+    elif (( ${#p} <= max_len )); then
         ret="${p}"
     elif [[ ${LP_PATH_KEEP} == 0 ]]; then
         # len is over max len, show as much of the tail as is allowed
@@ -576,8 +598,8 @@ _lp_shorten_path()
         local tmp=${p//\//}
         local -i delims=$(( ${#p} - ${#tmp} ))
 
-        for (( dir=0; dir < ${LP_PATH_KEEP}; dir++ )); do
-            (( ${dir} == ${delims} )) && break
+        for (( dir=0; dir < LP_PATH_KEEP; dir++ )); do
+            (( dir == delims )) && break
 
             local left="${p#*/}"
             local name="${p:0:${#p} - ${#left}}"
@@ -585,7 +607,7 @@ _lp_shorten_path()
             ret="${ret}${name%/}/"
         done
 
-        if (( ${delims} <= ${LP_PATH_KEEP} )); then
+        if (( delims <= LP_PATH_KEEP )); then
             # no dirs between LP_PATH_KEEP leading dirs and current dir
             ret="${ret}${p##*/}"
         else
@@ -595,7 +617,7 @@ _lp_shorten_path()
 
             [[ ${ret} != "/" ]] && ret="${ret%/}" # strip trailing slash
 
-            local -i len_left=$(( ${max_len} - ${#ret} - ${#base} - ${#mask} ))
+            local -i len_left=$(( max_len - ${#ret} - ${#base} - ${#mask} ))
 
             ret="${ret}${mask}${p:${#p} - ${len_left}}${base}"
         fi
@@ -608,13 +630,13 @@ _lp_shorten_path()
     fi
 }
 
-# In bash shell, PROMPT_DIRTRIM is the number of directory to keep at the end
+# In Bash shells, PROMPT_DIRTRIM is the number of directory to keep at the end
 # of the displayed path (if "\w" is present in the PS1 var).
-# liquidprompt can calculate this number under two condition, path shortening
+# Liquid Prompt can calculate this number under two conditions, path shortening
 # must be disabled and PROMPT_DIRTRIM must be already set.
 _lp_set_dirtrim() {
     local p="$(_lp_get_home_tilde_collapsed)"
-    local -i max_len=${COLUMNS:-80}*$LP_PATH_LENGTH/100
+    local -i max_len="${COLUMNS:-80}*$LP_PATH_LENGTH/100"
     local -i dt=0
 
     if (( ${#p} > max_len )); then
@@ -648,31 +670,30 @@ _lp_jobcount_color()
 {
     [[ "$LP_ENABLE_JOBS" != 1 ]] && return
 
-    local running=$(( $(jobs -r | wc -l) ))
-    local stopped=$(( $(jobs -s | wc -l) ))
-    local n_screen=$(screen -ls 2> /dev/null | grep -c '[Dd]etach[^)]*)$')
-    local n_tmux=$(tmux list-sessions 2> /dev/null | grep -cvE 'attached|command not found')
-    local detached=$(( $n_screen + $n_tmux ))
-    local m_detached="d"
     local m_stop="z"
     local m_run="&"
-    local ret=""
+    local ret
 
-    if [[ $detached != "0" ]] ; then
-        ret="${ret}${LP_COLOR_JOB_D}${detached}${m_detached}${NO_COL}"
+    if $_LP_ENABLE_DETACHED_SESSIONS; then
+        local -i detached=0
+        $_LP_ENABLE_SCREEN && let detached=$(screen -ls 2> /dev/null | grep -c '[Dd]etach[^)]*)$')
+        $_LP_ENABLE_TMUX && let detached+=$(tmux list-sessions 2> /dev/null | grep -cv 'attached')
+        (( detached > 0 )) && ret="${ret}${LP_COLOR_JOB_D}${detached}d${NO_COL}"
     fi
 
-    if [[ $running != "0" ]] ; then
-        if [[ $ret != "" ]] ; then ret="${ret}/"; fi
+    local running=$(( $(jobs -r | wc -l) ))
+    if [[ $running != 0 ]] ; then
+        [[ -n "$ret" ]] && ret="${ret}/"
         ret="${ret}${LP_COLOR_JOB_R}${running}${m_run}${NO_COL}"
     fi
 
-    if [[ $stopped != "0" ]] ; then
-        if [[ $ret != "" ]] ; then ret="${ret}/"; fi
+    local stopped=$(( $(jobs -s | wc -l) ))
+    if [[ $stopped != 0 ]] ; then
+        [[ -n "$ret" ]] && ret="${ret}/"
         ret="${ret}${LP_COLOR_JOB_Z}${stopped}${m_stop}${NO_COL}"
     fi
 
-    echo -ne "$ret"
+    echo -n "$ret"
 }
 
 
@@ -698,9 +719,9 @@ _lp_are_vcs_enabled()
 _lp_git_branch()
 {
     [[ "$LP_ENABLE_GIT" != 1 ]] && return
-    local gitdir
-    gitdir="$([ $(\git ls-files . 2>/dev/null | wc -l) -gt 0 ] && \git rev-parse --git-dir 2>/dev/null)"
-    [[ $? -ne 0 || ! $gitdir =~ (.*\/)?\.git.* ]] && return
+
+    \git rev-parse --inside-work-tree >/dev/null 2>&1 || return
+
     local branch
     # Recent versions of Git support the --short option for symbolic-ref, but
     # not 1.7.9 (Ubuntu 12.04)
@@ -742,14 +763,12 @@ _lp_git_branch_color()
 
         local -i has_commit
         has_commit=0
-        if [[ -n "$remote" ]] ; then
+        if [[ -n "$remote" ]]; then
             local remote_branch
             remote_branch="$(\git config --get branch.${branch}.merge)"
-            if [[ -n "$remote_branch" ]] ; then
-                has_commit="$(\git rev-list --no-merges --count ${remote_branch/refs\/heads/refs\/remotes\/$remote}..HEAD 2>/dev/null)"
-                if [[ -z "$has_commit" ]] ; then
-                    has_commit=0
-                fi
+            if [[ -n "$remote_branch" ]]; then
+                has_commit="$(\git rev-list --count ${remote_branch/refs\/heads/refs\/remotes\/$remote}..HEAD 2>/dev/null)"
+                [[ -z "$has_commit" ]] && has_commit=0
             fi
         fi
 
@@ -892,19 +911,21 @@ _lp_svn_branch()
     [[ "$LP_ENABLE_SVN" != 1 ]] && return
     local root
     local url
-    eval $(LANG=C LC_ALL=C svn info 2>/dev/null | sed -n 's/^URL: \(.*\)/url="\1"/p;s/^Repository Root: \(.*\)/root="\1"/p' )
+    eval "$(LANG=C LC_ALL=C svn info 2>/dev/null | sed -n 's/^URL: \(.*\)/url="\1"/p;s/^Repository Root: \(.*\)/root="\1"/p' )"
     [[ -z "$root" ]] && return
 
     # Make url relative to root
     url="${url:${#root}}"
     if [[ "$url" == */trunk* ]] ; then
         echo -n trunk
-    elif [[ "$url" == */branches* ]] ; then
-        _lp_escape "$(expr "$url" : '.*/branches/\([^/]*\)' || expr "$url" : '/\([^/]*\)' || basename "$root")"
-    elif [[ "$url" == */tags* ]] ; then
-        _lp_escape "$(expr "$url" : '.*/tags/\([^/]*\)' || expr "$url" : '/\([^/]*\)' || basename "$root")"
+    elif [[ "$url" == */branches/?* ]] ; then
+        url="${url##*/branches/}"
+        _lp_escape "${url%/*}"
+    elif [[ "$url" == */tags/?* ]] ; then
+        url="${url##*/tags/}"
+        _lp_escape "${url%/*}"
     else
-        _lp_escape "$(basename "$root")"
+        _lp_escape "${root##*/}"
     fi
 }
 
@@ -978,7 +999,7 @@ _lp_fossil_branch_color()
             ret="(${LP_COLOR_DIFF}${ret}${C2E}${NO_COL})"
         fi
 
-        if (( $C2A > 0 )); then
+        if (( C2A > 0 )); then
             C2A="$LP_COLOR_CHANGES$LP_MARK_UNTRACKED"
         else
             C2A=""
@@ -1043,7 +1064,10 @@ _lp_bzr_branch_color()
     local output
     output="$(bzr version-info --check-clean --custom --template='{branch_nick} {revno} {clean}' 2> /dev/null)"
     [[ $? -ne 0 ]] && return
-    local tuple=($output)
+    $_LP_SHELL_zsh && setopt local_options && setopt sh_word_split
+    local tuple
+    tuple=($output)
+    $_LP_SHELL_zsh && unsetopt sh_word_split
     local branch=${tuple[_LP_FIRST_INDEX+0]}
     local revno=${tuple[_LP_FIRST_INDEX+1]}
     local clean=${tuple[_LP_FIRST_INDEX+2]}
@@ -1129,7 +1153,7 @@ case "$LP_OS" in
         local bat="$(cut -f2 <<<"$pmset")"
         bat="${bat%%%*}"
         case "$pmset" in
-            *charged*)
+            *charged* | "")
             return 4
             ;;
             *discharging*)
@@ -1200,34 +1224,31 @@ _lp_battery_color()
         ret="${LP_COLOR_DISCHARGING_UNDER}${mark}${NO_COL}"
 
         if [[ "$LP_PERCENTS_ALWAYS" -eq "1" ]]; then
-            if   [[ ${bat} -le 100 ]] && [[ ${bat} -gt 80 ]] ; then # -20
-                ret="${ret}${LP_COLORMAP_1}"
-            elif [[ ${bat} -le 80  ]] && [[ ${bat} -gt 65 ]] ; then # -15
-                ret="${ret}${LP_COLORMAP_2}"
-            elif [[ ${bat} -le 65  ]] && [[ ${bat} -gt 50 ]] ; then # -15
-                ret="${ret}${LP_COLORMAP_3}"
-            elif [[ ${bat} -le 50  ]] && [[ ${bat} -gt 40 ]] ; then # -10
-                ret="${ret}${LP_COLORMAP_4}"
-            elif [[ ${bat} -le 40  ]] && [[ ${bat} -gt 30 ]] ; then # …
-                ret="${ret}${LP_COLORMAP_5}"
-            elif [[ ${bat} -le 30  ]] && [[ ${bat} -gt 20 ]] ; then
-                ret="${ret}${LP_COLORMAP_6}"
-            elif [[ ${bat} -le 20  ]] && [[ ${bat} -gt 10 ]] ; then
-                ret="${ret}${LP_COLORMAP_7}"
-            elif [[ ${bat} -le 10  ]] && [[ ${bat} -gt 5  ]] ; then
-                ret="${ret}${LP_COLORMAP_8}"
-            elif [[ ${bat} -le 5   ]] && [[ ${bat} -gt 0  ]] ; then
+            if   (( bat <=  0 )); then
+                ret="${ret}${LP_COLORMAP_0}"
+            elif (( bat <=  5 )); then         #  5
                 ret="${ret}${LP_COLORMAP_9}"
-            else
-                # for debugging purpose
+            elif (( bat <= 10 )); then         #  5
+                ret="${ret}${LP_COLORMAP_8}"
+            elif (( bat <= 20 )); then         # 10
+                ret="${ret}${LP_COLORMAP_7}"
+            elif (( bat <= 30 )); then         # 10
+                ret="${ret}${LP_COLORMAP_6}"
+            elif (( bat <= 40 )); then         # 10
+                ret="${ret}${LP_COLORMAP_5}"
+            elif (( bat <= 50 )); then         # 10
+                ret="${ret}${LP_COLORMAP_4}"
+            elif (( bat <= 65 )); then         # 15
+                ret="${ret}${LP_COLORMAP_3}"
+            elif (( bat <= 80 )); then         # 15
+                ret="${ret}${LP_COLORMAP_2}"
+            elif (( bat < 100 )); then         # 20
+                ret="${ret}${LP_COLORMAP_1}"
+            else # >= 100
                 ret="${ret}${LP_COLORMAP_0}"
             fi
 
-            if $_LP_SHELL_bash; then
-                ret="${ret}${bat}%"
-            else # zsh
-                ret="${ret}${bat}%%"
-            fi
+            ret="${ret}${bat}$_LP_PERCENT"
         fi # LP_PERCENTS_ALWAYS
         echo -ne "${ret}${NO_COL}"
     fi # ret
@@ -1299,7 +1320,7 @@ _lp_reset_runtime()
     # reset the runtime counter
     [ "$_LP_RUNTIME_COMMAND_EXECUTED" != 1 ] && _LP_RUNTIME_LAST_SECONDS=$SECONDS && _LP_RUNTIME_SECONDS=0
 
-    # A proper command has been executed if the last command was not related to liquidprompt
+    # A proper command has been executed if the last command was not related to Liquid Prompt
     [ "$BASH_COMMAND" = _lp_set_prompt ]
     _LP_RUNTIME_COMMAND_EXECUTED=$?
 }
@@ -1332,15 +1353,11 @@ _lp_load_color()
     tmp=${tmp#0}    # Remove leading '0', again (ex: 0.09)
     local -i load=${tmp:-0}/$_lp_CPUNUM
 
-    if (( load > $LP_LOAD_THRESHOLD )); then
+    if (( load > LP_LOAD_THRESHOLD )); then
         local ret="$(_lp_color_map $load 200)${LP_MARK_LOAD}"
 
         if [[ "$LP_PERCENTS_ALWAYS" == 1 ]]; then
-            if $_LP_SHELL_bash; then
-                ret="${ret}$load%"
-            else # zsh
-                ret="${ret}$load%%"
-            fi
+            ret="${ret}${load}${_LP_PERCENT}"
         fi
         echo -nE "${ret}${NO_COL}"
     fi
@@ -1363,7 +1380,7 @@ _lp_temp_sensors()
 _lp_temp_acpi()
 {
     local i
-    for i in $(acpi -t | sed 's/.* \([0-9]*\)\.[0-9]* degrees C$/\1/p'); do
+    for i in $(LANG=C acpi -t | sed 's/.* \(-\?[0-9]*\)\.[0-9]* degrees C$/\1/p'); do
         [[ $i -gt $temperature ]] && temperature=$i
     done
 }
@@ -1433,13 +1450,7 @@ _lp_smart_mark()
     fossil)   mark="$LP_MARK_FOSSIL"          ;;
     bzr)      mark="$LP_MARK_BZR"             ;;
     disabled) mark="$LP_MARK_DISABLED"        ;;
-    *)
-        if [[ -n "$LP_MARK_DEFAULT" ]]; then
-            mark="$LP_MARK_DEFAULT"
-        else
-            mark="$_LP_MARK_SYMBOL"
-        fi
-        ;;
+    *)        mark="$LP_MARK_DEFAULT"         ;;
     esac
     echo -ne "${LP_COLOR_MARK}${mark}${NO_COL}"
 }
@@ -1524,7 +1535,7 @@ _lp_set_prompt()
     if (( err != 0 )); then
         LP_ERR=" $LP_COLOR_ERR$err$NO_COL"
     else
-        LP_ERR=     # Hidden
+        LP_ERR=''     # Hidden
     fi
 
     # Reset IFS to its default value to avoid strange behaviors
@@ -1532,7 +1543,11 @@ _lp_set_prompt()
     local IFS="$_LP_IFS"
 
     # execute the old prompt
-    eval "$LP_OLD_PROMPT_COMMAND"
+    if $_LP_SHELL_bash; then
+        eval "$LP_OLD_PROMPT_COMMAND"
+    else # zsh
+        eval "${${LP_OLD_PROMPT_COMMAND#*$'\n'}%$'\n'*}"
+    fi
 
     # left of main prompt: space at right
     LP_JOBS="$(_lp_sr "$(_lp_jobcount_color)")"
@@ -1548,7 +1563,7 @@ _lp_set_prompt()
         LP_PROXY=
     fi
 
-    # Display the current Python virtual environnement, if available
+    # Display the current Python virtual environment, if available
     if [[ "$LP_ENABLE_VIRTUALENV,$VIRTUAL_ENV" = 1,?* ]] ; then
         LP_VENV=" [${LP_COLOR_VIRTUALENV}${VIRTUAL_ENV##*/}${NO_COL}]"
     else
@@ -1631,7 +1646,7 @@ _lp_set_prompt()
         fi
 
         # end of the prompt line: double spaces
-        LP_MARK="$(_lp_sb "$(_lp_smart_mark $LP_VCS_TYPE)")"
+        LP_MARK="$(_lp_sr "$(_lp_smart_mark $LP_VCS_TYPE)")"
 
         # The color is different if user is root
         LP_PWD="${LP_COLOR_PATH}${LP_PWD}${NO_COL}"
@@ -1692,26 +1707,28 @@ prompt_tag()
     export LP_PS1_PREFIX="$(_lp_sr "$1")"
 }
 
-# Activate the liquid prompt
+# Activate Liquid Prompt
 prompt_on()
 {
-    # if liquidprompt has not been already set
-    if [[ -z "$LP_LIQUIDPROMPT" ]] ; then
+    # if Liquid Prompt has not been already set
+    if [[ -z "$LP_OLD_PS1" ]] ; then
         LP_OLD_PS1="$PS1"
         if $_LP_SHELL_bash; then
             LP_OLD_PROMPT_COMMAND="$PROMPT_COMMAND"
+            LP_OLD_SHOPT="$(shopt -p promptvars)"
         else # zsh
-            LP_OLD_PROMPT_COMMAND="$precmd"
+            LP_OLD_PROMPT_COMMAND="$(whence -f precmd)"
         fi
     fi
     if $_LP_SHELL_bash; then
+        shopt -s promptvars
         PROMPT_COMMAND=_lp_set_prompt
         [[ "$LP_DEBUG_TIME" == 1 ]] && PROMPT_COMMAND="time $PROMPT_COMMAND"
     else # zsh
         # That doesn't seem to work: no time output
         #if [[ "$LP_DEBUG_TIME" == 1 ]]; then
         #    function precmd {
-        #        local TIMEFMT='LiquidPrompt build time: %*E'
+        #        local TIMEFMT='Liquid Prompt build time: %*E'
         #        time _lp_set_prompt
         #    }
         #else
@@ -1720,10 +1737,6 @@ prompt_on()
             }
         #fi
     fi
-
-    # Keep in mind that LP has been sourced
-    # (to avoid recursive prompt command).
-    LP_LIQUIDPROMPT=1
 }
 
 # Come back to the old prompt
@@ -1731,9 +1744,11 @@ prompt_off()
 {
     PS1=$LP_OLD_PS1
     if $_LP_SHELL_bash; then
+        eval "$LP_OLD_SHOPT"
         PROMPT_COMMAND="$LP_OLD_PROMPT_COMMAND"
     else # zsh
-        precmd="$LP_OLD_PROMPT_COMMAND"
+        precmd() { : ; }
+        eval "$LP_OLD_PROMPT_COMMAND"
     fi
 }
 
@@ -1742,13 +1757,15 @@ prompt_OFF()
 {
     PS1="\$ "
     if $_LP_SHELL_bash; then
+        shopt -u promptvars
         PROMPT_COMMAND="$LP_OLD_PROMPT_COMMAND"
     else # zsh
-        precmd="$LP_OLD_PROMPT_COMMAND"
+        precmd() { : ; }
+        eval "$LP_OLD_PROMPT_COMMAND"
     fi
 }
 
-# By default, sourcing liquidprompt will activate the liquid prompt
+# By default, sourcing liquidprompt will activate Liquid Prompt
 prompt_on
 
 # vim: set et sts=4 sw=4 tw=120 ft=sh:

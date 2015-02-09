@@ -220,5 +220,7 @@ if [ -d /usr/local/heroku/bin ] ; then
     export PATH="/usr/local/heroku/bin:$PATH"
 fi
 
-# Set shell prompt
-source ~/bin/liquidprompt/liquidprompt
+# Set shell prompt, if we're interactive.
+if [[ $- = *i* ]]; then
+    source ~/bin/liquidprompt/liquidprompt
+fi
