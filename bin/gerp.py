@@ -3,10 +3,10 @@
 - gerp *tree* pattern modifiers
 
 - *tree*:
-    - a tree.ini file
-    - a filename, look upwards for tree.ini
+    - a .treerc file
+    - a filename, look upwards for .treerc
 
-- tree.ini:
+- .treerc:
 
     ignore = .hg .svn *.pyc *.pyo *.pyd *.jpg *.png *.gif
     [subset]
@@ -25,17 +25,21 @@ import ConfigParser
 from cStringIO import StringIO
 
 INI = ".treerc"
+
 ROOT_MARKERS = [".git", ".hg"]
+
 IGNORE = """
-    *.o *.bak 
+    *.o *.bak
     *.so *.dll
-    *.pyc *.pyo *.pyd 
+    *.pyc *.pyo *.pyd
     *.png *.jpg *.jpeg *.gif *.ico *.bmp
     .svn .git .hg
+    .tox
     *.ttf *.eot
     *.pdf
     *.zip *.tar *.gz
     """
+
 DEFAULTS = {
     'root': '.',
     }
@@ -221,4 +225,3 @@ def main(args):
 
 if __name__ == '__main__':
     main(sys.argv[1:])
-
