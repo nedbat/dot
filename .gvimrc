@@ -13,7 +13,7 @@ set t_vb=
 " Set the normal font face and size.
 function! FontNormal()
     if has("gui_win32")
-        set guifont=Consolas:h11
+        set guifont=Consolas:h13
         set printfont=Consolas:h6
         set linespace=0
     else
@@ -22,7 +22,7 @@ function! FontNormal()
             set printfont=Consolas:h6
             set linespace=0
         else
-            set guifont=Consolas\ 11
+            set guifont=Consolas\ 13
             set printfont=Consolas\ 6
             set linespace=0
         endif
