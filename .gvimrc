@@ -18,7 +18,7 @@ function! FontNormal()
         set linespace=0
     else
         if has("mac")
-            set guifont=Consolas:h11 
+            set guifont=Consolas:h13
             set printfont=Consolas:h6
             set linespace=0
         else

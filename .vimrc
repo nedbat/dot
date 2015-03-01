@@ -82,8 +82,11 @@ set ignorecase smartcase                " If all lower-case, match any case, els
 set virtualedit=onemore                 " One virtual character at the ends of lines, makes ^V work properly.
 set noerrorbells                        " Don't ring the bell on errors
 set visualbell t_vb=                    "   and don't flash either.
-set mouse=a                             " Mice are wonderful.
 set fillchars=vert:\ ,fold:-            " Spaces are enough for vertical split separators.
+
+if exists("+mouse")
+    set mouse=a                         " Mice are wonderful.
+endif
 
 if exists("+cursorline")
     augroup CursorLine
@@ -156,6 +159,10 @@ augroup end
 augroup HgCommitSettings
     autocmd BufRead,BufNewFile hg-editor-*.txt set filetype=hgcommit
     autocmd FileType hgcommit setlocal formatoptions+=a
+augroup end
+
+augroup VagrantSettings
+    autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
 augroup end
 
 " Suggested by fmoralesc, but doesn't work yet.  XML doesn't spell check
@@ -417,9 +424,10 @@ nnoremap <silent> <Leader>e :CtrlP<CR>
 " NERDTree settings
 if v:version >= 700
     let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.pyd$', '\.o$', '\.so$', '__pycache__', '\.egg-info$']
-    let g:NERDTreeShowBookmarks = 1
+    let g:NERDTreeShowBookmarks = 0
     let g:NERDTreeMinimalUI = 1
     let g:NERDTreeBookmarksSort = 0
+    let g:NERDTreeCascadeOpenSingleChildDir = 1
     if has("gui_win32")
         let g:NERDTreeDirArrows = 0
     endif
@@ -470,7 +478,7 @@ let g:gist_detect_filetype = 1
 let g:gist_post_private = 1
 
 " InterestingWords
-let g:interestingWordsGUIColors = ['#FFCCCC', '#FFCCFF', '#DDDDFF', '#AAFFFF', '#CCFFCC', '#FFFFAA']
+let g:interestingWordsGUIColors = ['#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF', '#E8E8AA']
 
 " Custom formatters
 if has("python")
