@@ -1,0 +1,18 @@
+--langdef=markdown
+--langmap=markdown:.md.markdown.mdown.mkd.mkdn
+--regex-markdown=/^#[ \t]+([^#]*)/\1/h,heading1/
+--regex-markdown=/^##[ \t]+([^#]*)/. \1/h,heading2/
+--regex-markdown=/^###[ \t]+([^#]*)/.  \1/h,heading3/
+
+--langdef=css
+--langmap=css:.css
+--regex-css=/[ \t]*([^ \t\}]+)[ \t]*\{/\1/s,Selector/i
+
+--langdef=html
+--langmap=html:.htm.html
+--regex-html=/<h1[^>]*>(.*)<\/h1>/\1/h,header/
+--regex-html=/<h2[^>]*>(.*)<\/h2>/. \1/h,header/
+--regex-html=/<h3[^>]*>(.*)<\/h3>/.   \1/h,header/
+--regex-html=/<h4[^>]*>(.*)<\/h4>/.     \1/h,header/
+--regex-html=/<h5[^>]*>(.*)<\/h5>/.       \1/h,header/
+--regex-html=/<h6[^>]*>(.*)<\/h6>/.         \1/h,header/

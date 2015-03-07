@@ -448,6 +448,14 @@ let g:tagbar_autoclose = 1
 let g:tagbar_iconchars = ['+', '-']
 nnoremap <silent> <Leader>t :TagbarToggle<CR>
 
+let g:tagbar_type_html = {
+    \ 'ctagstype' : 'html',
+    \ 'sort'      : 0,
+    \ 'kinds'     : [
+        \ 'h:headings'
+    \ ]
+\ }
+
 " YankStack
 let g:yankstack_map_keys = 0
 nnoremap <C-t> <Plug>yankstack_substitute_older_paste
