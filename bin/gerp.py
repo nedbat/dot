@@ -25,6 +25,7 @@ import ConfigParser
 from cStringIO import StringIO
 
 INI = ".treerc"
+HOME_INI = "~/.treerc_default"
 
 ROOT_MARKERS = [".git", ".hg"]
 
@@ -116,8 +117,12 @@ class Gerp(object):
             folder = next_folder
         if self.ini is None:
             # Didn't find a .treerc, use the self.tree folder as the root.
-            self.ini_text = "[default]\nroot = %s\n" % folder0
             self.ini_dir = folder0
+            home_default_ini = os.path.expanduser(HOME_INI)
+            if os.path.exists(home_default_ini):
+                self.ini = home_default_ini
+            else:
+                self.ini_text = "[default]\nroot = %s\n" % folder0
 
     def run(self):
         # Find the tree.ini file.
