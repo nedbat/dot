@@ -227,6 +227,8 @@ noremap <Leader>l :set list!<CR>
 noremap <silent> <Leader>1 :only!<CR>:NERDTreeToggle<CR>:vertical resize 30<CR>:wincmd b<CR>
 noremap <silent> <Leader><Leader>1 :only!<CR>
 
+noremap <Leader>gb :Gblame<CR>
+
 " Backspace and cursor keys wrap to previous/next line.
 set backspace=indent,eol,start
 set whichwrap+=<,>,[,]
@@ -235,9 +237,6 @@ set t_kb=                           " Use the delete key for backspace (the blo
 " Indenting in visual mode keeps the visual highlight.
 vnoremap < <gv
 vnoremap > >gv
-
-" Yank from the cursor to the end of the line, to be consistent with C and D.
-nnoremap Y y$
 
 " Remove annoying F1 help.
 inoremap <F1> <nop>
@@ -424,6 +423,7 @@ nnoremap <silent> <Leader>e :CtrlP<CR>
 " NERDTree settings
 if v:version >= 700
     let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.pyd$', '\.o$', '\.so$', '__pycache__', '\.egg-info$']
+    let g:NERDTreeSortOrder = ['^_.*', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
     let g:NERDTreeShowBookmarks = 0
     let g:NERDTreeMinimalUI = 1
     let g:NERDTreeBookmarksSort = 0
@@ -458,11 +458,17 @@ let g:tagbar_type_html = {
 
 " YankStack
 let g:yankstack_map_keys = 0
-nnoremap <C-t> <Plug>yankstack_substitute_older_paste
-nnoremap <C-n> <Plug>yankstack_substitute_newer_paste
+nmap <C-t> <Plug>yankstack_substitute_older_paste
+nmap <C-n> <Plug>yankstack_substitute_newer_paste
 
 call yankstack#setup()
-nmap Y y$
+
+" Yank from the cursor to the end of the line, to be consistent with C and D.
+nnoremap Y y$
+
+" Why should deleting a single character save that character?
+nnoremap x "_x
+nnoremap X "_X
 
 " Pymode
 let g:pymode_folding = 0
