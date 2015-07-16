@@ -138,6 +138,7 @@ augroup QuickFixSettings
     autocmd FileType qf setlocal nobuflisted colorcolumn=
     autocmd FileType qf nnoremap <silent> <buffer> ,            :colder<CR>
     autocmd FileType qf nnoremap <silent> <buffer> .            :cnewer<CR>
+    autocmd FileType qf nnoremap <silent> <buffer> q            :quit<CR>
     autocmd FileType qf nnoremap <silent> <buffer> <Leader>c    :cclose<CR>
     " <Leader>a in quickfix means re-do the search.
     autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a    ':<C-U>grep! ' . join(split(w:quickfix_title)[1:])
@@ -180,8 +181,10 @@ iabbrev loremx      lorem ipsum quia dolor sit amet consectetur adipisci velit, 
 iabbrev loremxx     lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
 iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.
 
-" ./ in the command line expands to the directory of the current file.
+" ./ in the command line expands to the directory of the current file, but ../
+" works without an expansion.
 cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
+cnoremap ../ ../
 
 " Run a command, but keep the output in a buffer.
 command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n'))
@@ -224,7 +227,7 @@ noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 " Toggle list mode to see special characters.
 noremap <Leader>l :set list!<CR>
 " Show only one window on the screen, but keep the explorers open.
-noremap <silent> <Leader>1 :only!<CR>:NERDTreeToggle<CR>:vertical resize 30<CR>:wincmd b<CR>
+noremap <silent> <Leader>1 :only!\|:NERDTreeToggle\|:vertical resize 30\|:wincmd b<CR>
 noremap <silent> <Leader><Leader>1 :only!<CR>
 
 noremap <Leader>gb :Gblame<CR>
@@ -310,8 +313,6 @@ cnoremap <C-V> <C-R>+
 
 " Quick escape from insert mode.
 inoremap jj <ESC>
-inoremap fj <ESC>
-inoremap jf <ESC>
 
 " Allow undoing <C-u> (delete text typed in the current line)
 inoremap <C-U> <C-G>u<C-U>
@@ -363,7 +364,7 @@ nnoremap <expr> ' FileJumpLastPos("'")
 nnoremap <expr> ` FileJumpLastPos("`")
 
 " Minibufexplorer
-noremap <silent> <Leader>b :MBEOpen<CR>:MBEFocus<CR>
+noremap <silent> <Leader>b :MBEOpen\|:MBEFocus<CR>
 noremap <silent> <Leader><tab> :MBEbb<CR>
 let g:miniBufExplorerAutoStart = 0          " Open MBE manually when needed.
 let g:miniBufExplTabWrap = 1                " Don't break a minibuf tab across lines
