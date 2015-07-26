@@ -138,7 +138,7 @@ augroup QuickFixSettings
     autocmd FileType qf setlocal nobuflisted colorcolumn=
     autocmd FileType qf nnoremap <silent> <buffer> ,            :colder<CR>
     autocmd FileType qf nnoremap <silent> <buffer> .            :cnewer<CR>
-    autocmd FileType qf nnoremap <silent> <buffer> q            :quit<CR>
+    autocmd FileType qf nnoremap <silent> <buffer> q            :quit\|:wincmd b<CR>
     autocmd FileType qf nnoremap <silent> <buffer> <Leader>c    :cclose<CR>
     " <Leader>a in quickfix means re-do the search.
     autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a    ':<C-U>grep! ' . join(split(w:quickfix_title)[1:])

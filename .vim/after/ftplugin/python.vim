@@ -1,3 +1,5 @@
 if exists('+colorcolumn')
-    set colorcolumn=80,120
+    setlocal colorcolumn=80,100,120
 endif
+
+setlocal textwidth=79
