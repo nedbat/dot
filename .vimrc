@@ -212,8 +212,8 @@ function! <SID>BufcloseCloseIt()
 endfunction
 
 " Shortcuts to things I want to do often.
-noremap <Leader>p gqap
-noremap <Leader><Leader>p gq}
+noremap <Leader>p gwap
+noremap <Leader><Leader>p gw}
 noremap <silent> <Leader>q :quit<CR>
 noremap <silent> <Leader><Leader>q :Bclose<CR>
 noremap <Leader>w :write<CR>
@@ -232,6 +232,8 @@ noremap <silent> <Leader><Leader>1 :only!<CR>
 
 noremap <Leader>gb :Gblame<CR>
 
+noremap <Leader><Leader>a ggVG
+
 " Backspace and cursor keys wrap to previous/next line.
 set backspace=indent,eol,start
 set whichwrap+=<,>,[,]
@@ -248,7 +250,9 @@ vnoremap <F1> <nop>
 
 " Jump to start and end of line using the home row keys.
 nnoremap H ^
+vnoremap H ^
 nnoremap L $
+vnoremap L $
 
 " Fix the filetype for .md files.
 augroup MarkDownType
@@ -278,7 +282,9 @@ nnoremap <leader>z :nohlsearch<CR><C-L>
 
 " Easier sizing of windows.
 nnoremap <leader>[ <C-W>-
+nnoremap <leader><leader>[ 20<C-W>-
 nnoremap <leader>] <C-W>+
+nnoremap <leader><leader>] 20<C-W>+
 nnoremap <leader>{ <C-W><
 nnoremap <leader>} <C-W>>
 
@@ -313,6 +319,7 @@ cnoremap <C-V> <C-R>+
 
 " Quick escape from insert mode.
 inoremap jj <ESC>
+inoremap jJ <ESC>
 
 " Allow undoing <C-u> (delete text typed in the current line)
 inoremap <C-U> <C-G>u<C-U>

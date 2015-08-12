@@ -3,3 +3,4 @@ if exists('+colorcolumn')
 endif
 
 setlocal textwidth=79
+setlocal formatoptions+=cjorq
