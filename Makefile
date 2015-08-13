@@ -1,10 +1,13 @@
 KEY_FILE = .ssh/other_authorized_keys
 TAR_FILE = dot.tar
+TGZ_FILE = dot.tgz
 UNTAR = tar xf $(TAR_FILE)
 
 $(TAR_FILE) tar: .* $(KEY_FILE)
-	#tar -cvf $(TAR_FILE) --mode=755 --exclude-from=notar.txt .
 	tar -cvf $(TAR_FILE) --exclude-from=notar.txt .
+
+$(TGZ_FILE) tgz: .* $(KEY_FILE)
+	tar -cvzf $(TGZ_FILE) --exclude-from=notar.txt .
 
 $(KEY_FILE): .ssh/*.pub
 	cat $^ > $@
@@ -31,6 +34,6 @@ cygwin: $(KEY_FILE)
 	chmod 600 $(CYG_SSH)/id_dsa
 
 clean:
-	-rm -f $(TAR_FILE) $(KEY_FILE)
+	-rm -f $(TAR_FILE) $(TGZ_FILE) $(KEY_FILE)
 	find . -name '.DS_Store' -delete
 	find . -print0 | xargs -0 xattr -c
