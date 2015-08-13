@@ -3,4 +3,7 @@ if exists('+colorcolumn')
 endif
 
 setlocal textwidth=79
-setlocal formatoptions+=cjorq
+setlocal formatoptions+=corq
+if v:version >= 704
+    setlocal formatoptions+=j
+endif
