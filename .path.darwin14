@@ -1,0 +1,23 @@
+#
+# OS specific Unix path assignments
+#
+
+[ -n "$PS1" ] && echo '(.path.darwin14)'
+
+#
+# OS X puts /usr/bin before /usr/local/bin, but homebrew wants /usr/local/bin first.
+# Just add another /usr/local/bin.
+#
+PATH=/usr/local/bin:$PATH
+export PATH
+
+# iterm2 aliases
+
+alias i2clear="printf '\e]50;ClearScrollback\a'"
+alias i2focus="printf '\e]50;StealFocus\a'"
+alias i2profile="printf '\e]50;SetProfile=%s\a'"
+alias indevstack="i2profile Purp; cd /src/devstack/; vagrant ssh; i2profile Main; title Devstack"
+
+# from aron, of course.
+_osaquote() { set -- "${@//\\/\\\\}"; set -- "${@//\"/\\\"}"; printf '"%s" ' "$@"; }
+toast() { osascript -e "display notification $(_osaquote "$*") with title \"Hey there\""; }
