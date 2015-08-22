@@ -32,7 +32,7 @@ revert = --no-backup
 qseries = -v
 
 [color]
-custom.rev = yellow bold
+custom.rev = yellow
 custom.author = cyan
 custom.branch = red bold
 custom.when = green
@@ -55,4 +55,4 @@ status.unknown = magenta bold
 status.ignored = white bold
 
 [alias]
-h = log -l 30 --template "{label('custom.rev', short(node))} {label('custom.when', date|age)}  {ifeq(branch,'default','',label('custom.branch','[{branch}] '))}{if(bookmarks,label('custom.branch','[{bookmarks}] '))}{desc|firstline} {label('custom.author', author|person)}\n" -M
+h = log -l 30 --template "{label('custom.rev', short(node))} {label('custom.when', date|shortdate)} {ifeq(branch,'default','',label('custom.branch','{branch} '))}{if(bookmarks,label('custom.branch','{bookmarks} '))}{if(tags,label('custom.branch','{tags} '))}{desc|firstline} {label('custom.author', author|person)}\n" -M
