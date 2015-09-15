@@ -27,9 +27,11 @@ cmd.meld =
 
 [defaults]
 commit = -v
-update = -v
+incoming = -q --style=$HOME/.hgstylened
+outgoing = -q --style=$HOME/.hgstylened
 revert = --no-backup
 qseries = -v
+update = -v
 
 [color]
 custom.rev = yellow

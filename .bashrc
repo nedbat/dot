@@ -110,8 +110,7 @@ fi
 #
 alias g='git'
 alias gi='git'
-alias s='git st'
-alias h='git h'
+alias h='hg'
 
 export GIT_PS1_SHOWSTASHSTATE='y'
 export GIT_PS1_SHOWDIRTYSTATE='y'
@@ -160,7 +159,10 @@ fi
 # Set the title of the terminal window.
 # konsole might need: echo -e "\e]30;foobar\a"
 function title {
-    echo -en "\033]2;$@\007"
+    # generic:
+    #   echo -en "\033]2;$@\007"
+    # for iterm2:
+    echo -en "\033];$@\007"
 }
 
 

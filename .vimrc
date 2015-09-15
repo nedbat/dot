@@ -174,8 +174,9 @@ augroup end
 "augroup end
 
 " Abbreviations
-iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
-iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-
+iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-        
+iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-        
+iabbrev staxxx  import inspect;print("\n".join("%30s : %s @%d" % (t[3], t[1], t[2]) for t in inspect.stack()[:0:-1]))          
 
 iabbrev loremx      lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt.
 iabbrev loremxx     lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
@@ -229,6 +230,11 @@ noremap <Leader>l :set list!<CR>
 " Show only one window on the screen, but keep the explorers open.
 noremap <silent> <Leader>1 :only!\|:NERDTreeToggle\|:vertical resize 30\|:wincmd b<CR>
 noremap <silent> <Leader><Leader>1 :only!<CR>
+
+" More intuitive splits.
+nnoremap <Leader>_ <C-W>s
+nnoremap <Leader><Bar> <C-W>v
+nnoremap <Leader><Leader><Bar> :only!<CR><C-W>v
 
 noremap <Leader>gb :Gblame<CR>
 
@@ -287,10 +293,6 @@ nnoremap <leader>] <C-W>+
 nnoremap <leader><leader>] 20<C-W>+
 nnoremap <leader>{ <C-W><
 nnoremap <leader>} <C-W>>
-
-" More intuitive splits.
-nnoremap <leader>_ <C-W>s
-nnoremap <leader><bar> <C-W>v
 
 " Windows-style ctrl-up and ctrl-down: scroll the text without moving cursor.
 noremap <C-Up> <C-Y>

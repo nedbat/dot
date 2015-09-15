@@ -184,7 +184,7 @@ class Gerp(object):
                 ftrimmed = None
                 for lineno, line in enumerate(fopened, start=1):
                     # Crazy-long lines mean we're looking at minified text, skip it.
-                    if len(line) > 500:
+                    if lineno < 20 and len(line) > 500 and not line.startswith((' ', '\t')):
                         break
                     if pat.search(line):
                         if not ftrimmed:
