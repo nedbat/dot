@@ -29,6 +29,10 @@ set encoding=utf-8
 set fileformat=unix fileformats=unix,dos
 set wildignore=*.o,*~,*.pyc
 
+set undofile undodir=~/.vimundo         " Save undo's after file closes
+set undolevels=1000                     " How many undos
+set undoreload=10000                    " Number of lines to save for undo
+
 " Line numbering
 set number                              " Turn on line numbering
 if exists('+numberwidth')
@@ -187,6 +191,16 @@ iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, 
 cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
 cnoremap ../ ../
 
+
+call plug#begin()
+
+Plug 'pearofducks/ansible-vim'
+let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
+let g:ansible_name_highlight = 'd'
+
+call plug#end()
+
+
 " Run a command, but keep the output in a buffer.
 command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n'))
 
@@ -211,6 +225,24 @@ function! <SID>BufcloseCloseIt()
         execute("bdelete! ".l:currentBufNum)
     endif
 endfunction
+
+" From https://github.com/Julian/dotfiles/blob/master/.vimrc
+command! DiffThese call <SID>DiffTheseCommand()
+function! s:DiffTheseCommand()
+    if &diff
+        diffoff!
+    else
+        diffthis
+
+        let window_count = tabpagewinnr(tabpagenr(), '$')
+        if window_count == 2
+            wincmd w
+            diffthis
+            wincmd w
+        endif
+    endif
+endfunction
+nnoremap <Leader>d :<C-U>DiffThese<CR>
 
 " Shortcuts to things I want to do often.
 noremap <Leader>p gwap
@@ -238,7 +270,9 @@ nnoremap <Leader><Leader><Bar> :only!<CR><C-W>v
 
 noremap <Leader>gb :Gblame<CR>
 
-noremap <Leader><Leader>a ggVG
+" Selecting things: last modified text (good for after pasting); everything.
+noremap <Leader>v `[v`]
+noremap <Leader><Leader>v ggVG
 
 " Backspace and cursor keys wrap to previous/next line.
 set backspace=indent,eol,start
@@ -326,9 +360,6 @@ inoremap jJ <ESC>
 " Allow undoing <C-u> (delete text typed in the current line)
 inoremap <C-U> <C-G>u<C-U>
 
-" \d (duplicate) pastes lines, and then moves to the first line after the paste
-nnoremap <Leader>d  P']j
-
 " Use CTRL-Q to do what CTRL-V used to do
 noremap <C-Q> <C-V>
 
@@ -373,7 +404,7 @@ nnoremap <expr> ' FileJumpLastPos("'")
 nnoremap <expr> ` FileJumpLastPos("`")
 
 " Minibufexplorer
-noremap <silent> <Leader>b :MBEOpen\|:MBEFocus<CR>
+noremap <silent> <Leader>b :MBEOpen<CR>:MBEFocus<CR>
 noremap <silent> <Leader><tab> :MBEbb<CR>
 let g:miniBufExplorerAutoStart = 0          " Open MBE manually when needed.
 let g:miniBufExplTabWrap = 1                " Don't break a minibuf tab across lines
@@ -473,6 +504,9 @@ nmap <C-n> <Plug>yankstack_substitute_newer_paste
 
 call yankstack#setup()
 
+" Maps for yanking and pasting need to be after here, so that yankstack won't
+" clobber them.
+
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
 
@@ -503,6 +537,9 @@ let g:gist_post_private = 1
 
 " InterestingWords
 let g:interestingWordsGUIColors = ['#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF', '#E8E8AA']
+
+" vim-signature
+let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 
 " Custom formatters
 if has("python")
