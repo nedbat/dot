@@ -5,11 +5,6 @@ filetype off
 " Windows thinks personal vim stuff should be in ~/vimfiles, make it look in ~/.vim instead
 set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
 
-" Manage pathogen as a bundle, and use it to manage all the bundles.
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect()
-execute pathogen#helptags()
-
 " To install a vimball (XYZ, for example):
 "   $ mkdir ~/.vim/bundle/XYZ
 "   $ vim XYZ.vmb
@@ -24,7 +19,7 @@ set scrolloff=2                         " Keep two lines visible above/below the
 set incsearch                           " Use incremental search
 set showmatch                           " Blink matching punctuation
 
-set modeline modelines=5                " Read vim settings from the file itself
+set modeline modelines=2                " Read vim settings from the file itself
 set encoding=utf-8
 set fileformat=unix fileformats=unix,dos
 set wildignore=*.o,*~,*.pyc
@@ -191,14 +186,116 @@ iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, 
 cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
 cnoremap ../ ../
 
+""
+"" Plugins
+""
+
+" https://github.com/junegunn/vim-plug
 
 call plug#begin()
 
+Plug 'kshenoy/vim-signature'
+Plug 'will133/vim-dirdiff'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'pearofducks/ansible-vim'
+Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
+Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim'
+Plug 'lfv89/vim-interestingwords'
+Plug 'klen/python-mode'
+Plug 'qstrahl/vim-dentures'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'kana/vim-textobj-user' | Plug 'Julian/vim-textobj-variable-segment'
+Plug 'tpope/vim-unimpaired'
+Plug 'maxbrunsfeld/vim-yankstack'
+
+call plug#end()
+
+""
+"" Plugin configuration.
+""
+
+" kshenoy/vim-signature
+let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
+
+" ctrlpvim/ctrlp.vim
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_max_height = 50
+let g:ctrlp_mruf_max = 1000
+let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
+let g:ctrlp_open_multiple_files = '2vjr'
+let g:ctrlp_prompt_mappings = {
+    \ 'ToggleType(1)':        ['<c-f>', '<c-up>', ',', '<space>'],
+    \ }
+let g:ctrlp_root_markers = ['.treerc']
+nnoremap <silent> <Leader>e :CtrlP<CR>
+
+" pearofducks/ansible-vim
 let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
 let g:ansible_name_highlight = 'd'
 
-call plug#end()
+" scrooloose/nerdtree
+if v:version >= 700
+    let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.pyd$', '\.o$', '\.so$', '__pycache__', '\.egg-info$']
+    let g:NERDTreeSortOrder = ['^_.*', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
+    let g:NERDTreeShowBookmarks = 0
+    let g:NERDTreeMinimalUI = 1
+    let g:NERDTreeBookmarksSort = 0
+    let g:NERDTreeCascadeOpenSingleChildDir = 1
+    if has("gui_win32")
+        let g:NERDTreeDirArrows = 0
+    endif
+    noremap <silent> <Leader>f :NERDTreeFind<CR>
+else
+    " Don't load NERDTree, it will just complain.
+    let g:loaded_nerd_tree = 1
+endif
+
+" majutsushi/tagbar
+let g:tagbar_width = 40
+let g:tagbar_zoomwidth = 30
+let g:tagbar_sort = 0                               " sort by order in file
+let g:tagbar_show_visibility = 0
+let g:tagbar_show_linenumbers = 0
+let g:tagbar_autofocus = 1
+let g:tagbar_autoclose = 1
+let g:tagbar_iconchars = ['+', '-']
+nnoremap <silent> <Leader>t :TagbarToggle<CR>
+
+let g:tagbar_type_html = {
+    \ 'ctagstype' : 'html',
+    \ 'sort'      : 0,
+    \ 'kinds'     : [
+        \ 'h:headings'
+    \ ]
+\ }
+
+" mattn/gist
+let g:gist_clip_command = 'pbcopy'
+let g:gist_detect_filetype = 1
+let g:gist_post_private = 1
+
+" lfv89/vim-interestingwords
+let g:interestingWordsGUIColors = ['#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF', '#E8E8AA']
+
+" klen/python-mode
+let g:pymode_folding = 0
+let g:pymode_syntax = 1
+let g:pymode_syntax_slow_sync = 1
+let g:pymode_syntax_all = 1
+let g:pymode_motion = 1
+let g:pymode_trim_whitespaces = 0
+let g:pymode_lint_on_write = 0
+let g:pymode_syntax_string_formatting = 1
+let g:pymode_syntax_string_format = 1
+let g:pymode_syntax_string_templates = 1
+let g:pymode_syntax_doctests = 1
+let g:pymode_rope = 0
+let g:pymode_rope_complete_on_dot = 0
+let g:pymode_breakpoint = 0
 
 
 " Run a command, but keep the output in a buffer.
@@ -403,17 +500,6 @@ endfunction
 nnoremap <expr> ' FileJumpLastPos("'")
 nnoremap <expr> ` FileJumpLastPos("`")
 
-" Minibufexplorer
-noremap <silent> <Leader>b :MBEOpen<CR>:MBEFocus<CR>
-noremap <silent> <Leader><tab> :MBEbb<CR>
-let g:miniBufExplorerAutoStart = 0          " Open MBE manually when needed.
-let g:miniBufExplTabWrap = 1                " Don't break a minibuf tab across lines
-let g:miniBufExplBuffersNeeded = 0
-let g:miniBufExplVSplit = 20                " Make minibuf explorer vertical.
-let g:did_minibufexplorer_syntax_inits = 1  " Use my colors.
-let g:miniBufExplCycleArround = 1           " Cycle when doing buffer movement.
-let g:miniBufExplShowBufNumbers = 0         " Don't show buffer numbers.
-
 " Wrapped lines, adapted from
 " http://vim.wikia.com/wiki/Move_cursor_by_display_lines_when_wrapping
 noremap <silent> <Leader>r :call ToggleWrap()<CR>
@@ -447,56 +533,6 @@ function! ToggleWrap()
     endif
 endfunction
 
-" Ctrlp
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_max_height = 50
-let g:ctrlp_mruf_max = 1000
-let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
-let g:ctrlp_open_multiple_files = '2vjr'
-let g:ctrlp_prompt_mappings = {
-    \ 'ToggleType(1)':        ['<c-f>', '<c-up>', ',', '<space>'],
-    \ }
-let g:ctrlp_root_markers = ['.treerc']
-nnoremap <silent> <Leader>e :CtrlP<CR>
-
-" NERDTree settings
-if v:version >= 700
-    let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.pyd$', '\.o$', '\.so$', '__pycache__', '\.egg-info$']
-    let g:NERDTreeSortOrder = ['^_.*', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
-    let g:NERDTreeShowBookmarks = 0
-    let g:NERDTreeMinimalUI = 1
-    let g:NERDTreeBookmarksSort = 0
-    let g:NERDTreeCascadeOpenSingleChildDir = 1
-    if has("gui_win32")
-        let g:NERDTreeDirArrows = 0
-    endif
-    noremap <silent> <Leader>f :NERDTreeFind<CR>
-else
-    " Don't load NERDTree, it will just complain.
-    let g:loaded_nerd_tree = 1
-endif
-
-" Tagbar
-let g:tagbar_width = 40
-let g:tagbar_zoomwidth = 30
-let g:tagbar_sort = 0                               " sort by order in file
-let g:tagbar_show_visibility = 0
-let g:tagbar_show_linenumbers = 0
-let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
-let g:tagbar_iconchars = ['+', '-']
-nnoremap <silent> <Leader>t :TagbarToggle<CR>
-
-let g:tagbar_type_html = {
-    \ 'ctagstype' : 'html',
-    \ 'sort'      : 0,
-    \ 'kinds'     : [
-        \ 'h:headings'
-    \ ]
-\ }
-
 " YankStack
 let g:yankstack_map_keys = 0
 nmap <C-t> <Plug>yankstack_substitute_older_paste
@@ -513,33 +549,6 @@ nnoremap Y y$
 " Why should deleting a single character save that character?
 nnoremap x "_x
 nnoremap X "_X
-
-" Pymode
-let g:pymode_folding = 0
-let g:pymode_syntax = 1
-let g:pymode_syntax_slow_sync = 1
-let g:pymode_syntax_all = 1
-let g:pymode_motion = 1
-let g:pymode_trim_whitespaces = 0
-let g:pymode_lint_on_write = 0
-let g:pymode_syntax_string_formatting = 1
-let g:pymode_syntax_string_format = 1
-let g:pymode_syntax_string_templates = 1
-let g:pymode_syntax_doctests = 1
-let g:pymode_rope = 0
-let g:pymode_rope_complete_on_dot = 0
-let g:pymode_breakpoint = 0
-
-" Gist
-let g:gist_clip_command = 'pbcopy'
-let g:gist_detect_filetype = 1
-let g:gist_post_private = 1
-
-" InterestingWords
-let g:interestingWordsGUIColors = ['#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF', '#E8E8AA']
-
-" vim-signature
-let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 
 " Custom formatters
 if has("python")
