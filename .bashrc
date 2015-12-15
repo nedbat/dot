@@ -107,9 +107,8 @@ if command -v xdg-open >/dev/null; then
 fi
 
 # Git stuff
-#
+
 alias g='git'
-alias gi='git'
 alias h='hg'
 
 export GIT_PS1_SHOWSTASHSTATE='y'
@@ -126,28 +125,18 @@ else
     function __git_ps1 { printf ""; }       # Dummy for when we don't have .git-prompt.sh
 fi
 
+# Copy the SHA of head, or some other rev.
+copysha() { git rev-parse ${@:-HEAD} | tee /dev/tty | tr -d '\n' | clipc; }
+
+# Fetch and prune every git repo in this tree.
+fetchtree () { find . -name .git -type d | while read d; do d=$(dirname $d); echo "---- $d ----"; git -C $d fetch --all --prune; done; }
+
 # e means gvim, vim or vi, depending on what's installed.
 if [ -x /Applications/MacVim.app/Contents/MacOS/vim ] ; then
     alias e='/Applications/MacVim.app/Contents/MacOS/vim --servername VIM --remote-silent "$@"'
     # one vim per Mac space: http://chrismetcalf.net/2011/02/02/one-vim-server-to-rule-them-all/
 elif type -P gvim &>/dev/null; then
     alias e='gvim --servername GVIM --remote-silent "$@"'
-    # Adapted from the "separate gvim on each desktop" link below,
-    # except that my wmctrl only shows one workspace??
-    function ex_doesnt_appear_in_this_film {    # I don't use this, right??
-        if test -n "$DISPLAY"; then
-            desktop="SERVER$(wmctrl -d | grep '\*' | cut -f 1 -d ' ')"
-            #gvim --serverlist | grep $desktop
-            #if [ $? -eq 1 ]
-            #then
-            #    urxvtcd +sb -geometry 80x57 -e gvim --servername $desktop $* >> /dev/null &
-            #else
-                gvim --servername $desktop --remote-silent $*
-            #fi
-        else
-            gvim $*
-        fi
-    }
 elif type -P vim &>/dev/null; then
     alias e='vim "$@"'
 else
@@ -176,17 +165,6 @@ first_of() {
     done
     return 1  # not found
 }
-
-# Caching pypi downloads
-pypi_caches=(
-    /c/kit/cache_pypi                       # For windows-hosted ubuntu vboxes
-    ~/Downloads/cache_pypi                  # For mac
-    /mac/Users/ned/Downloads/cache_pypi     # For mac-hosted ubuntu vboxes
-    )
-pip_download_cache=$(first_of "${pypi_caches[@]}")
-if [[ -w $pip_download_cache ]] ; then
-    export PIP_DOWNLOAD_CACHE=$pip_download_cache
-fi
 
 # pythonz
 if [ -d /usr/local/pythonz ] ; then
@@ -224,5 +202,12 @@ fi
 
 # Set shell prompt, if we're interactive.
 if [[ $- = *i* ]]; then
-    source ~/bin/liquidprompt/liquidprompt
+    plain_prompt() {
+        export PROMPT_COMMAND=
+        export PS1="$ "
+    }
+    nice_prompt() {
+        source ~/bin/liquidprompt/liquidprompt
+    }
+    nice_prompt
 fi

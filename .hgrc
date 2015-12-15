@@ -10,7 +10,6 @@ bookmarks =
 color =
 hgext.convert =
 hgext.extdiff =
-hgext.fetch =
 hgext.mq =
 hgext.purge =
 record =

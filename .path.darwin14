@@ -16,7 +16,11 @@ export PATH
 alias i2clear="printf '\e]50;ClearScrollback\a'"
 alias i2focus="printf '\e]50;StealFocus\a'"
 alias i2profile="printf '\e]50;SetProfile=%s\a'"
-alias indevstack="i2profile Purp; cd /src/devstack/; vagrant ssh; i2profile Main; title Devstack"
+
+# for dealing with devstacks
+vup () { sudo echo "power up"; vagrant up; }
+vhalt () { sudo echo "power up"; vagrant halt; }
+indevstack() { i2profile Purp; title ${@:-Indev}; vagrant ssh; i2profile Main; title Devstack; }
 
 # from aron, of course.
 _osaquote() { set -- "${@//\\/\\\\}"; set -- "${@//\"/\\\"}"; printf '"%s" ' "$@"; }

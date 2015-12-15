@@ -208,6 +208,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'kana/vim-textobj-user' | Plug 'Julian/vim-textobj-variable-segment'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
 Plug 'maxbrunsfeld/vim-yankstack'
 
 call plug#end()
