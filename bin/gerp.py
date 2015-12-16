@@ -14,8 +14,11 @@
     root = roots
 
 - pattern: /pat/
+    matches against just the filename, or the whole path.
+    Use leading */ if you need to match against the whole path.
+
 - modifiers:
-    =subset
+    =subset     (NOT IMPLEMENTED)
     .po     only search these extensions
     -.po    ignore these extensions
 """
@@ -193,21 +196,28 @@ class Gerp(object):
                             #    ftrimmed = ftrimmed.replace(cur_dir, "")
                         print "%s:%d:%s" % (ftrimmed, lineno, line[:-1])
 
+    def file_match(self, pattern, dirpath, filename):
+        """Check if filename in dirpath matches pattern."""
+        if pattern.match(filename):
+            return True
+        if pattern.match(os.path.join(dirpath, filename)):
+            return True
+        return False
+
     def files(self):
         # Walk the trees specified by roots, skipping stuff mentioned in ignores.
         for root in self.roots:
             for dirpath, dirnames, filenames in os.walk(root, topdown=True):
                 for f in filenames:
-                    include = False
                     if self.include_re:
-                        include = self.include_re.match(f)
+                        include = self.file_match(self.include_re, dirpath, f)
                     else:
-                        include = not self.ignore_re.match(f)
+                        include = not self.file_match(self.ignore_re, dirpath, f)
                     if include:
                         yield os.path.join(dirpath, f)
                 baddirs = []
                 for i, d in enumerate(dirnames):
-                    if self.ignore_re.match(d):
+                    if self.file_match(self.ignore_re, dirpath, d):
                         baddirs.append(i)
                 baddirs.reverse()
                 for i in baddirs:
