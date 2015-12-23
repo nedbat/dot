@@ -146,14 +146,14 @@ fi
 # http://www.openhex.org/notes/2011/1/27/one-vim-server-per-desktops
 
 # Set the title of the terminal window.
-# konsole might need: echo -e "\e]30;foobar\a"
-function title {
+title() {
     # generic:
     #   echo -en "\033]2;$@\007"
     # for iterm2:
+    #   http://superuser.com/a/344397
+    export WINDOW_TITLE="$@"
     echo -en "\033];$@\007"
 }
-
 
 # Find the first file that exists in a list of possibilities.
 first_of() {

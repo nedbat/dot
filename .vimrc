@@ -298,9 +298,21 @@ let g:pymode_rope = 0
 let g:pymode_rope_complete_on_dot = 0
 let g:pymode_breakpoint = 0
 
+" qstrahl/vim-dentures
+" Used to map to iI, but changed to dD. I like iI better.
+vmap ii <Plug>(InnerDenture)
+vmap iI <Plug>(InnerDENTURE)
+vmap ai <Plug>(OuterDenture)
+vmap aI <Plug>(OuterDENTURE)
+
+omap ii <Plug>(InnerDenture)
+omap iI <Plug>(InnerDENTURE)
+omap ai <Plug>(OuterDenture)
+omap aI <Plug>(OuterDENTURE)
+
 
 " Run a command, but keep the output in a buffer.
-command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n'))
+command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n')) | setlocal buftype=nofile
 
 " Don't close window, when deleting a buffer
 " from: https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim
