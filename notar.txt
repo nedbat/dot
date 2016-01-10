@@ -9,6 +9,7 @@
 notar.txt
 dot.tar
 dot.tgz
+dot.zip
 Makefile
 README.txt
 .DS_Store
