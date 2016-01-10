@@ -10,6 +10,8 @@ set guioptions-=b                     " No scrollbars on bottom
 set visualbell
 set t_vb=
 
+colorscheme neds                        " Use my colors to whatever extent possible.
+
 " Set the normal font face and size.
 function! FontNormal()
     if has("gui_win32")
@@ -33,18 +35,18 @@ endfunction
 " Increase/decrease font size.
 function! FontSmaller()
     if has('win32') || has('win64') || has('mac')
-        let &guifont = substitute(&guifont, ':h\(\d\+\)', '\=":h" . (submatch(1) - 1)', '')
+        let &guifont = substitute(&guifont, ':h\(\d\+\)', '\=":h" . (submatch(1) - 2)', '')
     else
-        let &guifont = substitute(&guifont, ' \(\d\+\)', '\=" " . (submatch(1) - 1)', '')
+        let &guifont = substitute(&guifont, ' \(\d\+\)', '\=" " . (submatch(1) - 2)', '')
     endif
     set lines=999 columns=999
 endfunction
 
 function! FontBigger()
     if has('win32') || has('win64') || has('mac')
-        let &guifont = substitute(&guifont, ':h\(\d\+\)', '\=":h" . (submatch(1) + 1)', '')
+        let &guifont = substitute(&guifont, ':h\(\d\+\)', '\=":h" . (submatch(1) + 2)', '')
     else
-        let &guifont = substitute(&guifont, ' \(\d\+\)', '\=" " . (submatch(1) + 1)', '')
+        let &guifont = substitute(&guifont, ' \(\d\+\)', '\=" " . (submatch(1) + 2)', '')
     endif
 endfunction
 

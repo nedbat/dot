@@ -10,8 +10,8 @@ set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/afte
 "   $ vim XYZ.vmb
 "   :UseVimball ~/.vim/bundle/XYZ
 
-set directory-=.                        " Don't store .swp files in the current directory
-set updatecount=0                       " Don't create .swp files at all.
+set directory=/var/tmp//,/tmp//         " Store swp files, with full paths
+set backup backupdir=~/.backup          " Keep copies of files we're editing
 set shortmess+=I                        " Don't show the vim intro message
 set history=500                         " Keep a LOT of history for commands
 set scrolloff=2                         " Keep two lines visible above/below the cursor when scrolling.
@@ -54,7 +54,7 @@ set showcmd                             " Show partial commands in the status li
 if has("syntax")
     syntax on                           " Turn on syntax coloring
 endif
-colorscheme neds                        " Use my colors to whatever extent possible.
+colorscheme nedsterm                    " Color scheme to use for terminals.
 
 if exists('+colorcolumn')
     set colorcolumn=80
@@ -146,31 +146,38 @@ augroup QuickFixSettings
 augroup end
 
 augroup HelpSettings
+    autocmd!
     autocmd FileType help let &l:statusline = helpstatus
     autocmd FileType help setlocal colorcolumn=
 augroup end
 
 augroup GitCommitSettings
+    autocmd!
     " auto-fill paragraphs
     autocmd FileType gitcommit setlocal formatoptions+=a
     autocmd FileType gitcommit DiffGitCached | wincmd r
 augroup end
 
 augroup HgCommitSettings
+    autocmd!
     autocmd BufRead,BufNewFile hg-editor-*.txt set filetype=hgcommit
     autocmd FileType hgcommit setlocal formatoptions+=a
 augroup end
 
 augroup VagrantSettings
+    autocmd!
     autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
 augroup end
 
+augroup XmlSettings
+    autocmd!
+    autocmd BufRead,BufNewFile *.px,*.bx set filetype=xml
 " Suggested by fmoralesc, but doesn't work yet.  XML doesn't spell check
 " regular text?
-"augroup XmlSettings
 "    autocmd FileType xml syntax match xmlAURL /["']\zs.*\ze["']/ contained containedin=xmlString contains=@NoSpell transparent
 "    autocmd FileType xml syntax spell default
-"augroup end
+augroup end
+
 
 " Abbreviations
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-        
@@ -181,8 +188,8 @@ iabbrev loremx      lorem ipsum quia dolor sit amet consectetur adipisci velit, 
 iabbrev loremxx     lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
 iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.
 
-" ./ in the command line expands to the directory of the current file, but ../
-" works without an expansion.
+" ./ in the command line expands to the directory of the current file,
+"   but ../ " works without an expansion.
 cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
 cnoremap ../ ../
 
@@ -210,6 +217,7 @@ Plug 'kana/vim-textobj-user' | Plug 'Julian/vim-textobj-variable-segment'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'maxbrunsfeld/vim-yankstack'
+Plug 'wellle/visual-split.vim'
 
 call plug#end()
 
@@ -221,10 +229,10 @@ call plug#end()
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 
 " ctrlpvim/ctrlp.vim
-let g:ctrlp_map = '<c-p>'
+let g:ctrlp_map = '<silent><Leader>e'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_max_height = 50
+let g:ctrlp_max_height = 30
 let g:ctrlp_mruf_max = 1000
 let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
 let g:ctrlp_open_multiple_files = '2vjr'
@@ -232,7 +240,6 @@ let g:ctrlp_prompt_mappings = {
     \ 'ToggleType(1)':        ['<c-f>', '<c-up>', ',', '<space>'],
     \ }
 let g:ctrlp_root_markers = ['.treerc']
-nnoremap <silent> <Leader>e :CtrlP<CR>
 
 " pearofducks/ansible-vim
 let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
@@ -310,6 +317,9 @@ omap iI <Plug>(InnerDENTURE)
 omap ai <Plug>(OuterDenture)
 omap aI <Plug>(OuterDENTURE)
 
+" wellle/visual-split.vim
+noremap <Leader>* :VSSplit<CR>
+noremap <Leader><Leader>* :VSResize<CR>
 
 " Run a command, but keep the output in a buffer.
 command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n')) | setlocal buftype=nofile
@@ -353,6 +363,20 @@ function! s:DiffTheseCommand()
     endif
 endfunction
 nnoremap <Leader>d :<C-U>DiffThese<CR>
+
+" From https://github.com/garybernhardt/dotfiles/blob/master/.vimrc
+function! RemoveFancyCharacters()
+    let typo = {}
+    let typo["“"] = '"'
+    let typo["”"] = '"'
+    let typo["‘"] = "'"
+    let typo["’"] = "'"
+    "let typo["–"] = '--'
+    let typo["—"] = '--'
+    let typo["…"] = '...'
+    execute ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
+endfunction
+command! RemoveFancyCharacters :call RemoveFancyCharacters()
 
 " Shortcuts to things I want to do often.
 noremap <Leader>p gwap
@@ -470,6 +494,11 @@ inoremap jJ <ESC>
 " Allow undoing <C-u> (delete text typed in the current line)
 inoremap <C-U> <C-G>u<C-U>
 
+" Easier access to completions
+inoremap <C-L> <C-X><C-L>
+inoremap <C-N> <C-X><C-N>
+inoremap <C-P> <C-X><C-P>
+
 " Use CTRL-Q to do what CTRL-V used to do
 noremap <C-Q> <C-V>
 
@@ -548,8 +577,8 @@ endfunction
 
 " YankStack
 let g:yankstack_map_keys = 0
-nmap <C-t> <Plug>yankstack_substitute_older_paste
-nmap <C-n> <Plug>yankstack_substitute_newer_paste
+nmap <C-P> <Plug>yankstack_substitute_older_paste
+nmap <C-N> <Plug>yankstack_substitute_newer_paste
 
 call yankstack#setup()
 
