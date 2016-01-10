@@ -16,6 +16,9 @@ $(ZIP_FILE) zip: .*
 $(KEY_FILE): .ssh/*.pub
 	cat $^ > $@
 
+copyplugs:
+	rsync -a --exclude=.git ~/.vim/plugged .vim/plugged
+
 unpack: webfaction dreamhost
 
 webfaction: $(TAR_FILE)
