@@ -10,8 +10,10 @@ set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/afte
 "   $ vim XYZ.vmb
 "   :UseVimball ~/.vim/bundle/XYZ
 
-set directory=/var/tmp//,/tmp//         " Store swp files, with full paths
-set backup backupdir=~/.backup          " Keep copies of files we're editing
+set directory=/var/tmp//,/tmp//,$TEMP   " Store swp files, with full paths
+if filewritable(expand('~/.backup'))
+    set backup backupdir=~/.backup      " Keep copies of files we're editing
+endif
 set shortmess+=I                        " Don't show the vim intro message
 set history=500                         " Keep a LOT of history for commands
 set scrolloff=2                         " Keep two lines visible above/below the cursor when scrolling.
@@ -38,17 +40,7 @@ endif
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-if has("mac")
-    if has("terminfo")                  " from https://nicksergeant.com/make-your-leopard-terminal-and-vim-shine-with-simbl-terminalcolors-and-the-ir_black-theme/
-        set t_Co=16
-        set t_AB=[%?%p1%{8}%<%t%p1%{40}%+%e%p1%{92}%+%;%dm
-        set t_AF=[%?%p1%{8}%<%t%p1%{30}%+%e%p1%{82}%+%;%dm
-    else
-        set t_Co=16
-        set t_Sf=[3%dm
-        set t_Sb=[4%dm
-    endif
-endif
+set t_Co=256
 
 set showcmd                             " Show partial commands in the status line
 if has("syntax")
@@ -218,6 +210,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'wellle/visual-split.vim'
+" Plug 'vim-scripts/Colour-Sampler-Pack'
 
 call plug#end()
 
