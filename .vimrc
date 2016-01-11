@@ -371,6 +371,13 @@ function! RemoveFancyCharacters()
 endfunction
 command! RemoveFancyCharacters :call RemoveFancyCharacters()
 
+" Show the syntax highlight group for the current character.
+map <silent><Leader>h :echo
+\ "hi=" . synIDattr(synID(line("."),col("."),1),"name") .
+\ " trans=" . synIDattr(synID(line("."),col("."),0),"name") .
+\ " lo=" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
+map <silent><Leader><Leader>h :source $VIMRUNTIME/syntax/hitest.vim<CR>
+
 " Shortcuts to things I want to do often.
 noremap <Leader>p gwap
 noremap <Leader><Leader>p gw}
