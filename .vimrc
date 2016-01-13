@@ -460,7 +460,9 @@ nnoremap <leader><leader>[ 20<C-W>-
 nnoremap <leader>] <C-W>+
 nnoremap <leader><leader>] 20<C-W>+
 nnoremap <leader>{ <C-W><
+nnoremap <leader><leader>{ 20<C-W><
 nnoremap <leader>} <C-W>>
+nnoremap <leader><leader>} 20<C-W>>
 
 " Windows-style ctrl-up and ctrl-down: scroll the text without moving cursor.
 noremap <C-Up> <C-Y>
