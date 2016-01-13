@@ -17,7 +17,7 @@ $(KEY_FILE): .ssh/*.pub
 	cat $^ > $@
 
 copyplugs:
-	rsync -a --exclude=.git ~/.vim/plugged .vim/plugged
+	rsync -a -v --exclude=.git ~/.vim/plugged .vim
 
 unpack: webfaction dreamhost
 
