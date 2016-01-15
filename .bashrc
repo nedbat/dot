@@ -126,10 +126,18 @@ else
 fi
 
 # Copy the SHA of head, or some other rev.
-copysha() { git rev-parse ${@:-HEAD} | tee /dev/tty | tr -d '\n' | clipc; }
+copysha() { 
+    git rev-parse ${@:-HEAD} | tee /dev/tty | tr -d '\n' | clipc
+}
 
-# Fetch and prune every git repo in this tree.
-fetchtree () { find . -name .git -type d | while read d; do d=$(dirname $d); echo "---- $d ----"; git -C $d fetch --all --prune; done; }
+# Run a git command for every repo in this tree.
+gittree () {
+    find . -name .git -type d | while read d; do
+        d=$(dirname $d)
+        echo "---- $d ----"
+        git -C $d $@
+    done
+}
 
 # e means gvim, vim or vi, depending on what's installed.
 if [ -x /Applications/MacVim.app/Contents/MacOS/vim ] ; then
@@ -153,6 +161,11 @@ title() {
     #   http://superuser.com/a/344397
     export WINDOW_TITLE="$@"
     echo -en "\033];$@\007"
+}
+
+# iTerm2 has a Window title in addition to the tab title, which title() sets.
+wtitle() {
+    echo -ne "\033]2;$@\007"
 }
 
 # Find the first file that exists in a list of possibilities.
