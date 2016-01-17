@@ -71,9 +71,12 @@ set linebreak                           "   but when I do wrap, I want word wrap
 set display=lastline,uhex               " Display as much as possible of a last line, and ctrl chars in hex.
 set ignorecase smartcase                " If all lower-case, match any case, else be case-sensitive
 set virtualedit=onemore                 " One virtual character at the ends of lines, makes ^V work properly.
+set fillchars=vert:\ ,fold:-,diff:·     " Spaces are enough for vertical split separators.
+set diffopt=filler,foldcolumn:0         " Show lines where missing, no need for a foldcolumn during diff.
+
 set noerrorbells                        " Don't ring the bell on errors
 set visualbell t_vb=                    "   and don't flash either.
-set fillchars=vert:\ ,fold:-            " Spaces are enough for vertical split separators.
+set timeoutlen=1000 ttimeoutlen=50      " Set timeouts so that terminals act briskly.
 
 if exists("+mouse")
     set mouse=a                         " Mice are wonderful.
@@ -152,8 +155,13 @@ augroup end
 
 augroup HgCommitSettings
     autocmd!
-    autocmd BufRead,BufNewFile hg-editor-*.txt set filetype=hgcommit
     autocmd FileType hgcommit setlocal formatoptions+=a
+    autocmd BufRead,BufNewFile hg-editor-*.txt set filetype=hgcommit
+augroup end
+
+augroup RstSettings
+    autocmd!
+    autocmd FileType rst setlocal formatoptions+=a
 augroup end
 
 augroup VagrantSettings
@@ -204,6 +212,8 @@ Plug 'lfv89/vim-interestingwords'
 Plug 'klen/python-mode'
 Plug 'qstrahl/vim-dentures'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-git'
 Plug 'tpope/vim-surround'
 Plug 'kana/vim-textobj-user' | Plug 'Julian/vim-textobj-variable-segment'
 Plug 'tpope/vim-unimpaired'
@@ -211,6 +221,11 @@ Plug 'tpope/vim-repeat'
 Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'wellle/visual-split.vim'
 " Plug 'vim-scripts/Colour-Sampler-Pack'
+Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
+Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
+Plug 'AndrewRadev/splitjoin.vim'                    " gS and gJ for smart expanding and contracting
+Plug 'paradigm/TextObjectify'                       " smarter text objects, and ad-hoc also
+Plug 'junegunn/vim-peekaboo'                        " pop-up panel to show registers
 
 call plug#end()
 
@@ -255,6 +270,8 @@ else
     let g:loaded_nerd_tree = 1
 endif
 
+noremap <silent> <Leader><Leader>f :echo expand('%:p') . " (cd: " . getcwd() . ")"<CR>
+
 " majutsushi/tagbar
 let g:tagbar_width = 40
 let g:tagbar_zoomwidth = 30
@@ -272,6 +289,21 @@ let g:tagbar_type_html = {
     \ 'kinds'     : [
         \ 'h:headings'
     \ ]
+\ }
+
+let g:tagbar_type_rst = {
+    \ 'ctagstype': 'rst',
+    \ 'ctagsbin': expand('~/.vim/plugged/rst2ctags/rst2ctags.py'),
+    \ 'ctagsargs' : '-f - --sort=yes',
+    \ 'kinds' : [
+        \ 's:sections',
+        \ 'i:images'
+    \ ],
+    \ 'sro' : '|',
+    \ 'kind2scope' : {
+        \ 's' : 'section',
+    \ },
+    \ 'sort': 0,
 \ }
 
 " mattn/gist
@@ -313,6 +345,15 @@ omap aI <Plug>(OuterDENTURE)
 " wellle/visual-split.vim
 noremap <Leader>* :VSSplit<CR>
 noremap <Leader><Leader>* :VSResize<CR>
+
+" tpope/vim-fugitive and tpope/vim-rhubarb
+noremap <Leader>gb :Gblame<CR>
+noremap <Leader>gu :Gbrowse!<CR>
+noremap <Leader>gv :Gbrowse<CR>
+
+" AndrewRadev/splitjoin.vim
+let g:splitjoin_trailing_comma = 1
+let g:splitjoin_python_brackets_on_separate_lines = 1
 
 " Run a command, but keep the output in a buffer.
 command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n')) | setlocal buftype=nofile
@@ -381,6 +422,8 @@ map <silent><Leader><Leader>h :source $VIMRUNTIME/syntax/hitest.vim<CR>
 " Shortcuts to things I want to do often.
 noremap <Leader>p gwap
 noremap <Leader><Leader>p gw}
+nnoremap coa :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
+
 noremap <silent> <Leader>q :quit<CR>
 noremap <silent> <Leader><Leader>q :Bclose<CR>
 noremap <Leader>w :write<CR>
@@ -400,9 +443,9 @@ noremap <silent> <Leader><Leader>1 :only!<CR>
 " More intuitive splits.
 nnoremap <Leader>_ <C-W>s
 nnoremap <Leader><Bar> <C-W>v
+nnoremap <Leader><Leader>_ :only!<CR><C-W>s
 nnoremap <Leader><Leader><Bar> :only!<CR><C-W>v
-
-noremap <Leader>gb :Gblame<CR>
+autocmd VimResized * :wincmd =
 
 " Selecting things: last modified text (good for after pasting); everything.
 noremap <Leader>v `[v`]
