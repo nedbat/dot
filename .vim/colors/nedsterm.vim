@@ -19,7 +19,7 @@ hi Comment      cterm=NONE      ctermfg=46          ctermbg=NONE
 hi Statement    cterm=bold      ctermfg=39          ctermbg=NONE
 
 hi LineNr       cterm=NONE      ctermfg=247         ctermbg=238
-hi CursorLine   cterm=NONE      ctermfg=NONE        ctermbg=18
+hi CursorLine   cterm=NONE      ctermfg=NONE        ctermbg=53
 hi ColorColumn  cterm=NONE      ctermfg=NONE        ctermbg=234
 
 hi StatusLine   cterm=bold      ctermfg=16          ctermbg=LightGrey
