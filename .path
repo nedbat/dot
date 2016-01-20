@@ -15,9 +15,3 @@ export LD_LIBRARY_PATH
 #
 PATH=$HOME/bin:/opt/local/bin:$PATH:/usr/sbin
 export PATH
-
-#
-# MAN utility search path
-#
-MANPATH=/usr/share/man:/usr/local/man:/usr/man
-export MANPATH
