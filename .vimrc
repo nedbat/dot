@@ -18,7 +18,6 @@ set shortmess+=I                        " Don't show the vim intro message
 set history=500                         " Keep a LOT of history for commands
 set scrolloff=2                         " Keep two lines visible above/below the cursor when scrolling.
 
-set incsearch                           " Use incremental search
 set showmatch                           " Blink matching punctuation
 
 set modeline modelines=2                " Read vim settings from the file itself
@@ -52,7 +51,6 @@ if exists('+colorcolumn')
     set colorcolumn=80
 endif
 
-set listchars=tab:>-,eol:$,trail:-      " When in show-all-chars mode (set list), use >-- for tabs.
 set tabstop=8                           " Real tab characters take up 8 spaces
 set softtabstop=4                       "   but indent by 4 when typing tab while editing.
 set expandtab                           " Use spaces when hitting the tab key
@@ -63,7 +61,6 @@ set nosmarttab                          " Tabs always means the same thing, don'
 set indentkeys=o,O                      " Only new lines should get auto-indented.
 
 filetype plugin indent on               " Use the filetype to load syntax, plugins and indent files.
-set hlsearch                            " Highlight search results in the file.
 set autoread                            " Re-read a file if it changed behind vim's back.
 set hidden                              " Allow a modified buffer to become hidden.
 set nowrap                              " When I want to be confused by wrapped lines, I'll do it manually.
@@ -76,7 +73,7 @@ set diffopt=filler,foldcolumn:0         " Show lines where missing, no need for 
 
 set noerrorbells                        " Don't ring the bell on errors
 set visualbell t_vb=                    "   and don't flash either.
-set timeoutlen=1000 ttimeoutlen=50      " Set timeouts so that terminals act briskly.
+set timeoutlen=3000 ttimeoutlen=50      " Set timeouts so that terminals act briskly.
 
 if exists("+mouse")
     set mouse=a                         " Mice are wonderful.
@@ -161,7 +158,7 @@ augroup end
 
 augroup RstSettings
     autocmd!
-    autocmd FileType rst setlocal formatoptions+=a
+    autocmd FileType rst setlocal formatoptions+=a textwidth=79
 augroup end
 
 augroup VagrantSettings
@@ -192,6 +189,7 @@ iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, 
 "   but ../ " works without an expansion.
 cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
 cnoremap ../ ../
+
 
 ""
 "" Plugins
@@ -224,8 +222,9 @@ Plug 'wellle/visual-split.vim'
 Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
 Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
 Plug 'AndrewRadev/splitjoin.vim'                    " gS and gJ for smart expanding and contracting
-Plug 'paradigm/TextObjectify'                       " smarter text objects, and ad-hoc also
 Plug 'junegunn/vim-peekaboo'                        " pop-up panel to show registers
+Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
+Plug 'alfredodeza/coveragepy.vim'
 
 call plug#end()
 
@@ -329,6 +328,7 @@ let g:pymode_syntax_doctests = 1
 let g:pymode_rope = 0
 let g:pymode_rope_complete_on_dot = 0
 let g:pymode_breakpoint = 0
+let g:pymode_virtualenv = 1
 
 " qstrahl/vim-dentures
 " Used to map to iI, but changed to dD. I like iI better.
@@ -436,6 +436,8 @@ noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 
 " Toggle list mode to see special characters.
 noremap <Leader>l :set list!<CR>
+set listchars=tab:>-,eol:$,trail:-
+
 " Show only one window on the screen, but keep the explorers open.
 noremap <silent> <Leader>1 :only!\|:NERDTreeToggle\|:vertical resize 30\|:wincmd b<CR>
 noremap <silent> <Leader><Leader>1 :only!<CR>
@@ -459,6 +461,9 @@ set t_kb=                           " Use the delete key for backspace (the blo
 " Indenting in visual mode keeps the visual highlight.
 vnoremap < <gv
 vnoremap > >gv
+" Indent in visual, but don't adjust relative indents in the block.
+vnoremap <leader>< <esc>:setlocal shiftround!<CR>gv<:setlocal shiftround!<CR>gv
+vnoremap <leader>> <esc>:setlocal shiftround!<CR>gv>:setlocal shiftround!<CR>gv
 
 " Remove annoying F1 help.
 inoremap <F1> <nop>
@@ -493,9 +498,6 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
-
-" <C-l> was redraw, make it \z
-nnoremap <leader>z :nohlsearch<CR><C-L>
 
 " Easier sizing of windows.
 nnoremap <leader>[ <C-W>-
@@ -547,9 +549,14 @@ inoremap <C-P> <C-X><C-P>
 " Use CTRL-Q to do what CTRL-V used to do
 noremap <C-Q> <C-V>
 
-" Use F3 to navigate among grep results
-noremap <silent> <F3>   :cnext<CR> zz
-noremap <silent> <S-F3> :cprev<CR> zz
+" Searching
+set incsearch                           " Use incremental search
+set hlsearch                            " Highlight search results in the file.
+nnoremap <leader>n nzvzz
+nnoremap <leader>N Nzvzz
+" <C-l> was redraw, make it \z
+nnoremap <leader>z :nohlsearch<CR><C-L>
+nnoremap <leader><leader>z zvzz
 
 " My own crazy grep program
 set grepprg=~/bin/gerp.py
@@ -637,8 +644,16 @@ nnoremap Y y$
 nnoremap x "_x
 nnoremap X "_X
 
+" Figure out if Python is properly configured.
+try
+    python 1+1
+    let python_works = 1
+catch /^Vim\%((\a\+)\)\=:E/ 
+    let python_works = 0
+endtry
+
 " Custom formatters
-if has("python")
+if python_works
     python << EOF_PY
 import json, vim, sys
 

@@ -10,6 +10,8 @@ set guioptions-=b                     " No scrollbars on bottom
 set visualbell
 set t_vb=
 
+set listchars=tab:→‐,trail:◘,space:·,nbsp:␣,eol:¶
+
 colorscheme neds                        " Use my colors to whatever extent possible.
 
 " Set the normal font face and size.
