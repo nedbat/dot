@@ -11,7 +11,7 @@ $(TGZ_FILE) tgz: .* $(KEY_FILE)
 	tar -cvzf $(TGZ_FILE) --exclude-from=notar.txt .
 
 $(ZIP_FILE) zip: .*
-	zip -r $(ZIP_FILE) bin .*vim* *.cmd *.bat *.ahk -x '*.git*'
+	zip -r $(ZIP_FILE) bin .*vim* .git?* .hg* *.cmd *.bat *.ahk -x '.git'
 
 $(KEY_FILE): .ssh/*.pub
 	cat $^ > $@
