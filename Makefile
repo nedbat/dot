@@ -19,6 +19,9 @@ $(KEY_FILE): .ssh/*.pub
 copyplugs:
 	rsync -a -v --exclude=.git ~/.vim/plugged .vim
 
+difffiles:
+	find . -maxdepth 1 -type f -exec diff -q ~/{} {} \;
+
 unpack: webfaction dreamhost
 
 webfaction: $(TAR_FILE)
