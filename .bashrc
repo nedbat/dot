@@ -80,6 +80,10 @@ alias df='df -k'
 alias l='ls -lF'
 alias m='more'
 
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+
 alias u='cd ..'
 alias uu='cd ../..'
 alias uuu='cd ../../..'
@@ -88,7 +92,7 @@ alias uuuuu='cd ../../../../..'
 alias xp='pushd >/dev/null'
 alias xl='pushd +1 >/dev/null'
 alias xq='popd >/dev/null'
-alias xs='dirs -p'
+alias xs='dirs -v'
 
 alias sep='printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n========================================================================================================================\n"'
 
@@ -135,7 +139,7 @@ gittree () {
     find . -name .git -type d | while read d; do
         d=$(dirname $d)
         echo "---- $d ----"
-        git -C $d $@
+        git -C $d "$@"
     done
 }
 
@@ -204,6 +208,17 @@ if $(python -c "import virtualenv" &> /dev/null) ; then
     fi
 fi
 
+# Bash completion
+completions=(
+    /usr/local/etc/bash_completion
+    /etc/bash_completion
+)
+completion_source=$(first_of "${completions[@]}")
+if [[ -f $completion_source ]]; then
+    . $completion_source
+fi
+
+# Other junk...
 if [ -d $HOME/.rbenv/shims ] ; then
     export PATH="$HOME/.rbenv/shims:$PATH"
 fi

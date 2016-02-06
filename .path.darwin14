@@ -18,22 +18,25 @@ alias i2focus="printf '\e]50;StealFocus\a'"
 alias i2profile="printf '\e]50;SetProfile=%s\a'"
 
 # for dealing with edx devstacks
-vup () { 
-    env | egrep 'OPENEDX|VAGRANT'
+vup () {
+    env | egrep --color=no 'OPENEDX|VAGRANT'
     sudo echo "power up"
     vagrant up
 }
-vhalt () { 
+vhalt () {
     sudo echo "power up"
     vagrant halt
 }
-indevstack() { 
+indevstack () {
     i2profile Purp
     old_title="$WINDOW_TITLE"
     title ${@:-Indev}
     vagrant ssh
     i2profile Main
     title $old_title
+}
+vsnap () {
+    VBoxManage snapshot $(cat .vagrant/machines/default/virtualbox/id) ${@:-list}
 }
 
 # from aron, of course.

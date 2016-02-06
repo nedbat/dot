@@ -16,8 +16,6 @@
   h = !sh -c 'git --no-pager log -n 15 --pretty=format:\"%h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)\" --graph --date=relative && echo'
   hist = !sh -c 'git --no-pager log -n 15 --pretty=format:\"%h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)\" --graph --date=relative && echo'
   out = !git hist origin/master..HEAD
-  type = cat-file -t
-  dump = cat-file -p
   oneoff = !sh -c 'git commit -m \"${2?Commit message required}\" --dry-run && git checkout -b ${1?Branch prefix required}/$(echo \"${2?Commit message required}\" | sed \"s/ /-/g\" | tr \"[A-Z]\" \"[a-z]\") && git commit -m \"${2?Commit message required}\" && git push' -
   fixup = !sh -c 'git rebase -i $(git merge-base HEAD ${1:-origin/master})' -
 
@@ -29,7 +27,10 @@
   copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
 
   # Make a pull request with hub.
-  pr = "!f() { hub pull-request; }; f"
+  pr = "!f() { hub pull-request "$@"; }; f"
+
+  # I'm done with this merged branch, ready to switch back to another one.
+  brdone = "!f() { brname=\"$(git symbolic-ref --short HEAD)\" && git checkout $@ && git pull && git branch -d $brname; }; f"
 
 [color]
   ui = true

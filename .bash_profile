@@ -36,6 +36,3 @@ fi
 if [ -f ~/.bash_profile.local ]; then
     . ~/.bash_profile.local
 fi
-
-# Added by fink.
-test -r /sw/bin/init.sh && . /sw/bin/init.sh
