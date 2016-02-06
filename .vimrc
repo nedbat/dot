@@ -25,9 +25,7 @@ set encoding=utf-8
 set fileformat=unix fileformats=unix,dos
 set wildignore=*.o,*~,*.pyc
 
-set undofile undodir=~/.vimundo         " Save undo's after file closes
-set undolevels=1000                     " How many undos
-set undoreload=10000                    " Number of lines to save for undo
+set foldmethod=syntax foldlevelstart=999
 
 " Line numbering
 set number                              " Turn on line numbering
@@ -73,7 +71,7 @@ set diffopt=filler,foldcolumn:0         " Show lines where missing, no need for 
 
 set noerrorbells                        " Don't ring the bell on errors
 set visualbell t_vb=                    "   and don't flash either.
-set timeoutlen=3000 ttimeoutlen=50      " Set timeouts so that terminals act briskly.
+set timeoutlen=1000 ttimeoutlen=50      " Set timeouts so that terminals act briskly.
 
 if exists("+mouse")
     set mouse=a                         " Mice are wonderful.
@@ -86,6 +84,42 @@ if exists("+cursorline")
         autocmd InsertLeave * set nocursorline
     augroup end
 endif
+
+
+""
+"" Undo
+""
+
+" Adapted from https://gist.github.com/mllg/5353184
+function! CleanOldFiles(path, days)
+    let l:path = expand(a:path)
+    if isdirectory(l:path)
+        for file in split(globpath(l:path, "*"), "\n")
+            if localtime() > getftime(file) + 86400 * a:days && delete(file) != 0
+                echo "CleanOldFiles(): Error deleting '" . file . "'"
+            endif
+        endfor
+    else
+        echo "CleanOldFiles(): Directory '" . l:path . "' not found"
+    endif
+endfunction
+
+if exists("+undofile")
+    if !isdirectory($HOME . '/.vimundo')
+        mkdir($HOME . "/.vimundo")
+    endif
+    set undofile undodir=~/.vimundo         " Save undo's after file closes
+    set undolevels=1000                     " How many undos
+    set undoreload=10000                    " Number of lines to save for undo
+
+    " Remove undo files which have not been modified for 2 days.
+    call CleanOldFiles(&undodir, 2)
+endif
+
+
+""
+"" Status line
+""
 
 set laststatus=2                        " Always show a status line
 let filestatus = ''
@@ -158,7 +192,7 @@ augroup end
 
 augroup RstSettings
     autocmd!
-    autocmd FileType rst setlocal formatoptions+=a textwidth=79
+    autocmd FileType rst setlocal textwidth=79
 augroup end
 
 augroup VagrantSettings
@@ -196,8 +230,8 @@ cnoremap ../ ../
 ""
 
 " https://github.com/junegunn/vim-plug
-
-call plug#begin()
+" 'silent!' here to keep it from complaining if there's no "git" installed.
+silent! call plug#begin()
 
 Plug 'kshenoy/vim-signature'
 Plug 'will133/vim-dirdiff'
@@ -244,7 +278,7 @@ let g:ctrlp_mruf_max = 1000
 let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
 let g:ctrlp_open_multiple_files = '2vjr'
 let g:ctrlp_prompt_mappings = {
-    \ 'ToggleType(1)':        ['<c-f>', '<c-up>', ',', '<space>'],
+    \ 'ToggleType(1)': ['<c-f>', '<c-up>', ',', '<space>'],
     \ }
 let g:ctrlp_root_markers = ['.treerc']
 
@@ -314,7 +348,7 @@ let g:gist_post_private = 1
 let g:interestingWordsGUIColors = ['#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF', '#E8E8AA']
 
 " klen/python-mode
-let g:pymode_folding = 0
+let g:pymode_folding = 1
 let g:pymode_syntax = 1
 let g:pymode_syntax_slow_sync = 1
 let g:pymode_syntax_all = 1
@@ -355,6 +389,14 @@ noremap <Leader>gv :Gbrowse<CR>
 let g:splitjoin_trailing_comma = 1
 let g:splitjoin_python_brackets_on_separate_lines = 1
 
+" junegunn/vim-peekaboo
+let g:peekaboo_window = 'vertical botright 50new'
+let g:peekaboo_delay = 750
+
+""
+"" Custom functions
+""
+
 " Run a command, but keep the output in a buffer.
 command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n')) | setlocal buftype=nofile
 
@@ -376,7 +418,7 @@ function! <SID>BufcloseCloseIt()
     endif
 
     if buflisted(l:currentBufNum)
-        execute("bdelete! ".l:currentBufNum)
+        execute("bwipeout! ".l:currentBufNum)
     endif
 endfunction
 
@@ -643,6 +685,9 @@ nnoremap Y y$
 " Why should deleting a single character save that character?
 nnoremap x "_x
 nnoremap X "_X
+
+" qq to record, Q to replay (thanks, junegunn)
+nnoremap Q @q
 
 " Figure out if Python is properly configured.
 try
