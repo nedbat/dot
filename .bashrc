@@ -134,10 +134,10 @@ copysha() {
     git rev-parse ${@:-HEAD} | tee /dev/tty | tr -d '\n' | clipc
 }
 
-# Run a git command for every repo in this tree.
-gittree () {
+# Run a git command for every repo found somewhere beneath the current directory.
+gittree() {
     find . -name .git -type d | while read d; do
-        d=$(dirname $d)
+        local d=$(dirname $d)
         echo "---- $d ----"
         git -C $d "$@"
     done
