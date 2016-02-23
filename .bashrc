@@ -134,7 +134,11 @@ copysha() {
     git rev-parse ${@:-HEAD} | tee /dev/tty | tr -d '\n' | clipc
 }
 
-# Run a git command for every repo found somewhere beneath the current directory.
+# Run a git command for every repo found somewhere beneath the current
+# directory.  Use just like "git":
+#
+#   $ gittree fetch --all --prune       # for example
+#
 gittree() {
     find . -name .git -type d | while read d; do
         local d=$(dirname $d)
@@ -239,3 +243,6 @@ if [[ $- = *i* ]]; then
     }
     nice_prompt
 fi
+
+### Added by fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
