@@ -63,6 +63,7 @@ class Gerp(object):
         self.adhoc_include = []
         self.word = False
         self.sensitivity = SMART
+        self.one = False
 
         self.ini = None
         self.ini_text = None
@@ -91,6 +92,8 @@ class Gerp(object):
             elif arg == "-e":
                 self.sensitivity = SENSITIVE
                 self.word = True
+            elif arg == "-1":
+                self.one = True
             elif arg[0] == ".":
                 self.adhoc_include.append("*"+arg)
             elif arg[0:2] == "*.":
@@ -162,13 +165,19 @@ class Gerp(object):
         if not self.pattern:
             raise GerpException("No pattern to find!")
         insensitive = (self.sensitivity == INSENSITIVE)
-        if (self.sensitivity == SMART) and not re.search("[A-Z]", self.pattern):
+        if (self.sensitivity == SMART) and not re.search(r"[A-Z]", self.pattern):
             # Smart-casing: if the pattern has no upper-case, then be case-insensitive
             insensitive = True
         if self.word:
-            # Not sure why, but "foo(\b" doesn't match "foo(", so for true 
-            # wordiness, also match against beginning or end of string.
-            self.pattern = r"(^|\b)" + self.pattern + r"(\b|$)"
+            # Wordiness: \b means, the empty string between a word character
+            # (\w) and a non-word character (\W). So if the pattern begins with
+            # a non-word character, don't add it and the beginning. Same for
+            # the end. This also means we need to be explicit about ^ and $,
+            # since \b won't match at the beginning or end.
+            if re.search(r"^\w", self.pattern):
+                self.pattern = r"(^|\b)" + self.pattern
+            if re.search(r"\w$", self.pattern):
+                self.pattern += r"(\b|$)"
         if insensitive:
             self.pattern = r"(?i)" + self.pattern
 
@@ -177,8 +186,13 @@ class Gerp(object):
         except Exception, e:
             raise GerpException("Bad pattern: %s" % e)
 
+        if self.one:
+            files = [self.tree]
+        else:
+            files = self.files()
+
         # Grep through the files!
-        for f in self.files():
+        for f in files:
             try:
                 fopened = open(f)
             except:
