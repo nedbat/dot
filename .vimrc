@@ -137,8 +137,10 @@ let filestatus .= '  %P '
 let &statusline = filestatus
 
 function! StatusQuickfixTitle()
+    let slug = len(getloclist(0)) > 0 ? 'Location' : 'Quickfix'
+    let title = '     ' . slug
     if exists('w:quickfix_title')
-        let title = ': '
+        let title .= ': '
         let titleparts = split(w:quickfix_title)
         if titleparts[0] =~ 'gerp.py'
             let titleparts[0] = 'gerp'
@@ -150,30 +152,23 @@ function! StatusQuickfixTitle()
     return title
 endfunction
 
-let quickfixstatus = '     Quickfix'
-let quickfixstatus .= '%{StatusQuickfixTitle()}'
-let quickfixstatus .= '%='
-let quickfixstatus .= '%l of %L  %P '
-
-let helpstatus = ' Help: %f%=%P '
-
 augroup QuickFixSettings
     autocmd!
-    autocmd FileType qf let &l:statusline = quickfixstatus
-    autocmd FileType qf setlocal nobuflisted colorcolumn=
-    autocmd FileType qf nnoremap <silent> <buffer> ,            :colder<CR>
-    autocmd FileType qf nnoremap <silent> <buffer> .            :cnewer<CR>
+    autocmd FileType qf let &l:statusline = '%{StatusQuickfixTitle()}%=%l of %L  %P '
+    autocmd FileType qf setlocal nobuflisted colorcolumn= cursorline
+    autocmd FileType qf nnoremap <silent> <buffer> <            :colder<CR>
+    autocmd FileType qf nnoremap <silent> <buffer> >            :cnewer<CR>
     autocmd FileType qf nnoremap <silent> <buffer> q            :quit\|:wincmd b<CR>
     autocmd FileType qf nnoremap <silent> <buffer> <Leader>c    :cclose<CR>
     " <Leader>a in quickfix means re-do the search.
-    autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a    ':<C-U>grep! ' . join(split(w:quickfix_title)[1:])
+    autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a    ':<C-U>silent grep! ' . join(split(w:quickfix_title)[1:])
     " <leader>s means start a new search, but from the same place.
-    autocmd FileType qf nnoremap <expr>   <buffer> <Leader>s    ':<C-U>grep! ' . split(w:quickfix_title)[1] . ' /'
+    autocmd FileType qf nnoremap <expr>   <buffer> <Leader>s    ':<C-U>silent grep! ' . split(w:quickfix_title)[1] . ' /'
 augroup end
 
 augroup HelpSettings
     autocmd!
-    autocmd FileType help let &l:statusline = helpstatus
+    autocmd FileType help let &l:statusline = ' Help: %f%=%P '
     autocmd FileType help setlocal colorcolumn=
 augroup end
 
@@ -220,7 +215,7 @@ iabbrev loremxx     lorem ipsum quia dolor sit amet consectetur adipisci velit, 
 iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.
 
 " ./ in the command line expands to the directory of the current file,
-"   but ../ " works without an expansion.
+"   but ../ works without an expansion.
 cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
 cnoremap ../ ../
 
@@ -242,12 +237,13 @@ Plug 'majutsushi/tagbar'
 Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim'
 Plug 'lfv89/vim-interestingwords'
 Plug 'klen/python-mode'
-Plug 'qstrahl/vim-dentures'
+Plug 'qstrahl/vim-dentures'                         " indent-based text object
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-surround'
 Plug 'kana/vim-textobj-user' | Plug 'Julian/vim-textobj-variable-segment'
+Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-line'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'maxbrunsfeld/vim-yankstack'
@@ -259,6 +255,7 @@ Plug 'AndrewRadev/splitjoin.vim'                    " gS and gJ for smart expand
 Plug 'junegunn/vim-peekaboo'                        " pop-up panel to show registers
 Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
 Plug 'alfredodeza/coveragepy.vim'
+Plug 'mattn/emmet-vim'
 
 call plug#end()
 
@@ -364,18 +361,6 @@ let g:pymode_rope_complete_on_dot = 0
 let g:pymode_breakpoint = 0
 let g:pymode_virtualenv = 1
 
-" qstrahl/vim-dentures
-" Used to map to iI, but changed to dD. I like iI better.
-vmap ii <Plug>(InnerDenture)
-vmap iI <Plug>(InnerDENTURE)
-vmap ai <Plug>(OuterDenture)
-vmap aI <Plug>(OuterDENTURE)
-
-omap ii <Plug>(InnerDenture)
-omap iI <Plug>(InnerDENTURE)
-omap ai <Plug>(OuterDenture)
-omap aI <Plug>(OuterDENTURE)
-
 " wellle/visual-split.vim
 noremap <Leader>* :VSSplit<CR>
 noremap <Leader><Leader>* :VSResize<CR>
@@ -393,12 +378,31 @@ let g:splitjoin_python_brackets_on_separate_lines = 1
 let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
 
+" tpope/vim-unimpaired
+nmap ,s cos
+nmap ,w cow
+nmap ,r cor
+nnoremap ,, ,
+
 ""
 "" Custom functions
 ""
 
 " Run a command, but keep the output in a buffer.
-command! -nargs=+ BufOut redir => bufout | silent <args> | redir END | new | call append(0, split(bufout, '\n')) | setlocal buftype=nofile
+command! -nargs=+ -complete=command BufOut call <SID>BufOut(<q-args>)
+function! <SID>BufOut(cmd)
+    redir => output
+    silent execute a:cmd
+    redir END
+    if empty(output)
+        echoerr "no output"
+    else
+        new
+        setlocal buftype=nofile bufhidden=wipe noswapfile nomodified
+        execute('file [Scratch '.bufnr('%').': '.a:cmd.' ]')
+        silent put =output
+    endif
+endfunction
 
 " Don't close window, when deleting a buffer
 " from: https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim
@@ -424,7 +428,7 @@ endfunction
 
 " From https://github.com/Julian/dotfiles/blob/master/.vimrc
 command! DiffThese call <SID>DiffTheseCommand()
-function! s:DiffTheseCommand()
+function! <SID>DiffTheseCommand()
     if &diff
         diffoff!
     else
@@ -441,7 +445,8 @@ endfunction
 nnoremap <Leader>d :<C-U>DiffThese<CR>
 
 " From https://github.com/garybernhardt/dotfiles/blob/master/.vimrc
-function! RemoveFancyCharacters()
+command! RemoveFancyCharacters :call <SID>RemoveFancyCharacters()
+function! <SID>RemoveFancyCharacters()
     let typo = {}
     let typo["“"] = '"'
     let typo["”"] = '"'
@@ -452,7 +457,6 @@ function! RemoveFancyCharacters()
     let typo["…"] = '...'
     execute ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
 endfunction
-command! RemoveFancyCharacters :call RemoveFancyCharacters()
 
 " Show the syntax highlight group for the current character.
 map <silent><Leader>h :echo
@@ -464,7 +468,7 @@ map <silent><Leader><Leader>h :source $VIMRUNTIME/syntax/hitest.vim<CR>
 " Shortcuts to things I want to do often.
 noremap <Leader>p gwap
 noremap <Leader><Leader>p gw}
-nnoremap coa :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
+nnoremap ,a :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
 
 noremap <silent> <Leader>q :quit<CR>
 noremap <silent> <Leader><Leader>q :Bclose<CR>
@@ -477,7 +481,7 @@ noremap <Leader>4 :setlocal shiftwidth=4 softtabstop=4<CR>
 noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 
 " Toggle list mode to see special characters.
-noremap <Leader>l :set list!<CR>
+noremap ,l :set list!<CR>
 set listchars=tab:>-,eol:$,trail:-
 
 " Show only one window on the screen, but keep the explorers open.
@@ -613,7 +617,7 @@ function! RunGrep(word)
         let l:words = split(l:cmdline)
         let l:pattern = shellescape(substitute(l:words[0], '[%#]', '\\&', 'g'))
         let l:options = join(l:words[1:])
-        execute ':grep! %:h /' . l:pattern . ' ' . l:options
+        execute ':silent grep! % /' . l:pattern . ' ' . l:options
         botright copen
     endif
 endfunction
@@ -683,8 +687,8 @@ call yankstack#setup()
 nnoremap Y y$
 
 " Why should deleting a single character save that character?
-nnoremap x "_x
-nnoremap X "_X
+"nnoremap x "_x
+"nnoremap X "_X
 
 " qq to record, Q to replay (thanks, junegunn)
 nnoremap Q @q
