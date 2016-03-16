@@ -156,8 +156,8 @@ augroup QuickFixSettings
     autocmd!
     autocmd FileType qf let &l:statusline = '%{StatusQuickfixTitle()}%=%l of %L  %P '
     autocmd FileType qf setlocal nobuflisted colorcolumn= cursorline
-    autocmd FileType qf nnoremap <silent> <buffer> <            :colder<CR>
-    autocmd FileType qf nnoremap <silent> <buffer> >            :cnewer<CR>
+    autocmd FileType qf nnoremap <silent> <buffer> ,            :colder<CR>
+    autocmd FileType qf nnoremap <silent> <buffer> .            :cnewer<CR>
     autocmd FileType qf nnoremap <silent> <buffer> q            :quit\|:wincmd b<CR>
     autocmd FileType qf nnoremap <silent> <buffer> <Leader>c    :cclose<CR>
     " <Leader>a in quickfix means re-do the search.
@@ -379,10 +379,9 @@ let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
 
 " tpope/vim-unimpaired
-nmap ,s cos
-nmap ,w cow
-nmap ,r cor
-nnoremap ,, ,
+nmap <Leader>,s cos
+nmap <Leader>,w cow
+nmap <Leader>,r cor
 
 ""
 "" Custom functions
@@ -468,7 +467,7 @@ map <silent><Leader><Leader>h :source $VIMRUNTIME/syntax/hitest.vim<CR>
 " Shortcuts to things I want to do often.
 noremap <Leader>p gwap
 noremap <Leader><Leader>p gw}
-nnoremap ,a :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
+nnoremap <Leader>,a :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
 
 noremap <silent> <Leader>q :quit<CR>
 noremap <silent> <Leader><Leader>q :Bclose<CR>
@@ -481,7 +480,7 @@ noremap <Leader>4 :setlocal shiftwidth=4 softtabstop=4<CR>
 noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 
 " Toggle list mode to see special characters.
-noremap ,l :set list!<CR>
+noremap <Leader>,l :set list!<CR>
 set listchars=tab:>-,eol:$,trail:-
 
 " Show only one window on the screen, but keep the explorers open.
