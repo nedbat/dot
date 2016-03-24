@@ -171,13 +171,12 @@ class Gerp(object):
         if self.word:
             # Wordiness: \b means, the empty string between a word character
             # (\w) and a non-word character (\W). So if the pattern begins with
-            # a non-word character, don't add it and the beginning. Same for
-            # the end. This also means we need to be explicit about ^ and $,
-            # since \b won't match at the beginning or end.
+            # a non-word character, don't add it at the beginning. Same for
+            # the end.
             if re.search(r"^\w", self.pattern):
-                self.pattern = r"(^|\b)" + self.pattern
+                self.pattern = r"\b" + self.pattern
             if re.search(r"\w$", self.pattern):
-                self.pattern += r"(\b|$)"
+                self.pattern += r"\b"
         if insensitive:
             self.pattern = r"(?i)" + self.pattern
 
