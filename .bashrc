@@ -147,6 +147,11 @@ gittree() {
     done
 }
 
+ipinfo() {
+    curl ipinfo.io/$(echo "$@" | tr -C '[0-9\n]' .)
+    echo
+}
+
 # e means gvim, vim or vi, depending on what's installed.
 if [ -x /Applications/MacVim.app/Contents/MacOS/vim ] ; then
     alias e='/Applications/MacVim.app/Contents/MacOS/vim --servername VIM --remote-silent "$@"'

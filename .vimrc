@@ -378,10 +378,6 @@ let g:splitjoin_python_brackets_on_separate_lines = 1
 let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
 
-" tpope/vim-unimpaired
-nmap <Leader>,s cos
-nmap <Leader>,w cow
-nmap <Leader>,r cor
 
 ""
 "" Custom functions
@@ -467,7 +463,7 @@ map <silent><Leader><Leader>h :source $VIMRUNTIME/syntax/hitest.vim<CR>
 " Shortcuts to things I want to do often.
 noremap <Leader>p gwap
 noremap <Leader><Leader>p gw}
-nnoremap <Leader>,a :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
+nnoremap coa :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
 
 noremap <silent> <Leader>q :quit<CR>
 noremap <silent> <Leader><Leader>q :Bclose<CR>
@@ -480,7 +476,6 @@ noremap <Leader>4 :setlocal shiftwidth=4 softtabstop=4<CR>
 noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 
 " Toggle list mode to see special characters.
-noremap <Leader>,l :set list!<CR>
 set listchars=tab:>-,eol:$,trail:-
 
 " Show only one window on the screen, but keep the explorers open.
