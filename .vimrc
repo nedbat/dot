@@ -105,15 +105,20 @@ function! CleanOldFiles(path, days)
 endfunction
 
 if exists("+undofile")
-    if !isdirectory($HOME . '/.vimundo')
-        mkdir($HOME . "/.vimundo")
+    let my_undodir = $HOME . '/.vimundo'
+    if !isdirectory(my_undodir)
+        if exists("*mkdir")
+            call mkdir(my_undodir)
+        endif
     endif
-    set undofile undodir=~/.vimundo         " Save undo's after file closes
-    set undolevels=1000                     " How many undos
-    set undoreload=10000                    " Number of lines to save for undo
+    if isdirectory(my_undodir)
+        set undofile undodir=~/.vimundo         " Save undo's after file closes
+        set undolevels=1000                     " How many undos
+        set undoreload=10000                    " Number of lines to save for undo
 
-    " Remove undo files which have not been modified for 2 days.
-    call CleanOldFiles(&undodir, 2)
+        " Remove undo files which have not been modified for 2 days.
+        call CleanOldFiles(&undodir, 2)
+    endif
 endif
 
 
