@@ -219,6 +219,9 @@ iabbrev loremx      lorem ipsum quia dolor sit amet consectetur adipisci velit, 
 iabbrev loremxx     lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
 iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.
 
+" Digraphs: frown and smile
+digraph :( 9785 :) 9786
+
 " ./ in the command line expands to the directory of the current file,
 "   but ../ works without an expansion.
 cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
@@ -261,6 +264,7 @@ Plug 'junegunn/vim-peekaboo'                        " pop-up panel to show regis
 Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
 Plug 'alfredodeza/coveragepy.vim'
 Plug 'mattn/emmet-vim'
+Plug 'ktonga/vim-follow-my-lead'                    " <leader>fml shows all leader mappings
 
 call plug#end()
 
@@ -383,6 +387,9 @@ let g:splitjoin_python_brackets_on_separate_lines = 1
 let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
 
+" ktonga/vim-follow-my-lead
+let g:fml_all_sources = 1       " show leader mappings from all sources
+
 
 ""
 "" Custom functions
@@ -422,7 +429,7 @@ function! <SID>BufcloseCloseIt()
     endif
 
     if buflisted(l:currentBufNum)
-        execute("bwipeout! ".l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
     endif
 endfunction
 

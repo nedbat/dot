@@ -148,7 +148,7 @@ gittree() {
 }
 
 ipinfo() {
-    curl ipinfo.io/$(echo "$@" | tr -C '[0-9\n]' .)
+    curl ipinfo.io/$(echo "$@" | tr -C '[0-9a-f.:\n]' .)
     echo
 }
 
