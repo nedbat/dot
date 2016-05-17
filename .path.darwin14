@@ -27,10 +27,10 @@ vhalt () {
     sudo echo "power up"
     vagrant halt
 }
-indevstack () {
+vssh () {
     i2profile Purp
     old_title="$WINDOW_TITLE"
-    title ${@:-Indev}
+    title ${@:-InVagrant}
     vagrant ssh
     i2profile Main
     title $old_title
