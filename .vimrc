@@ -254,7 +254,8 @@ Plug 'kana/vim-textobj-user' | Plug 'Julian/vim-textobj-variable-segment'
 Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-line'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
-Plug 'maxbrunsfeld/vim-yankstack'
+" disabled because it interfered with i_CTRL-O p
+" Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'wellle/visual-split.vim'
 " Plug 'vim-scripts/Colour-Sampler-Pack'
 Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
@@ -680,21 +681,17 @@ function! ToggleWrap()
 endfunction
 
 " YankStack
-let g:yankstack_map_keys = 0
-nmap <C-P> <Plug>yankstack_substitute_older_paste
-nmap <C-N> <Plug>yankstack_substitute_newer_paste
-
-call yankstack#setup()
+" let g:yankstack_map_keys = 0
+" nmap <C-P> <Plug>yankstack_substitute_older_paste
+" nmap <C-N> <Plug>yankstack_substitute_newer_paste
+" 
+" call yankstack#setup()
 
 " Maps for yanking and pasting need to be after here, so that yankstack won't
 " clobber them.
 
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
-
-" Why should deleting a single character save that character?
-"nnoremap x "_x
-"nnoremap X "_X
 
 " qq to record, Q to replay (thanks, junegunn)
 nnoremap Q @q
