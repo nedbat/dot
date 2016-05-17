@@ -19,7 +19,7 @@ import os
 import readline
 import rlcompleter
 
-historyPath = os.path.expanduser("~/.pyhistory")
+historyPath = os.path.expanduser("~/.pyhistory{0}".format(sys.version_info[0]))
 
 def save_history(historyPath=historyPath):
     import readline
