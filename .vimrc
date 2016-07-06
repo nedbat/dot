@@ -10,7 +10,9 @@ set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/afte
 "   $ vim XYZ.vmb
 "   :UseVimball ~/.vim/bundle/XYZ
 
-set directory=/var/tmp//,/tmp//,$TEMP   " Store swp files, with full paths
+"set directory=/var/tmp//,/tmp//,$TEMP   " Store swp files, with full paths
+set directory-=.                        " Don't store .swp files in the current directory
+set updatecount=0                       " Don't create .swp files at all.
 if filewritable(expand('~/.backup'))
     set backup backupdir=~/.backup      " Keep copies of files we're editing
 endif
@@ -350,6 +352,9 @@ let g:tagbar_type_rst = {
 let g:gist_clip_command = 'pbcopy'
 let g:gist_detect_filetype = 1
 let g:gist_post_private = 1
+
+" mattn/emmet-vim
+let g:user_emmet_leader_key='<C-Z>'
 
 " lfv89/vim-interestingwords
 let g:interestingWordsGUIColors = ['#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF', '#E8E8AA']
