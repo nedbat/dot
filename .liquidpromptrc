@@ -105,7 +105,7 @@ LP_ENABLE_RUNTIME=1
 
 # Minimal runtime to be displayed
 # Recommended value is 2
-LP_RUNTIME_THRESHOLD=2
+LP_RUNTIME_THRESHOLD=10
 
 # Display the virtualenv that is currently activated, if any
 # Recommended value is 1

@@ -12,9 +12,9 @@
   di = diff
   st = status -s -b
   s = status -s -b
-  lhist = log --pretty=format:\"%h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)\" --graph --date=relative
-  h = !sh -c 'git --no-pager log -n 15 --pretty=format:\"%h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)\" --graph --date=relative && echo'
-  hist = !sh -c 'git --no-pager log -n 15 --pretty=format:\"%h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)\" --graph --date=relative && echo'
+  lhist = log --pretty=format:\"%h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)\" --graph --date=short
+  h = !sh -c 'git --no-pager log -n 15 --pretty=format:\"%h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)\" --graph --date=short && echo'
+  hist = !sh -c 'git --no-pager log -n 15 --pretty=format:\"%h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)\" --graph --date=short && echo'
   out = !git hist origin/master..HEAD
   oneoff = !sh -c 'git commit -m \"${2?Commit message required}\" --dry-run && git checkout -b ${1?Branch prefix required}/$(echo \"${2?Commit message required}\" | sed \"s/ /-/g\" | tr \"[A-Z]\" \"[a-z]\") && git commit -m \"${2?Commit message required}\" && git push' -
   fixup = !sh -c 'git rebase -i $(git merge-base HEAD ${1:-origin/master})' -
