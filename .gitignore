@@ -4,3 +4,4 @@ dot.zip
 .ssh
 .vim/bundle
 .vim/plugged
+.vim/autoload/plug.vim
