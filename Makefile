@@ -17,7 +17,8 @@ $(KEY_FILE): .ssh/*.pub
 	cat $^ > $@
 
 copyplugs:
-	rsync -a -v --exclude=.git ~/.vim/plugged .vim
+	rsync -a -v --delete --exclude=.git ~/.vim/plugged .vim
+	cp ~/.vim/autoload/plug.vim .vim/autoload
 
 difffiles:
 	find . -maxdepth 1 -type f -exec diff -q ~/{} {} \;
