@@ -268,6 +268,7 @@ Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to
 Plug 'alfredodeza/coveragepy.vim'
 Plug 'mattn/emmet-vim'
 Plug 'ktonga/vim-follow-my-lead'                    " <leader>fml shows all leader mappings
+Plug 'atimholt/spiffy_foldtext'
 
 call plug#end()
 
@@ -395,6 +396,9 @@ let g:peekaboo_delay = 750
 
 " ktonga/vim-follow-my-lead
 let g:fml_all_sources = 1       " show leader mappings from all sources
+
+" atimholt/spiffy_foldtext
+let g:SpiffyFoldtext_format = "%c %<%f{ }=( %n )=%l{/=}"
 
 
 ""

@@ -1,5 +1,5 @@
 " Vim color file
-" Ned's gui colors
+" Ned's gui colors. For terminal colors, see nedsterm.vim
 " 
 " to show all highlights:
 " :so $VIMRUNTIME/syntax/hitest.vim
@@ -30,6 +30,7 @@ highlight Type          cterm=NONE      ctermfg=Blue        ctermbg=White       
 highlight Underlined    cterm=NONE      ctermfg=Black       ctermbg=White       gui=underline       guifg=NONE          guibg=NONE
 highlight Error         cterm=NONE      ctermfg=Yellow      ctermbg=Red         gui=NONE            guifg=Yellow        guibg=Red
 highlight Todo          cterm=NONE      ctermfg=Black       ctermbg=Yellow      gui=NONE            guifg=NONE          guibg=LightYellow
+highlight Folded        cterm=NONE      ctermfg=NONE        ctermbg=LightGrey   gui=NONE            guifg=NONE          guibg=#eeeeee
 
 highlight SpellBad      cterm=reverse   ctermbg=12                              gui=undercurl       guifg=NONE          guibg=#ffe8e8   guisp=Red
 

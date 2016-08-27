@@ -26,6 +26,8 @@ hi StatusLine   cterm=bold      ctermfg=16          ctermbg=LightGrey
 hi StatusLineNC cterm=NONE      ctermfg=16          ctermbg=DarkGrey
 hi VertSplit    cterm=NONE      ctermfg=16          ctermbg=DarkGrey
 
+hi Folded       cterm=NONE      ctermfg=NONE        ctermbg=236
+
 " %1: modified marker: black on yellow
 hi User1        cterm=bold      ctermfg=16          ctermbg=11
 " %2: subtle indicators
