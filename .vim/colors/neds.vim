@@ -18,48 +18,48 @@ if exists("syntax_on")
 endif
 let g:colors_name="neds"
 
-highlight Normal        cterm=NONE      ctermfg=Black       ctermbg=White       gui=NONE            guifg=NONE          guibg=NONE
-highlight NonText       cterm=NONE      ctermfg=Black       ctermbg=Grey        gui=NONE            guifg=NONE          guibg=LightGrey
-highlight LineNr        cterm=NONE      ctermfg=Black       ctermbg=LightGrey   gui=italic          guifg=#444444       guibg=#dddddd
-highlight Comment       cterm=NONE      ctermfg=DarkGreen   ctermbg=White       gui=italic          guifg=DarkGreen     guibg=NONE
-highlight Constant      cterm=NONE      ctermfg=DarkCyan    ctermbg=White       gui=NONE            guifg=DarkCyan      guibg=NONE
-highlight Identifier    cterm=NONE      ctermfg=LightBlue   ctermbg=White       gui=NONE            guifg=#6666FF       guibg=NONE
-highlight Statement     cterm=bold      ctermfg=Blue        ctermbg=White       gui=bold            guifg=Blue          guibg=NONE
-highlight PreProc       cterm=NONE      ctermfg=DarkRed     ctermbg=White       gui=NONE            guifg=DarkRed       guibg=NONE  
-highlight Type          cterm=NONE      ctermfg=Blue        ctermbg=White       gui=NONE            guifg=Blue          guibg=NONE
-highlight Underlined    cterm=NONE      ctermfg=Black       ctermbg=White       gui=underline       guifg=NONE          guibg=NONE
-highlight Error         cterm=NONE      ctermfg=Yellow      ctermbg=Red         gui=NONE            guifg=Yellow        guibg=Red
-highlight Todo          cterm=NONE      ctermfg=Black       ctermbg=Yellow      gui=NONE            guifg=NONE          guibg=LightYellow
-highlight Folded        cterm=NONE      ctermfg=NONE        ctermbg=LightGrey   gui=NONE            guifg=NONE          guibg=#eeeeee
+highlight Normal        gui=NONE            guifg=NONE          guibg=NONE
+highlight NonText       gui=NONE            guifg=NONE          guibg=LightGrey
+highlight LineNr        gui=italic          guifg=#444444       guibg=#dddddd
+highlight Comment       gui=italic          guifg=DarkGreen     guibg=NONE
+highlight Constant      gui=NONE            guifg=DarkCyan      guibg=NONE
+highlight Identifier    gui=NONE            guifg=#6666FF       guibg=NONE
+highlight Statement     gui=bold            guifg=Blue          guibg=NONE
+highlight PreProc       gui=NONE            guifg=DarkRed       guibg=NONE  
+highlight Type          gui=NONE            guifg=Blue          guibg=NONE
+highlight Underlined    gui=underline       guifg=NONE          guibg=NONE
+highlight Error         gui=NONE            guifg=Yellow        guibg=Red
+highlight Todo          gui=NONE            guifg=NONE          guibg=LightYellow
+highlight Folded        gui=NONE            guifg=NONE          guibg=#eeeeee
 
-highlight SpellBad      cterm=reverse   ctermbg=12                              gui=undercurl       guifg=NONE          guibg=#ffe8e8   guisp=Red
+highlight SpellBad      gui=undercurl       guifg=NONE          guibg=#ffe8e8   guisp=Red
 
-highlight CursorLine    cterm=NONE      ctermfg=NONE        ctermbg=LightRed    gui=NONE            guifg=NONE          guibg=#f0d8d8
-highlight StatusLine    cterm=bold,reverse                                      gui=NONE            guifg=White         guibg=Black
-highlight StatusLineNC  cterm=reverse                                           gui=NONE            guifg=White         guibg=#a0a0a0
-highlight VertSplit     cterm=reverse                                           gui=NONE            guifg=White         guibg=#808080
+highlight CursorLine    gui=NONE            guifg=NONE          guibg=#f0d8d8
+highlight StatusLine    gui=NONE            guifg=White         guibg=Black
+highlight StatusLineNC  gui=NONE            guifg=White         guibg=#a0a0a0
+highlight VertSplit     gui=NONE            guifg=White         guibg=#808080
 
 " %1: modified marker: black on yellow
-highlight User1         cterm=None      ctermfg=Black       ctermbg=Yellow                          guifg=Black         guibg=Yellow
+highlight User1                             guifg=Black         guibg=Yellow
 " %2: subtle indicators
-highlight User2         cterm=None      ctermfg=Gray        ctermbg=Black                           guifg=Gray          guibg=Black
+highlight User2                             guifg=Gray          guibg=Black
 " %3: alarming stuff: white on red
-highlight User3         cterm=None      ctermfg=White       ctermbg=Red                             guifg=White         guibg=Red
+highlight User3                             guifg=White         guibg=Red
 
-highlight ColorColumn                                       ctermbg=LightGrey                                           guibg=#fff8f8
+highlight ColorColumn                                           guibg=#fff8f8
 
 " Pop-up menu
-highlight Pmenu         cterm=NONE      ctermfg=Black       ctermbg=Cyan        gui=NONE            guifg=Black         guibg=Cyan
-highlight PmenuSel      cterm=NONE      ctermfg=Black       ctermbg=Yellow      gui=NONE            guifg=Black         guibg=Yellow
+highlight Pmenu         gui=NONE            guifg=Black         guibg=Cyan
+highlight PmenuSel      gui=NONE            guifg=Black         guibg=Yellow
 
 " Diff colors
-highlight DiffAdd       cterm=NONE      ctermfg=Red         ctermbg=LightGrey   gui=NONE            guifg=Red           guibg=#fff0f0
-highlight DiffChange    cterm=NONE      ctermfg=Red         ctermbg=LightGrey   gui=NONE            guifg=Red           guibg=#fff0f0
-highlight DiffText      cterm=NONE      ctermfg=White       ctermbg=DarkRed     gui=bold,italic     guifg=Red           guibg=#fff0f0
-highlight DiffDelete    cterm=NONE      ctermfg=White       ctermbg=LightGrey   gui=NONE            guifg=DarkGrey      guibg=#f0f0f0
+highlight DiffAdd       gui=NONE            guifg=Red           guibg=#fff0f0
+highlight DiffChange    gui=NONE            guifg=Red           guibg=#fff0f0
+highlight DiffText      gui=bold,italic     guifg=Red           guibg=#fff0f0
+highlight DiffDelete    gui=NONE            guifg=DarkGrey      guibg=#f0f0f0
 
-highlight diffAdded     cterm=NONE      ctermfg=NONE        ctermbg=LightGreen  gui=NONE            guifg=NONE          guibg=#d0ffd0
-highlight diffRemoved   cterm=NONE      ctermfg=NONE        ctermbg=LightRed    gui=NONE            guifg=NONE          guibg=#ffd0d0
-highlight diffFile      cterm=None      ctermfg=Black       ctermbg=LightGrey                       guifg=Black         guibg=#e0e0e0
+highlight diffAdded     gui=NONE            guifg=NONE          guibg=#d0ffd0
+highlight diffRemoved   gui=NONE            guifg=NONE          guibg=#ffd0d0
+highlight diffFile                          guifg=Black         guibg=#e0e0e0
 
 " vim: tabstop=4 softtabstop=4 shiftwidth=4 expandtab
