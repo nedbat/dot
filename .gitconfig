@@ -6,6 +6,8 @@
   user = nedbat
 
 [alias]
+  # In an alias, an initial ":" command indicates what git command completion
+  # to use for the alias.
   br = branch
   co = checkout
   ci = commit
@@ -30,7 +32,7 @@
   pr = "!f() { hub pull-request "$@"; }; f"
 
   # I'm done with this merged branch, ready to switch back to another one.
-  brdone = "!f() { brname=\"$(git symbolic-ref --short HEAD)\" && git checkout $@ && git pull && git branch -d $brname; }; f"
+  brdone = "!f() { : git checkout ; brname=\"$(git symbolic-ref --short HEAD)\" && git checkout $@ && git pull && git branch -d $brname; }; f"
 
   # I do this a lot, it seems.
   rhh = reset --hard HEAD

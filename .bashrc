@@ -118,15 +118,10 @@ alias h='hg'
 export GIT_PS1_SHOWSTASHSTATE='y'
 export GIT_PS1_SHOWDIRTYSTATE='y'
 
-if [ -r ~/.git-completion.sh ] ; then
-    . ~/.git-completion.sh
+if [ -r ~/.git-completion.bash ] ; then
+    . ~/.git-completion.bash
     __git_complete g __git_main
     __git_complete gi __git_main
-fi
-if [ -r ~/.git-prompt.sh ] ; then
-    . ~/.git-prompt.sh
-else
-    function __git_ps1 { printf ""; }       # Dummy for when we don't have .git-prompt.sh
 fi
 
 # Copy the SHA of head, or some other rev.
