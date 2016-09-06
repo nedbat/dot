@@ -11,6 +11,10 @@
 PATH=/usr/local/bin:$PATH
 export PATH
 
+if [ -d /Applications/Postgres.app ] ; then
+    export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin"
+fi
+
 # iterm2 aliases
 
 alias i2clear="printf '\e]50;ClearScrollback\a'"
