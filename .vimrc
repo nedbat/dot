@@ -197,6 +197,11 @@ augroup RstSettings
     autocmd FileType rst setlocal textwidth=79
 augroup end
 
+augroup ScssSettings
+    autocmd!
+    autocmd FileType scss set iskeyword+=-
+augroup end
+
 augroup VagrantSettings
     autocmd!
     autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
@@ -269,6 +274,8 @@ Plug 'alfredodeza/coveragepy.vim'
 Plug 'mattn/emmet-vim'
 Plug 'ktonga/vim-follow-my-lead'                    " <leader>fml shows all leader mappings
 Plug 'atimholt/spiffy_foldtext'
+Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
+Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
 
 call plug#end()
 
