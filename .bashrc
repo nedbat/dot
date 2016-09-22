@@ -134,12 +134,25 @@ copysha() {
 #
 #   $ gittree fetch --all --prune       # for example
 #
-gittree() {
+# To only run commands in repos with a particular branch, use gittreeif:
+#
+#   $ gittreeif branch_name fetch --all --prune
+#
+gittreeif() {
+    local test_branch=$1
+    shift
+    local git_cmd="$@"
     find . -name .git -type d | while read d; do
         local d=$(dirname $d)
+        git -C $d rev-parse --verify -q $test_branch >& /dev/null || continue
         echo "---- $d ----"
-        git -C $d "$@"
+        git -C $d $git_cmd
     done
+}
+
+gittree() {
+    # @ is in every repo, so this runs on all repos
+    gittreeif @ "$@"
 }
 
 ipinfo() {
