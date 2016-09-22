@@ -1,4 +1,5 @@
 # Ned's startup.py file, loaded into interactive python prompts.
+# Has to work on both 2.x and 3.x
 
 print("(.startup.py)")
 
@@ -14,19 +15,30 @@ def dirx(thing, regex):
 
 pp = pprint.pprint
 
-import atexit
-import os
-import readline
-import rlcompleter
+# A function for pasting code into the repl.
+# From: https://mail.python.org/pipermail/python-list/2016-September/714384.html
+def paste():
+    exec(sys.stdin.read(), globals())
 
-historyPath = os.path.expanduser("~/.pyhistory{0}".format(sys.version_info[0]))
-
-def save_history(historyPath=historyPath):
+# Readline and history support
+try:
+    # Not sure why this module is missing in some places, but deal with it.
     import readline
-    readline.write_history_file(historyPath)
+except ImportError:
+    print("No readline, use ^H")
+else:
+    import atexit
+    import os
+    import rlcompleter
 
-if os.path.exists(historyPath):
-    readline.read_history_file(historyPath)
+    historyPath = os.path.expanduser("~/.pyhistory{0}".format(sys.version_info[0]))
 
-atexit.register(save_history)
-del atexit, readline, rlcompleter, save_history, historyPath
+    def save_history(historyPath=historyPath):
+        import readline
+        readline.write_history_file(historyPath)
+
+    if os.path.exists(historyPath):
+        readline.read_history_file(historyPath)
+
+    atexit.register(save_history)
+    del atexit, readline, rlcompleter, save_history, historyPath
