@@ -52,7 +52,6 @@ fi
 
 stty erase ^H
 
-export EDITOR=vim
 export PYTHONSTARTUP=~/.startup.py
 
 # Only exit the shell if 10 ^D's are typed.
@@ -161,18 +160,19 @@ ipinfo() {
 }
 
 # e means gvim, vim or vi, depending on what's installed.
-if [ -x /Applications/MacVim.app/Contents/MacOS/vim ] ; then
-    alias e='/Applications/MacVim.app/Contents/MacOS/vim --servername VIM --remote-silent "$@"'
-    # one vim per Mac space: http://chrismetcalf.net/2011/02/02/one-vim-server-to-rule-them-all/
+export EDITOR=vim
+if [ -x /Applications/MacVim.app/Contents/MacOS/Vim ] ; then
+    alias e='/Applications/MacVim.app/Contents/MacOS/Vim --servername VIM --remote-silent "$@"'
+    alias vim=/Applications/MacVim.app/Contents/MacOS/Vim
+    export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 elif type -P gvim &>/dev/null; then
     alias e='gvim --servername GVIM --remote-silent "$@"'
 elif type -P vim &>/dev/null; then
     alias e='vim "$@"'
 else
     alias e='vi "$@"'
+    export EDITOR=vi
 fi
-# PS: how to have a separate gvim on each desktop:
-# http://www.openhex.org/notes/2011/1/27/one-vim-server-per-desktops
 
 # Set the title of the terminal window.
 title() {
@@ -256,6 +256,12 @@ if [[ $- = *i* ]]; then
     }
     nice_prompt
 fi
+
+# Open edX helpers
+alias comas='git checkout master'
+alias codog='git checkout named-release/dogwood.rc'
+alias coeuc='git checkout open-release/eucalyptus.master'
+alias cofic='git checkout open-release/ficus.master'
 
 ### Added by fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
