@@ -234,6 +234,12 @@ digraph :( 9785 :) 9786
 cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
 cnoremap ../ ../
 
+" Highlight conflict markers.
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" Create undo break point when you pause typing for 2 sec.
+set updatetime=2000
+autocmd CursorHoldI * call feedkeys("\<C-G>u", "nt")
 
 ""
 "" Plugins
@@ -261,8 +267,6 @@ Plug 'kana/vim-textobj-user' | Plug 'Julian/vim-textobj-variable-segment'
 Plug 'kana/vim-textobj-user' | Plug 'kana/vim-textobj-line'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
-" disabled because it interfered with i_CTRL-O p
-" Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'wellle/visual-split.vim'
 " Plug 'vim-scripts/Colour-Sampler-Pack'
 Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
@@ -276,6 +280,7 @@ Plug 'ktonga/vim-follow-my-lead'                    " <leader>fml shows all lead
 Plug 'atimholt/spiffy_foldtext'
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
+Plug 'sk1418/QFGrep'                                " Filter quickfix: \q \v \r
 
 call plug#end()
 
@@ -605,7 +610,11 @@ cnoremap <C-V> <C-R>+
 
 " Quick escape from insert mode.
 inoremap jj <ESC>
+inoremap qj <ESC>
 inoremap jJ <ESC>
+" Quick one-command escape from insert mode.
+inoremap qo <C-O>
+inoremap qp <C-O>gwap
 
 " Allow undoing <C-u> (delete text typed in the current line)
 inoremap <C-U> <C-G>u<C-U>
@@ -625,7 +634,7 @@ nnoremap <leader>n nzvzz
 nnoremap <leader>N Nzvzz
 " <C-l> was redraw, make it \z
 nnoremap <leader>z :nohlsearch<CR><C-L>
-nnoremap <leader><leader>z zvzz
+nnoremap <leader><leader>z :nohlsearch<CR>zvzz<C-L>
 
 " My own crazy grep program
 set grepprg=~/bin/gerp.py
@@ -672,12 +681,8 @@ function! ToggleWrap()
         setlocal nowrap
         silent! nunmap <buffer> k
         silent! nunmap <buffer> j
-        silent! nunmap <buffer> <Up>
-        silent! nunmap <buffer> <Down>
         silent! nunmap <buffer> <Home>
         silent! nunmap <buffer> <End>
-        silent! iunmap <buffer> <Up>
-        silent! iunmap <buffer> <Down>
         silent! iunmap <buffer> <Home>
         silent! iunmap <buffer> <End>
     else
@@ -685,16 +690,17 @@ function! ToggleWrap()
         setlocal wrap
         noremap  <buffer> <silent> k        gk
         noremap  <buffer> <silent> j        gj
-        noremap  <buffer> <silent> <Up>     gk
-        noremap  <buffer> <silent> <Down>   gj
         noremap  <buffer> <silent> <Home>   g<Home>
         noremap  <buffer> <silent> <End>    g<End>
-        inoremap <buffer> <silent> <Up>     <C-o>gk
-        inoremap <buffer> <silent> <Down>   <C-o>gj
         inoremap <buffer> <silent> <Home>   <C-o>g<Home>
         inoremap <buffer> <silent> <End>    <C-o>g<End>
     endif
 endfunction
+
+noremap  <silent> <Up>     gk
+noremap  <silent> <Down>   gj
+inoremap <silent> <Up>     <C-o>gk
+inoremap <silent> <Down>   <C-o>gj
 
 " YankStack
 " let g:yankstack_map_keys = 0
