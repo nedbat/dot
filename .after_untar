@@ -2,11 +2,11 @@
 # old files, and to put new files into their proper places.
 
 # tabblo days...
-#rm -f .path.hulk .path.lnxvcer3 .path.twain
-#rm -f .path.g1t0236 .path.g1t0252g .path.g1t0253g .path.g1t0473g .path.g1t0474g
-#rm -f .path.marquez .path.thompson .bash_profile.galileo
-#rm -f .ssh/ned-davinci.pub .ssh/ned-marquez.pub .ssh/ned-salinger.pub .ssh/ned-twain.pub
-#rm -f .ssh/dcs.pub .ssh/eddie.pub
+rm -f .path.hulk .path.lnxvcer3 .path.twain
+rm -f .path.g1t0236 .path.g1t0252g .path.g1t0253g .path.g1t0473g .path.g1t0474g
+rm -f .path.marquez .path.thompson .bash_profile.galileo
+rm -f .ssh/ned-davinci.pub .ssh/ned-marquez.pub .ssh/ned-salinger.pub .ssh/ned-twain.pub
+rm -f .ssh/dcs.pub .ssh/eddie.pub
 
 rm -vf .rhosts .cshrc .profile .path.solaris .path.solaris2.8
 rm -vf .emacs .cvspass
