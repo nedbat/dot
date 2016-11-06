@@ -1,6 +1,7 @@
 dot.tar
 dot.tgz
 dot.zip
+dot.sh
 .ssh
 .vim/bundle
 .vim/plugged

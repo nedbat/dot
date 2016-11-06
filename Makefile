@@ -2,6 +2,7 @@ KEY_FILE = .ssh/other_authorized_keys
 TAR_FILE = dot.tar
 TGZ_FILE = dot.tgz
 ZIP_FILE = dot.zip
+EXTRACTOR_FILE = dot.sh
 UNTAR = tar xf $(TAR_FILE)
 
 $(TAR_FILE) tar: .* $(KEY_FILE)
@@ -15,6 +16,9 @@ $(ZIP_FILE) zip: .*
 
 $(KEY_FILE): .ssh/*.pub
 	cat $^ > $@
+
+$(EXTRACTOR_FILE) extractor: $(TGZ_FILE)
+	./make_extractor.sh $(TGZ_FILE) $(EXTRACTOR_FILE)
 
 copyplugs:
 	rsync -a -v --delete --exclude=.git ~/.vim/plugged .vim
@@ -47,5 +51,6 @@ cygwin: $(KEY_FILE)
 
 clean:
 	-rm -f $(TAR_FILE) $(TGZ_FILE) $(ZIP_FILE) $(KEY_FILE)
+	-rm -f $(EXTRACTOR_FILE)
 	find . -name '.DS_Store' -delete
 	find . -print0 | xargs -0 xattr -c
