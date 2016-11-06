@@ -26,7 +26,7 @@ copyplugs:
 	cp ~/.vim/autoload/plug.vim .vim/autoload/plug.vim
 
 difffiles:
-	find . -maxdepth 1 -type f -exec diff -q ~/{} {} \; 2>-
+	find . -maxdepth 1 -type f -exec diff -q ~/{} {} \; 2>&-
 
 unpack: webfaction dreamhost
 
