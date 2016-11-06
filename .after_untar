@@ -21,14 +21,14 @@ rm -vf .vim/plugin/NERD_tree.vim .vim/plugin/fugitive.vim .vim/plugin/minibufexp
 rm -vf .vim/syntax/nerdtree.vim
 rm -vf .vim/doc/tags
 
-# vim things I tried and no longer want
-rm -vrf .vim/bundle/EnhancedJumps
-rm -vrf .vim/bundle/YankRing.vim
-rm -vrf .vim/bundle/ingo-library
+# Moved away from pathogen, no need for bundle any more.
+rm -vrf .vim/bundle
 
 # .ssh should be secured.
 chmod 700 .ssh
 
 # Some Mac junk got into some tarballs
-find . -name '.DS_Store' -delete
-find . -name '._*' -delete
+if [[ $(uname) == 'Linux' ]]; then
+    find . -name '.DS_Store' -delete
+    find . -name '._*' -delete
+fi
