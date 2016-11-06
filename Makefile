@@ -53,4 +53,5 @@ clean:
 	-rm -f $(TAR_FILE) $(TGZ_FILE) $(ZIP_FILE) $(KEY_FILE)
 	-rm -f $(EXTRACTOR_FILE)
 	find . -name '.DS_Store' -delete
+	find . -name '._*' -delete
 	find . -print0 | xargs -0 xattr -c
