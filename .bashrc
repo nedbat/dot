@@ -174,6 +174,9 @@ else
     export EDITOR=vi
 fi
 
+# Make less more friendly.
+export LESS=-isFJRQWX
+
 # Set the title of the terminal window.
 title() {
     # generic:
