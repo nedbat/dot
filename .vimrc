@@ -280,7 +280,8 @@ Plug 'ktonga/vim-follow-my-lead'                    " <leader>fml shows all lead
 Plug 'atimholt/spiffy_foldtext'
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
-Plug 'sk1418/QFGrep'                                " Filter quickfix: \q \v \r
+Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
+Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
 
 call plug#end()
 
@@ -295,6 +296,9 @@ let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 let g:ctrlp_map = '<silent><Leader>e'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_custom_ignore = {
+    \ 'dir': '\v/htmlcov$',
+    \ }
 let g:ctrlp_max_height = 30
 let g:ctrlp_mruf_max = 1000
 let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
