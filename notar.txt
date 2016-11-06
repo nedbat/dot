@@ -11,6 +11,8 @@ dot.tar
 dot.tgz
 dot.zip
 dot.sh
+after_untar.sh
+before_untar.sh
 make_extractor.sh
 Makefile
 README.txt

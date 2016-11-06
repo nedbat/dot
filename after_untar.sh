@@ -24,6 +24,9 @@ rm -vf .vim/doc/tags
 # Moved away from pathogen, no need for bundle any more.
 rm -vrf .vim/bundle
 
+# Old way of handling tar cleanup.
+rm -f .after_untar
+
 # .ssh should be secured.
 chmod 700 .ssh
 
