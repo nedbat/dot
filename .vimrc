@@ -282,6 +282,7 @@ Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
+Plug 'metakirby5/codi.vim', { 'on': 'Codi' }        " Interactive Python
 
 call plug#end()
 
