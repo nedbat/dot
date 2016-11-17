@@ -77,7 +77,7 @@ alias la='ls -aF'
 alias df='df -k'
 
 alias l='ls -lF'
-alias m='more'
+alias m='less'
 
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -176,6 +176,9 @@ fi
 
 # Make less more friendly.
 export LESS=-isFJRQWX
+
+# Keep devops from laughing at me :)
+export ANSIBLE_NOCOWS=1
 
 # Set the title of the terminal window.
 title() {
