@@ -25,8 +25,9 @@ copyplugs:
 	mkdir -p .vim/autoload
 	cp ~/.vim/autoload/plug.vim .vim/autoload/plug.vim
 
+IGNORE_DIFF = \( -name 'plugged' -o -name '.git' \)
 difffiles:
-	find . -maxdepth 1 -type f -exec diff -q ~/{} {} \; 2>&-
+	find . $(IGNORE_DIFF) -prune -o -type f -exec diff -q ~/{} {} \; 2>/dev/null
 
 unpack: webfaction dreamhost
 
