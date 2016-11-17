@@ -27,6 +27,7 @@ highlight StatusLineNC  cterm=NONE      ctermfg=16          ctermbg=DarkGrey
 highlight VertSplit     cterm=NONE      ctermfg=16          ctermbg=DarkGrey
 
 highlight Folded        cterm=NONE      ctermfg=NONE        ctermbg=236
+highlight SpecialKey    cterm=NONE      ctermfg=Red         ctermbg=NONE
 
 " %1: modified marker: black on yellow
 highlight User1         cterm=bold      ctermfg=16          ctermbg=11
