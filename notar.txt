@@ -16,5 +16,6 @@ before_untar.sh
 make_extractor.sh
 Makefile
 README.txt
+*.itermcolors
 .DS_Store
 ._*
