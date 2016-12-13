@@ -288,6 +288,9 @@ Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
 Plug 'metakirby5/codi.vim', { 'on': 'Codi' }        " Interactive Python
+Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
+Plug 'vim-utils/vim-husk'                           " Ctrl-A, Ctrl-E, etc, in the command line.
+Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
 
 call plug#end()
 
