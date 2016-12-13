@@ -622,11 +622,11 @@ cnoremap <C-V> <C-R>+
 
 " Quick escape from insert mode.
 inoremap jj <ESC>
-inoremap qj <ESC>
 inoremap jJ <ESC>
+inoremap qqj <ESC>
 " Quick one-command escape from insert mode.
-inoremap qo <C-O>
-inoremap qp <C-O>gwap
+inoremap qqo <C-O>
+inoremap qqp <C-O>gwap
 
 " Allow undoing <C-u> (delete text typed in the current line)
 inoremap <C-U> <C-G>u<C-U>
