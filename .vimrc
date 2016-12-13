@@ -417,6 +417,8 @@ let g:fml_all_sources = 1       " show leader mappings from all sources
 " atimholt/spiffy_foldtext
 let g:SpiffyFoldtext_format = "%c %<%f{ }=( %n )=%l{/=}"
 
+" editorconfig/editorconfig
+let g:EditorConfig_preserve_formatoptions = 1
 
 ""
 "" Custom functions
