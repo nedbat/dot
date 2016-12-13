@@ -55,9 +55,9 @@ function! FontBigger()
     endif
 endfunction
 
-nnoremap <leader>0 :call FontNormal()<cr>
-nnoremap <leader>- :call FontSmaller()<cr>
-nnoremap <leader>= :call FontBigger()<cr>
+nnoremap <Leader>0 :call FontNormal()<cr>
+nnoremap <Leader>- :call FontSmaller()<cr>
+nnoremap <Leader>= :call FontBigger()<cr>
 
 call FontNormal()
 

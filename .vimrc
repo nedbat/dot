@@ -169,7 +169,7 @@ augroup QuickFixSettings
     autocmd FileType qf nnoremap <silent> <buffer> <Leader>c    :cclose<CR>
     " <Leader>a in quickfix means re-do the search.
     autocmd FileType qf nnoremap <expr>   <buffer> <Leader>a    ':<C-U>silent grep! ' . join(split(w:quickfix_title)[1:])
-    " <leader>s means start a new search, but from the same place.
+    " <Leader>s means start a new search, but from the same place.
     autocmd FileType qf nnoremap <expr>   <buffer> <Leader>s    ':<C-U>silent grep! ' . split(w:quickfix_title)[1] . ' /'
 augroup end
 
@@ -281,7 +281,7 @@ Plug 'junegunn/vim-peekaboo'                        " pop-up panel to show regis
 Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
 Plug 'alfredodeza/coveragepy.vim'
 Plug 'mattn/emmet-vim'
-Plug 'ktonga/vim-follow-my-lead'                    " <leader>fml shows all leader mappings
+Plug 'ktonga/vim-follow-my-lead'                    " <Leader>fml shows all leader mappings
 Plug 'atimholt/spiffy_foldtext'
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
@@ -313,7 +313,7 @@ let g:ctrlp_mruf_max = 1000
 let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
 let g:ctrlp_open_multiple_files = '2vjr'
 let g:ctrlp_prompt_mappings = {
-    \ 'ToggleType(1)': ['<c-f>', '<c-up>', ',', '<space>'],
+    \ 'ToggleType(1)': ['<C-F>', '<C-Up>', ',', '<Space>'],
     \ }
 let g:ctrlp_root_markers = ['.treerc']
 
@@ -545,7 +545,7 @@ noremap <Leader><Leader>v ggVG
 " Adapted from https://gist.github.com/dahu/6ff4de11ca9c5bb25902
 " Toggle colorcolumn..
 "   .. at start of line
-nnoremap <Leader>i :exe "normal m`^\<Leader><Leader>i``"<CR>
+nnoremap <Leader>i :exe "normal m`^\<Leader>\<Leader>i``"<CR>
 "   .. at cursor
 nnoremap <Leader><Leader>i :exe 'set cc'.(&cc =~ virtcol('.')?'-=':'+=').virtcol('.')<CR>
 
@@ -558,13 +558,13 @@ set t_kb=                           " Use the delete key for backspace (the blo
 vnoremap < <gv
 vnoremap > >gv
 " Indent in visual, but don't adjust relative indents in the block.
-vnoremap <leader>< <esc>:setlocal shiftround!<CR>gv<:setlocal shiftround!<CR>gv
-vnoremap <leader>> <esc>:setlocal shiftround!<CR>gv>:setlocal shiftround!<CR>gv
+vnoremap <Leader>< <Esc>:setlocal shiftround!<CR>gv<:setlocal shiftround!<CR>gv
+vnoremap <Leader>> <Esc>:setlocal shiftround!<CR>gv>:setlocal shiftround!<CR>gv
 
 " Remove annoying F1 help.
-inoremap <F1> <nop>
-nnoremap <F1> <nop>
-vnoremap <F1> <nop>
+inoremap <F1> <Nop>
+nnoremap <F1> <Nop>
+vnoremap <F1> <Nop>
 
 " Jump to start and end of line using the home row keys.
 nnoremap H ^
@@ -587,23 +587,23 @@ augroup end
 
 noremap <silent> <C-PageUp>     :bprevious<CR>
 noremap <silent> <C-PageDown>   :bnext<CR>
-noremap <silent> <C-Tab>        <C-w><C-w>
+noremap <silent> <C-Tab>        <C-W><C-W>
 
 " Control-H etc navigate among windows.
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+nnoremap <C-H> <C-W>h
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l
 
 " Easier sizing of windows.
-nnoremap <leader>[ <C-W>-
-nnoremap <leader><leader>[ 20<C-W>-
-nnoremap <leader>] <C-W>+
-nnoremap <leader><leader>] 20<C-W>+
-nnoremap <leader>{ <C-W><
-nnoremap <leader><leader>{ 20<C-W><
-nnoremap <leader>} <C-W>>
-nnoremap <leader><leader>} 20<C-W>>
+nnoremap <Leader>[ <C-W>-
+nnoremap <Leader><Leader>[ 20<C-W>-
+nnoremap <Leader>] <C-W>+
+nnoremap <Leader><Leader>] 20<C-W>+
+nnoremap <Leader>{ <C-W><
+nnoremap <Leader><Leader>{ 20<C-W><
+nnoremap <Leader>} <C-W>>
+nnoremap <Leader><Leader>} 20<C-W>>
 
 " Windows-style ctrl-up and ctrl-down: scroll the text without moving cursor.
 noremap <C-Up> <C-Y>
@@ -631,14 +631,14 @@ inoremap <C-V> <C-O>"+gP
 cnoremap <C-V> <C-R>+
 
 " Quick escape from insert mode.
-inoremap jj <ESC>
-inoremap jJ <ESC>
-inoremap qqj <ESC>
+inoremap jj <Esc>
+inoremap jJ <Esc>
+inoremap qqj <Esc>
 " Quick one-command escape from insert mode.
 inoremap qqo <C-O>
 inoremap qqp <C-O>gwap
 
-" Allow undoing <C-u> (delete text typed in the current line)
+" Allow undoing <C-U> (delete text typed in the current line)
 inoremap <C-U> <C-G>u<C-U>
 
 " Easier access to completions
@@ -652,11 +652,11 @@ noremap <C-Q> <C-V>
 " Searching
 set incsearch                           " Use incremental search
 set hlsearch                            " Highlight search results in the file.
-nnoremap <leader>n nzvzz
-nnoremap <leader>N Nzvzz
-" <C-l> was redraw, make it \z
-nnoremap <leader>z :nohlsearch<CR><C-L>
-nnoremap <leader><leader>z :nohlsearch<CR>zvzz<C-L>
+nnoremap <Leader>n nzvzz
+nnoremap <Leader>N Nzvzz
+" <C-L> was redraw, make it \z
+nnoremap <Leader>z :nohlsearch<CR><C-L>
+nnoremap <Leader><Leader>z :nohlsearch<CR>zvzz<C-L>
 
 " My own crazy grep program
 set grepprg=~/bin/gerp.py
@@ -714,15 +714,15 @@ function! ToggleWrap()
         noremap  <buffer> <silent> j        gj
         noremap  <buffer> <silent> <Home>   g<Home>
         noremap  <buffer> <silent> <End>    g<End>
-        inoremap <buffer> <silent> <Home>   <C-o>g<Home>
-        inoremap <buffer> <silent> <End>    <C-o>g<End>
+        inoremap <buffer> <silent> <Home>   <C-O>g<Home>
+        inoremap <buffer> <silent> <End>    <C-O>g<End>
     endif
 endfunction
 
 noremap  <silent> <Up>     gk
 noremap  <silent> <Down>   gj
-inoremap <silent> <Up>     <C-o>gk
-inoremap <silent> <Down>   <C-o>gj
+inoremap <silent> <Up>     <C-O>gk
+inoremap <silent> <Down>   <C-O>gj
 
 " YankStack
 " let g:yankstack_map_keys = 0
