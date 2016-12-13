@@ -216,6 +216,11 @@ augroup XmlSettings
 "    autocmd FileType xml syntax spell default
 augroup end
 
+augroup AllFileSettings
+    autocmd!
+    " Don't want balloons ever. If anyone turns them on, turn them off.
+    autocmd OptionSet ballooneval if &ballooneval | set noballooneval | endif
+augroup end
 
 " Abbreviations
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-        

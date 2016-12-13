@@ -7,6 +7,9 @@ set guioptions-=l                     " No scrollbars on left
 set guioptions-=L                     " No scrollbars on left
 set guioptions-=b                     " No scrollbars on bottom
 
+" Prevent the mouse from popping up a menu.
+set mousemodel=extend
+
 set visualbell
 set t_vb=
 
