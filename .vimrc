@@ -177,6 +177,7 @@ augroup HelpSettings
     autocmd!
     autocmd FileType help let &l:statusline = ' Help: %f%=%P '
     autocmd FileType help setlocal colorcolumn=
+    autocmd FileType help nnoremap <silent> <buffer> q :quit<CR>
 augroup end
 
 augroup GitCommitSettings
