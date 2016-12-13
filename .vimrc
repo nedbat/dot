@@ -542,6 +542,13 @@ autocmd VimResized * :wincmd =
 noremap <Leader>v `[v`]
 noremap <Leader><Leader>v ggVG
 
+" Adapted from https://gist.github.com/dahu/6ff4de11ca9c5bb25902
+" Toggle colorcolumn..
+"   .. at start of line
+nnoremap <Leader>i :exe "normal m`^\<Leader><Leader>i``"<CR>
+"   .. at cursor
+nnoremap <Leader><Leader>i :exe 'set cc'.(&cc =~ virtcol('.')?'-=':'+=').virtcol('.')<CR>
+
 " Backspace and cursor keys wrap to previous/next line.
 set backspace=indent,eol,start
 set whichwrap+=<,>,[,]
