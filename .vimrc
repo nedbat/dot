@@ -288,10 +288,10 @@ Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
-Plug 'metakirby5/codi.vim', { 'on': 'Codi' }        " Interactive Python
 Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
 Plug 'vim-utils/vim-husk'                           " Ctrl-A, Ctrl-E, etc, in the command line.
 Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
+Plug 'szw/vim-maximizer'                            " Maximize current split
 
 call plug#end()
 
@@ -429,6 +429,9 @@ let g:SpiffyFoldtext_format = "%c %<%f{ }=( %n )=%l{/=}"
 " editorconfig/editorconfig
 let g:EditorConfig_preserve_formatoptions = 1
 
+" szw/vim-maximizer
+noremap <Leader>+ :MaximizerToggle!<CR>
+
 ""
 "" Custom functions
 ""
@@ -546,9 +549,9 @@ noremap <Leader><Leader>v ggVG
 " Adapted from https://gist.github.com/dahu/6ff4de11ca9c5bb25902
 " Toggle colorcolumn..
 "   .. at start of line
-nnoremap <Leader>i :exe "normal m`^\<Leader>\<Leader>i``"<CR>
+nnoremap <silent> <Leader>i :exe "normal m`^\<Leader>\<Leader>i``"<CR>
 "   .. at cursor
-nnoremap <Leader><Leader>i :exe 'set cc'.(&cc =~ virtcol('.')?'-=':'+=').virtcol('.')<CR>
+nnoremap <silent> <Leader><Leader>i :exe 'set cc'.(&cc =~ virtcol('.')?'-=':'+=').virtcol('.')<CR>
 
 " Backspace and cursor keys wrap to previous/next line.
 set backspace=indent,eol,start
