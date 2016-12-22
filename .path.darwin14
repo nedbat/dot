@@ -2,7 +2,7 @@
 # OS specific Unix path assignments
 #
 
-[ -n "$PS1" ] && echo '(.path.darwin14)'
+[ -n "$PS1" ] && echo -n '(.path.darwin14) '
 
 #
 # OS X puts /usr/bin before /usr/local/bin, but homebrew wants /usr/local/bin first.

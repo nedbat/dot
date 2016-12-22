@@ -4,7 +4,7 @@
 # If not running interactively, don't do anything
 [[ -z $PS1 ]] && return
 
-[[ -n $PS1 ]] && echo '(.bashrc)'
+[[ -n $PS1 ]] && echo -n '(.bashrc) '
 
 if [ "$hostname" = "" ]; then
     source="BASHRC"

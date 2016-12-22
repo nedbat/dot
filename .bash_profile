@@ -2,7 +2,7 @@
 # Executed by BASH shell login
 #
 
-[ -n "$PS1" ] && echo '(.bash_profile)'
+[ -n "$PS1" ] && echo -n '(.bash_profile) '
 
 #
 # Call the aliases

@@ -2,7 +2,7 @@
 # Generic Unix path assignments
 #
 
-[ -n "$PS1" ] && echo '(.path)'
+[ -n "$PS1" ] && echo -n '(.path) '
 
 #
 # Shared object library
