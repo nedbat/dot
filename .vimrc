@@ -292,6 +292,7 @@ Plug 'bogado/file-line'                             " Enables opening and jumpin
 Plug 'vim-utils/vim-husk'                           " Ctrl-A, Ctrl-E, etc, in the command line.
 Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
 Plug 'szw/vim-maximizer'                            " Maximize current split
+Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
 
 call plug#end()
 
@@ -431,6 +432,15 @@ let g:EditorConfig_preserve_formatoptions = 1
 
 " szw/vim-maximizer
 noremap <Leader>+ :MaximizerToggle!<CR>
+
+" AndrewRadev/sideways.vim
+noremap <Leader>, :SidewaysLeft<CR>
+noremap <Leader>. :SidewaysRight<CR>
+
+omap aa <Plug>SidewaysArgumentTextobjA
+xmap aa <Plug>SidewaysArgumentTextobjA
+omap ia <Plug>SidewaysArgumentTextobjI
+xmap ia <Plug>SidewaysArgumentTextobjI
 
 ""
 "" Custom functions
