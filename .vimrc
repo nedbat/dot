@@ -282,7 +282,6 @@ Plug 'junegunn/vim-peekaboo'                        " pop-up panel to show regis
 Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
 Plug 'alfredodeza/coveragepy.vim'
 Plug 'mattn/emmet-vim'
-Plug 'ktonga/vim-follow-my-lead'                    " <Leader>fml shows all leader mappings
 Plug 'atimholt/spiffy_foldtext'
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
@@ -420,9 +419,6 @@ let g:splitjoin_python_brackets_on_separate_lines = 1
 " junegunn/vim-peekaboo
 let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
-
-" ktonga/vim-follow-my-lead
-let g:fml_all_sources = 1       " show leader mappings from all sources
 
 " atimholt/spiffy_foldtext
 let g:SpiffyFoldtext_format = "%c %<%f{ }=( %n )=%l{/=}"
