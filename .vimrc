@@ -683,6 +683,10 @@ function! RunGrep(word)
         let l:options = join(l:words[1:])
         execute ':silent grep! % /' . l:pattern . ' ' . l:options
         botright copen
+        " rg returns results non-contiguously
+        setlocal modifiable
+        sort
+        setlocal nomodifiable
     endif
 endfunction
 

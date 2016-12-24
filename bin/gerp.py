@@ -23,7 +23,7 @@
     -.po    ignore these extensions
 """
 
-import fnmatch, os, os.path, re, sys
+import fnmatch, os, os.path, re, subprocess, sys
 import ConfigParser
 from cStringIO import StringIO
 
@@ -69,6 +69,11 @@ class Gerp(object):
         self.ini_text = None
         self.ini_dir = None
 
+        self.roots = []
+        self.config = None
+
+        self.use_rg = False
+
     def from_args(self, args):
         if len(args) < 1:
             raise GerpException("Need a tree spec")
@@ -94,6 +99,8 @@ class Gerp(object):
                 self.word = True
             elif arg == "-1":
                 self.one = True
+            elif arg == "-rg":
+                self.use_rg = True
             elif arg[0] == ".":
                 self.adhoc_include.append("*"+arg)
             elif arg[0:2] == "*.":
@@ -135,25 +142,67 @@ class Gerp(object):
         self.find_ini()
 
         # Parse the ini file.
-        config = ConfigParser.RawConfigParser(DEFAULTS)
+        self.config = ConfigParser.RawConfigParser(DEFAULTS)
         if self.ini:
-            config.read(self.ini)
+            self.config.read(self.ini)
         if self.ini_text:
-            config.readfp(StringIO(self.ini_text))
+            self.config.readfp(StringIO(self.ini_text))
 
         cur_dir = os.getcwd()
-        self.roots = []
-        for r in config.get(self.section, "root").split('\n'):
+        for r in self.config.get(self.section, "root").split('\n'):
             if not r:
                 continue
             self.roots.append(os.path.normpath(os.path.join(self.ini_dir, r)))
 
-        # Build the ignore regex.
+        if self.use_rg:
+            self.run_rg()
+        else:
+            self.run_native()
+
+    def run_rg(self):
+        rg_words = [
+            "rg",
+            "--no-heading",
+            "--line-number",
+            "--no-ignore",
+        ]
+        for ignore in self.ignores():
+            rg_words.extend(["--glob", "!"+ignore])
+
+        for include in self.adhoc_include:
+            rg_words.extend(["--glob", include])
+
+        if self.insensitive():
+            rg_words.append("--ignore-case")
+
+        if self.word:
+            rg_words.append("--word-regexp")
+
+        rg_words.extend(["--regexp", self.pattern])
+
+        for root in self.roots:
+            #print(" ".join(rg_words) + " " + root)
+            p = subprocess.Popen(rg_words + [root], stdout=subprocess.PIPE)
+            for line in iter(p.stdout.readline, b''):
+                print(line.rstrip())
+
+    def ignores(self):
         ignores = set(IGNORE.split())
-        if config.has_option(self.section, "ignore"):
-            ignores.update(config.get(self.section, "ignore").split())
+        if self.config.has_option(self.section, "ignore"):
+            ignores.update(self.config.get(self.section, "ignore").split())
         ignores.update(self.adhoc_ignore)
-        self.ignore_re = self.pats_to_regex(ignores)
+        return ignores
+
+    def insensitive(self):
+        insensitive = (self.sensitivity == INSENSITIVE)
+        if (self.sensitivity == SMART) and not re.search(r"[A-Z]", self.pattern):
+            # Smart-casing: if the pattern has no upper-case, then be case-insensitive
+            insensitive = True
+        return insensitive
+
+    def run_native(self):
+        # Build the ignore regex.
+        self.ignore_re = self.pats_to_regex(self.ignores())
 
         # Build the include regex.
         if self.adhoc_include:
@@ -164,10 +213,6 @@ class Gerp(object):
         # Get the pattern ready.
         if not self.pattern:
             raise GerpException("No pattern to find!")
-        insensitive = (self.sensitivity == INSENSITIVE)
-        if (self.sensitivity == SMART) and not re.search(r"[A-Z]", self.pattern):
-            # Smart-casing: if the pattern has no upper-case, then be case-insensitive
-            insensitive = True
         if self.word:
             # Wordiness: \b means, the empty string between a word character
             # (\w) and a non-word character (\W). So if the pattern begins with
@@ -177,7 +222,7 @@ class Gerp(object):
                 self.pattern = r"\b" + self.pattern
             if re.search(r"\w$", self.pattern):
                 self.pattern += r"\b"
-        if insensitive:
+        if self.insensitive():
             self.pattern = r"(?i)" + self.pattern
 
         try:
