@@ -684,11 +684,33 @@ function! RunGrep(word)
         execute ':silent grep! % /' . l:pattern . ' ' . l:options
         botright copen
         " rg returns results non-contiguously
-        setlocal modifiable
-        sort
-        setlocal nomodifiable
+        call SortQuickfixEntries()
     endif
 endfunction
+
+" Inspired by https://github.com/jboner/vim-config/blob/master/autoload/l9/quickfix.vim#L62-L82
+" Compares quickfix entries for sorting.
+function CompareQuickFixEntries(e0, e1)
+    if a:e0.bufnr != a:e1.bufnr
+        let i0 = bufname(a:e0.bufnr)
+        let i1 = bufname(a:e1.bufnr)
+    elseif a:e0.lnum != a:e1.lnum
+        let i0 = a:e0.lnum
+        let i1 = a:e1.lnum
+    elseif a:e0.col != a:e1.col
+        let i0 = a:e0.col
+        let i1 = a:e1.col
+    else
+        return 0
+    endif
+    return (i0 > i1 ? +1 : -1)
+endfunction
+
+" Sorts quickfix
+function SortQuickfixEntries()
+    call setqflist(sort(getqflist(), 'CompareQuickFixEntries'), 'r')
+endfunction
+
 
 noremap <Leader>s :call RunGrep('')<CR>
 noremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
