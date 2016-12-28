@@ -292,6 +292,7 @@ Plug 'vim-utils/vim-husk'                           " Ctrl-A, Ctrl-E, etc, in th
 Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
 Plug 'szw/vim-maximizer'                            " Maximize current split
 Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
+" Plug 'romainl/vim-cool'                             " Auto-disable search highlighting
 
 call plug#end()
 
@@ -708,9 +709,11 @@ endfunction
 
 " Sorts quickfix
 function SortQuickfixEntries()
+    " Grab the window title, restore it later. setqflist() clobbers the title.
+    let l:info = getqflist({'title': 1})
     call setqflist(sort(getqflist(), 'CompareQuickFixEntries'), 'r')
+    call setqflist([], 'r', l:info)
 endfunction
-
 
 noremap <Leader>s :call RunGrep('')<CR>
 noremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
