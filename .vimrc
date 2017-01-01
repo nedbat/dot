@@ -293,6 +293,7 @@ Plug 'vim-utils/vim-space'                          " Space text object: di<Spac
 Plug 'szw/vim-maximizer'                            " Maximize current split
 Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
 " Plug 'romainl/vim-cool'                             " Auto-disable search highlighting
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }  " Display undotree
 
 call plug#end()
 
