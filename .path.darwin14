@@ -39,6 +39,9 @@ vssh () {
     i2profile Main
     title $old_title
 }
+vgst () {
+    vagrant global-status
+}
 vsnap () {
     VBoxManage snapshot $(cat .vagrant/machines/default/virtualbox/id) ${@:-list}
 }
