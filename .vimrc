@@ -680,19 +680,23 @@ function! RunGrep(word)
     if l:cmdline == ''
         echo "No pattern entered, search aborted."
     else
+        " Force recalculation of all the buffer names. This makes the results
+        " uniform in terms of absolute/relative pathnames.
+        :cd .
+        " Create the gerp command line.
         let l:words = split(l:cmdline)
         let l:pattern = shellescape(substitute(l:words[0], '[%#]', '\\&', 'g'))
         let l:options = join(l:words[1:])
         execute ':silent grep! % /' . l:pattern . ' ' . l:options
-        botright copen
         " rg returns results non-contiguously
-        call SortQuickfixEntries()
+        call QfSortEntries()
+        botright copen
     endif
 endfunction
 
 " Inspired by https://github.com/jboner/vim-config/blob/master/autoload/l9/quickfix.vim#L62-L82
 " Compares quickfix entries for sorting.
-function CompareQuickFixEntries(e0, e1)
+function QfCompareEntries(e0, e1)
     if a:e0.bufnr != a:e1.bufnr
         let i0 = bufname(a:e0.bufnr)
         let i1 = bufname(a:e1.bufnr)
@@ -709,10 +713,10 @@ function CompareQuickFixEntries(e0, e1)
 endfunction
 
 " Sorts quickfix
-function SortQuickfixEntries()
+function QfSortEntries()
     " Grab the window title, restore it later. setqflist() clobbers the title.
     let l:info = getqflist({'title': 1})
-    call setqflist(sort(getqflist(), 'CompareQuickFixEntries'), 'r')
+    call setqflist(sort(getqflist(), 'QfCompareEntries'), 'r')
     call setqflist([], 'r', l:info)
 endfunction
 
