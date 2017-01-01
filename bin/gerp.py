@@ -72,7 +72,7 @@ class Gerp(object):
         self.roots = []
         self.config = None
 
-        self.use_rg = False
+        self.use_rg = True  # TODO: make this right.
 
     def from_args(self, args):
         if len(args) < 1:
@@ -181,7 +181,6 @@ class Gerp(object):
         rg_words.extend(["--regexp", self.pattern])
 
         for root in self.roots:
-            #print(" ".join(rg_words) + " " + root)
             p = subprocess.Popen(rg_words + [root], stdout=subprocess.PIPE)
             for line in iter(p.stdout.readline, b''):
                 print(line.rstrip())
