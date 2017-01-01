@@ -680,14 +680,14 @@ function! RunGrep(word)
     if l:cmdline == ''
         echo "No pattern entered, search aborted."
     else
-        " Force recalculation of all the buffer names. This makes the results
-        " uniform in terms of absolute/relative pathnames.
-        :cd .
         " Create the gerp command line.
         let l:words = split(l:cmdline)
         let l:pattern = shellescape(substitute(l:words[0], '[%#]', '\\&', 'g'))
         let l:options = join(l:words[1:])
         execute ':silent grep! % /' . l:pattern . ' ' . l:options
+        " Force recalculation of all the buffer names. This makes the results
+        " uniform in terms of absolute/relative pathnames.
+        silent cd .
         " rg returns results non-contiguously
         call QfSortEntries()
         botright copen
