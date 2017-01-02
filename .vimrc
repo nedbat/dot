@@ -262,7 +262,8 @@ Plug 'pearofducks/ansible-vim'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim'
-Plug 'lfv89/vim-interestingwords'
+"Plug 'lfv89/vim-interestingwords'
+Plug 'nedbat/vim-interestingwords'                  " mine has RecolorAllWords
 Plug 'klen/python-mode'
 Plug 'qstrahl/vim-dentures'                         " indent-based text object
 Plug 'tpope/vim-fugitive'
@@ -384,7 +385,13 @@ let g:gist_post_private = 1
 let g:user_emmet_leader_key='<C-Z>'
 
 " lfv89/vim-interestingwords
-let g:interestingWordsGUIColors = ['#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF', '#E8E8AA']
+" This was useful: http://htmlcolorcodes.com/color-chart/
+let g:interestingWordsGUIColors = [
+    \ '#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF',
+    \ '#FCFA69', '#CCCCCC', '#F39C12', '#D6D450', '#999999',
+    \ '#A569BD', '#27AE60', '#DB5345', '#3E96D1', '#B78264',
+    \ ]
+noremap <silent> <Leader><Leader>k :call RecolorAllWords()<CR>
 
 " klen/python-mode
 let g:pymode_folding = 1
