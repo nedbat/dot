@@ -280,7 +280,6 @@ Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tag
 Plug 'AndrewRadev/splitjoin.vim'                    " gS and gJ for smart expanding and contracting
 Plug 'junegunn/vim-peekaboo'                        " pop-up panel to show registers
 Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
-Plug 'alfredodeza/coveragepy.vim'
 Plug 'mattn/emmet-vim'
 Plug 'atimholt/spiffy_foldtext'
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
@@ -292,7 +291,6 @@ Plug 'vim-utils/vim-husk'                           " Ctrl-A, Ctrl-E, etc, in th
 Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
 Plug 'szw/vim-maximizer'                            " Maximize current split
 Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
-" Plug 'romainl/vim-cool'                             " Auto-disable search highlighting
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }  " Display undotree
 
 call plug#end()
