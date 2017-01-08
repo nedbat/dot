@@ -21,24 +21,32 @@ def paste():
     exec(sys.stdin.read(), globals())
 
 # Readline and history support
-try:
-    # Not sure why this module is missing in some places, but deal with it.
-    import readline
-except ImportError:
-    print("No readline, use ^H")
-else:
-    import atexit
-    import os
-    import rlcompleter
-
-    historyPath = os.path.expanduser("~/.pyhistory{0}".format(sys.version_info[0]))
-
-    def save_history(historyPath=historyPath):
+def hook_up_history():
+    try:
+        # Not sure why this module is missing in some places, but deal with it.
         import readline
-        readline.write_history_file(historyPath)
+    except ImportError:
+        print("No readline, use ^H")
+    else:
+        import atexit
+        import os
+        import rlcompleter
 
-    if os.path.exists(historyPath):
-        readline.read_history_file(historyPath)
+        historyPath = os.path.expanduser("~/.pyhistory{0}".format(sys.version_info[0]))
 
-    atexit.register(save_history)
-    del atexit, readline, rlcompleter, save_history, historyPath
+        def save_history(historyPath=historyPath):
+            import readline
+            readline.write_history_file(historyPath)
+
+        if os.path.exists(historyPath):
+            readline.read_history_file(historyPath)
+
+        atexit.register(save_history)
+
+# Don't do history stuff if we are IPython, it has its own thing.
+is_ipython = 'In' in globals()
+if not is_ipython:
+    hook_up_history()
+
+# Get rid of globals we don't want.
+del is_ipython, hook_up_history
