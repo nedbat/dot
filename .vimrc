@@ -577,8 +577,8 @@ set t_kb=                           " Use the delete key for backspace (the blo
 vnoremap < <gv
 vnoremap > >gv
 " Indent in visual, but don't adjust relative indents in the block.
-vnoremap <Leader>< <Esc>:setlocal shiftround!<CR>gv<:setlocal shiftround!<CR>gv
-vnoremap <Leader>> <Esc>:setlocal shiftround!<CR>gv>:setlocal shiftround!<CR>gv
+vnoremap <Leader>< <Esc>:setlocal noshiftround<CR>gv<:setlocal shiftround<CR>gv
+vnoremap <Leader>> <Esc>:setlocal noshiftround<CR>gv>:setlocal shiftround<CR>gv
 
 " Remove annoying F1 help.
 inoremap <F1> <Nop>
@@ -745,45 +745,11 @@ endfunction
 nnoremap <expr> ' FileJumpLastPos("'")
 nnoremap <expr> ` FileJumpLastPos("`")
 
-" Wrapped lines, adapted from
-" http://vim.wikia.com/wiki/Move_cursor_by_display_lines_when_wrapping
-noremap <silent> <Leader>r :call ToggleWrap()<CR>
-function! ToggleWrap()
-    if &wrap
-        echo "Wrap OFF"
-        setlocal nowrap
-        silent! nunmap <buffer> k
-        silent! nunmap <buffer> j
-        silent! nunmap <buffer> <Home>
-        silent! nunmap <buffer> <End>
-        silent! iunmap <buffer> <Home>
-        silent! iunmap <buffer> <End>
-    else
-        echo "Wrap ON"
-        setlocal wrap
-        noremap  <buffer> <silent> k        gk
-        noremap  <buffer> <silent> j        gj
-        noremap  <buffer> <silent> <Home>   g<Home>
-        noremap  <buffer> <silent> <End>    g<End>
-        inoremap <buffer> <silent> <Home>   <C-O>g<Home>
-        inoremap <buffer> <silent> <End>    <C-O>g<End>
-    endif
-endfunction
+nnoremap gj j
+nnoremap gk k
+nnoremap j gj
+nnoremap k gk
 
-noremap  <silent> <Up>     gk
-noremap  <silent> <Down>   gj
-inoremap <silent> <Up>     <C-O>gk
-inoremap <silent> <Down>   <C-O>gj
-
-" YankStack
-" let g:yankstack_map_keys = 0
-" nmap <C-P> <Plug>yankstack_substitute_older_paste
-" nmap <C-N> <Plug>yankstack_substitute_newer_paste
-" 
-" call yankstack#setup()
-
-" Maps for yanking and pasting need to be after here, so that yankstack won't
-" clobber them.
 
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
