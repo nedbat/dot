@@ -24,11 +24,11 @@ alias i2profile="printf '\e]50;SetProfile=%s\a'"
 # for dealing with edx devstacks
 vup () {
     env | egrep --color=no 'OPENEDX|VAGRANT|VERSION'
-    sudo echo "power up"
+    sudo -v
     vagrant up
 }
 vhalt () {
-    sudo echo "power up"
+    sudo -v
     vagrant halt
 }
 vssh () {
