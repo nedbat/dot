@@ -259,7 +259,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'will133/vim-dirdiff'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'pearofducks/ansible-vim'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'majutsushi/tagbar'
 Plug 'mattn/webapi-vim'
   Plug 'mattn/gist-vim', { 'on': 'Gist' }
