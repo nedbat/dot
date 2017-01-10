@@ -256,55 +256,11 @@ autocmd CursorHoldI * call feedkeys("\<C-G>u", "nt")
 silent! call plug#begin()
 
 Plug 'kshenoy/vim-signature'
-Plug 'will133/vim-dirdiff'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'pearofducks/ansible-vim'
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
-Plug 'majutsushi/tagbar'
-Plug 'mattn/webapi-vim'
-  Plug 'mattn/gist-vim', { 'on': 'Gist' }
-Plug 'lfv89/vim-interestingwords'
-Plug 'klen/python-mode'
-Plug 'qstrahl/vim-dentures'                         " indent-based text object
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-surround'
-Plug 'kana/vim-textobj-user'
-  Plug 'Julian/vim-textobj-variable-segment'
-  Plug 'kana/vim-textobj-line'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-repeat'
-Plug 'wellle/visual-split.vim'
-" Plug 'vim-scripts/Colour-Sampler-Pack'
-Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
-Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
-Plug 'AndrewRadev/splitjoin.vim'                    " gS and gJ for smart expanding and contracting
-Plug 'junegunn/vim-peekaboo'                        " pop-up panel to show registers
-Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
-Plug 'mattn/emmet-vim'
-Plug 'atimholt/spiffy_foldtext'
-Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
-Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
-Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
-Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
-Plug 'vim-utils/vim-husk'                           " Ctrl-A, Ctrl-E, etc, in the command line.
-Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
-Plug 'szw/vim-maximizer'                            " Maximize current split
-Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }  " Display undotree
-
-call plug#end()
-
-""
-"" Plugin configuration.
-""
-
-" kshenoy/vim-signature
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 
-" ctrlpvim/ctrlp.vim
+Plug 'will133/vim-dirdiff'
+
+Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_map = '<silent><Leader>e'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_clear_cache_on_exit = 0
@@ -320,11 +276,11 @@ let g:ctrlp_prompt_mappings = {
     \ }
 let g:ctrlp_root_markers = ['.treerc']
 
-" pearofducks/ansible-vim
+Plug 'pearofducks/ansible-vim'
 let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
 let g:ansible_name_highlight = 'd'
 
-" scrooloose/nerdtree
+Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 if v:version >= 700
     let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.pyd$', '\.o$', '\.so$', '__pycache__', '\.egg-info$']
     let g:NERDTreeSortOrder = ['^_.*', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
@@ -343,7 +299,7 @@ endif
 
 noremap <silent> <Leader><Leader>f :echo expand('%:p') . " (cd: " . getcwd() . ")"<CR>
 
-" majutsushi/tagbar
+Plug 'majutsushi/tagbar'
 let g:tagbar_width = 40
 let g:tagbar_zoomwidth = 30
 let g:tagbar_sort = 0                               " sort by order in file
@@ -377,15 +333,13 @@ let g:tagbar_type_rst = {
     \ 'sort': 0,
 \ }
 
-" mattn/gist
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim', { 'on': 'Gist' }
 let g:gist_clip_command = 'pbcopy'
 let g:gist_detect_filetype = 1
 let g:gist_post_private = 1
 
-" mattn/emmet-vim
-let g:user_emmet_leader_key='<C-Z>'
-
-" lfv89/vim-interestingwords
+Plug 'lfv89/vim-interestingwords'
 " This was useful: http://htmlcolorcodes.com/color-chart/
 let g:interestingWordsGUIColors = [
     \ '#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF',
@@ -394,7 +348,7 @@ let g:interestingWordsGUIColors = [
     \ ]
 noremap <silent> <Leader><Leader>k :call RecolorAllWords()<CR>
 
-" klen/python-mode
+Plug 'klen/python-mode'
 let g:pymode_folding = 1
 let g:pymode_syntax = 1
 let g:pymode_syntax_slow_sync = 1
@@ -411,40 +365,70 @@ let g:pymode_rope_complete_on_dot = 0
 let g:pymode_breakpoint = 0
 let g:pymode_virtualenv = 1
 
-" wellle/visual-split.vim
-noremap <Leader>* :VSSplit<CR>
-noremap <Leader><Leader>* :VSResize<CR>
-
-" tpope/vim-fugitive and tpope/vim-rhubarb
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
 noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gu :Gbrowse!<CR>
 noremap <Leader>gv :Gbrowse<CR>
 
-" AndrewRadev/splitjoin.vim
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-surround'
+
+Plug 'kana/vim-textobj-user'
+  Plug 'Julian/vim-textobj-variable-segment'
+  Plug 'kana/vim-textobj-line'
+Plug 'qstrahl/vim-dentures'                         " indent-based text object
+
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
+
+Plug 'wellle/visual-split.vim'
+noremap <Leader>* :VSSplit<CR>
+noremap <Leader><Leader>* :VSResize<CR>
+
+Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
+Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
+
+Plug 'AndrewRadev/splitjoin.vim'                    " gS and gJ for smart expanding and contracting
 let g:splitjoin_trailing_comma = 1
 let g:splitjoin_python_brackets_on_separate_lines = 1
 
-" junegunn/vim-peekaboo
+Plug 'junegunn/vim-peekaboo'                        " pop-up panel to show registers
 let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
 
-" atimholt/spiffy_foldtext
+Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
+Plug 'mattn/emmet-vim'
+let g:user_emmet_leader_key='<C-Z>'
+
+Plug 'atimholt/spiffy_foldtext'
 let g:SpiffyFoldtext_format = "%c %<%f{ }=( %n )=%l{/=}"
 
-" editorconfig/editorconfig
+Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
+Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
+Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
+
+Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
 let g:EditorConfig_preserve_formatoptions = 1
 
-" szw/vim-maximizer
+Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
+Plug 'vim-utils/vim-husk'                           " Ctrl-A, Ctrl-E, etc, in the command line.
+Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
+
+Plug 'szw/vim-maximizer'                            " Maximize current split
 noremap <Leader>+ :MaximizerToggle!<CR>
 
-" AndrewRadev/sideways.vim
+Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
 noremap <Leader>, :SidewaysLeft<CR>
 noremap <Leader>. :SidewaysRight<CR>
-
 omap aa <Plug>SidewaysArgumentTextobjA
 xmap aa <Plug>SidewaysArgumentTextobjA
 omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
+
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }  " Display undotree
+
+call plug#end()
 
 ""
 "" Custom functions
