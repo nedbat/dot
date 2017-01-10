@@ -263,8 +263,7 @@ Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'majutsushi/tagbar'
 Plug 'mattn/webapi-vim'
   Plug 'mattn/gist-vim', { 'on': 'Gist' }
-"Plug 'lfv89/vim-interestingwords'
-Plug 'nedbat/vim-interestingwords'                  " mine has RecolorAllWords
+Plug 'lfv89/vim-interestingwords'
 Plug 'klen/python-mode'
 Plug 'qstrahl/vim-dentures'                         " indent-based text object
 Plug 'tpope/vim-fugitive'
