@@ -258,11 +258,12 @@ silent! call plug#begin()
 Plug 'kshenoy/vim-signature'
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 
-Plug 'will133/vim-dirdiff'
+Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
 
-Plug 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_map = '<silent><Leader>e'
-let g:ctrlp_cmd = 'CtrlP'
+Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
+noremap <silent> <Leader>e :CtrlP<CR>
+"let g:ctrlp_map = '<silent><Leader>e'
+"let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_custom_ignore = {
     \ 'dir': '\v/htmlcov$',
@@ -299,7 +300,7 @@ endif
 
 noremap <silent> <Leader><Leader>f :echo expand('%:p') . " (cd: " . getcwd() . ")"<CR>
 
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'                            " Tagbar, no 'on', so that statusbar will have tags
 let g:tagbar_width = 40
 let g:tagbar_zoomwidth = 30
 let g:tagbar_sort = 0                               " sort by order in file
@@ -365,22 +366,22 @@ let g:pymode_rope_complete_on_dot = 0
 let g:pymode_breakpoint = 0
 let g:pymode_virtualenv = 1
 
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statusbar
 Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
 noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gu :Gbrowse!<CR>
 noremap <Leader>gv :Gbrowse<CR>
 
-Plug 'tpope/vim-git'
+Plug 'tpope/vim-git'                                " Git filetypes, etc.
 Plug 'tpope/vim-surround'
-
-Plug 'kana/vim-textobj-user'
-  Plug 'Julian/vim-textobj-variable-segment'
-  Plug 'kana/vim-textobj-line'
-Plug 'qstrahl/vim-dentures'                         " indent-based text object
-
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
+
+Plug 'kana/vim-textobj-user'
+Plug 'Julian/vim-textobj-variable-segment'
+Plug 'kana/vim-textobj-line'                        " Whole-line text object
+Plug 'qstrahl/vim-dentures'                         " Indent-based text object
+Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
 
 Plug 'wellle/visual-split.vim'
 noremap <Leader>* :VSSplit<CR>
@@ -393,13 +394,11 @@ Plug 'AndrewRadev/splitjoin.vim'                    " gS and gJ for smart expand
 let g:splitjoin_trailing_comma = 1
 let g:splitjoin_python_brackets_on_separate_lines = 1
 
-Plug 'junegunn/vim-peekaboo'                        " pop-up panel to show registers
+Plug 'junegunn/vim-peekaboo'                        " Pop-up panel to show registers
 let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
 
 Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
-Plug 'mattn/emmet-vim'
-let g:user_emmet_leader_key='<C-Z>'
 
 Plug 'atimholt/spiffy_foldtext'
 let g:SpiffyFoldtext_format = "%c %<%f{ }=( %n )=%l{/=}"
@@ -413,9 +412,8 @@ let g:EditorConfig_preserve_formatoptions = 1
 
 Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
 Plug 'vim-utils/vim-husk'                           " Ctrl-A, Ctrl-E, etc, in the command line.
-Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
 
-Plug 'szw/vim-maximizer'                            " Maximize current split
+Plug 'szw/vim-maximizer', { 'on': 'MaximizerToggle' }   " Maximize current split
 noremap <Leader>+ :MaximizerToggle!<CR>
 
 Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
