@@ -30,7 +30,7 @@ highlight Type          gui=NONE            guifg=Blue          guibg=NONE
 highlight Underlined    gui=underline       guifg=NONE          guibg=NONE
 highlight Error         gui=NONE            guifg=Yellow        guibg=Red
 highlight Todo          gui=NONE            guifg=NONE          guibg=LightYellow
-highlight Folded        gui=NONE            guifg=NONE          guibg=#eeeeee
+highlight Folded        gui=NONE            guifg=NONE          guibg=#f8f8f8
 
 highlight SpellBad      gui=undercurl       guifg=NONE          guibg=#ffe8e8   guisp=Red
 highlight SpecialKey    gui=NONE            guifg=Red           guibg=NONE
