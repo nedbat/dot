@@ -39,8 +39,6 @@ endif
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
-set t_Co=256
-
 set showcmd                             " Show partial commands in the status line
 if has("syntax")
     syntax on                           " Turn on syntax coloring
@@ -262,8 +260,6 @@ Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
 
 Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
 noremap <silent> <Leader>e :CtrlP<CR>
-"let g:ctrlp_map = '<silent><Leader>e'
-"let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_custom_ignore = {
     \ 'dir': '\v/htmlcov$',
@@ -283,7 +279,11 @@ let g:ansible_name_highlight = 'd'
 
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 if v:version >= 700
-    let g:NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\.pyd$', '\.o$', '\.so$', '__pycache__', '\.egg-info$']
+    let g:NERDTreeIgnore = [
+        \ '\.pyc$', '\.pyo$', '\.pyd$', '\$py\.class$',
+        \ '\.o$', '\.so$',
+        \ '^__pycache__$', '\.egg-info$',
+        \ ]
     let g:NERDTreeSortOrder = ['^_.*', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
     let g:NERDTreeShowBookmarks = 0
     let g:NERDTreeMinimalUI = 1
@@ -401,7 +401,7 @@ let g:peekaboo_delay = 750
 Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
 
 Plug 'atimholt/spiffy_foldtext'
-let g:SpiffyFoldtext_format = "%c %<%f{ }=( %n )=%l{/=}"
+let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{/=}"
 
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
@@ -425,6 +425,10 @@ omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
 
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }  " Display undotree
+
+" Display more information with ga
+Plug 'manicmaniac/betterga'
+let g:betterga_template = '<{ci.char}> "{ci.name}" ({ci.category}) {ci.ord} {ci.hex}'
 
 call plug#end()
 
@@ -630,10 +634,10 @@ noremap <C-V> "+gP
 inoremap <C-V> <C-O>"+gP
 cnoremap <C-V> <C-R>+
 
-" Quick escape from insert mode.
-inoremap jj <Esc>
-inoremap jJ <Esc>
-inoremap qqj <Esc>
+" Quick escape-and-save from insert mode.
+inoremap jj <Esc>:write<CR>
+inoremap jJ <Esc>:write<CR>
+inoremap qqj <Esc>:write<CR>
 " Quick one-command escape from insert mode.
 inoremap qqo <C-O>
 inoremap qqp <C-O>gwap
@@ -684,7 +688,7 @@ endfunction
 
 " Inspired by https://github.com/jboner/vim-config/blob/master/autoload/l9/quickfix.vim#L62-L82
 " Compares quickfix entries for sorting.
-function QfCompareEntries(e0, e1)
+function! QfCompareEntries(e0, e1)
     if a:e0.bufnr != a:e1.bufnr
         let i0 = bufname(a:e0.bufnr)
         let i1 = bufname(a:e1.bufnr)
@@ -701,7 +705,7 @@ function QfCompareEntries(e0, e1)
 endfunction
 
 " Sorts quickfix
-function QfSortEntries()
+function! QfSortEntries()
     " Grab the window title, restore it later. setqflist() clobbers the title.
     let l:info = getqflist({'title': 1})
     call setqflist(sort(getqflist(), 'QfCompareEntries'), 'r')
