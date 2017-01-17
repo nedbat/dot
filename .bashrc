@@ -257,10 +257,10 @@ if [[ $- = *i* ]]; then
         export PROMPT_COMMAND=
         export PS1="$ "
     }
-    nice_prompt() {
+    fancy_prompt() {
         source ~/bin/liquidprompt/liquidprompt
     }
-    nice_prompt
+    fancy_prompt
 fi
 
 # Open edX helpers
