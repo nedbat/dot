@@ -411,10 +411,12 @@ Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
 let g:EditorConfig_preserve_formatoptions = 1
 
 Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
-Plug 'vim-utils/vim-husk'                           " Ctrl-A, Ctrl-E, etc, in the command line.
+
+" Ctrl-A, Ctrl-E, etc, when typing.
+Plug 'tpope/vim-rsi'
 
 Plug 'szw/vim-maximizer', { 'on': 'MaximizerToggle' }   " Maximize current split
-noremap <Leader>+ :MaximizerToggle!<CR>
+noremap <Leader>= :MaximizerToggle!<CR>
 
 Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
 noremap <Leader>, :SidewaysLeft<CR>
@@ -529,7 +531,7 @@ noremap <Leader>4 :setlocal shiftwidth=4 softtabstop=4<CR>
 noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 
 " Toggle list mode to see special characters.
-set listchars=tab:>-,eol:$,trail:-
+set listchars=tab:→‐,trail:◘,space:·,nbsp:␣,eol:¶
 
 " Show only one window on the screen, but keep the explorers open.
 noremap <silent> <Leader>1 :only!\|:NERDTreeToggle\|:vertical resize 30\|:wincmd b<CR>

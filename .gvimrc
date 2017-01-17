@@ -13,8 +13,6 @@ set mousemodel=extend
 set visualbell
 set t_vb=
 
-set listchars=tab:→‐,trail:◘,space:·,nbsp:␣,eol:¶
-
 colorscheme neds                        " Use my colors to whatever extent possible.
 
 " Set the normal font face and size.
@@ -57,7 +55,7 @@ endfunction
 
 nnoremap <Leader>0 :call FontNormal()<cr>
 nnoremap <Leader>- :call FontSmaller()<cr>
-nnoremap <Leader>= :call FontBigger()<cr>
+nnoremap <Leader>+ :call FontBigger()<cr>
 
 call FontNormal()
 
