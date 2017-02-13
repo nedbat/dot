@@ -226,7 +226,6 @@ if $(python -c "import virtualenv" &> /dev/null) ; then
     workon_home=$(first_of "${workon_homes[@]}")
     if [[ -r $virtualenvwrappersh ]] && [[ -d $workon_home ]]; then
         export WORKON_HOME=$workon_home
-        #export PROJECT_HOME=$HOME/src
         source $virtualenvwrappersh
     fi
 fi
