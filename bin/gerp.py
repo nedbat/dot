@@ -38,7 +38,7 @@ IGNORE = """
     *.pyc *.pyo *.pyd
     *.png *.jpg *.jpeg *.gif *.ico *.bmp
     .svn .git .hg
-    .tox
+    venv .tox
     *.ttf *.eot
     *.pdf
     *.zip *.tar *.gz
@@ -178,7 +178,10 @@ class Gerp(object):
         if self.word:
             rg_words.append("--word-regexp")
 
-        rg_words.extend(["--regexp", self.pattern])
+        pattern = self.pattern
+        if pattern.startswith("-"):
+            pattern = "[-]" + pattern[1:]
+        rg_words.extend(["--regexp", pattern])
 
         for root in self.roots:
             p = subprocess.Popen(rg_words + [root], stdout=subprocess.PIPE)
