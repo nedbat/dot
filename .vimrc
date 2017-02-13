@@ -381,7 +381,8 @@ Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment'
 Plug 'kana/vim-textobj-line'                        " Whole-line text object
 Plug 'qstrahl/vim-dentures'                         " Indent-based text object
-Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
+"Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
+Plug 'nedbat/vim-space', { 'branch': 'patch-1' }    " get my fix for end-of-virtual-line
 
 Plug 'wellle/visual-split.vim'
 noremap <Leader>* :VSSplit<CR>
@@ -398,10 +399,14 @@ Plug 'junegunn/vim-peekaboo'                        " Pop-up panel to show regis
 let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
 
-Plug 'tommcdo/vim-exchange'                         " cx{motion} - cx{motion} to swap things
+" cx{motion} - cx{motion} to swap things
+Plug 'tommcdo/vim-exchange'
+
+" gr<motion> and grr for replacing things with yanked stuff
+Plug 'vim-scripts/ReplaceWithRegister'
 
 Plug 'atimholt/spiffy_foldtext'
-let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{/=}"
+let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{==}"
 
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
@@ -637,9 +642,9 @@ inoremap <C-V> <C-O>"+gP
 cnoremap <C-V> <C-R>+
 
 " Quick escape-and-save from insert mode.
-inoremap jj <Esc>:write<CR>
-inoremap jJ <Esc>:write<CR>
-inoremap qqj <Esc>:write<CR>
+inoremap <silent> jj <Esc>:update<CR>
+inoremap <silent> jJ <Esc>:update<CR>
+inoremap <silent> qqj <Esc>:update<CR>
 " Quick one-command escape from insert mode.
 inoremap qqo <C-O>
 inoremap qqp <C-O>gwap
