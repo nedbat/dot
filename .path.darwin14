@@ -11,22 +11,35 @@
 PATH=/usr/local/bin:$PATH
 export PATH
 
+# Find stuff that might be installed, and put it on our path.
 if [ -d /Applications/Postgres.app ] ; then
     export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin"
 fi
 
-# iterm2 aliases
+if [ -d /usr/local/Cellar/gettext ] ; then
+    # Find the latest gettext, and add it to the PATH.
+    # \ls is to get unaliased ls.
+    export PATH="$PATH:$(\ls -d1 /usr/local/Cellar/gettext/*/bin | tail -1)"
+fi
+
+# iTerm2 aliases.
 
 alias i2clear="printf '\e]50;ClearScrollback\a'"
 alias i2focus="printf '\e]50;StealFocus\a'"
 alias i2profile="printf '\e]50;SetProfile=%s\a'"
 
-# for dealing with edx devstacks
+# For dealing with edX devstacks.
 vup () {
+    running=$(vagrant global-status | grep running)
+    if [ -n "$running" ]; then
+        echo "Something is already running: $running"
+        return 1
+    fi
     env | egrep --color=no 'OPENEDX|VAGRANT|VERSION'
     sudo -v
     vagrant up
 }
+
 vhalt () {
     sudo -v
     vagrant halt
@@ -46,6 +59,6 @@ vsnap () {
     VBoxManage snapshot $(cat .vagrant/machines/default/virtualbox/id) ${@:-list}
 }
 
-# from aron, of course.
+# From Aron, of course.
 _osaquote() { set -- "${@//\\/\\\\}"; set -- "${@//\"/\\\"}"; printf '"%s" ' "$@"; }
 toast() { osascript -e "display notification $(_osaquote "$*") with title \"Hey there\""; }
