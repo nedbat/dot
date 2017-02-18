@@ -29,20 +29,6 @@ IGNORE_DIFF = \( -name 'plugged' -o -name '.git' \)
 difffiles:
 	find . $(IGNORE_DIFF) -prune -o -type f -exec diff -q ~/{} {} \; 2>/dev/null
 
-unpack: webfaction dreamhost
-
-webfaction: $(TAR_FILE)
-	scp $(TAR_FILE) nedbat@nedbatchelder.com:.
-	ssh nedbat@nedbatchelder.com $(UNTAR)
-
-dreamhost: $(TAR_FILE)
-	scp $(TAR_FILE) nedbat@nedbatchelder.net:.
-	ssh nedbat@nedbatchelder.net $(UNTAR)
-
-pos: $(TAR_FILE)
-	scp $(TAR_FILE) $@:.
-	ssh $@ $(UNTAR)
-
 CYG_SSH = /home/ned/.ssh
 
 cygwin: $(KEY_FILE)
