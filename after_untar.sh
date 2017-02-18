@@ -5,8 +5,8 @@
 # .ssh should be secured.
 chmod 700 .ssh
 
-# Some Mac junk got into some tarballs
-if [[ $(uname) == 'Linux' ]]; then
-    find . -name '.DS_Store' -delete
-    find . -name '._*' -delete
+# Some Mac junk got into some tarballs. Clean it.
+if [[ $(uname) != 'Darwin' ]]; then
+    echo "Cleaning Mac junk"
+    find . \( -name '.DS_Store' -o -name '._*' \) -print -delete 2>/dev/null
 fi
