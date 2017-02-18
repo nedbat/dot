@@ -16,32 +16,19 @@ shopt -s checkwinsize
 # If you bork a ! in bash, this lets you edit the line.
 shopt -s histreedit
 
-#
 # Set PATH & MANPATH
-#
-if [ -r ~/.path ] ; then
-    . ~/.path
-fi
+
+# Shared object library
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
+
+# Execute search path
+export PATH=$HOME/bin:/opt/local/bin:$PATH:/usr/sbin
 
 #
 # Add OS specific PATH & MANPATH info
 #
 if [ -r ~/.path.$OSTYPE ] ; then
     . ~/.path.$OSTYPE
-fi
-
-#
-# Add workstation specific PATH & MANPATH info
-#
-if [ -r ~/.path.$hostname ] ; then
-    . ~/.path.$hostname
-fi
-
-#
-# Add a "local" path.
-#
-if [ -r ~/.path.local ] ; then
-    . ~/.path.local
 fi
 
 stty erase ^H

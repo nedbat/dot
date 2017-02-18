@@ -1,7 +1,0 @@
-#
-# OS specific Unix path assignments
-#
-
-[ -n "$PS1" ] && echo '.path.darwin7.0'
-
-export PYTHONPATH=/sw/lib/python2.3/lib-dynload
