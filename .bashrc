@@ -22,14 +22,7 @@ shopt -s histreedit
 export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
 
 # Execute search path
-export PATH=$HOME/bin:/opt/local/bin:$PATH:/usr/sbin
-
-#
-# Add OS specific PATH & MANPATH info
-#
-if [ -r ~/.path.$OSTYPE ] ; then
-    . ~/.path.$OSTYPE
-fi
+export PATH=$HOME/bin:/usr/local/bin:/opt/local/bin:$PATH:/usr/sbin
 
 stty erase ^H
 
@@ -176,6 +169,46 @@ wtitle() {
     echo -ne "\033]2;$@\007"
 }
 
+# iTerm2 aliases.
+
+alias i2clear="printf '\e]50;ClearScrollback\a'"
+alias i2focus="printf '\e]50;StealFocus\a'"
+alias i2profile="printf '\e]50;SetProfile=%s\a'"
+
+# For dealing with vagrant and virtualbox.
+vup() {
+    running=$(vagrant global-status | grep running)
+    if [ -n "$running" ]; then
+        echo "Something is already running: $running"
+        return 1
+    fi
+    env | egrep --color=no 'OPENEDX|VAGRANT|VERSION'
+    sudo -v
+    vagrant up
+}
+
+vhalt() {
+    sudo -v
+    vagrant halt
+}
+
+vssh() {
+    i2profile Purp
+    old_title="$WINDOW_TITLE"
+    title ${@:-InVagrant}
+    vagrant ssh
+    i2profile Main
+    title $old_title
+}
+
+vgst() {
+    vagrant global-status
+}
+
+vsnap() {
+    VBoxManage snapshot $(cat .vagrant/machines/default/virtualbox/id) ${@:-list}
+}
+
 # Find the first file that exists in a list of possibilities.
 first_of() {
     for f; do
@@ -221,6 +254,17 @@ if [[ -f $completion_source ]]; then
     . $completion_source
 fi
 
+# Find stuff that might be installed, and put it on our path.
+if [[ -d /Applications/Postgres.app ]] ; then
+    export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin"
+fi
+
+if [[ -d /usr/local/Cellar/gettext ]] ; then
+    # Find the latest gettext, and add it to the PATH.
+    # \ls is to get unaliased ls.
+    export PATH="$PATH:$(\ls -d1 /usr/local/Cellar/gettext/*/bin | tail -1)"
+fi
+
 # Other junk...
 if [ -d $HOME/.rbenv/shims ] ; then
     eval "$(rbenv init -)"
@@ -248,6 +292,10 @@ alias comas='git checkout master'
 alias codog='git checkout named-release/dogwood.rc'
 alias coeuc='git checkout open-release/eucalyptus.master'
 alias cofic='git checkout open-release/ficus.master'
+
+# From Aron, of course.
+_osaquote() { set -- "${@//\\/\\\\}"; set -- "${@//\"/\\\"}"; printf '"%s" ' "$@"; }
+toast() { osascript -e "display notification $(_osaquote "$*") with title \"Hey there\""; }
 
 ### Added by fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

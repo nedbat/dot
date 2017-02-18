@@ -13,7 +13,7 @@ rm -vf .cshrc .profile
 
 # Remove things we used to use.
 rm -vf .sh_environment .sh_environment.Linux
-rm -vf .path .path.Linux .path.darwin12 .path.darwin7.0
+rm -vf .path .path.Linux .path.darwin12 .path.darwin14 .path.darwin7.0
 rm -vf .path.solaris .path.solaris2.8
 rm -vf .emacs .cvspass .rhosts
 rm -vf .vim/plugin/qfixtoggle.vim
