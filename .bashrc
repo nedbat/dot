@@ -7,13 +7,6 @@
 
 [[ -n $PS1 ]] && echo -n '(.bashrc) '
 
-if [ "$hostname" = "" ]; then
-    source="BASHRC"
-    . ~/.bash_profile
-fi
-
-# Definitions
-#
 # Generic file permissions
 umask 22
 
