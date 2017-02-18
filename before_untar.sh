@@ -2,14 +2,18 @@
 # Commands run before untarring.
 
 # tabblo days...
-rm -f .path.hulk .path.lnxvcer3 .path.twain
-rm -f .path.g1t0236 .path.g1t0252g .path.g1t0253g .path.g1t0473g .path.g1t0474g
-rm -f .path.marquez .path.thompson .bash_profile.galileo
-rm -f .ssh/ned-davinci.pub .ssh/ned-marquez.pub .ssh/ned-salinger.pub .ssh/ned-twain.pub
-rm -f .ssh/dcs.pub .ssh/eddie.pub
+rm -vf .path.hulk .path.lnxvcer3 .path.twain
+rm -vf .path.g1t0236 .path.g1t0252g .path.g1t0253g .path.g1t0473g .path.g1t0474g
+rm -vf .path.marquez .path.thompson .bash_profile.galileo
+rm -vf .ssh/ned-davinci.pub .ssh/ned-marquez.pub .ssh/ned-salinger.pub .ssh/ned-twain.pub
+rm -vf .ssh/dcs.pub .ssh/eddie.pub
 
-rm -vf .rhosts .cshrc .profile .path.solaris .path.solaris2.8
-rm -vf .emacs .cvspass
+# Remove things that might be in the account by default that we don't want.
+rm -vf .cshrc .profile 
+
+# Remove things we used to use.
+rm -vf .path.solaris .path.solaris2.8
+rm -vf .emacs .cvspass .rhosts
 rm -vf .vim/plugin/qfixtoggle.vim
 rm -vf .vim/doc/fuf.* .vim/plugin/fuf.vim
 rm -vrf .vim/autoload/fuf
@@ -25,7 +29,7 @@ rm -vf .vim/doc/tags
 rm -vrf .vim/bundle
 
 # Old way of handling tar cleanup.
-rm -f .after_untar
+rm -vf .after_untar
 
 # Plugins are fully provided in the tarball, so delete whatever is there, or
 # we have no way of removing plugins we no longer use.
