@@ -1,3 +1,4 @@
+#!/bin/bash
 # Commands that will be run after untarring to remove the local copies of 
 # old files, and to put new files into their proper places.
 
