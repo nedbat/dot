@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ -z $PS1 ]] && return
 
-[[ -n $PS1 ]] && echo -n '(.bashrc) '
+[[ -n $PS1 ]] && echo '(.bashrc) '
 
 # Generic file permissions
 umask 22
