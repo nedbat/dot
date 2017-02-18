@@ -1,3 +1,4 @@
+#!/bin/bash
 # read for all interactive shells
 #
 
@@ -270,3 +271,8 @@ alias cofic='git checkout open-release/ficus.master'
 
 ### Added by fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Read a local file if it exists.
+if [[ -f ~/.bashrc.local ]]; then
+    . ~/.bashrc.local
+fi

@@ -13,6 +13,7 @@ rm -vf .cshrc .profile
 
 # Remove things we used to use.
 rm -vf .path.solaris .path.solaris2.8
+rm -vf .sh_environment
 rm -vf .emacs .cvspass .rhosts
 rm -vf .vim/plugin/qfixtoggle.vim
 rm -vf .vim/doc/fuf.* .vim/plugin/fuf.vim

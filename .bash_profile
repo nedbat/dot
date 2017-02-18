@@ -1,38 +1,10 @@
-#
-# Executed by BASH shell login
-#
+#!/bin/bash
 
-[ -n "$PS1" ] && echo -n '(.bash_profile) '
+# Read by login shells, but the distinction is unimportant, so just read the
+# real .bashrc here.
 
-#
-# Call the aliases
-#
-if [ -r ~/.sh_environment ]; then
-    . ~/.sh_environment
-fi
+. ~/.bashrc
 
-#
-# Setup system path names
-#
-if [ "$source" != "BASHRC" ]; then
-    if [ -r ~/.bashrc ]; then
-        . ~/.bashrc
-    fi
-fi
-
-# Stop CTRL-D logout
-ignoreeof=1
-
-#
-# Call hostname specific profile
-#
-if [ -f ~/.bash_profile.$hostname ]; then
-    . ~/.bash_profile.$hostname
-fi
-
-#
-# Call local profile
-#
 if [ -f ~/.bash_profile.local ]; then
-    . ~/.bash_profile.local
+    echo "*** Not reading .bash_profile.local: rename to .bashrc.local"
 fi
