@@ -16,3 +16,5 @@ if [[ $(uname) != 'Darwin' ]]; then
     echo "Cleaning Mac junk"
     find . \( -name '.DS_Store' -o -name '._*' \) -print -delete 2>/dev/null
 fi
+
+echo "You can delete dot.sh if you like"
