@@ -31,7 +31,7 @@ rm -vf .vim/doc/tags
 rm -vrf .vim/bundle
 
 # Old way of handling tar cleanup.
-rm -vf .after_untar
+rm -vf .after_untar .clean_old_dot_files
 
 # Plugins are fully provided in the tarball, so delete whatever is there, or
 # we have no way of removing plugins we no longer use.
