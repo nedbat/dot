@@ -541,10 +541,8 @@ noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 
 " Toggle list mode to see special characters.
 set listchars=tab:→‐,trail:◘,nbsp:␣,eol:¶
-if (version > 704) || ((version == 704) && has('patch710'))
-    " space was added in 7.4.710
-    set listchars+=space:·
-endif
+" space was added in 7.4.710
+silent! set listchars+=space:·
 
 " Show only one window on the screen, but keep the explorers open.
 noremap <silent> <Leader>1 :only!\|:NERDTreeToggle\|:vertical resize 30\|:wincmd b<CR>
