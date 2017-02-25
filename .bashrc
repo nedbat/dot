@@ -91,7 +91,7 @@ alias h='hg'
 export GIT_PS1_SHOWSTASHSTATE='y'
 export GIT_PS1_SHOWDIRTYSTATE='y'
 
-if [ -r ~/.git-completion.bash ] ; then
+if [[ -r ~/.git-completion.bash ]] ; then
     . ~/.git-completion.bash
     __git_complete g __git_main
     __git_complete gi __git_main
@@ -135,7 +135,7 @@ ipinfo() {
 
 # e means gvim, vim or vi, depending on what's installed.
 export EDITOR=vim
-if [ -x /Applications/MacVim.app/Contents/MacOS/Vim ] ; then
+if [[ -x /Applications/MacVim.app/Contents/MacOS/Vim ]] ; then
     alias e='/Applications/MacVim.app/Contents/MacOS/Vim --servername VIM --remote-silent "$@"'
     alias vim=/Applications/MacVim.app/Contents/MacOS/Vim
     export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
@@ -221,7 +221,7 @@ first_of() {
 }
 
 # pythonz
-if [ -d /usr/local/pythonz ] ; then
+if [[ -d /usr/local/pythonz ]] ; then
     export PYTHONZ_ROOT=/usr/local/pythonz
     source $PYTHONZ_ROOT/etc/bashrc
 fi
@@ -265,16 +265,6 @@ if [[ -d /usr/local/Cellar/gettext ]] ; then
     export PATH="$PATH:$(\ls -d1 /usr/local/Cellar/gettext/*/bin | tail -1)"
 fi
 
-# Other junk...
-if [ -d $HOME/.rbenv/shims ] ; then
-    eval "$(rbenv init -)"
-fi
-
-if [ -d /usr/local/heroku/bin ] ; then
-    ### Added by the Heroku Toolbelt
-    export PATH="/usr/local/heroku/bin:$PATH"
-fi
-
 # Set shell prompt, if we're interactive.
 if [[ $- = *i* ]]; then
     plain_prompt() {
@@ -296,16 +286,45 @@ if [[ -d /src/edx/edx-platform ]]; then
 fi
 
 # From Aron, of course.
-_osaquote() { set -- "${@//\\/\\\\}"; set -- "${@//\"/\\\"}"; printf '"%s" ' "$@"; }
-toast() { osascript -e "display notification $(_osaquote "$*") with title \"Hey there\""; }
+if command -v osascript >/dev/null; then
+    _osaquote() {
+        set -- "${@//\\/\\\\}"
+        set -- "${@//\"/\\\"}"
+        printf '"%s" ' "$@"
+    }
 
-### Added by fzf
-[[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
+    toast() {
+        osascript -e "display notification $(_osaquote "$*") with title \"Hey there\""
+    }
+fi
 
-### Added by acme.sh
-[[ -f ~/.acme.sh/acme.sh.env ]] && source ~/.acme.sh/acme.sh.env
+##
+## Third-party tools
+##
 
-# Read a local file if it exists.
+if [[ -d $HOME/.rbenv/shims ]]; then
+    eval "$(rbenv init -)"
+fi
+
+if [[ -d /usr/local/heroku/bin ]]; then
+    ### Added by the Heroku Toolbelt
+    export PATH="/usr/local/heroku/bin:$PATH"
+fi
+
+# Added by fzf
+if [[ -f ~/.fzf.bash ]]; then
+    source ~/.fzf.bash
+fi
+
+# Added by acme.sh
+if [[ -f ~/.acme.sh/acme.sh.env ]]; then
+    source ~/.acme.sh/acme.sh.env
+fi
+
+##
+## Read a local file if it exists.
+##
+
 if [[ -f ~/.bashrc.local ]]; then
     . ~/.bashrc.local
 fi
