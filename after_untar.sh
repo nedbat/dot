@@ -5,6 +5,12 @@
 # .ssh should be secured.
 chmod 700 .ssh
 
+# Some old files need to be renamed.
+if [[ -f .path.local ]]; then
+    echo Renaming .path.local to .bashrc.local
+    mv .path.local .bashrc.local
+fi
+
 # Some Mac junk got into some tarballs. Clean it.
 if [[ $(uname) != 'Darwin' ]]; then
     echo "Cleaning Mac junk"

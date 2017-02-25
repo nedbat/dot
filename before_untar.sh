@@ -19,6 +19,7 @@ rm -vf .emacs .cvspass .rhosts
 rm -vf .vim/plugin/qfixtoggle.vim
 rm -vf .vim/doc/fuf.* .vim/plugin/fuf.vim
 rm -vrf .vim/autoload/fuf
+rm -vf .xchat_freenode .xchat_guildofwriters .xchat_macroped
 
 # Moved to pathogen, remove .vim stuff from the old locations
 rm -vf .vim/doc/NERD_tree.txt .vim/doc/fugitive.txt .vim/doc/qfixtoggle.txt
