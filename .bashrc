@@ -288,17 +288,22 @@ if [[ $- = *i* ]]; then
 fi
 
 # Open edX helpers
-alias comas='git checkout master'
-alias codog='git checkout named-release/dogwood.rc'
-alias coeuc='git checkout open-release/eucalyptus.master'
-alias cofic='git checkout open-release/ficus.master'
+if [[ -d /src/edx/edx-platform ]]; then
+    alias comas='git checkout master'
+    alias codog='git checkout named-release/dogwood.rc'
+    alias coeuc='git checkout open-release/eucalyptus.master'
+    alias cofic='git checkout open-release/ficus.master'
+fi
 
 # From Aron, of course.
 _osaquote() { set -- "${@//\\/\\\\}"; set -- "${@//\"/\\\"}"; printf '"%s" ' "$@"; }
 toast() { osascript -e "display notification $(_osaquote "$*") with title \"Hey there\""; }
 
 ### Added by fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[[ -f ~/.fzf.bash ]] && source ~/.fzf.bash
+
+### Added by acme.sh
+[[ -f ~/.acme.sh/acme.sh.env ]] && source ~/.acme.sh/acme.sh.env
 
 # Read a local file if it exists.
 if [[ -f ~/.bashrc.local ]]; then
