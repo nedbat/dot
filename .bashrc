@@ -34,8 +34,8 @@ export IGNOREEOF=10
 # Set history settings
 # Don't record the same command twice in a row
 export HISTCONTROL=ignoredups
-# Save 10000 commands in the history file.
-export HISTSIZE=10000
+# Save 100000 commands in the history file.
+export HISTSIZE=100000
 # Don't save 1- or 2-letter commands, or space-started commands, or duplicates.
 export HISTIGNORE='?:??: *:&'
 # Append to the history file, don't overwrite it.

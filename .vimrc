@@ -266,6 +266,7 @@ let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_custom_ignore = {
     \ 'dir': '\v/htmlcov$',
     \ }
+let g:ctrlp_max_files = 0
 let g:ctrlp_max_height = 30
 let g:ctrlp_mruf_max = 1000
 let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
@@ -403,9 +404,6 @@ let g:peekaboo_delay = 750
 
 " cx{motion} - cx{motion} to swap things
 Plug 'tommcdo/vim-exchange'
-
-" gr<motion> and grr for replacing things with yanked stuff
-Plug 'vim-scripts/ReplaceWithRegister'
 
 Plug 'atimholt/spiffy_foldtext'
 let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{==}"
@@ -748,12 +746,13 @@ nnoremap gk k
 nnoremap j gj
 nnoremap k gk
 
-
 " Yank from the cursor to the end of the line, to be consistent with C and D.
 nnoremap Y y$
 
 " qq to record, Q to replay (thanks, junegunn)
 nnoremap Q @q
+
+runtime macros/matchit.vim
 
 " Figure out if Python is properly configured.
 try

@@ -8,6 +8,7 @@
 [alias]
   # In an alias, an initial ":" command indicates what git command completion
   # to use for the alias.
+  amend = commit --amend --no-edit
   br = branch
   co = checkout
   ci = commit
