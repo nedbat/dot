@@ -63,4 +63,16 @@ highlight diffAdded     gui=NONE            guifg=NONE          guibg=#d0ffd0
 highlight diffRemoved   gui=NONE            guifg=NONE          guibg=#ffd0d0
 highlight diffFile                          guifg=Black         guibg=#e0e0e0
 
+" IRC logs
+highlight ircDate       gui=NONE            guifg=#888888
+highlight ircName       gui=bold
+highlight ircSpeaker    gui=bold
+highlight ircSys        gui=NONE            guifg=#aaaaaa
+highlight ircAction     gui=bold            guifg=Red           guibg=#ffdddd
+highlight ircURL        gui=NONE            guifg=Blue          guibg=White
+highlight! link ircError Normal
+highlight! link ircIncr Normal
+highlight! link ircDecr Normal
+highlight! link ircDo Normal
+
 " vim: tabstop=4 softtabstop=4 shiftwidth=4 expandtab

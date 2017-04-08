@@ -215,6 +215,12 @@ augroup XmlSettings
 "    autocmd FileType xml syntax spell default
 augroup end
 
+augroup IrcSettings
+    autocmd!
+    autocmd BufRead */log/irc/**/*.log set filetype=irc
+    autocmd FileType irc setlocal colorcolumn=
+augroup end
+
 if exists('##OptionSet')
     augroup AllFileSettings
         autocmd!
@@ -410,7 +416,8 @@ let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{==}"
 
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
-Plug 'trapd00r/irc.vim', { 'for': 'irc' }
+"Plug 'trapd00r/irc.vim', { 'for': 'irc' }
+Plug 'nedbat/irc.vim', { 'for': 'irc' }
 
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 
