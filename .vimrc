@@ -221,6 +221,11 @@ augroup IrcSettings
     autocmd FileType irc setlocal colorcolumn=
 augroup end
 
+augroup HomeTxtSettings
+    autocmd!
+    autocmd BufRead work/home.txt setlocal colorcolumn=11,151
+augroup end
+
 if exists('##OptionSet')
     augroup AllFileSettings
         autocmd!
@@ -523,6 +528,8 @@ function! <SID>RemoveFancyCharacters()
 endfunction
 
 " Show the syntax highlight group for the current character.
+" Even better: https://gist.github.com/mcantor/7bff61685e8b17acee56d977b025a705
+" from https://github.com/mcantor/dotfiles/blob/master/vim/.vimrc#L604-L646
 map <silent><Leader>h :echo
 \ "hi=" . synIDattr(synID(line("."),col("."),1),"name") .
 \ " trans=" . synIDattr(synID(line("."),col("."),0),"name") .
@@ -731,7 +738,8 @@ function! QfSortEntries()
 endfunction
 
 noremap <Leader>s :call RunGrep('')<CR>
-noremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
+nnoremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
+vnoremap <Leader>a :call RunGrep(substitute(getline("'<")[getpos("'<")[2]-1:getpos("'>")[2]-1], ' ', '.', 'g'))<CR>
 nnoremap <silent> <Leader>c :botright copen<CR>
 
 " Adapted from:
