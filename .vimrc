@@ -739,7 +739,7 @@ endfunction
 
 noremap <Leader>s :call RunGrep('')<CR>
 nnoremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
-vnoremap <Leader>a :call RunGrep(substitute(getline("'<")[getpos("'<")[2]-1:getpos("'>")[2]-1], ' ', '.', 'g'))<CR>
+vnoremap <Leader>a y:call RunGrep(substitute(@", ' ', '.', 'g'))<CR>
 nnoremap <silent> <Leader>c :botright copen<CR>
 
 " Adapted from:
