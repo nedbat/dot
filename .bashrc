@@ -128,8 +128,19 @@ gittree() {
     gittreeif @ "$@"
 }
 
+# Docker
+
+alias d='docker'
+alias dc='docker-compose'
+
+
+# Get IP info from IP address on command line or clipboard.
 ipinfo() {
-    curl ipinfo.io/$(echo "$@" | tr -C '[0-9a-f.:\n]' .)
+    local ip="$@"
+    if [[ -z "$ip" ]] ; then
+        local ip="$(clipv)"
+    fi
+    curl ipinfo.io/$(echo "$ip" | tr -C '[0-9a-f.:\n]' .)
     echo
 }
 
@@ -277,12 +288,12 @@ if [[ $- = *i* ]]; then
     fancy_prompt
 fi
 
-# Open edX helpers
-if [[ -d /src/edx/edx-platform ]]; then
-    alias comas='git checkout master'
-    alias codog='git checkout named-release/dogwood.rc'
-    alias coeuc='git checkout open-release/eucalyptus.master'
-    alias cofic='git checkout open-release/ficus.master'
+# Pasting to gist
+if [[ -f /usr/local/bin/gist ]]; then
+    # gistv [FILENAME]: paste the clipboard to Gist
+    gistv() {
+        gist -Ppc -f ${1:-something.txt}
+    }
 fi
 
 # From Aron, of course.

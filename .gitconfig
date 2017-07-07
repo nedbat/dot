@@ -38,6 +38,10 @@
   # Cherry-pick, conveniently
   cp = "!f() { git cherry-pick -x $@; }; f"
 
+  # Find an open-release to switch to
+  oe = "!f() { git checkout $(git branch -a | sed -n -e /open-release.$1.*master/s@remotes/origin/@@p); }; f"
+  mas = checkout master
+
 [color]
   ui = true
 
