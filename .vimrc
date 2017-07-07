@@ -333,6 +333,7 @@ let g:tagbar_type_html = {
     \ ]
 \ }
 
+Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
 let g:tagbar_type_rst = {
     \ 'ctagstype': 'rst',
     \ 'ctagsbin': expand('~/.vim/plugged/rst2ctags/rst2ctags.py'),
@@ -402,7 +403,6 @@ Plug 'wellle/visual-split.vim'
 noremap <Leader>* :VSSplit<CR>
 noremap <Leader><Leader>* :VSResize<CR>
 
-Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
 Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
 
 Plug 'AndrewRadev/splitjoin.vim'                    " gS and gJ for smart expanding and contracting
@@ -450,6 +450,11 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }  " Display undotree
 " Display more information with ga
 Plug 'manicmaniac/betterga'
 let g:betterga_template = '<{ci.char}> "{ci.name}" ({ci.category}) {ci.ord} {ci.hex}'
+
+" +/- auto-expand-contract selected region.
+Plug 'terryma/vim-expand-region'
+map + <Plug>(expand_region_expand)
+map - <Plug>(expand_region_shrink)
 
 call plug#end()
 
