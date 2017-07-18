@@ -209,21 +209,14 @@ augroup end
 augroup XmlSettings
     autocmd!
     autocmd BufRead,BufNewFile *.px,*.bx set filetype=xml
-" Suggested by fmoralesc, but doesn't work yet.  XML doesn't spell check
-" regular text?
-"    autocmd FileType xml syntax match xmlAURL /["']\zs.*\ze["']/ contained containedin=xmlString contains=@NoSpell transparent
-"    autocmd FileType xml syntax spell default
+    " Make plain text in XML be spell-checked.
+    autocmd FileType xml syntax spell toplevel
 augroup end
 
 augroup IrcSettings
     autocmd!
     autocmd BufRead */log/irc/**/*.log set filetype=irc
     autocmd FileType irc setlocal colorcolumn=
-augroup end
-
-augroup HomeTxtSettings
-    autocmd!
-    autocmd BufRead work/home.txt setlocal colorcolumn=11,151
 augroup end
 
 if exists('##OptionSet')
