@@ -764,6 +764,7 @@ nnoremap Y y$
 
 " qq to record, Q to replay (thanks, junegunn)
 nnoremap Q @q
+xnoremap Q @q
 
 runtime macros/matchit.vim
 
