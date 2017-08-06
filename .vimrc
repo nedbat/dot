@@ -582,11 +582,11 @@ set whichwrap+=<,>,[,]
 set t_kb=                           " Use the delete key for backspace (the blot is ^?)
 
 " Indenting in visual mode keeps the visual highlight.
-vnoremap < <gv
-vnoremap > >gv
+xnoremap < <gv
+xnoremap > >gv
 " Indent in visual, but don't adjust relative indents in the block.
-vnoremap <Leader>< <Esc>:setlocal noshiftround<CR>gv<:setlocal shiftround<CR>gv
-vnoremap <Leader>> <Esc>:setlocal noshiftround<CR>gv>:setlocal shiftround<CR>gv
+xnoremap <Leader>< <Esc>:setlocal noshiftround<CR>gv<:setlocal shiftround<CR>gv
+xnoremap <Leader>> <Esc>:setlocal noshiftround<CR>gv>:setlocal shiftround<CR>gv
 
 " Remove annoying F1 help.
 inoremap <F1> <Nop>
@@ -595,9 +595,9 @@ vnoremap <F1> <Nop>
 
 " Jump to start and end of line using the home row keys.
 nnoremap H ^
-vnoremap H ^
+xnoremap H ^
 nnoremap L $
-vnoremap L $
+xnoremap L $
 
 " Fix the filetype for .md files.
 augroup MarkDownType
@@ -737,7 +737,7 @@ endfunction
 
 noremap <Leader>s :call RunGrep('')<CR>
 nnoremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
-vnoremap <Leader>a y:call RunGrep(substitute(@", ' ', '.', 'g'))<CR>
+xnoremap <Leader>a y:call RunGrep(substitute(@", ' ', '.', 'g'))<CR>
 nnoremap <silent> <Leader>c :botright copen<CR>
 
 " Adapted from:
