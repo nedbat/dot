@@ -195,7 +195,7 @@ vup() {
     fi
     env | egrep --color=no 'OPENEDX|VAGRANT|VERSION'
     sudo -v
-    vagrant up
+    vagrant up $@
 }
 
 vhalt() {
@@ -218,6 +218,16 @@ vgst() {
 
 vsnap() {
     VBoxManage snapshot $(cat .vagrant/machines/default/virtualbox/id) ${@:-list}
+}
+
+# AWS helpers
+
+assh() {
+    ssh -i ~/.ssh/ned-aws-install-testing.pem $AWS
+}
+
+ascp() {
+    scp -i ~/.ssh/ned-aws-install-testing.pem $@
 }
 
 # Find the first file that exists in a list of possibilities.
@@ -315,11 +325,6 @@ fi
 
 if [[ -d $HOME/.rbenv/shims ]]; then
     eval "$(rbenv init -)"
-fi
-
-if [[ -d /usr/local/heroku/bin ]]; then
-    ### Added by the Heroku Toolbelt
-    export PATH="/usr/local/heroku/bin:$PATH"
 fi
 
 # Added by fzf
