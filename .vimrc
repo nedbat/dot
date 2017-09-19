@@ -268,7 +268,7 @@ Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
 noremap <silent> <Leader>e :CtrlP<CR>
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v/htmlcov$',
+    \ 'dir': '\v(/htmlcov|/node_modules)$',
     \ }
 let g:ctrlp_max_files = 0
 let g:ctrlp_max_height = 30
@@ -290,6 +290,7 @@ if v:version >= 700
         \ '\.pyc$', '\.pyo$', '\.pyd$', '\$py\.class$',
         \ '\.o$', '\.so$',
         \ '^__pycache__$', '\.egg-info$',
+        \ 'node_modules',
         \ ]
     let g:NERDTreeSortOrder = ['^_.*', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
     let g:NERDTreeShowBookmarks = 0
@@ -388,6 +389,7 @@ Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
 Plug 'Julian/vim-textobj-variable-segment'
 Plug 'kana/vim-textobj-line'                        " Whole-line text object
+Plug 'kana/vim-textobj-fold'                        " Manual-fold text object
 Plug 'qstrahl/vim-dentures'                         " Indent-based text object
 "Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
 Plug 'nedbat/vim-space', { 'branch': 'patch-1' }    " get my fix for end-of-virtual-line
@@ -398,16 +400,9 @@ noremap <Leader><Leader>* :VSResize<CR>
 
 Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
 
-Plug 'AndrewRadev/splitjoin.vim'                    " gS and gJ for smart expanding and contracting
-let g:splitjoin_trailing_comma = 1
-let g:splitjoin_python_brackets_on_separate_lines = 1
-
 Plug 'junegunn/vim-peekaboo'                        " Pop-up panel to show registers
 let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
-
-" cx{motion} - cx{motion} to swap things
-Plug 'tommcdo/vim-exchange'
 
 Plug 'atimholt/spiffy_foldtext'
 let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{==}"
@@ -438,18 +433,72 @@ xmap aa <Plug>SidewaysArgumentTextobjA
 omap ia <Plug>SidewaysArgumentTextobjI
 xmap ia <Plug>SidewaysArgumentTextobjI
 
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }  " Display undotree
-
 " Display more information with ga
 Plug 'manicmaniac/betterga'
 let g:betterga_template = '<{ci.char}> "{ci.name}" ({ci.category}) {ci.ord} {ci.hex}'
 
-" +/- auto-expand-contract selected region.
-Plug 'terryma/vim-expand-region'
-map + <Plug>(expand_region_expand)
-map - <Plug>(expand_region_shrink)
+" JavaScript niceness
+Plug 'pangloss/vim-javascript'                      " Basic JavaScript highlighting
+Plug 'mxw/vim-jsx'                                  " Support jsx for React
+let g:jsx_ext_required = 0
+
+Plug 'luochen1990/rainbow'                          " Parens in multiple colors
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+\   'guifgs': ['royalblue3', 'darkorange3', 'seagreen4', 'firebrick'],
+\   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+\   'operators': '_,_',
+\   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+\   'separately': {
+\       '*': {},
+\       'lisp': {
+\           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+\       },
+\       'tex': {
+\           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+\       },
+\       'vim': {
+\           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+\       },
+\       'xml': {
+\           'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
+\           'operators': '',
+\       },
+\       'xhtml': {
+\           'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
+\           'operators': '',
+\       },
+\       'html': {
+\           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+\           'operators': '',
+\       },
+\       'php': {
+\           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold', 'start=/(/ end=/)/ containedin=@htmlPreproc contains=@phpClTop', 'start=/\[/ end=/\]/ containedin=@htmlPreproc contains=@phpClTop', 'start=/{/ end=/}/ containedin=@htmlPreproc contains=@phpClTop'],
+\       },
+\       'css': 0,
+\       'sh': {
+\           'parentheses': [['\(^\|\s\)\S*()\s*{\?\($\|\s\)','_^{_','}'], ['\(^\|\s\)if\($\|\s\)','_\(^\|\s\)\(then\|else\|elif\)\($\|\s\)_','\(^\|\s\)fi\($\|\s\)'], ['\(^\|\s\)for\($\|\s\)','_\(^\|\s\)\(do\|in\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)while\($\|\s\)','_\(^\|\s\)\(do\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)case\($\|\s\)','_\(^\|\s\)\(\S*)\|in\|;;\)\($\|\s\)_','\(^\|\s\)esac\($\|\s\)']],
+\       },
+\   }
+\}
+
 
 call plug#end()
+
+" Plugins I tried but didn't end up actually using:
+"
+"   Plug 'AndrewRadev/splitjoin.vim'                    " gS and gJ for smart expanding and contracting
+"   let g:splitjoin_trailing_comma = 1
+"   let g:splitjoin_python_brackets_on_separate_lines = 1
+"
+"   " cx{motion} - cx{motion} to swap things
+"   Plug 'tommcdo/vim-exchange'
+"   Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }  " Display undotree
+"
+"   " +/- auto-expand-contract selected region.
+"   Plug 'terryma/vim-expand-region'
+"   map + <Plug>(expand_region_expand)
+"   map - <Plug>(expand_region_shrink)
 
 ""
 "" Custom functions
@@ -539,15 +588,18 @@ noremap <Leader>p gwap
 noremap <Leader><Leader>p gw}
 nnoremap coa :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
 
-noremap <silent> <Leader>q :quit<CR>
-noremap <silent> <Leader><Leader>q :Bclose<CR>
-noremap <Leader>w :write<CR>
-noremap <Leader><Leader>w :wall<CR>
+noremap <Leader>q :quit<CR>
+noremap <Leader><Leader>q :Bclose<CR>
+noremap <Leader>w :<C-U>write<CR>
+noremap <Leader><Leader>w :<C-U>wall<CR>
 noremap <Leader>x :exit<CR>
 
 noremap <Leader>2 :setlocal shiftwidth=2 softtabstop=2<CR>
 noremap <Leader>4 :setlocal shiftwidth=4 softtabstop=4<CR>
 noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
+
+" zM is close-all-folds, but I can never remember it.
+nnoremap z0 zM
 
 " Toggle list mode to see special characters.
 set listchars=tab:→‐,trail:◘,nbsp:␣,eol:¶
