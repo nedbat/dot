@@ -56,6 +56,9 @@ endfunction
 nnoremap <Leader>0 :call FontNormal()<cr>
 nnoremap <Leader>- :call FontSmaller()<cr>
 nnoremap <Leader>+ :call FontBigger()<cr>
+xnoremap <Leader>0 :call FontNormal()<cr>
+xnoremap <Leader>- :call FontSmaller()<cr>
+xnoremap <Leader>+ :call FontBigger()<cr>
 
 call FontNormal()
 

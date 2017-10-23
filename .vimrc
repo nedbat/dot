@@ -25,7 +25,7 @@ set showmatch                           " Blink matching punctuation
 set modeline modelines=2                " Read vim settings from the file itself
 set encoding=utf-8
 set fileformat=unix fileformats=unix,dos
-set wildignore=*.o,*~,*.pyc
+set wildignore=*.o,*~,*.pyc,*.pyo,*\$py.class
 
 set foldmethod=syntax foldlevelstart=999
 
@@ -268,7 +268,7 @@ Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
 noremap <silent> <Leader>e :CtrlP<CR>
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v(/htmlcov|/node_modules)$',
+    \ 'dir': '\v(/htmlcov|/node_modules|/__pycache__|\.egg-info)$',
     \ }
 let g:ctrlp_max_files = 0
 let g:ctrlp_max_height = 30
@@ -712,7 +712,7 @@ cnoremap <C-V> <C-R>+
 " Quick escape-and-save from insert mode.
 inoremap <silent> jj <Esc>:update<CR>
 inoremap <silent> jJ <Esc>:update<CR>
-inoremap <silent> qqj <Esc>:update<CR>
+inoremap <silent> qqj <C-O>:update<CR>
 " Quick one-command escape from insert mode.
 inoremap qqo <C-O>
 inoremap qqp <C-O>gwap
