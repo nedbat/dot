@@ -188,13 +188,13 @@ alias i2profile="printf '\e]50;SetProfile=%s\a'"
 
 # For dealing with vagrant and virtualbox.
 vup() {
+    sudo -v
     running=$(vagrant global-status | grep running)
     if [ -n "$running" ]; then
         echo "Something is already running: $running"
         return 1
     fi
     env | egrep --color=no 'OPENEDX|VAGRANT|VERSION'
-    sudo -v
     vagrant up $@
 }
 
