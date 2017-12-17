@@ -12,6 +12,7 @@ hgext.convert =
 hgext.extdiff =
 hgext.mq =
 hgext.purge =
+rebase =
 record =
 transplant =
 shelve =
