@@ -44,4 +44,7 @@ highlight DiffDelete    cterm=None      ctermfg=52          ctermbg=52
 highlight DiffChange    cterm=None      ctermfg=None        ctermbg=236
 highlight DiffText      cterm=None      ctermfg=None        ctermbg=59
 
+" fcpg/vim-spotlightify
+highlight SplfyCurrentMatch             ctermfg=Black       ctermbg=208
+
 " vim: tabstop=4 softtabstop=4 shiftwidth=4 expandtab

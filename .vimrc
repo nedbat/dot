@@ -264,8 +264,10 @@ let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 
 Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
 
-Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
+Plug 'ctrlpvim/ctrlp.vim', { 'on': ['CtrlP', 'CtrlPMRUFiles', 'CtrlPBuffer'] }
 noremap <silent> <Leader>e :CtrlP<CR>
+noremap <silent> <Leader>r :CtrlPMRUFiles<CR>
+noremap <silent> <Leader>b :CtrlPBuffer<CR>
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_custom_ignore = {
     \ 'dir': '\v(/htmlcov|/node_modules|/__pycache__|\.egg-info)$',
@@ -372,6 +374,7 @@ let g:pymode_syntax_string_templates = 1
 let g:pymode_syntax_doctests = 1
 let g:pymode_rope = 0
 let g:pymode_rope_complete_on_dot = 0
+let g:pymode_run = 0
 let g:pymode_breakpoint = 0
 let g:pymode_virtualenv = 1
 
@@ -482,6 +485,14 @@ let g:rainbow_conf = {
 \   }
 \}
 
+" Better highlighting of searches
+Plug 'fcpg/vim-spotlightify'
+let g:splfy_keephls = 1         " Keep the highlights even after moving away from the match
+
+" Open URLs, because netrw's gx is broken: https://github.com/vim/vim/issues/1386
+Plug 'dhruvasagar/vim-open-url'
+nmap gx <Plug>(open-url-browser)
+xmap gx <Plug>(open-url-browser)
 
 call plug#end()
 

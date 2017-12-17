@@ -75,4 +75,7 @@ highlight! link ircIncr Normal
 highlight! link ircDecr Normal
 highlight! link ircDo Normal
 
+" fcpg/vim-spotlightify
+highlight SplfyCurrentMatch                 guifg=Black         guibg=Orange
+
 " vim: tabstop=4 softtabstop=4 shiftwidth=4 expandtab
