@@ -63,6 +63,9 @@ highlight diffAdded     gui=NONE            guifg=NONE          guibg=#d0ffd0
 highlight diffRemoved   gui=NONE            guifg=NONE          guibg=#ffd0d0
 highlight diffFile                          guifg=Black         guibg=#e0e0e0
 
+" Terminal-in-vim
+highlight Terminal                          guifg=Green         guibg=#666666
+
 " IRC logs
 highlight ircDate       gui=NONE            guifg=#888888
 highlight ircName       gui=bold

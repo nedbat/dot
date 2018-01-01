@@ -251,6 +251,9 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 set updatetime=2000
 autocmd CursorHoldI * call feedkeys("\<C-G>u", "nt")
 
+" Terminal-in-vim stuff
+tnoremap <Esc> <C-W>N
+
 ""
 "" Plugins
 ""
