@@ -19,16 +19,16 @@ colorscheme neds                        " Use my colors to whatever extent possi
 function! FontNormal()
     if has("gui_win32")
         set guifont=Consolas:h13
-        set printfont=Consolas:h6
+        set printfont=Consolas:h9
         set linespace=0
     else
         if has("mac")
             set guifont=Consolas:h13
-            set printfont=Consolas:h6
+            set printfont=Consolas:h9
             set linespace=0
         else
             set guifont=Consolas\ 13
-            set printfont=Consolas\ 6
+            set printfont=Consolas\ 9
             set linespace=0
         endif
     endif
