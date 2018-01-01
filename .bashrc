@@ -114,12 +114,11 @@ copysha() {
 gittreeif() {
     local test_branch=$1
     shift
-    local git_cmd="$@"
     find . -name .git -type d -prune | while read d; do
         local d=$(dirname $d)
         git -C $d rev-parse --verify -q $test_branch >& /dev/null || continue
         echo "---- $d ----"
-        git -C $d $git_cmd
+        git -C $d "$@"
     done
 }
 
