@@ -15,6 +15,8 @@ umask 22
 shopt -s checkwinsize
 # If you bork a ! in bash, this lets you edit the line.
 shopt -s histreedit
+# Case-insensitive wildcard matching.
+shopt -s nocaseglob
 
 # Set PATH & MANPATH
 
@@ -38,6 +40,8 @@ export HISTCONTROL=ignoredups
 export HISTSIZE=100000
 # Don't save 1- or 2-letter commands, or space-started commands, or duplicates.
 export HISTIGNORE='?:??: *:&'
+# Save a timestamp with the history.
+export HISTTIMEFORMAT="%Y-%m-%d %T  "
 # Append to the history file, don't overwrite it.
 shopt -s histappend
 # After every command, flush the writable history to the file.
@@ -246,6 +250,11 @@ if [[ -d /usr/local/pythonz ]] ; then
     source $PYTHONZ_ROOT/etc/bashrc
 fi
 
+# pyenv
+if [[ -d /usr/local/pyenv ]] ; then
+    export PYENV_ROOT=/usr/local/pyenv
+fi
+
 # Virtualenvwrapper support
 if $(python -c "import virtualenv" &> /dev/null) ; then
     virtualenvwrappers=(
@@ -289,7 +298,7 @@ fi
 if [[ $- = *i* ]]; then
     plain_prompt() {
         export PROMPT_COMMAND=
-        export PS1="$ "
+        export PS1="\n$ "
     }
     fancy_prompt() {
         source ~/bin/liquidprompt/liquidprompt

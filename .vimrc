@@ -219,11 +219,15 @@ augroup IrcSettings
     autocmd FileType irc setlocal colorcolumn=
 augroup end
 
+autocmd BufNewFile,BufRead * silent! setlocal formatoptions+=jln
+
 if exists('##OptionSet')
     augroup AllFileSettings
         autocmd!
         " Don't want balloons ever. If anyone turns them on, turn them off.
         autocmd OptionSet ballooneval if &ballooneval | set noballooneval | endif
+        " Don't want indentkeys ever
+        autocmd OptionSet indentkeys set indentkeys=o,O
     augroup end
 endif
 
@@ -252,7 +256,9 @@ set updatetime=2000
 autocmd CursorHoldI * call feedkeys("\<C-G>u", "nt")
 
 " Terminal-in-vim stuff
-tnoremap <Esc> <C-W>N
+if has("terminal")
+    tnoremap <Esc> <C-W>N
+endif
 
 ""
 "" Plugins
@@ -311,7 +317,7 @@ else
     let g:loaded_nerd_tree = 1
 endif
 
-noremap <silent> <Leader><Leader>f :echo expand('%:p') . " (cd: " . getcwd() . ")"<CR>
+noremap <silent> <Leader><Leader>f :echo expand('%:p') . " (cwd: " . getcwd() . ")" \| :let @+ = expand("%:p")<CR>
 
 Plug 'majutsushi/tagbar'                            " Tagbar, no 'on', so that statusbar will have tags
 let g:tagbar_width = 40
@@ -482,6 +488,7 @@ let g:rainbow_conf = {
 \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold', 'start=/(/ end=/)/ containedin=@htmlPreproc contains=@phpClTop', 'start=/\[/ end=/\]/ containedin=@htmlPreproc contains=@phpClTop', 'start=/{/ end=/}/ containedin=@htmlPreproc contains=@phpClTop'],
 \       },
 \       'css': 0,
+\       'irc': 0,
 \       'sh': {
 \           'parentheses': [['\(^\|\s\)\S*()\s*{\?\($\|\s\)','_^{_','}'], ['\(^\|\s\)if\($\|\s\)','_\(^\|\s\)\(then\|else\|elif\)\($\|\s\)_','\(^\|\s\)fi\($\|\s\)'], ['\(^\|\s\)for\($\|\s\)','_\(^\|\s\)\(do\|in\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)while\($\|\s\)','_\(^\|\s\)\(do\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)case\($\|\s\)','_\(^\|\s\)\(\S*)\|in\|;;\)\($\|\s\)_','\(^\|\s\)esac\($\|\s\)']],
 \       },
@@ -489,8 +496,8 @@ let g:rainbow_conf = {
 \}
 
 " Better highlighting of searches
-Plug 'fcpg/vim-spotlightify'
-let g:splfy_keephls = 1         " Keep the highlights even after moving away from the match
+" Plug 'fcpg/vim-spotlightify'
+" let g:splfy_keephls = 1         " Keep the highlights even after moving away from the match
 
 " Open URLs, because netrw's gx is broken: https://github.com/vim/vim/issues/1386
 Plug 'dhruvasagar/vim-open-url'
@@ -614,6 +621,7 @@ noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 
 " zM is close-all-folds, but I can never remember it.
 nnoremap z0 zM
+nnoremap z* zR
 
 " Toggle list mode to see special characters.
 set listchars=tab:→‐,trail:◘,nbsp:␣,eol:¶

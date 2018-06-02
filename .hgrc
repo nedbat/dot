@@ -59,6 +59,7 @@ status.ignored = white bold
 [alias]
 ; nice compact log for just the commits leading to the tip.
 h = log -M -l 30 -r "reverse(ancestors(.))" --style=$HOME/.hgstylened
+lh = log -M -r "reverse(ancestors(.))" --style=$HOME/.hgstylened
 ; nice compact log for everything.
 hh = log -M -l 30 --style=$HOME/.hgstylened
 s = status
