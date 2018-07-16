@@ -67,7 +67,7 @@ set display=lastline,uhex               " Display as much as possible of a last 
 set ignorecase smartcase                " If all lower-case, match any case, else be case-sensitive
 set virtualedit=onemore                 " One virtual character at the ends of lines, makes ^V work properly.
 set fillchars=vert:\ ,fold:-,diff:·     " Spaces are enough for vertical split separators.
-set diffopt=filler,foldcolumn:0         " Show lines where missing, no need for a foldcolumn during diff.
+set diffopt=filler,foldcolumn:0,vertical  " Show lines where missing, no need for a foldcolumn during diff, split vertically by default
 
 set noerrorbells                        " Don't ring the bell on errors
 set visualbell t_vb=                    "   and don't flash either.
@@ -270,6 +270,7 @@ silent! call plug#begin()
 
 Plug 'kshenoy/vim-signature'
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
+let g:SignatureMarkerLineHL = 'SignatureMarkLine'
 
 Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
 

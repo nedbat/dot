@@ -63,6 +63,11 @@ highlight diffAdded     gui=NONE            guifg=NONE          guibg=#d0ffd0
 highlight diffRemoved   gui=NONE            guifg=NONE          guibg=#ffd0d0
 highlight diffFile                          guifg=Black         guibg=#e0e0e0
 
+" Marks and Markers in the gutter
+highlight SignatureMarkText     gui=NONE    guifg=Black         guibg=NONE
+highlight SignatureMarkerText   gui=NONE    guifg=Black         guibg=NONE
+highlight SignatureMarkLine     gui=NONE    guifg=NONE          guibg=#ffffd0
+
 " Terminal-in-vim
 highlight Terminal                          guifg=Green         guibg=#666666
 
