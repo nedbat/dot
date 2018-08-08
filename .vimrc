@@ -85,6 +85,7 @@ if exists("+cursorline")
     augroup end
 endif
 
+set nrformats=alpha,bin,hex             " Don't infer base 8 when incrementing numbers
 
 ""
 "" Undo
