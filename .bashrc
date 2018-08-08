@@ -116,13 +116,17 @@ copysha() {
 #   $ gittreeif branch_name fetch --all --prune
 #
 gittreeif() {
-    local test_branch=$1
+    local test_branch="$1"
     shift
     find . -name .git -type d -prune | while read d; do
-        local d=$(dirname $d)
-        git -C $d rev-parse --verify -q $test_branch >& /dev/null || continue
+        local d=$(dirname "$d")
+        git -C "$d" rev-parse --verify -q "$test_branch" >& /dev/null || continue
         echo "---- $d ----"
-        git -C $d "$@"
+        if [[ $# == 1 && $1 == *' '* ]]; then
+            (cd "$d" && eval "git $1")
+        else
+            git -C "$d" "$@"
+        fi
     done
 }
 
