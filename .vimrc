@@ -201,11 +201,6 @@ augroup ScssSettings
     autocmd FileType scss set iskeyword+=-
 augroup end
 
-augroup VagrantSettings
-    autocmd!
-    autocmd BufRead,BufNewFile Vagrantfile set filetype=ruby
-augroup end
-
 augroup XmlSettings
     autocmd!
     autocmd BufRead,BufNewFile *.px,*.bx set filetype=xml
@@ -219,7 +214,23 @@ augroup IrcSettings
     autocmd FileType irc setlocal colorcolumn=
 augroup end
 
-autocmd BufNewFile,BufRead * silent! setlocal formatoptions+=jln
+" Fix the filetype for various files.
+augroup MiscFiletypes
+    autocmd!
+    autocmd BufNewFile,BufRead *.md set filetype=markdown
+    autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
+    autocmd BufNewFile,BufRead setup.cfg set filetype=dosini
+    autocmd BufNewFile,BufRead .coveragerc set filetype=dosini
+augroup end
+
+augroup FormatStupidity
+    autocmd!
+    autocmd BufNewFile,BufRead * silent! setlocal formatoptions+=jln
+    " ftplugins are stupid and try to mess with indentkeys.
+    " Idea from https://github.com/Julian/dotfiles/blob/master/.vimrc
+    autocmd BufNewFile,BufRead * setlocal indentkeys=o,O " Only new lines should get auto-indented.
+augroup end
+
 
 if exists('##OptionSet')
     augroup AllFileSettings
@@ -673,19 +684,6 @@ nnoremap H ^
 xnoremap H ^
 nnoremap L $
 xnoremap L $
-
-" Fix the filetype for .md files.
-augroup MarkDownType
-    autocmd!
-    autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
-augroup end
-
-" Idea from https://github.com/Julian/dotfiles/blob/master/.vimrc
-augroup FormatStupidity
-    " ftplugins are stupid and try to mess with indentkeys.
-    autocmd!
-    autocmd BufNewFile,BufRead * setlocal indentkeys=o,O " Only new lines should get auto-indented.
-augroup end
 
 noremap <silent> <C-PageUp>     :bprevious<CR>
 noremap <silent> <C-PageDown>   :bnext<CR>
