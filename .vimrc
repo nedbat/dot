@@ -549,7 +549,7 @@ function! <SID>BufOut(cmd)
     else
         new
         setlocal buftype=nofile bufhidden=wipe noswapfile nomodified
-        execute('file [Scratch '.bufnr('%').': '.a:cmd.' ]')
+        execute('file \[Scratch '.bufnr('%').': '.a:cmd.' \]')
         silent put =output
     endif
 endfunction
