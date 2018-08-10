@@ -332,6 +332,12 @@ endif
 
 noremap <silent> <Leader><Leader>f :echo expand('%:p') . " (cwd: " . getcwd() . ")" \| :let @+ = expand("%:p")<CR>
 
+Plug 'scrooloose/nerdcommenter'
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
 Plug 'majutsushi/tagbar'                            " Tagbar, no 'on', so that statusbar will have tags
 let g:tagbar_width = 40
 let g:tagbar_zoomwidth = 30
@@ -373,14 +379,40 @@ let g:gist_clip_command = 'pbcopy'
 let g:gist_detect_filetype = 1
 let g:gist_post_private = 1
 
-Plug 'lfv89/vim-interestingwords'
-" This was useful: http://htmlcolorcodes.com/color-chart/
-let g:interestingWordsGUIColors = [
-    \ '#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF',
-    \ '#FCFA69', '#CCCCCC', '#F39C12', '#D6D450', '#999999',
-    \ '#A569BD', '#27AE60', '#DB5345', '#3E96D1', '#B78264',
+" Plug 'lfv89/vim-interestingwords'
+" " This was useful: http://htmlcolorcodes.com/color-chart/
+" let g:interestingWordsGUIColors = [
+"     \ '#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF',
+"     \ '#FCFA69', '#CCCCCC', '#F39C12', '#D6D450', '#999999',
+"     \ '#A569BD', '#27AE60', '#DB5345', '#3E96D1', '#B78264',
+"     \ ]
+" noremap <silent> <Leader><Leader>k :call RecolorAllWords()<CR>
+
+Plug 't9md/vim-quickhl'
+" Highlight the current word.
+nmap <silent> <Leader>k <Plug>(quickhl-manual-this)
+" Unhighlight all words.
+noremap <silent> <Leader>K :QuickhlManualReset<CR>
+" Toggle dynamic highlighting of the current word.
+nmap <silent> <Leader><Leader>k <Plug>(quickhl-cword-toggle)
+
+let g:quickhl_manual_colors = [
+    \ "guibg=#F0C0FF guifg=black",
+    \ "guibg=#A7FFB7 guifg=black",
+    \ "guibg=#FFB7B7 guifg=black",
+    \ "guibg=#A8D1FF guifg=black",
+    \ "guibg=#AAFFFF guifg=black",
+    \ "guibg=#FCFA69 guifg=black",
+    \ "guibg=#CCCCCC guifg=black",
+    \ "guibg=#F39C12 guifg=black",
+    \ "guibg=#D6D450 guifg=black",
+    \ "guibg=#999999 guifg=white",
+    \ "guibg=#A569BD guifg=white",
+    \ "guibg=#27AE60 guifg=white",
+    \ "guibg=#DB5345 guifg=white",
+    \ "guibg=#3E96D1 guifg=white",
+    \ "guibg=#B78264 guifg=white",
     \ ]
-noremap <silent> <Leader><Leader>k :call RecolorAllWords()<CR>
 
 Plug 'klen/python-mode'
 let g:pymode_folding = 1
@@ -508,10 +540,6 @@ let g:rainbow_conf = {
 \   }
 \}
 
-" Better highlighting of searches
-" Plug 'fcpg/vim-spotlightify'
-" let g:splfy_keephls = 1         " Keep the highlights even after moving away from the match
-
 " Open URLs, because netrw's gx is broken: https://github.com/vim/vim/issues/1386
 Plug 'dhruvasagar/vim-open-url'
 nmap gx <Plug>(open-url-browser)
@@ -533,6 +561,17 @@ call plug#end()
 "   Plug 'terryma/vim-expand-region'
 "   map + <Plug>(expand_region_expand)
 "   map - <Plug>(expand_region_shrink)
+"
+"   " Better highlighting of searches
+"   Plug 'fcpg/vim-spotlightify'
+"   let g:splfy_keephls = 1         " Keep the highlights even after moving away from the match
+"
+"   " People love it, but I don't get it.
+"   if isdirectory('/usr/local/opt/fzf')
+"       Plug '/usr/local/opt/fzf'
+"       Plug 'junegunn/fzf.vim'
+"   endif
+
 
 ""
 "" Custom functions
