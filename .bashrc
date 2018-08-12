@@ -154,15 +154,15 @@ ipinfo() {
 # e means gvim, vim or vi, depending on what's installed.
 export EDITOR=vim
 if [[ -x /Applications/MacVim.app/Contents/MacOS/Vim ]] ; then
-    alias e='/Applications/MacVim.app/Contents/MacOS/Vim --servername VIM --remote-silent "$@"'
+    alias e='/Applications/MacVim.app/Contents/MacOS/Vim --servername VIM --remote-silent'
     alias vim=/Applications/MacVim.app/Contents/MacOS/Vim
     export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 elif type -P gvim &>/dev/null; then
-    alias e='gvim --servername GVIM --remote-silent "$@"'
+    alias e='gvim --servername GVIM --remote-silent'
 elif type -P vim &>/dev/null; then
-    alias e='vim "$@"'
+    alias e='vim'
 else
-    alias e='vi "$@"'
+    alias e='vi'
     export EDITOR=vi
 fi
 
