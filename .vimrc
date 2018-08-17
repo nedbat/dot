@@ -303,6 +303,9 @@ let g:ctrlp_prompt_mappings = {
     \ 'ToggleType(1)': ['<C-F>', '<C-Up>', ',', '<Space>'],
     \ }
 let g:ctrlp_root_markers = ['.treerc']
+if executable('rg')
+    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+endif
 
 Plug 'pearofducks/ansible-vim'
 let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
