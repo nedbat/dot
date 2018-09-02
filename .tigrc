@@ -1,0 +1,3 @@
+set vertical-split = no
+set line-graphics = utf-8
+set main-view = line-number:no,interval=5 id:yes date:default author:full,maxwidth=20 commit-title:yes,graph,refs,overflow=no
