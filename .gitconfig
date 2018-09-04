@@ -81,5 +81,6 @@
 [core]
   pager = less -q
   excludesfile = ~/.gitignore_global
+
 [fetch]
-	prune = true
+  prune = true
