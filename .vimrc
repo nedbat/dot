@@ -63,6 +63,7 @@ set autoread                            " Re-read a file if it changed behind vi
 set hidden                              " Allow a modified buffer to become hidden.
 set nowrap                              " When I want to be confused by wrapped lines, I'll do it manually.
 set linebreak                           "   but when I do wrap, I want word wrap, not character.
+set showbreak=»\                        "   and show an indicator.
 set display=lastline,uhex               " Display as much as possible of a last line, and ctrl chars in hex.
 set ignorecase smartcase                " If all lower-case, match any case, else be case-sensitive
 set virtualedit=onemore                 " One virtual character at the ends of lines, makes ^V work properly.
@@ -697,6 +698,7 @@ autocmd VimResized * :wincmd =
 " Selecting things: last modified text (good for after pasting); everything.
 noremap <Leader>v `[v`]
 noremap <Leader><Leader>v ggVG
+noremap <Leader><Leader>y :%y<CR>
 
 " Adapted from https://gist.github.com/dahu/6ff4de11ca9c5bb25902
 " Toggle colorcolumn..
