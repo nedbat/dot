@@ -54,7 +54,7 @@ alias ls='ls -F'
 alias la='ls -aF'
 alias df='df -k'
 
-alias l='ls -lF'
+alias l='ls -lFh'
 alias m='less'
 
 alias egrep='egrep --color=auto'
@@ -68,6 +68,7 @@ alias uuuu='cd ../../../..'
 alias uuuuu='cd ../../../../..'
 alias xp='pushd >/dev/null'
 alias xl='pushd +1 >/dev/null'
+alias x='pushd +1 >/dev/null'
 alias xq='popd >/dev/null'
 alias xs='dirs -v'
 
