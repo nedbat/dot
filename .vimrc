@@ -353,11 +353,35 @@ let g:tagbar_autoclose = 1
 let g:tagbar_iconchars = ['+', '-']
 nnoremap <silent> <Leader>t :TagbarToggle<CR>
 
+let g:tagbar_type_css = {
+\ 'ctagstype' : 'Css',
+    \ 'kinds' : [
+        \ 'c:classes',
+        \ 's:selectors',
+        \ 'i:ids',
+        \ 't:tags',
+        \ 'm:media'
+    \ ]
+\ }
+
 let g:tagbar_type_html = {
     \ 'ctagstype' : 'html',
-    \ 'sort'      : 0,
-    \ 'kinds'     : [
+    \ 'sort' : 0,
+    \ 'kinds' : [
         \ 'h:headings'
+    \ ]
+\ }
+
+let g:tagbar_type_scss = {
+\ 'ctagstype' : 'Scss',
+    \ 'kinds' : [
+        \ 'c:classes',
+        \ 's:selectors',
+        \ 'i:ids',
+        \ 't:tags',
+        \ 'd:media',
+        \ 'm:mixins',
+        \ 'v:variables'
     \ ]
 \ }
 
