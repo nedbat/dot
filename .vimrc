@@ -445,8 +445,12 @@ if 1
     let g:python_highlight_string_format = 1
     let g:python_highlight_string_templates = 1
     let g:python_highlight_indent_errors = 1
-    let g:python_highlight_space_errors = 1
+    let g:python_highlight_space_errors = 0
     let g:python_highlight_doctests = 1
+
+    let g:pyindent_open_paren = 'shiftwidth()'
+    let g:pyindent_nested_paren = 'shiftwidth()'
+    let g:pyindent_continue = 'shiftwidth()'
 endif
 
 Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statusbar
