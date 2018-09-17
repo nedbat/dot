@@ -959,12 +959,12 @@ prettiers = {
     }
 
 def pretty_it(datatype):
-    b = vim.current.buffer
-    content = "\n".join(b)
+    r = vim.current.range
+    content = "\n".join(r)
     content = prettiers[datatype](content)
-    b[:] = str(content).split('\n')
+    r[:] = str(content).split('\n')
 EOF_PY
 
-    command! Pxml :python pretty_it('xml')
-    command! Pjson :python pretty_it('json')
+    command! -range=% Pxml :python pretty_it('xml')
+    command! -range=% Pjson :python pretty_it('json')
 endif
