@@ -12,6 +12,7 @@
   br = branch
   co = checkout
   ci = commit
+  d = diff
   di = diff
   s = status -s -b --show-stash
   lhist = log --pretty=me --graph --date=short
