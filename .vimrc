@@ -500,7 +500,8 @@ Plug 'wellle/visual-split.vim'
 noremap <Leader>* :VSSplit<CR>
 noremap <Leader><Leader>* :VSResize<CR>
 
-Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
+" Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
+Plug 'Valloric/MatchTagAlways'                      " Highlights paired HTML tags
 
 Plug 'junegunn/vim-peekaboo'                        " Pop-up panel to show registers
 let g:peekaboo_window = 'vertical botright 50new'
