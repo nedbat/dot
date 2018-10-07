@@ -16,9 +16,7 @@
   di = diff
   s = status -s -b --show-stash
   lhist = log --pretty=me --graph --date=short
-  h = !sh -c 'git --no-pager log -n 15 --pretty=me --graph --date=short && echo'
-  hist = !sh -c 'git --no-pager log -n 15 --pretty=me --graph --date=short && echo'
-  out = !git hist origin/master..HEAD
+  h = "!f() { git --no-pager log -n 15 --pretty=me --graph --date=short $@; echo; }; f"
   oneoff = !sh -c 'git commit -m \"${2?Commit message required}\" --dry-run && git checkout -b ${1?Branch prefix required}/$(echo \"${2?Commit message required}\" | sed \"s/ /-/g\" | tr \"[A-Z]\" \"[a-z]\") && git commit -m \"${2?Commit message required}\" && git push' -
   fixup = !sh -c 'git rebase -i $(git merge-base HEAD ${1:-origin/master})' -
 
