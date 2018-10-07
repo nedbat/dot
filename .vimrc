@@ -334,7 +334,7 @@ else
     let g:loaded_nerd_tree = 1
 endif
 
-noremap <silent> <Leader><Leader>f :echo expand('%:p') . " (cwd: " . getcwd() . ")" \| :let @+ = expand("%:p")<CR>
+noremap <silent> <Leader><Leader>f :let @+ = expand("%:p") \| :echo @+ . " (cwd: " . getcwd() . ")"<CR>
 
 Plug 'scrooloose/nerdcommenter'
 " Align line-wise comment delimiters flush left instead of following code indentation
@@ -478,6 +478,8 @@ if 1
 endif
 
 Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statusbar
+autocmd FileType git noremap <silent> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
+
 Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
 noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gu :Gbrowse!<CR>
