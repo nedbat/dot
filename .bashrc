@@ -88,10 +88,12 @@ if command -v xdg-open >/dev/null; then
     alias open='xdg-open'
 fi
 
-# Git stuff
+# Git etc stuff
 
 alias g='git'
 alias h='hg'
+alias tiga='tig --all'
+alias tigs='tig status'
 
 export GIT_PS1_SHOWSTASHSTATE='y'
 export GIT_PS1_SHOWDIRTYSTATE='y'
