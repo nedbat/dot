@@ -442,40 +442,18 @@ let g:quickhl_manual_colors = [
     \ "guibg=#B78264 guifg=white",
     \ ]
 
-if 0
-    Plug 'klen/python-mode'
-    let g:pymode_folding = 1
-    let g:pymode_syntax = 1
-    let g:pymode_syntax_slow_sync = 1
-    let g:pymode_syntax_all = 1
-    let g:pymode_motion = 1
-    let g:pymode_trim_whitespaces = 0
-    let g:pymode_lint_on_write = 0
-    let g:pymode_syntax_string_formatting = 1
-    let g:pymode_syntax_string_format = 1
-    let g:pymode_syntax_string_templates = 1
-    let g:pymode_syntax_doctests = 1
-    let g:pymode_rope = 0
-    let g:pymode_rope_complete_on_dot = 0
-    let g:pymode_run = 0
-    let g:pymode_breakpoint = 0
-    let g:pymode_virtualenv = 1
-endif
+Plug 'vim-python/python-syntax'
+let g:python_highlight_class_vars = 1
+let g:python_highlight_string_formatting = 1
+let g:python_highlight_string_format = 1
+let g:python_highlight_string_templates = 1
+let g:python_highlight_indent_errors = 1
+let g:python_highlight_space_errors = 0
+let g:python_highlight_doctests = 1
 
-if 1
-    Plug 'vim-python/python-syntax'
-    let g:python_highlight_class_vars = 1
-    let g:python_highlight_string_formatting = 1
-    let g:python_highlight_string_format = 1
-    let g:python_highlight_string_templates = 1
-    let g:python_highlight_indent_errors = 1
-    let g:python_highlight_space_errors = 0
-    let g:python_highlight_doctests = 1
-
-    let g:pyindent_open_paren = 'shiftwidth()'
-    let g:pyindent_nested_paren = 'shiftwidth()'
-    let g:pyindent_continue = 'shiftwidth()'
-endif
+let g:pyindent_open_paren = 'shiftwidth()'
+let g:pyindent_nested_paren = 'shiftwidth()'
+let g:pyindent_continue = 'shiftwidth()'
 
 Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statusbar
 autocmd FileType git noremap <silent> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
