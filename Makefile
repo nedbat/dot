@@ -20,10 +20,12 @@ $(KEY_FILE): .ssh/*.pub
 $(EXTRACTOR_FILE) extractor: $(TGZ_FILE)
 	./make_extractor.sh $(TGZ_FILE) $(EXTRACTOR_FILE)
 
-copyplugs:
+copyvim:
 	rsync -a -v --delete --exclude=.git ~/.vim/plugged .vim
 	mkdir -p .vim/autoload
 	cp ~/.vim/autoload/plug.vim .vim/autoload/plug.vim
+	cp -R ~/.vim/spell .vim
+
 
 IGNORE_DIFF = \( -name 'plugged' -o -name '.git' \)
 difffiles:
