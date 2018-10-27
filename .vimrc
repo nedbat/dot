@@ -419,6 +419,7 @@ let g:gist_post_private = 1
 Plug 't9md/vim-quickhl'
 " Highlight the current word.
 nmap <silent> <Leader>k <Plug>(quickhl-manual-this)
+xmap <silent> <Leader>k <Plug>(quickhl-manual-this)
 " Unhighlight all words.
 noremap <silent> <Leader>K :QuickhlManualReset<CR>
 " Toggle dynamic highlighting of the current word.
@@ -442,6 +443,8 @@ let g:quickhl_manual_colors = [
     \ "guibg=#B78264 guifg=white",
     \ ]
 
+" https://github.com/inkarkat/vim-mark could be a replacement for quickhl
+
 Plug 'vim-python/python-syntax'
 let g:python_highlight_class_vars = 1
 let g:python_highlight_string_formatting = 1
@@ -464,7 +467,7 @@ noremap <Leader>gu :Gbrowse!<CR>
 noremap <Leader>gv :Gbrowse<CR>
 
 Plug 'tpope/vim-git'                                " Git filetypes, etc.
-Plug 'tpope/vim-surround'
+"Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 
@@ -475,6 +478,7 @@ Plug 'kana/vim-textobj-fold'                        " Manual-fold text object
 Plug 'qstrahl/vim-dentures'                         " Indent-based text object
 "Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
 Plug 'nedbat/vim-space', { 'branch': 'patch-1' }    " get my fix for end-of-virtual-line
+Plug 'wellle/targets.vim'                           " Lots of improvements to text objects
 
 Plug 'wellle/visual-split.vim'
 noremap <Leader>* :VSSplit<CR>
@@ -508,13 +512,13 @@ Plug 'tpope/vim-rsi'
 Plug 'szw/vim-maximizer', { 'on': 'MaximizerToggle' }   " Maximize current split
 noremap <Leader>= :MaximizerToggle!<CR>
 
-Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
-noremap <Leader>, :SidewaysLeft<CR>
-noremap <Leader>. :SidewaysRight<CR>
-omap aa <Plug>SidewaysArgumentTextobjA
-xmap aa <Plug>SidewaysArgumentTextobjA
-omap ia <Plug>SidewaysArgumentTextobjI
-xmap ia <Plug>SidewaysArgumentTextobjI
+"Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
+"noremap <Leader>, :SidewaysLeft<CR>
+"noremap <Leader>. :SidewaysRight<CR>
+"omap aa <Plug>SidewaysArgumentTextobjA
+"xmap aa <Plug>SidewaysArgumentTextobjA
+"omap ia <Plug>SidewaysArgumentTextobjI
+"xmap ia <Plug>SidewaysArgumentTextobjI
 
 " Display more information with ga
 Plug 'manicmaniac/betterga'
@@ -608,7 +612,7 @@ call plug#end()
 ""
 
 " Run a command, but keep the output in a buffer.
-command! -nargs=+ -complete=command BufOut call <SID>BufOut(<q-args>)
+command! -nargs=+ -complete=command Bout call <SID>BufOut(<q-args>)
 function! <SID>BufOut(cmd)
     redir => output
     silent execute a:cmd
