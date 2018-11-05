@@ -285,10 +285,14 @@ Plug 'kshenoy/vim-signature'
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 let g:SignatureMarkerLineHL = 'SignatureMarkLine'
 
+"Plug 'mgedmin/coverage-highlight.vim'
+"Plug '~/coverage/coverage-highlight.vim'
+
 Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
 
 Plug 'ctrlpvim/ctrlp.vim', { 'on': ['CtrlP', 'CtrlPMRUFiles', 'CtrlPBuffer'] }
 noremap <silent> <Leader>e :CtrlP<CR>
+noremap <Leader><Leader>e :e<Space>
 noremap <silent> <Leader>r :CtrlPMRUFiles<CR>
 noremap <silent> <Leader>b :CtrlPBuffer<CR>
 let g:ctrlp_clear_cache_on_exit = 0
@@ -459,7 +463,7 @@ let g:pyindent_nested_paren = 'shiftwidth()'
 let g:pyindent_continue = 'shiftwidth()'
 
 Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statusbar
-autocmd FileType git noremap <silent> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
+autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
 
 Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
 noremap <Leader>gb :Gblame<CR>
@@ -485,7 +489,9 @@ noremap <Leader>* :VSSplit<CR>
 noremap <Leader><Leader>* :VSResize<CR>
 
 " Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
-Plug 'Valloric/MatchTagAlways'                      " Highlights paired HTML tags
+" Plug 'Valloric/MatchTagAlways'                      " Highlights paired HTML tags
+Plug 'andymass/vim-matchup'
+let g:matchup_matchparen_status_offscreen = 0
 
 Plug 'junegunn/vim-peekaboo'                        " Pop-up panel to show registers
 let g:peekaboo_window = 'vertical botright 50new'
