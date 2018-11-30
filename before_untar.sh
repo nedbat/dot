@@ -1,6 +1,11 @@
 #!/bin/bash
 # Commands run before untarring.
 
+if [[ $(pwd) != $HOME ]]; then
+    echo "This must be run in your home directory ($HOME)."
+    exit 1
+fi
+
 # tabblo days...
 rm -vf .path.hulk .path.lnxvcer3 .path.twain
 rm -vf .path.g1t0236 .path.g1t0252g .path.g1t0253g .path.g1t0473g .path.g1t0474g

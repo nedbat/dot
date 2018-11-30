@@ -27,7 +27,7 @@ shell: $(EXTRACTOR_FILE)		## Make self-extracting shell file
 $(EXTRACTOR_FILE): $(TGZ_FILE)
 	./make_extractor.sh $(TGZ_FILE) $(EXTRACTOR_FILE)
 	@echo "Extractor file is $(EXTRACTOR_FILE). Copy to a machine, then:"
-	@echo "prompt> . $(EXTRACTOR_FILE)"
+	@echo "prompt> ./$(EXTRACTOR_FILE)"
 
 copyvim:				## Copy vim support files
 	rsync -a -v --delete --exclude=.git ~/.vim/plugged .vim
