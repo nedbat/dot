@@ -484,6 +484,7 @@ Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitiv
 noremap <Leader>gb :Gblame<CR>
 noremap <Leader>gu :Gbrowse!<CR>
 noremap <Leader>gv :Gbrowse<CR>
+noremap <Leader>gp :Gpull<CR>
 
 Plug 'tpope/vim-git'                                " Git filetypes, etc.
 "Plug 'tpope/vim-surround'
@@ -707,6 +708,9 @@ map <silent><Leader><Leader>h :source $VIMRUNTIME/syntax/hitest.vim<CR>
 noremap <Leader>p gwap
 noremap <Leader><Leader>p gw}
 nnoremap coa :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
+
+" Duplicate the selection.
+noremap <Leader><Leader>d yPgvo<esc>
 
 noremap <Leader>q :quit<CR>
 noremap <Leader><Leader>q :Bclose<CR>
