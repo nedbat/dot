@@ -1,6 +1,13 @@
 #!/bin/bash
 # Commands run before untarring.
 
+if [[ ${0##*/} != :SCRIPTNAME: ]]; then
+    echo "Run this directly, don't source it."
+    echo "This shell might disappear..."
+    sleep 5
+    exit 1
+fi
+
 if [[ $(pwd) != $HOME ]]; then
     echo "This must be run in your home directory ($HOME)."
     exit 1
