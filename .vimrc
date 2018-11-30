@@ -344,11 +344,22 @@ endif
 
 noremap <silent> <Leader><Leader>f :let @+ = expand("%:p") \| :echo @+ . " (cwd: " . getcwd() . ")"<CR>
 
-Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter', {
+\   'on': [
+    \   '<Plug>NERDCommenterComment',
+    \   '<Plug>NERDCommenterUncomment'
+    \ ]
+\ }
+
+" Don't map all the keys
+let g:NERDCreateDefaultMappings = 0
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
 " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
+
+map <Leader>cc <Plug>NERDCommenterComment
+map <Leader>cu <Plug>NERDCommenterUncomment
 
 Plug 'majutsushi/tagbar'                            " Tagbar, no 'on', so that statusbar will have tags
 let g:tagbar_width = 40
@@ -494,7 +505,7 @@ noremap <Leader><Leader>* :VSResize<CR>
 
 " Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
 " Plug 'Valloric/MatchTagAlways'                      " Highlights paired HTML tags
-Plug 'andymass/vim-matchup'
+Plug 'andymass/vim-matchup', { 'for': ['html', 'xhtml', 'xml'] }
 let g:matchup_matchparen_status_offscreen = 0
 
 Plug 'junegunn/vim-peekaboo'                        " Pop-up panel to show registers
