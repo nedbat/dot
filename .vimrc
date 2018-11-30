@@ -5,12 +5,6 @@ filetype off
 " Windows thinks personal vim stuff should be in ~/vimfiles, make it look in ~/.vim instead
 set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
 
-" To install a vimball (XYZ, for example):
-"   $ mkdir ~/.vim/bundle/XYZ
-"   $ vim XYZ.vmb
-"   :UseVimball ~/.vim/bundle/XYZ
-
-"set directory=/var/tmp//,/tmp//,$TEMP   " Store swp files, with full paths
 set directory-=.                        " Don't store .swp files in the current directory
 set updatecount=0                       " Don't create .swp files at all.
 if filewritable(expand('~/.backup'))
@@ -517,14 +511,6 @@ Plug 'tpope/vim-rsi'
 
 Plug 'szw/vim-maximizer', { 'on': 'MaximizerToggle' }   " Maximize current split
 noremap <Leader>= :MaximizerToggle!<CR>
-
-"Plug 'AndrewRadev/sideways.vim'                     " Function argument text objects and movement
-"noremap <Leader>, :SidewaysLeft<CR>
-"noremap <Leader>. :SidewaysRight<CR>
-"omap aa <Plug>SidewaysArgumentTextobjA
-"xmap aa <Plug>SidewaysArgumentTextobjA
-"omap ia <Plug>SidewaysArgumentTextobjI
-"xmap ia <Plug>SidewaysArgumentTextobjI
 
 " Display more information with ga
 Plug 'manicmaniac/betterga'
