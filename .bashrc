@@ -196,40 +196,6 @@ alias i2clear="printf '\e]50;ClearScrollback\a'"
 alias i2focus="printf '\e]50;StealFocus\a'"
 alias i2profile="printf '\e]50;SetProfile=%s\a'"
 
-# For dealing with vagrant and virtualbox.
-vup() {
-    sudo -v
-    running=$(vagrant global-status | grep running)
-    if [ -n "$running" ]; then
-        echo "Something is already running: $running"
-        return 1
-    fi
-    env | egrep --color=no 'OPENEDX|VAGRANT|VERSION'
-    vagrant up $@
-}
-
-vhalt() {
-    sudo -v
-    vagrant halt
-}
-
-vssh() {
-    i2profile Purp
-    old_title="$WINDOW_TITLE"
-    title ${@:-InVagrant}
-    vagrant ssh
-    i2profile Main
-    title $old_title
-}
-
-vgst() {
-    vagrant global-status
-}
-
-vsnap() {
-    VBoxManage snapshot $(cat .vagrant/machines/default/virtualbox/id) ${@:-list}
-}
-
 # AWS helpers
 
 assh() {
