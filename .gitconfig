@@ -82,5 +82,8 @@
   excludesfile = ~/.gitglobal/ignore
   attributesfile = ~/.gitglobal/attributes
 
+[commit]
+  template = ~/.gitglobal/commit
+
 [fetch]
   prune = true
