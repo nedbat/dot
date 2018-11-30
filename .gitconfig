@@ -79,8 +79,8 @@
 
 [core]
   pager = less -q
-  excludesfile = ~/.gitignore_global
-  attributesfile = ~/.gitattributes_global
+  excludesfile = ~/.gitglobal/ignore
+  attributesfile = ~/.gitglobal/attributes
 
 [fetch]
   prune = true
