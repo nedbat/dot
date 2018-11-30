@@ -3,7 +3,6 @@
 set guioptions-=T                       " No toolbar
 set guioptions-=m                       " No menubar
 set guioptions-=R                       " No scrollbars on right for vsplit windows
-set guioptions-=r                       " No scrollbars on right
 set guioptions-=l                       " No scrollbars on left
 set guioptions-=L                       " No scrollbars on left
 set guioptions-=b                       " No scrollbars on bottom
