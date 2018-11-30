@@ -122,6 +122,16 @@ endif
 "" Status line
 ""
 
+function! StatusEncodingAndFormat()
+    let enf = strpart(&fileencoding,0,1) . strpart(&fileformat,0,1)
+    if enf == 'uu'
+        let enf = ''
+    else
+        let enf = ' [' . enf . ']'
+    endif
+    return enf
+endfunction
+
 set laststatus=2                        " Always show a status line
 let filestatus = ''
 let filestatus .= ' %1*%{&readonly ? "" : &modified ? " + " : &modifiable ? "" : " - "}%*'
@@ -129,12 +139,12 @@ let filestatus .= '%3*%{&readonly ? (&modified ? " + " : " ∅ ") : ""}%*'
 let filestatus .= '%{&readonly? "" : &modified ? "" : &modifiable ? "   " : ""}'
 let filestatus .= ' %<%f  '
 let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
-let filestatus .= ' %{fugitive#statusline()}'
+let filestatus .= ' %2*%{fugitive#head(6)}%* '
 let filestatus .= '%='
 let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}'
-let filestatus .= ' [%{strpart(&fileencoding,0,1)}%{strpart(&fileformat,0,1)}]'
-let filestatus .= '%6l,%2c'
-let filestatus .= '  %P '
+let filestatus .= '%{StatusEncodingAndFormat()}'
+let filestatus .= ' %2*%l,%c%*'
+let filestatus .= ' %P '
 let &statusline = filestatus
 
 function! StatusQuickfixTitle()
