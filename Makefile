@@ -1,4 +1,4 @@
-.PHONY: help tar tgz zip shell copyvim difffiles clean
+.PHONY: help tar tgz zip shell copyvim difffiles clean dist
 
 KEY_FILE = .ssh/other_authorized_keys
 TAR_FILE = dot.tar
@@ -15,7 +15,7 @@ $(TAR_FILE) tar: .* $(KEY_FILE)
 	tar -cvf $(TAR_FILE) --exclude-from=notar.txt .
 
 $(TGZ_FILE) tgz: .* $(KEY_FILE)
-	tar -cvzf $(TGZ_FILE) --exclude-from=notar.txt .
+	tar -czf $(TGZ_FILE) --exclude-from=notar.txt .
 
 $(ZIP_FILE) zip: .*
 	zip -r $(ZIP_FILE) bin .*vim* .git?* .hg* *.cmd *.bat *.ahk -x '.git'
@@ -53,3 +53,6 @@ clean:					## Get rid of unneeded stuff
 	find . -name '.DS_Store' -delete
 	find . -name '._*' -delete
 	find . -print0 | xargs -0 xattr -c
+
+dist: $(EXTRACTOR_FILE)			## Copy extractor to a few places
+	cp $(EXTRACTOR_FILE) /src/edx/src
