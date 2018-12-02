@@ -10,6 +10,7 @@ LP_ENABLE_SUDO=1
 LP_ENABLE_RUNTIME=1
 LP_RUNTIME_THRESHOLD=10
 LP_ENABLE_TEMP=0
+LP_MARK_PERM='@'
 
 # Allow local overrides of liquidprompt stuff
 if [ -r ~/.liquidpromptrc.local ] ; then
