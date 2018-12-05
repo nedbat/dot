@@ -343,6 +343,9 @@ endif
 
 noremap <silent> <Leader><Leader>f :let @+ = expand("%:p") \| :echo @+ . " (cwd: " . getcwd() . ")"<CR>
 
+" Tried this, couldn't get it to do anything:
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+
 Plug 'scrooloose/nerdcommenter', {
 \   'on': [
     \   '<Plug>NERDCommenterComment',
