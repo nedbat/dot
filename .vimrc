@@ -261,9 +261,8 @@ iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, 
 digraph :( 9785 :) 9786
 
 " ./ in the command line expands to the directory of the current file,
-"   but ../ works without an expansion.
-cnoremap <expr> ./ getcmdtype() == ':' ? expand('%:p:h').'/' : './'
-cnoremap ../ ../
+"   but only after a space.
+cnoremap <expr> ./ (getcmdtype() == ':' && getcmdline()[getcmdpos()-2] == ' ') ? expand('%:p:h').'/' : './'
 
 " Highlight conflict markers.
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
