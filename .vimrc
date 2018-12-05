@@ -527,6 +527,7 @@ Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 
 Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
 let g:EditorConfig_preserve_formatoptions = 1
+let g:EditorConfig_exclude_patterns = ['.git/*']    " Don't fiddle with anything in a .git directory
 
 Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
 
