@@ -319,11 +319,6 @@ if [[ -f ~/.fzf.bash ]]; then
     source ~/.fzf.bash
 fi
 
-# Added by acme.sh
-if [[ -f ~/.acme.sh/acme.sh.env ]]; then
-    source ~/.acme.sh/acme.sh.env
-fi
-
 ##
 ## Read a local file if it exists.
 ##
