@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ -z $PS1 ]] && return
 
-[[ -n $PS1 ]] && echo '(.bashrc) '
+[[ -n $PS1 ]] && echo '(.bashrc)'
 
 # Generic file permissions
 umask 22
@@ -99,7 +99,7 @@ export GIT_PS1_SHOWSTASHSTATE='y'
 export GIT_PS1_SHOWDIRTYSTATE='y'
 
 if [[ -r ~/.git-completion.bash ]] ; then
-    . ~/.git-completion.bash
+    source ~/.git-completion.bash
     __git_complete g __git_main
     __git_complete gi __git_main
 fi
@@ -259,7 +259,7 @@ completions=(
 )
 completion_source=$(first_of "${completions[@]}")
 if [[ -f $completion_source ]]; then
-    . $completion_source
+    source $completion_source
 fi
 
 # Find stuff that might be installed, and put it on our path.
@@ -329,5 +329,5 @@ fi
 ##
 
 if [[ -f ~/.bashrc.local ]]; then
-    . ~/.bashrc.local
+    source ~/.bashrc.local
 fi
