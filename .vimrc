@@ -302,13 +302,16 @@ let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_custom_ignore = {
     \ 'dir': '\v(/htmlcov|/node_modules|/__pycache__|\.egg-info)$',
     \ }
+let g:ctrlp_extensions = ['mixed']
 let g:ctrlp_max_files = 0
 let g:ctrlp_max_height = 30
 let g:ctrlp_mruf_max = 1000
 let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
 let g:ctrlp_open_multiple_files = '2vjr'
 let g:ctrlp_prompt_mappings = {
-    \ 'ToggleType(1)': ['<C-F>', '<C-Up>', ',', '<Space>'],
+    \ 'AcceptSelection("h")':   ['<c-cr>', '<c-s>'],
+    \ 'PrtDeleteEnt()':         ['<C-X>', '<F7>'],
+    \ 'ToggleType(1)':          ['<C-F>', '<C-Up>', ',', '<Space>'],
     \ }
 let g:ctrlp_root_markers = ['.treerc']
 if executable('rg')
