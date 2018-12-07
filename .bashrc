@@ -209,7 +209,7 @@ ascp() {
 # Find the first file that exists in a list of possibilities.
 first_of() {
     for f; do
-        if [[ -e $f ]]; then
+        if [[ -r $f ]]; then
             echo "$f"
             return 0    # found
         fi
