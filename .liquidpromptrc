@@ -15,7 +15,11 @@ LP_MARK_PERM='@'
 LP_MARK_BRACKET_OPEN=""  # open bracket
 LP_MARK_BRACKET_CLOSE="" # close bracket
 
+if [[ -e /.dockerenv ]] ; then
+    LP_HOSTNAME_ALWAYS=1
+fi
+
 # Allow local overrides of liquidprompt stuff
-if [ -r ~/.liquidpromptrc.local ] ; then
+if [[ -r ~/.liquidpromptrc.local ]] ; then
     . ~/.liquidpromptrc.local
 fi
