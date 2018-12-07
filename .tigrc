@@ -4,3 +4,4 @@ set main-view = line-number:no,interval=5 id:yes date:default author:abbreviated
 set blame-view = id:yes,color file-name:no author:abbreviated,maxwidth=20 date:default line-number:yes,interval=1 text
 set mouse = yes
 #set git-colors = no
+source ~/.gitglobal/molokai-like-theme.tigrc
