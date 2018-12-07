@@ -625,6 +625,15 @@ call plug#end()
 "       Plug '/usr/local/opt/fzf'
 "       Plug 'junegunn/fzf.vim'
 "   endif
+"
+"   " Couldn't get it to do <C-^> properly...
+"   Plug 'qpkorr/vim-bufkill'
+"   noremap <Leader><Leader>q :BD<CR>
+"   let g:BufKillCreateMappings = 0
+"   let g:BufKillOverrideCtrlCaret = 1
+"   let g:BufKillActionWhenBufferDisplayedInAnotherWindow = 'remove'
+"   nmap <silent> <C-^> <Plug>BufKillAlt
+
 
 
 ""
