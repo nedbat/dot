@@ -677,7 +677,7 @@ function! <SID>BufcloseCloseIt()
         execute("bdelete! " . l:currentBufNum)
         if bufnr('#') == l:currentBufNum
             " Don't leave this deleted buffer as the alternate
-            let @# = @%
+            let @# = @% ? @% : 1
         endif
     endif
 endfunction
