@@ -225,6 +225,14 @@ augroup IrcSettings
     autocmd FileType irc setlocal colorcolumn=
 augroup end
 
+augroup RequirementsSettings
+    autocmd!
+    autocmd BufRead,BufNewFile requirements.txt set filetype=conf
+    autocmd BufRead,BufNewFile */requirements/*.txt set filetype=conf
+    autocmd BufRead,BufNewFile */requirements/**/*.txt set filetype=conf
+    autocmd BufRead,BufNewFile */requirements/**/*.in set filetype=conf
+augroup end
+
 " Fix the filetype for various files.
 augroup MiscFiletypes
     autocmd!
