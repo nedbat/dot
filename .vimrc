@@ -214,7 +214,7 @@ augroup end
 
 augroup XmlSettings
     autocmd!
-    autocmd BufRead,BufNewFile *.px,*.bx set filetype=xml
+    autocmd BufRead,BufNewFile *.px,*.bx set filetype=xml indentexpr=
     " Make plain text in XML be spell-checked.
     autocmd FileType xml syntax spell toplevel
 augroup end
