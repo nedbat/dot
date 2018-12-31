@@ -50,7 +50,7 @@ highlight User3                             guifg=White         guibg=Red
 highlight ColorColumn                                           guibg=#fff8f8
 
 " Pop-up menu
-highlight Pmenu         gui=NONE            guifg=Black         guibg=Cyan
+highlight Pmenu         gui=NONE            guifg=#666666       guibg=#dddddd
 highlight PmenuSel      gui=NONE            guifg=Black         guibg=Yellow
 
 " Diff colors
