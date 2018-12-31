@@ -63,6 +63,11 @@ set ignorecase smartcase                " If all lower-case, match any case, els
 set virtualedit=onemore                 " One virtual character at the ends of lines, makes ^V work properly.
 set fillchars=vert:\ ,fold:-,diff:·     " Spaces are enough for vertical split separators.
 set diffopt=filler,foldcolumn:0,vertical  " Show lines where missing, no need for a foldcolumn during diff, split vertically by default
+if has("patch-8.1-360")
+    " https://vimways.org/2018/the-power-of-diff/
+    set diffopt+=algorithm:patience
+    set diffopt+=indent-heuristic
+endif
 
 set noerrorbells                        " Don't ring the bell on errors
 set visualbell t_vb=                    "   and don't flash either.
