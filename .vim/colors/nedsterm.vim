@@ -36,6 +36,10 @@ highlight User2         cterm=None      ctermfg=Black       ctermbg=LightGrey
 " %3: alarming stuff: white on red
 highlight User3         cterm=None      ctermfg=White       ctermbg=Red
 
+" Pop-up menu
+highlight Pmenu         cterm=italic      ctermfg=238         ctermbg=250
+highlight PmenuSel      cterm=bold      ctermfg=Black         ctermbg=Yellow
+
 highlight diffAdded     cterm=None      ctermfg=None        ctermbg=22
 highlight diffRemoved   cterm=None      ctermfg=None        ctermbg=52
 
