@@ -1,6 +1,6 @@
 # From: https://github.com/edentsai/tig-theme-molokai-like
 # General colors
-color default           253         233
+color default           15          0
 color cursor            default     237
 color status            250         235
 color title-focus       default     238
