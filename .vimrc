@@ -209,12 +209,12 @@ augroup end
 
 augroup ScssSettings
     autocmd!
-    autocmd FileType scss set iskeyword+=-
+    autocmd FileType scss setlocal iskeyword+=-
 augroup end
 
 augroup XmlSettings
     autocmd!
-    autocmd BufRead,BufNewFile *.px,*.bx set filetype=xml indentexpr=
+    autocmd BufRead,BufNewFile *.px,*.bx setlocal filetype=xml indentexpr=
     " Make plain text in XML be spell-checked.
     autocmd FileType xml syntax spell toplevel
 augroup end
