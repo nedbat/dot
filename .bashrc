@@ -219,9 +219,6 @@ first_of() {
 
 # Pythons
 alias p='python'
-for suff in 27 34 35 36 37 38 39; do
-    alias p$suff="python${suff:0:1}.${suff:1:1}"
-done
 
 # pythonz
 if [[ -d /usr/local/pythonz ]] ; then
