@@ -1,10 +1,10 @@
 # From: https://github.com/edentsai/tig-theme-molokai-like
 # General colors
-color default           15          0
-color cursor            default     237
+color default           white       black
+color cursor            default     238
 color status            250         235
-color title-focus       default     238
-color title-blur        default     238
+color title-focus       white       240             bold
+color title-blur        white       239
 color delimiter         241         default
 color header            186         236             bold
 color section           186         default
@@ -29,20 +29,20 @@ color main-local-tag    161         default
 color main-ref          144         default
 
 # Palette colors
-color palette-0         239         default
-color palette-1         242         default
-color palette-2         245         default
-color palette-3         248         default
-color palette-4         237         default
-color palette-5         240         default
-color palette-6         243         default
-color palette-7         246         default
-color palette-8         249         default
-color palette-9         238         default
-color palette-10        241         default
-color palette-11        244         default
-color palette-12        247         default
-color palette-13        236         default
+color palette-0         178         default
+color palette-1         34          default
+color palette-2         38          default
+color palette-3         147         default
+color palette-4         217         default
+color palette-5         142         default
+color palette-6         35          default
+color palette-7         39          default
+color palette-8         183         default
+color palette-9         216         default
+color palette-10        106         default
+color palette-11        36          default
+color palette-12        75          default
+color palette-13        219         default
 
 # Status view colors
 color status.header     186         236             bold
@@ -65,4 +65,4 @@ color "AuthorDate: "    67          default
 color "Commit: "        141         default
 color "CommitDate: "    67          default
 color "Merge: "         161         default
-color diff-stat         166         234
+color diff-stat         black       white
