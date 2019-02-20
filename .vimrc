@@ -58,6 +58,7 @@ set hidden                              " Allow a modified buffer to become hidd
 set nowrap                              " When I want to be confused by wrapped lines, I'll do it manually.
 set linebreak                           "   but when I do wrap, I want word wrap, not character.
 set showbreak=»\                        "   and show an indicator.
+set breakindent                         "   and indent like the original line.
 set display=lastline,uhex               " Display as much as possible of a last line, and ctrl chars in hex.
 set ignorecase smartcase                " If all lower-case, match any case, else be case-sensitive
 set virtualedit=onemore                 " One virtual character at the ends of lines, makes ^V work properly.
