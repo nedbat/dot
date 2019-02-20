@@ -13,13 +13,6 @@ if [[ $(pwd) != $HOME ]]; then
     exit 1
 fi
 
-# tabblo days...
-rm -vf .path.hulk .path.lnxvcer3 .path.twain
-rm -vf .path.g1t0236 .path.g1t0252g .path.g1t0253g .path.g1t0473g .path.g1t0474g
-rm -vf .path.marquez .path.thompson .bash_profile.galileo
-rm -vf .ssh/ned-davinci.pub .ssh/ned-marquez.pub .ssh/ned-salinger.pub .ssh/ned-twain.pub
-rm -vf .ssh/dcs.pub .ssh/eddie.pub
-
 # Remove things that might be in the account by default that we don't want.
 rm -vf .cshrc .profile 
 
@@ -44,9 +37,9 @@ rm -vf .vim/doc/tags
 # Moved away from pathogen, no need for bundle any more.
 rm -vrf .vim/bundle
 
-# Old way of handling tar cleanup.
-rm -vf .after_untar .clean_old_dot_files
-
 # Plugins are fully provided in the tarball, so delete whatever is there, or
 # we have no way of removing plugins we no longer use.
 rm -rf .vim/plugged
+
+# Old way of handling tar cleanup.
+rm -vf .after_untar .clean_old_dot_files
