@@ -1,5 +1,6 @@
 " Ned's .vimrc file
 
+" set verbose=99 verbosefile=/tmp/vim.verbose
 filetype off
 
 " Windows thinks personal vim stuff should be in ~/vimfiles, make it look in ~/.vim instead
@@ -251,7 +252,6 @@ augroup FormatStupidity
     autocmd BufNewFile,BufRead * setlocal indentkeys=o,O " Only new lines should get auto-indented.
 augroup end
 
-
 if exists('##OptionSet')
     augroup AllFileSettings
         autocmd!
@@ -261,6 +261,12 @@ if exists('##OptionSet')
         autocmd OptionSet indentkeys set indentkeys=o,O
     augroup end
 endif
+
+" mode-line extension
+augroup MoreModeLine
+    autocmd!
+    " autocmd BufWinEnter * if getline("$") =~ "open-fold" | echomsg getline(".") | execute "normal zMzv" | endif
+augroup end
 
 " Abbreviations
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-        
@@ -944,7 +950,7 @@ function! FileJumpLastPos(jump_type)
     let jump_mark = nr2char(getchar())
     let the_jump = a:jump_type . jump_mark
     if jump_mark =~# '[A-Z]'
-        let the_jump .= "'\""
+        let the_jump .= "'\"zv"
     endif
     return the_jump
 endfunction
