@@ -198,11 +198,11 @@ alias i2profile="printf '\e]50;SetProfile=%s\a'"
 
 # AWS helpers
 
-assh() {
-    ssh -i ~/.ssh/ned-aws-install-testing.pem $AWS
+ash() {
+    ssh -i ~/.ssh/ned-aws-install-testing.pem $AWS $@
 }
 
-ascp() {
+acp() {
     scp -i ~/.ssh/ned-aws-install-testing.pem $@
 }
 
