@@ -262,12 +262,6 @@ if exists('##OptionSet')
     augroup end
 endif
 
-" mode-line extension
-augroup MoreModeLine
-    autocmd!
-    " autocmd BufWinEnter * if getline("$") =~ "open-fold" | echomsg getline(".") | execute "normal zMzv" | endif
-augroup end
-
 " Abbreviations
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-        
 iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-        
