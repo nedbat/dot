@@ -716,17 +716,16 @@ endfunction
 nnoremap <Leader>d :<C-U>DiffThese<CR>
 
 " From https://github.com/garybernhardt/dotfiles/blob/master/.vimrc
-command! RemoveFancyCharacters :call <SID>RemoveFancyCharacters()
-function! <SID>RemoveFancyCharacters()
+command! -range=% RemoveFancyCharacters :<line1>,<line2>call <SID>RemoveFancyCharacters()
+function! <SID>RemoveFancyCharacters() range
     let typo = {}
     let typo["“"] = '"'
     let typo["”"] = '"'
     let typo["‘"] = "'"
     let typo["’"] = "'"
-    "let typo["–"] = '--'
     let typo["—"] = '--'
     let typo["…"] = '...'
-    execute ":%s/".join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
+    execute ':'.a:firstline.','.a:lastline.'s/'.join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
 endfunction
 
 " Show the syntax highlight group for the current character.
