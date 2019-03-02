@@ -349,6 +349,7 @@ if v:version >= 700
     let g:NERDTreeMinimalUI = 1
     let g:NERDTreeBookmarksSort = 0
     let g:NERDTreeCascadeOpenSingleChildDir = 1
+    let g:NERDTreeQuitOnOpen = 2        " Close bookmarks after using a bookmark
     if has("gui_win32")
         let g:NERDTreeDirArrows = 0
     endif
