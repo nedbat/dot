@@ -762,9 +762,14 @@ nnoremap z* zR
 
 " Toggle list mode to see special characters.
 set listchars=tab:→‐,trail:◘,nbsp:␣,eol:¶
-" space was added in 7.4.710
-silent! set listchars+=space:·
-" in 8.1.759: three char listchars
+if has("patch-7.4-710")
+    " space was added in 7.4.710
+    set listchars+=space:·
+    if has("patch-8.1-759")
+        " in 8.1.759: three char listchars
+        set listchars=tab:◇-≫,trail:◘,nbsp:␣,eol:¶,space:·
+    endif
+endif
 
 " Show only one window on the screen, but keep the explorers open.
 noremap <silent> <Leader>1 :only!\|:NERDTreeToggle\|:vertical resize 30\|:wincmd b<CR>
