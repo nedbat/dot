@@ -51,10 +51,10 @@ export PROMPT_COMMAND='history -a'
 # Basic Unix command aliases
 #
 alias ls='ls -F'
-alias la='ls -aF'
 alias df='df -k'
 
-alias l='ls -lFh'
+alias l='ls -lFhH'
+alias la='l -A'
 alias m='less'
 
 alias egrep='egrep --color=auto'
