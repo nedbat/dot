@@ -502,9 +502,10 @@ autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugit
 
 Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
 noremap <Leader>gb :Gblame<CR>
+noremap <Leader>gp :Gpull<CR>
+noremap <Leader>gs :Gstatus<CR>
 noremap <Leader>gu :Gbrowse!<CR>
 noremap <Leader>gv :Gbrowse<CR>
-noremap <Leader>gp :Gpull<CR>
 
 Plug 'tpope/vim-git'                                " Git filetypes, etc.
 "Plug 'tpope/vim-surround'
@@ -600,6 +601,7 @@ let g:rainbow_conf = {
 \       },
 \       'css': 0,
 \       'irc': 0,
+\       'diary': 0,
 \       'sh': {
 \           'parentheses': [['\(^\|\s\)\S*()\s*{\?\($\|\s\)','_^{_','}'], ['\(^\|\s\)if\($\|\s\)','_\(^\|\s\)\(then\|else\|elif\)\($\|\s\)_','\(^\|\s\)fi\($\|\s\)'], ['\(^\|\s\)for\($\|\s\)','_\(^\|\s\)\(do\|in\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)while\($\|\s\)','_\(^\|\s\)\(do\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)case\($\|\s\)','_\(^\|\s\)\(\S*)\|in\|;;\)\($\|\s\)_','\(^\|\s\)esac\($\|\s\)']],
 \       },
@@ -781,10 +783,12 @@ nnoremap <Leader><Leader>_ :only!<CR><C-W>s
 nnoremap <Leader><Leader><Bar> :only!<CR><C-W>v
 autocmd VimResized * :wincmd =
 
-" Selecting things: last modified text (good for after pasting); everything.
+" Selecting last modified text (good for after pasting)
 noremap <Leader>v `[v`]
-noremap <Leader><Leader>v ggVG
-noremap <Leader><Leader>y :%y<CR>
+
+" Whole file object
+xnoremap af :<c-u>normal! gg0VG<cr>
+onoremap af :normal vaf<Esc><C-O><C-O>
 
 " Adapted from https://gist.github.com/dahu/6ff4de11ca9c5bb25902
 " Toggle colorcolumn..
