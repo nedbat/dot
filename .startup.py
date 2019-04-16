@@ -3,22 +3,16 @@
 
 print("(.startup.py)")
 
-try:
-    from autoimp import *
-    print("(from autoimp import *)")
-except:
-    import collections, datetime, itertools, math, os, pprint, re, sys, time
-    print("(imported collections, datetime, itertools, math, os, pprint, re, sys, time)")
-
-def dirx(thing, regex):
-    return [ n for n in dir(thing) if re.search(regex, n) ]
+import collections, datetime, itertools, math, os, pprint, re, sys, time
+print("(imported collections, datetime, itertools, math, os, pprint, re, sys, time)")
 
 pp = pprint.pprint
 
 # A function for pasting code into the repl.
-# From: https://mail.python.org/pipermail/python-list/2016-September/714384.html
+# Adapted from: https://mail.python.org/pipermail/python-list/2016-September/714384.html
 def paste():
-    exec(sys.stdin.read(), globals())
+    import textwrap
+    exec(textwrap.dedent(sys.stdin.read()), globals())
 
 # Readline and history support
 def hook_up_history():
@@ -32,14 +26,14 @@ def hook_up_history():
         import os
         import rlcompleter
 
-        historyPath = os.path.expanduser("~/.pyhistory{0}".format(sys.version_info[0]))
+        history_path = os.path.expanduser("~/.pyhistory{0}".format(sys.version_info[0]))
 
-        def save_history(historyPath=historyPath):
+        def save_history(history_path=history_path):
             import readline
-            readline.write_history_file(historyPath)
+            readline.write_history_file(history_path)
 
-        if os.path.exists(historyPath):
-            readline.read_history_file(historyPath)
+        if os.path.exists(history_path):
+            readline.read_history_file(history_path)
 
         atexit.register(save_history)
 
