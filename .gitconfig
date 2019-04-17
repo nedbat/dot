@@ -55,6 +55,9 @@
 
   fa = fetch --all --prune --tags
 
+  # Get a plain-text diff, for making patches.
+  patch = "!f() { git --no-pager diff --no-color $@; }; f"
+
 [color]
   ui = true
 
@@ -66,6 +69,17 @@
   whitespace = red reverse
   frag = cyan reverse
   func = white dim reverse
+
+[color "diff-highlight"]
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
+
+[diff-so-fancy]
+  rulerWidth = 80
+  stripLeadingSymbols = false
+  markEmptyLines = false
 
 [pretty]
   me = %h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)
@@ -81,7 +95,7 @@
   autosetuprebase = always
 
 [core]
-  pager = less -q
+  pager = diff-so-fancy | less -iFRQX
   excludesfile = ~/.gitglobal/ignore
   attributesfile = ~/.gitglobal/attributes
 
