@@ -904,8 +904,10 @@ function! RunGrep(word)
         echo "No pattern entered, search aborted."
     else
         " Create the gerp command line.
-        let l:words = split(l:cmdline)
+        " To search for spaces, preserve \<space> into the pattern.
+        let l:words = split(substitute(l:cmdline, '\\ ', '@@@@@', 'g'))
         let l:pattern = shellescape(substitute(l:words[0], '[%#]', '\\&', 'g'))
+        let l:pattern = substitute(l:pattern, '@@@@@', ' ', 'g')
         let l:options = join(l:words[1:])
         execute ':silent grep! % /' . l:pattern . ' ' . l:options
         " Force recalculation of all the buffer names. This makes the results
