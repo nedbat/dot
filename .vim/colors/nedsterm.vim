@@ -15,7 +15,7 @@ let g:colors_name="nedsterm"
 "
 " 16 is black, but boldable
 highlight Normal        cterm=NONE      ctermfg=NONE        ctermbg=NONE
-highlight Comment       cterm=NONE      ctermfg=46          ctermbg=NONE
+highlight Comment       cterm=italic    ctermfg=46          ctermbg=NONE
 highlight Statement     cterm=bold      ctermfg=39          ctermbg=NONE
 
 highlight LineNr        cterm=NONE      ctermfg=247         ctermbg=238
@@ -37,8 +37,8 @@ highlight User2         cterm=None      ctermfg=Black       ctermbg=LightGrey
 highlight User3         cterm=None      ctermfg=White       ctermbg=Red
 
 " Pop-up menu
-highlight Pmenu         cterm=italic      ctermfg=238         ctermbg=250
-highlight PmenuSel      cterm=bold      ctermfg=Black         ctermbg=Yellow
+highlight Pmenu         cterm=italic    ctermfg=238         ctermbg=250
+highlight PmenuSel      cterm=bold      ctermfg=Black       ctermbg=Yellow
 
 highlight diffAdded     cterm=None      ctermfg=None        ctermbg=22
 highlight diffRemoved   cterm=None      ctermfg=None        ctermbg=52
