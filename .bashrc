@@ -323,3 +323,10 @@ fi
 if [[ -f ~/.bashrc.local ]]; then
     source ~/.bashrc.local
 fi
+
+# If we are already in a Python virtualenv, re-activate it to make sure it wins
+# the $PATH wars.
+if [[ -n $VIRTUAL_ENV ]]; then
+    echo "Reactivating $VIRTUAL_ENV.."
+    source $VIRTUAL_ENV/bin/activate
+fi
