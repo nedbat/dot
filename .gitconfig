@@ -71,10 +71,10 @@
   func = white dim reverse
 
 [color "diff-highlight"]
-  oldNormal = red bold
-  oldHighlight = red bold 52
-  newNormal = green bold
-  newHighlight = green bold 22
+  oldNormal = red
+  oldHighlight = red bold
+  newNormal = green
+  newHighlight = green bold
 
 [diff-so-fancy]
   rulerWidth = 80
