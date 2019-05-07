@@ -603,9 +603,7 @@ if v:version >= 800
     \       'css': 0,
     \       'irc': 0,
     \       'diary': 0,
-    \       'sh': {
-    \           'parentheses': [['\(^\|\s\)\S*()\s*{\?\($\|\s\)','_^{_','}'], ['\(^\|\s\)if\($\|\s\)','_\(^\|\s\)\(then\|else\|elif\)\($\|\s\)_','\(^\|\s\)fi\($\|\s\)'], ['\(^\|\s\)for\($\|\s\)','_\(^\|\s\)\(do\|in\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)while\($\|\s\)','_\(^\|\s\)\(do\)\($\|\s\)_','\(^\|\s\)done\($\|\s\)'], ['\(^\|\s\)case\($\|\s\)','_\(^\|\s\)\(\S*)\|in\|;;\)\($\|\s\)_','\(^\|\s\)esac\($\|\s\)']],
-    \       },
+    \       'sh': 0,
     \   }
     \}
 endif
@@ -617,6 +615,8 @@ xmap gx <Plug>(open-url-browser)
 
 " Highlight the effect of commands as you type them.
 Plug 'markonm/traces.vim'
+
+Plug 'romainl/vim-cool'
 
 call plug#end()
 
