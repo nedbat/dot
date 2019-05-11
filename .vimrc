@@ -1016,6 +1016,6 @@ def pretty_it(datatype):
     r[:] = str(content).split('\n')
 EOF_PY
 
-    command! -range=% Pxml :python pretty_it('xml')
-    command! -range=% Pjson :python pretty_it('json')
+    command! -range=% Pxml :<line1>,<line2>python pretty_it('xml')
+    command! -range=% Pjson :<line1>,<line2>python pretty_it('json')
 endif
