@@ -616,8 +616,6 @@ xmap gx <Plug>(open-url-browser)
 " Highlight the effect of commands as you type them.
 Plug 'markonm/traces.vim'
 
-Plug 'romainl/vim-cool'
-
 call plug#end()
 
 " Plugins I tried but didn't end up actually using:
