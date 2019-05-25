@@ -130,13 +130,23 @@ endif
 ""
 
 function! StatusEncodingAndFormat()
-    let enf = strpart(&fileencoding,0,1) . strpart(&fileformat,0,1)
-    if enf == 'uu'
-        let enf = ''
-    else
-        let enf = ' [' . enf . ']'
+    if &filetype == ''
+        return ''
     endif
-    return enf
+    let enc = &fileencoding
+    if enc == 'utf-8'
+        let enc = 'u'
+    endif
+    let fmt = strpart(&fileformat,0,1)
+    if enc == 'u'
+        if fmt == 'u'
+            return ''
+        else
+            return '[u' . fmt . ']'
+        endif
+    else
+        return '[' . enc . ':' . fmt . ']'
+    endif
 endfunction
 
 set laststatus=2                        " Always show a status line
@@ -149,7 +159,7 @@ let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
 let filestatus .= ' %2*%{fugitive#head(6)}%* '
 let filestatus .= '%='
 let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}'
-let filestatus .= '%{StatusEncodingAndFormat()}'
+let filestatus .= ' %{StatusEncodingAndFormat()}'
 let filestatus .= ' %2*%l,%c%*'
 let filestatus .= ' %P '
 let &statusline = filestatus
