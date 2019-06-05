@@ -249,6 +249,7 @@ augroup end
 augroup MiscFiletypes
     autocmd!
     autocmd BufNewFile,BufRead *.md set filetype=markdown
+    autocmd FileType markdown setlocal wrap textwidth=0 conceallevel=2 showbreak=
     autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
     autocmd BufNewFile,BufRead setup.cfg set filetype=dosini
     autocmd BufNewFile,BufRead .coveragerc set filetype=dosini
@@ -512,6 +513,7 @@ autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugit
 
 Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
 noremap <Leader>gb :Gblame<CR>
+noremap <Leader>go :Git checkout<space>
 noremap <Leader>gp :Gpull<CR>
 noremap <Leader>gs :Gstatus<CR>
 noremap <Leader>gu :Gbrowse!<CR>
@@ -551,6 +553,8 @@ Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
 "Plug 'trapd00r/irc.vim', { 'for': 'irc' }
 Plug 'nedbat/irc.vim', { 'for': 'irc' }
+Plug 'plasticboy/vim-markdown'
+let g:vim_markdown_frontmatter = 1
 
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 
