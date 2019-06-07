@@ -48,6 +48,26 @@ shopt -s histappend
 export PROMPT_COMMAND='history -a'
 
 #
+# Set the terminal type properly.
+# TERM is tried as a terminal type. If unknown, a trailing dash component will
+# be stripped, and repeat.  So "xterm-256color-italic" will fallback to
+# "xterm-256color", and then to "xterm" if needed.
+#
+
+while true; do
+    if tput longname >/dev/null 2>&1; then
+        # This is a known terminal.
+        break
+    fi
+    if [[ $TERM != *-* ]]; then
+        # No more qualifiers to strip off.
+        break
+    fi
+    # Remove the last dash-separated component and try again.
+    export TERM=${TERM%-*}
+done
+
+#
 # Basic Unix command aliases
 #
 alias ls='ls -F'
