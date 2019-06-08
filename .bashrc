@@ -18,6 +18,19 @@ shopt -s histreedit
 # Case-insensitive wildcard matching.
 shopt -s nocaseglob
 
+# ** expands recursively
+if [ "$(shopt -p globstar 2>/dev/null)" ]; then
+    shopt -s globstar
+else
+    echo "No globstar"
+fi
+
+if [ "$(shopt -p autocd 2>/dev/null)" ]; then
+    shopt -s autocd
+else
+    echo "No autocd"
+fi
+
 # Set PATH & MANPATH
 
 # Shared object library
