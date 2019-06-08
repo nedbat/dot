@@ -107,14 +107,12 @@ alias xs='dirs -v'
 
 alias sep='printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n========================================================================================================================\n"'
 
-if command -v xclip >/dev/null; then
-    alias clipc='xclip -sel clip -i'
-    alias clipv='xclip -sel clip -o'
-fi
-
 if command -v pbcopy >/dev/null; then
     alias clipc='pbcopy'
     alias clipv='pbpaste'
+elif command -v xclip >/dev/null; then
+    alias clipc='xclip -sel clip -i'
+    alias clipv='xclip -sel clip -o'
 fi
 
 if command -v xdg-open >/dev/null; then
@@ -171,12 +169,6 @@ gittree() {
     gittreeif @ "$@"
 }
 
-# Docker
-
-alias d='docker'
-alias dc='docker-compose'
-
-
 # Get IP info from IP address on command line or clipboard.
 ipinfo() {
     local ip="$@"
@@ -228,16 +220,6 @@ wtitle() {
 alias i2clear="printf '\e]50;ClearScrollback\a'"
 alias i2focus="printf '\e]50;StealFocus\a'"
 alias i2profile="printf '\e]50;SetProfile=%s\a'"
-
-# AWS helpers
-
-ash() {
-    ssh -i ~/.ssh/ned-aws-install-testing.pem $AWS $@
-}
-
-acp() {
-    scp -i ~/.ssh/ned-aws-install-testing.pem $@
-}
 
 # Find the first file that exists in a list of possibilities.
 first_of() {
