@@ -1,9 +1,9 @@
 # Sourced for all interactive shells, $1 is the shell type.
 # Must work for bash and zsh.
 
-shell_type=$1
+export SHELL_TYPE=$1
 
-if [[ $shell_type == bash ]]; then
+if [[ $SHELL_TYPE == bash ]]; then
     # Check the window size after each command and, if necessary,
     # update the values of LINES and COLUMNS.
     shopt -s checkwinsize
@@ -38,7 +38,7 @@ stty erase ^H
 
 export PYTHONSTARTUP=~/.startup.py
 
-if [[ $shell_type == bash ]]; then
+if [[ $SHELL_TYPE == bash ]]; then
     # Only exit the shell if 10 ^D's are typed.
     export IGNOREEOF=10
 
@@ -126,7 +126,7 @@ alias tigs='tig status'
 export GIT_PS1_SHOWSTASHSTATE='y'
 export GIT_PS1_SHOWDIRTYSTATE='y'
 
-if [[ $shell_type == bash ]]; then
+if [[ $SHELL_TYPE == bash ]]; then
     if [[ -r ~/.git-completion.bash ]]; then
         source ~/.git-completion.bash
         __git_complete g __git_main
@@ -264,7 +264,7 @@ if $(python -c "import virtualenv" &> /dev/null) ; then
 fi
 
 # Bash completion
-if [[ $shell_type == bash ]]; then
+if [[ $SHELL_TYPE == bash ]]; then
     completions=(
         /usr/local/etc/bash_completion
         /etc/bash_completion
@@ -294,14 +294,9 @@ if [[ -n $PS1 ]]; then
     }
     fancy_prompt() {
         source ~/bin/liquidprompt/liquidprompt
+        export LP_PS1_PREFIX="${SHELL_TYPE:0:1} "
     }
     fancy_prompt
-fi
-
-if [[ $shell_type == zsh ]]; then
-    # A small reminder of the shell we are using.
-    # export RPROMPT="%{$fg[blue]%}z%{$reset_color%}"
-    export LP_PS1_PREFIX='z '
 fi
 
 # Pasting to gist
@@ -334,14 +329,14 @@ if [[ -d $HOME/.rbenv/shims ]]; then
 fi
 
 # Added by fzf
-if [[ -f ~/.fzf.$shell_type ]]; then
-    source ~/.fzf.$shell_type
+if [[ -f ~/.fzf.$SHELL_TYPE ]]; then
+    source ~/.fzf.$SHELL_TYPE
 fi
 
 # Read a local file if it exists.
 
 if [[ -f ~/.rc_local.sh ]]; then
-    source ~/.rc_local.sh $shell_type
+    source ~/.rc_local.sh $SHELL_TYPE
 fi
 
 # If we are already in a Python virtualenv, re-activate it to make sure it wins
