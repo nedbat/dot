@@ -12,10 +12,10 @@ help:					## Show this help
 	@grep '^[a-zA-Z]' $(MAKEFILE_LIST) | sort | awk -F ':.*?## ' 'NF==2 {printf "  %-26s%s\n", $$1, $$2}'
 
 $(TAR_FILE) tar: .* $(KEY_FILE)
-	tar -cvf $(TAR_FILE) --exclude-from=notar.txt .
+	tar -cvf $(TAR_FILE) --exclude-from=shex/notar.txt .
 
 $(TGZ_FILE) tgz: .* $(KEY_FILE)
-	tar -czf $(TGZ_FILE) --exclude-from=notar.txt .
+	tar -czf $(TGZ_FILE) --exclude-from=shex/notar.txt .
 
 $(ZIP_FILE) zip: .*
 	zip -r $(ZIP_FILE) bin .*vim* .git?* .hg* *.cmd *.bat *.ahk -x '.git'
@@ -25,7 +25,7 @@ $(KEY_FILE): .ssh/*.pub
 
 shell: $(EXTRACTOR_FILE)		## Make self-extracting shell file
 $(EXTRACTOR_FILE): $(TGZ_FILE)
-	./make_extractor.sh $(TGZ_FILE) $(EXTRACTOR_FILE)
+	shex/make_extractor.sh $(TGZ_FILE) $(EXTRACTOR_FILE)
 	@echo "Extractor file is $(EXTRACTOR_FILE). Copy to a machine, then:"
 	@echo "prompt> ./$(EXTRACTOR_FILE)"
 
