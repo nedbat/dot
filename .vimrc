@@ -270,6 +270,9 @@ augroup MiscFiletypes
     autocmd BufNewFile,BufRead .coveragerc set filetype=dosini
 augroup end
 
+" Shell filetype: assume bash syntax
+let g:is_bash = 1
+
 augroup FormatStupidity
     autocmd!
     autocmd BufNewFile,BufRead * silent! setlocal formatoptions+=jln
