@@ -435,6 +435,16 @@ let g:tagbar_type_scss = {
     \ ]
 \ }
 
+let g:tagbar_type_markdown = {
+    \ 'ctagstype' : 'markdown',
+    \ 'kinds' : [
+        \ 'h:headings',
+        \ 'l:links',
+        \ 'i:images'
+    \ ],
+    \ "sort" : 0
+\ }
+
 Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
 let g:tagbar_type_rst = {
     \ 'ctagstype': 'rst',
