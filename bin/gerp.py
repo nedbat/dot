@@ -184,7 +184,8 @@ class Gerp(object):
         rg_words.extend(["--regexp", pattern])
 
         for root in self.roots:
-            p = subprocess.Popen(rg_words + [root], stdout=subprocess.PIPE)
+            cmd = rg_words + [root]
+            p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
             for line in iter(p.stdout.readline, b''):
                 print(line.rstrip())
 
