@@ -298,6 +298,12 @@ if [[ -n $PS1 ]]; then
     fancy_prompt
 fi
 
+if [[ $shell_type == zsh ]]; then
+    # A small reminder of the shell we are using.
+    # export RPROMPT="%{$fg[blue]%}z%{$reset_color%}"
+    export LP_PS1_PREFIX='z '
+fi
+
 # Pasting to gist
 if [[ -f /usr/local/bin/gist ]]; then
     # gistv [FILENAME]: paste the clipboard to Gist
