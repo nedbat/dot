@@ -149,6 +149,21 @@ function! StatusEncodingAndFormat()
     endif
 endfunction
 
+function! StatusOptions()
+    let l:opts = ''
+    if &formatoptions =~# 'a'
+        let l:opts .= 'a'
+    endif
+    if &spell
+        let l:opts .= 's'
+    endif
+    if l:opts != ''
+        return '·' . l:opts
+    else
+        return ''
+    endif
+endfunction
+
 set laststatus=2                        " Always show a status line
 let filestatus = ''
 let filestatus .= ' %1*%{&readonly ? "" : &modified ? " + " : &modifiable ? "" : " - "}%*'
@@ -158,7 +173,7 @@ let filestatus .= ' %<%f  '
 let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
 let filestatus .= ' %2*%{fugitive#head(6)}%* '
 let filestatus .= '%='
-let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}'
+let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}%2*%{StatusOptions()}%*'
 let filestatus .= ' %{StatusEncodingAndFormat()}'
 let filestatus .= ' %2*%l,%c%*'
 let filestatus .= ' %P '
