@@ -354,7 +354,7 @@ if v:version >= 700
         \ '\.o$', '\.so$',
         \ '^__pycache__$', '\.egg-info$',
         \ 'node_modules',
-        \ ]
+    \ ]
     let g:NERDTreeSortOrder = ['^_.*', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
     let g:NERDTreeShowBookmarks = 0
     let g:NERDTreeMinimalUI = 1
@@ -376,9 +376,9 @@ noremap <silent> <Leader><Leader>f :let @+ = expand("%:p") \| :echo @+ . " (cwd:
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'scrooloose/nerdcommenter', {
-\   'on': [
-    \   '<Plug>NERDCommenterComment',
-    \   '<Plug>NERDCommenterUncomment'
+\ 'on': [
+    \ '<Plug>NERDCommenterComment',
+    \ '<Plug>NERDCommenterUncomment'
     \ ]
 \ }
 
@@ -404,7 +404,7 @@ let g:tagbar_iconchars = ['+', '-']
 nnoremap <silent> <Leader>t :TagbarToggle<CR>
 
 let g:tagbar_type_css = {
-\ 'ctagstype' : 'Css',
+    \ 'ctagstype' : 'Css',
     \ 'kinds' : [
         \ 'c:classes',
         \ 's:selectors',
@@ -423,7 +423,7 @@ let g:tagbar_type_html = {
 \ }
 
 let g:tagbar_type_scss = {
-\ 'ctagstype' : 'Scss',
+    \ 'ctagstype' : 'Scss',
     \ 'kinds' : [
         \ 'c:classes',
         \ 's:selectors',
