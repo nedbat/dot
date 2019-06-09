@@ -43,18 +43,24 @@ if [[ $SHELL_TYPE == bash ]]; then
     export IGNOREEOF=10
 
     # Set history settings
+    export HISTFILE=~/.history
     # Don't record the same command twice in a row
     export HISTCONTROL=ignoredups
     # Save 100000 commands in the history file.
     export HISTSIZE=100000
     # Don't save 1- or 2-letter commands, or space-started commands, or duplicates.
     export HISTIGNORE='?:??: *:&'
-    # Save a timestamp with the history.
-    export HISTTIMEFORMAT="%Y-%m-%d %T  "
     # Append to the history file, don't overwrite it.
     shopt -s histappend
     # After every command, flush the writable history to the file.
     export PROMPT_COMMAND='history -a'
+elif [[ $SHELL_TYPE == zsh ]]; then
+    # Don't write timestamps
+    setopt no_extendedhistory
+    setopt no_sharehistory
+    setopt incappendhistory
+    HISTFILE=~/.history
+    SAVEHIST=100000
 fi
 
 #
