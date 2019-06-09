@@ -38,10 +38,10 @@ stty erase ^H
 
 export PYTHONSTARTUP=~/.startup.py
 
-# Only exit the shell if 10 ^D's are typed.
-export IGNOREEOF=10
-
 if [[ $shell_type == bash ]]; then
+    # Only exit the shell if 10 ^D's are typed.
+    export IGNOREEOF=10
+
     # Set history settings
     # Don't record the same command twice in a row
     export HISTCONTROL=ignoredups
