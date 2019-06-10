@@ -59,6 +59,12 @@ elif [[ $SHELL_TYPE == zsh ]]; then
     setopt incappendhistory
     HISTFILE=~/.history
     SAVEHIST=100000
+    HISTSIZE=5000
+
+    # Don't pushd automatically when changing directories.
+    setopt no_auto_pushd
+    # Make pushd work the same as Bash.
+    setopt no_pushd_minus
 fi
 
 #
