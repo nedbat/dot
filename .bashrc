@@ -7,4 +7,5 @@ else
     return
 fi
 
-source ~/.rc.sh bash
+export SHELL_TYPE=bash
+source ~/.rc.sh

@@ -1,7 +1,5 @@
-# Sourced for all interactive shells, $1 is the shell type.
+# Sourced for all interactive shells, $SHELL_TYPE is the shell type.
 # Must work for bash and zsh.
-
-export SHELL_TYPE=$1
 
 if [[ $SHELL_TYPE == bash ]]; then
     # Check the window size after each command and, if necessary,
@@ -342,7 +340,7 @@ fi
 # Read a local file if it exists.
 
 if [[ -f ~/.rc_local.sh ]]; then
-    source ~/.rc_local.sh $SHELL_TYPE
+    source ~/.rc_local.sh
 fi
 
 # If we are already in a Python virtualenv, re-activate it to make sure it wins

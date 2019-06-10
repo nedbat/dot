@@ -71,4 +71,5 @@ plugins=()
 
 source $ZSH/oh-my-zsh.sh
 
-source ~/.rc.sh zsh
+export SHELL_TYPE=zsh
+source ~/.rc.sh
