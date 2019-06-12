@@ -465,8 +465,8 @@ let g:tagbar_type_markdown = {
 
 Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
 let g:tagbar_type_rst = {
-    \ 'ctagstype': 'rst',
-    \ 'ctagsbin': expand('~/.vim/plugged/rst2ctags/rst2ctags.py'),
+    \ 'ctagstype' : 'rst',
+    \ 'ctagsbin' : expand('~/.vim/plugged/rst2ctags/rst2ctags.py'),
     \ 'ctagsargs' : '-f - --sort=yes',
     \ 'kinds' : [
         \ 's:sections',
@@ -476,7 +476,7 @@ let g:tagbar_type_rst = {
     \ 'kind2scope' : {
         \ 's' : 'section',
     \ },
-    \ 'sort': 0,
+    \ 'sort' : 0,
 \ }
 
 Plug 'mattn/webapi-vim'

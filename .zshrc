@@ -1,4 +1,4 @@
-echo  '(.zshrc)'
+echo '(.zshrc)'
 
 # Path to your oh-my-zsh installation.
 export ZSH="/src/oh-my-zsh"
