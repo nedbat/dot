@@ -65,6 +65,10 @@ elif [[ $SHELL_TYPE == zsh ]]; then
     setopt no_auto_pushd
     # Make pushd work the same as Bash.
     setopt no_pushd_minus
+    # **.c is short for **/*.c
+    setopt glob_star_short
+    # Don't wait to verify history expansion.
+    setopt no_hist_verify
 fi
 
 #
