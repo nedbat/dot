@@ -18,7 +18,7 @@ if exists("syntax_on")
 endif
 let g:colors_name="neds"
 
-highlight Normal        gui=NONE            guifg=NONE          guibg=NONE
+highlight Normal        gui=NONE            guifg=Black         guibg=NONE
 highlight NonText       gui=NONE            guifg=NONE          guibg=LightGrey
 highlight LineNr        gui=italic          guifg=#444444       guibg=#dddddd
 highlight Comment       gui=italic          guifg=DarkGreen     guibg=NONE
@@ -83,7 +83,7 @@ highlight! link ircIncr Normal
 highlight! link ircDecr Normal
 highlight! link ircDo Normal
 
-" fcpg/vim-spotlightify
-highlight SplfyCurrentMatch                 guifg=Black         guibg=Orange
+command! Dim highlight Normal guifg=#cccccc
+command! Undim highlight Normal guifg=Black
 
 " vim: tabstop=4 softtabstop=4 shiftwidth=4 expandtab
