@@ -498,10 +498,10 @@ Plug 't9md/vim-quickhl'
 " Highlight the current word.
 nmap <silent> <Leader>k <Plug>(quickhl-manual-this)
 xmap <silent> <Leader>k <Plug>(quickhl-manual-this)
+" Highlight the current word, but only as whole words.
+nmap <silent> <Leader><Leader>k <Plug>(quickhl-manual-this-whole-word)
 " Unhighlight all words.
 noremap <silent> <Leader>K :QuickhlManualReset<CR>
-" Toggle dynamic highlighting of the current word.
-nmap <silent> <Leader><Leader>k <Plug>(quickhl-cword-toggle)
 
 let g:quickhl_manual_colors = [
     \ "guibg=#F0C0FF guifg=black",
