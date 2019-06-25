@@ -133,9 +133,6 @@ fi
 # Git etc stuff
 
 alias g='git'
-alias h='hg'
-alias tiga='tig --all'
-alias tigs='tig status'
 
 export GIT_PS1_SHOWSTASHSTATE='y'
 export GIT_PS1_SHOWDIRTYSTATE='y'
@@ -147,6 +144,9 @@ if [[ $SHELL_TYPE == bash ]]; then
         __git_complete gi __git_main
     fi
 fi
+
+# Don't show all the release-candidate branches in edx-platform
+export TIG_LS_REMOTE="ls-remote-grep -v release-candidate"
 
 # Copy the SHA of head, or some other rev.
 copysha() { 
