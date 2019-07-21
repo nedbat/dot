@@ -802,8 +802,9 @@ noremap <Leader>4 :setlocal shiftwidth=4 softtabstop=4<CR>
 noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 
 " zM is close-all-folds, but I can never remember it.
-nnoremap z0 zM
+nnoremap z0 zxzM
 nnoremap z* zR
+nnoremap zV zMzx
 
 " Toggle list mode to see special characters.
 set listchars=tab:→‐,trail:◘,nbsp:␣,eol:¶
