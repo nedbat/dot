@@ -197,6 +197,9 @@ ipinfo() {
     echo
 }
 
+# https://github.com/nedbat/odds/blob/master/set_env.py
+alias set_env='$(set_env.py $(git ls-files))'
+
 # e means gvim, vim or vi, depending on what's installed.
 export EDITOR=vim
 if [[ -x /Applications/MacVim.app/Contents/MacOS/Vim ]] ; then
