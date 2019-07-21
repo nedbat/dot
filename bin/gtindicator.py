@@ -27,6 +27,17 @@ def gauge(percent):
 def run(cmd):
     return subprocess.check_output(cmd).decode('utf8')
 
+def supered(s):
+    normal = "abcdefghijklmnopqrstuvwxyz0123456789"
+    superscripts = "ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖᵠʳˢᵗᵘᵛʷˣʸᶻ⁰¹²³⁴⁵⁶⁷⁸⁹"
+    supers = dict(zip(normal, superscripts))
+    s = "".join(supers.get(c, c) for c in s.lower())
+    return s
+
+def unvoweled(s):
+    return re.sub(r"[^bcdfghjklmnpqrstvwxyz0123456789]", "", s.lower())
+
+
 now = datetime.datetime.now()
 print(f"{now:%-I:%M\n%b\u2009%-d}")
 
@@ -65,6 +76,12 @@ m = re.search(r"lastTxRate: (\d+)", wifi)
 if m:
     wifi_speed = m.group(1)
     print(f"{wifi_speed}\u2933")
+m = re.search(r" SSID: (.+)$", wifi, flags=re.MULTILINE)
+if m:
+    ssid = m.group(1).strip()
+    #ssid = supered(unvoweled(ssid))
+    ssid = ssid[:3] + ssid[-2:]
+    print(ssid)
 
 # For debugging: output the raw data, but pushed out of view.
 print(f"{'':30}{batt!r}")
