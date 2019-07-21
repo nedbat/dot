@@ -134,7 +134,9 @@ function! StatusEncodingAndFormat()
         return ''
     endif
     let enc = &fileencoding
-    if enc == 'utf-8'
+    if enc == ''
+        let enc = 'u'
+    elseif enc == 'utf-8'
         let enc = 'u'
     endif
     let fmt = strpart(&fileformat,0,1)
