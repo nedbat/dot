@@ -69,6 +69,11 @@ elif [[ $SHELL_TYPE == zsh ]]; then
     setopt glob_star_short
     # Don't wait to verify history expansion.
     setopt no_hist_verify
+
+    autoload zargs
+    # Use like:
+    #   forall *.db -- sqlite3 {} "select count(*) from file"
+    alias forall='zargs -i{} --'
 fi
 
 #
