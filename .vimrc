@@ -293,6 +293,14 @@ if exists('##OptionSet')
     augroup end
 endif
 
+if exists('+wincolor')
+    augroup DimUnfocusedWin
+        autocmd!
+        autocmd WinEnter * setlocal wincolor=
+        autocmd WinLeave * setlocal wincolor=FadeBg
+    augroup end
+endif
+
 " Abbreviations
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-        
 iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-        

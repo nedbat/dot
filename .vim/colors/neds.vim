@@ -19,6 +19,7 @@ endif
 let g:colors_name="neds"
 
 highlight Normal        gui=NONE            guifg=Black         guibg=NONE
+highlight FadeBg        gui=NONE            guifg=Black         guibg=#f8f8f8
 highlight NonText       gui=NONE            guifg=NONE          guibg=LightGrey
 highlight LineNr        gui=italic          guifg=#444444       guibg=#dddddd
 highlight Comment       gui=italic          guifg=DarkGreen     guibg=NONE
