@@ -546,10 +546,13 @@ let g:pyindent_open_paren = 'shiftwidth()'
 let g:pyindent_nested_paren = 'shiftwidth()'
 let g:pyindent_continue = 'shiftwidth()'
 
+Plug 'jeetsukumaran/vim-pythonsense'                " Python-specific motions and text objects
+
 Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statusbar
 autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
 
 Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
+noremap <Leader>gg :Git<space>
 noremap <Leader>gb :Gblame<CR>
 noremap <Leader>go :Git checkout<space>
 noremap <Leader>gp :Gpull<CR>
@@ -558,6 +561,9 @@ noremap <Leader>gu :Gbrowse!<CR>
 noremap <Leader>gv :Gbrowse<CR>
 
 Plug 'tpope/vim-git'                                " Git filetypes, etc.
+
+Plug 'jreybert/vimagit'                             " One-screen UI for staging and committing
+
 "Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
@@ -840,8 +846,8 @@ autocmd VimResized * :wincmd =
 noremap <Leader>v `[v`]
 
 " Whole file object
-xnoremap af :<c-u>normal! gg0VG<cr>
-onoremap af :normal vaf<Esc><C-O><C-O>
+xnoremap aF :<c-u>normal! gg0VG<cr>
+onoremap aF :normal vaF<Esc><C-O><C-O>
 
 " Adapted from https://gist.github.com/dahu/6ff4de11ca9c5bb25902
 " Toggle colorcolumn..
