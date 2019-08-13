@@ -62,6 +62,13 @@
   # Show branches, verbosely, sorted by last touch, with commit messages.
   brv = "!f() { git branch --sort=-creatordate --color=always --format='%(color:reset)%(creatordate:short) %(color:bold white)%(align:2,right)%(upstream:trackshort)%(end)%(color:nobold) %(align:40,left)%(color:yellow)%(refname:short)%(end) %(color:reset)%(contents:subject)'; }; f"
 
+#   git branch --color --format="%(color:blue)%(creatordate:short)%09\
+# %(color:yellow)%(objectname:short=8)%09\
+# %(color:green)%(refname:short)%09\
+# %(color:red)%(upstream:trackshort)%09\
+# %(color:yellow)%(contents:subject)" \
+# --sort=creatordate | column -s$'\t' -t
+
 [color]
   ui = true
 
