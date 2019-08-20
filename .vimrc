@@ -581,6 +581,8 @@ Plug 'wellle/visual-split.vim'
 noremap <Leader>* :VSSplit<CR>
 noremap <Leader><Leader>* :VSResize<CR>
 
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }     " Sane buffer closing
+
 " Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
 " Plug 'Valloric/MatchTagAlways'                      " Highlights paired HTML tags
 Plug 'andymass/vim-matchup', { 'for': ['html', 'xhtml', 'xml'] }
@@ -731,32 +733,6 @@ function! <SID>BufOut(cmd)
     endif
 endfunction
 
-" Don't close window, when deleting a buffer
-" from: https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim
-command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
-    let l:currentBufNum = bufnr("%")
-    let l:alternateBufNum = bufnr("#")
-
-    if buflisted(l:alternateBufNum)
-        buffer #
-    else
-        bnext
-    endif
-
-    if bufnr("%") == l:currentBufNum
-        new
-    endif
-
-    if buflisted(l:currentBufNum)
-        execute("bdelete! " . l:currentBufNum)
-        if bufnr('#') == l:currentBufNum
-            " Don't leave this deleted buffer as the alternate
-            let @# = @% ? @% : 1
-        endif
-    endif
-endfunction
-
 " From https://github.com/Julian/dotfiles/blob/master/.vimrc
 command! DiffThese call <SID>DiffTheseCommand()
 function! <SID>DiffTheseCommand()
@@ -806,7 +782,7 @@ nnoremap coa :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'fo
 noremap <Leader><Leader>d yPgvo<esc>
 
 noremap <Leader>q :quit<CR>
-noremap <Leader><Leader>q :Bclose<CR>
+noremap <Leader><Leader>q :Sayonara!<CR>
 noremap <Leader>w :<C-U>write<CR>
 noremap <Leader><Leader>w :<C-U>wall<CR>
 noremap <Leader>x :exit<CR>
@@ -1027,9 +1003,6 @@ nnoremap gj j
 nnoremap gk k
 nnoremap j gj
 nnoremap k gk
-
-" Yank from the cursor to the end of the line, to be consistent with C and D.
-nnoremap Y y$
 
 " qq to record, Q to replay (thanks, junegunn)
 nnoremap Q @q
