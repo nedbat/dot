@@ -270,6 +270,7 @@ augroup MiscFiletypes
     autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
     autocmd BufNewFile,BufRead setup.cfg set filetype=dosini
     autocmd BufNewFile,BufRead .coveragerc set filetype=dosini
+    autocmd FileType yaml setlocal foldmethod=indent
 augroup end
 
 " Shell filetype: assume bash syntax
@@ -795,6 +796,8 @@ noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 nnoremap z0 zxzM
 nnoremap z* zR
 nnoremap zV zMzx
+nnoremap z< zm
+nnoremap z> zr
 
 " Toggle list mode to see special characters.
 set listchars=tab:→‐,trail:◘,nbsp:␣,eol:¶
