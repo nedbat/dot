@@ -11,4 +11,7 @@ command! -nargs=1 ExtendLine execute 'normal! '.(<q-args>-strdisplaywidth(getlin
 nnoremap <silent> <buffer> <Leader><Leader>` :<c-u>exe 'ExtendLine '.(v:count ? v:count : 80)<CR>A
 
 " Jump to the end of the top-most day.
-nnoremap <silent> <buffer> <Leader>` zMgg/\v\= \d+\/\d+<CR>zo}i
+nnoremap <silent> <buffer> <Leader>` zMgg/\v\= \d+\/\d+\/\d+<CR>:nohl<CR>zo}
+
+nnoremap <silent> <buffer> ]t /- todo:<CR>:nohl<CR>zvzz
+nnoremap <silent> <buffer> [t ?- todo:<CR>:nohl<CR>zvzz
