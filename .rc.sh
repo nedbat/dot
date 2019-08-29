@@ -57,9 +57,14 @@ elif [[ $SHELL_TYPE == zsh ]]; then
     setopt no_extendedhistory
     setopt no_sharehistory
     setopt incappendhistory
+    # Sounds good, but this takes 12sec
+    #setopt histexpiredupsfirst
+    setopt histfindnodups
+    setopt histignoredups
+    setopt histignorespace
     HISTFILE=~/.history
     SAVEHIST=100000
-    HISTSIZE=5000
+    HISTSIZE=10000
 
     # Don't pushd automatically when changing directories.
     setopt no_auto_pushd
@@ -69,6 +74,8 @@ elif [[ $SHELL_TYPE == zsh ]]; then
     setopt glob_star_short
     # Don't wait to verify history expansion.
     setopt no_hist_verify
+    # Comments work in interactive shells (bashtags)
+    setopt interactivecomments
 
     autoload zargs
     # Use like:
@@ -96,6 +103,9 @@ while true; do
     export TERM=${TERM%-*}
 done
 
+export LSCOLORS=gxfxDxDxxxDxDxxxxxgxgx
+export CLICOLOR=1
+
 #
 # Basic Unix command aliases
 #
@@ -109,6 +119,7 @@ alias m='less'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
+alias rg='rg --no-ignore-messages'
 
 alias u='cd ..'
 alias uu='cd ../..'
