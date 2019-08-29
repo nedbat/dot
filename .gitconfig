@@ -11,6 +11,7 @@
   amend = commit --amend --no-edit
   br = branch
   co = checkout
+  sw = switch
   ci = commit
   d = diff
   di = diff
