@@ -84,6 +84,11 @@ else
     zstyle ':completion:*' list-colors ''
     zstyle ':completion:*' verbose true
     zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
+
+    # Space will expand any history references in the current line.
+    bindkey " " magic-space
+    # Shift-tab cycles in reverse through menu choices.
+    bindkey "^[[Z" reverse-menu-complete
 fi
 
 export SHELL_TYPE=zsh
