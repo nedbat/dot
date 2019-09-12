@@ -604,6 +604,7 @@ Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_frontmatter = 1
 
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
+Plug 'bfrg/vim-qf-preview'
 
 Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
 let g:EditorConfig_preserve_formatoptions = 1

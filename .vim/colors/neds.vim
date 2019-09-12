@@ -84,6 +84,10 @@ highlight! link ircIncr Normal
 highlight! link ircDecr Normal
 highlight! link ircDo Normal
 
+" Quickfix previews
+highlight QfPreview guifg=#333333 guibg=#eeeeee
+highlight QfPreviewTitle gui=bold guifg=#000000 guibg=#dddddd
+
 command! Dim highlight Normal guifg=#cccccc
 command! Undim highlight Normal guifg=Black
 
