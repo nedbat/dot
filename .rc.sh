@@ -133,6 +133,7 @@ alias xq='popd >/dev/null'
 alias xs='dirs -v'
 
 alias sep='printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n========================================================================================================================\n"'
+alias a='cat /dev/null'
 
 if command -v pbcopy >/dev/null; then
     alias clipc='pbcopy'
