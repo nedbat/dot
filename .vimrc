@@ -564,7 +564,7 @@ noremap <Leader>gv :Gbrowse<CR>
 
 Plug 'tpope/vim-git'                                " Git filetypes, etc.
 
-Plug 'jreybert/vimagit'                             " One-screen UI for staging and committing
+Plug 'jreybert/vimagit', { 'on': 'Magit' }          " One-screen UI for staging and committing
 
 "Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -575,7 +575,7 @@ Plug 'Julian/vim-textobj-variable-segment'
 Plug 'kana/vim-textobj-line'                        " Whole-line text object
 Plug 'kana/vim-textobj-fold'                        " Manual-fold text object
 Plug 'qstrahl/vim-dentures'                         " Indent-based text object
-"Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
+" Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
 Plug 'nedbat/vim-space', { 'branch': 'patch-1' }    " get my fix for end-of-virtual-line
 Plug 'wellle/targets.vim'                           " Lots of improvements to text objects
 
