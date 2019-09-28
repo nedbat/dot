@@ -109,6 +109,7 @@
 
 [core]
   pager = diff-so-fancy | less -iFRQX
+  #pager = delta --dark --plus-color="#015800" --minus-color="#740001"
   excludesfile = ~/.gitglobal/ignore
   attributesfile = ~/.gitglobal/attributes
 
