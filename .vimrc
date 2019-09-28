@@ -927,6 +927,7 @@ noremap <C-Q> <C-V>
 " Searching
 set incsearch                           " Use incremental search
 set hlsearch                            " Highlight search results in the file.
+set nowrapscan                          " Don't wrap to top of file when searching.
 nnoremap <Leader>n nzvzz
 nnoremap <Leader>N Nzvzz
 " <C-L> was redraw, make it \z
