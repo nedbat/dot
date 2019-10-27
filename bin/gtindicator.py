@@ -80,7 +80,8 @@ m = re.search(r" SSID: (.+)$", wifi, flags=re.MULTILINE)
 if m:
     ssid = m.group(1).strip()
     #ssid = supered(unvoweled(ssid))
-    ssid = ssid[:3] + ssid[-2:]
+    if len(ssid) > 5:
+        ssid = ssid[:3] + ssid[-2:]
     print(ssid)
 
 # For debugging: output the raw data, but pushed out of view.
