@@ -266,7 +266,7 @@ augroup end
 augroup MiscFiletypes
     autocmd!
     autocmd BufNewFile,BufRead *.md set filetype=markdown
-    autocmd FileType markdown setlocal wrap textwidth=0 conceallevel=2 showbreak=
+    autocmd FileType markdown setlocal wrap textwidth=0 conceallevel=0 showbreak=
     autocmd BufNewFile,BufRead Vagrantfile set filetype=ruby
     autocmd BufNewFile,BufRead setup.cfg set filetype=dosini
     autocmd BufNewFile,BufRead .coveragerc set filetype=dosini
