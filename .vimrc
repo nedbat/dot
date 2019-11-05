@@ -1027,25 +1027,31 @@ endtry
 " Custom formatters
 if python_works
     python << EOF_PY
-import json, vim, sys
 
 def pretty_xml(x):
     """Make xml string `x` nicely formatted."""
     # Hat tip to http://code.activestate.com/recipes/576750/
     import xml.dom.minidom as md
     new_xml = md.parseString(x.strip()).toprettyxml(indent=' '*2)
-    return '\n'.join([line for line in new_xml.split('\n') if line.strip()])
+    return '\n'.join(line for line in new_xml.split('\n') if line.strip())
 
 def pretty_json(j):
     """Make json string `j` nicely formatted."""
+    import json
     return json.dumps(json.loads(j), sort_keys=True, indent=4)
+
+def interpret_yaml(y):
+    import yaml, json
+    return json.dumps(yaml.safe_load(y), sort_keys=True, indent=4)
 
 prettiers = {
     'xml':  pretty_xml,
     'json': pretty_json,
+    'yaml': interpret_yaml,
     }
 
 def pretty_it(datatype):
+    import vim
     r = vim.current.range
     content = "\n".join(r)
     content = prettiers[datatype](content)
@@ -1054,4 +1060,5 @@ EOF_PY
 
     command! -range=% Pxml :<line1>,<line2>python pretty_it('xml')
     command! -range=% Pjson :<line1>,<line2>python pretty_it('json')
+    command! -range=% Pyaml :<line1>,<line2>python pretty_it('yaml')
 endif
