@@ -102,6 +102,7 @@
 
 [rebase]
   autosquash = true
+  instructionFormat = "%<(80)%s  %an - %ai"
 
 [branch]
   autosetupmerge = true
