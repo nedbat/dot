@@ -549,6 +549,7 @@ let g:pyindent_nested_paren = 'shiftwidth()'
 let g:pyindent_continue = 'shiftwidth()'
 
 Plug 'jeetsukumaran/vim-pythonsense'                " Python-specific motions and text objects
+let g:is_pythonsense_suppress_object_keymaps = 1    " we want to use af ourselves
 
 Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statusbar
 autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
@@ -827,8 +828,13 @@ autocmd VimResized * :wincmd =
 noremap <Leader>v `[v`]
 
 " Whole file object
-xnoremap aF :<c-u>normal! gg0VG<cr>
-onoremap aF :normal vaF<Esc><C-O><C-O>
+xnoremap af :<c-u>normal! gg0VG<cr>
+onoremap af :normal vaf<Esc><C-O><C-O>
+
+" xnoremap il :<c-u>normal! ^/\%#[-$] ./e<cr>vg_<cr>
+" xnoremap al :<c-u>normal! ^vg_<cr>
+" onoremap il :normal vil<cr>
+" onoremap al :normal val<cr>
 
 " Adapted from https://gist.github.com/dahu/6ff4de11ca9c5bb25902
 " Toggle colorcolumn..
