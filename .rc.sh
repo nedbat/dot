@@ -149,7 +149,9 @@ fi
 
 # Git etc stuff
 
-alias g='git'
+# A function instead of an alias so that g will work when non-interactive
+# (such as inside gittreeif).
+g() { git "$@"; }
 
 export GIT_PS1_SHOWSTASHSTATE='y'
 export GIT_PS1_SHOWDIRTYSTATE='y'
@@ -166,30 +168,42 @@ fi
 export TIG_LS_REMOTE="ls-remote-grep -v release-candidate"
 
 # Copy the SHA of head, or some other rev.
-copysha() { 
+copysha() {
     git rev-parse ${@:-HEAD} | tee /dev/tty | tr -d '\n' | clipc
 }
 
-# Run a git command for every repo found somewhere beneath the current
-# directory.  Use just like "git":
+# Run a command for every repo found somewhere beneath the current directory.
 #
-#   $ gittree fetch --all --prune       # for example
+#   $ gittree git fetch --all --prune
 #
 # To only run commands in repos with a particular branch, use gittreeif:
 #
-#   $ gittreeif branch_name fetch --all --prune
+#   $ gittreeif branch_name git fetch --all --prune
+#
+# If the command has subcommands that need to run in each directory, quote the
+# entire command:
+#
+#   $ gittreeif origin/foo 'git log --format="%s" origin/foo ^$(git merge-base origin/master origin/foo)'
 #
 gittreeif() {
     local test_branch="$1"
     shift
+    local show=true
+    if [[ $1 == -q ]]; then
+        # -q means, don't echo the separator line with the directory.
+        shift
+        local show=false
+    fi
     find . -name .git -type d -prune | while read d; do
         local d=$(dirname "$d")
         git -C "$d" rev-parse --verify -q "$test_branch" >& /dev/null || continue
-        echo "---- $d ----"
+        if [[ $show == true ]]; then
+            echo "---- $d ----"
+        fi
         if [[ $# == 1 && $1 == *' '* ]]; then
-            (cd "$d" && eval "git $1")
+            (cd "$d" && eval "$1")
         else
-            git -C "$d" "$@"
+            (cd "$d" && "$@")
         fi
     done
 }
