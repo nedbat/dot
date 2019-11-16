@@ -289,7 +289,7 @@ if [[ -d /usr/local/pyenv ]] ; then
 fi
 
 # Virtualenvwrapper support
-if $(python -c "import virtualenv" &> /dev/null) ; then
+if $(python -c "import virtualenvwrapper" &> /dev/null) ; then
     virtualenvwrappers=(
         /usr/local/bin/virtualenvwrapper.sh
         /etc/bash_completion.d/virtualenvwrapper
@@ -384,9 +384,11 @@ if [[ -f ~/.rc_local.sh ]]; then
     source ~/.rc_local.sh
 fi
 
-# If we are already in a Python virtualenv, re-activate it to make sure it wins
-# the $PATH wars.
-if [[ -n $VIRTUAL_ENV ]]; then
-    echo "Reactivating $VIRTUAL_ENV.."
-    source $VIRTUAL_ENV/bin/activate
+if [[ -n $PS1 ]]; then
+    # If we are already in a Python virtualenv, re-activate it to make sure it wins
+    # the $PATH wars.
+    if [[ -n $VIRTUAL_ENV ]]; then
+        echo "Reactivating $VIRTUAL_ENV.."
+        source $VIRTUAL_ENV/bin/activate
+    fi
 fi
