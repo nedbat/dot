@@ -70,6 +70,8 @@
 # %(color:yellow)%(contents:subject)" \
 # --sort=creatordate | column -s$'\t' -t
 
+  copysha = "!f() { : git checkout ; ~/bin/git-copysha "$@"; }; f"
+
 [color]
   ui = true
 
