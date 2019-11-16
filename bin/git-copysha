@@ -1,0 +1,3 @@
+#!/bin/bash
+. ~/.bashrc
+git rev-parse ${@:-HEAD} | tee /dev/tty | tr -d '\n' | clipc

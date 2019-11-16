@@ -136,15 +136,15 @@ alias sep='printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n===============================
 alias a='cat /dev/null'
 
 if command -v pbcopy >/dev/null; then
-    alias clipc='pbcopy'
-    alias clipv='pbpaste'
+    clipc() { pbcopy "$@"; }
+    clipv() { pbpaste "$@"; }
 elif command -v xclip >/dev/null; then
-    alias clipc='xclip -sel clip -i'
-    alias clipv='xclip -sel clip -o'
+    clipc() { xclip -sel clip -i "$@"; }
+    clipv() { xclip -sel clip -o "$@"; }
 fi
 
 if command -v xdg-open >/dev/null; then
-    alias open='xdg-open'
+    open() { xdg-open "$@"; }
 fi
 
 # Git etc stuff
@@ -166,11 +166,6 @@ fi
 
 # Don't show all the release-candidate branches in edx-platform
 export TIG_LS_REMOTE="ls-remote-grep -v release-candidate"
-
-# Copy the SHA of head, or some other rev.
-copysha() {
-    git rev-parse ${@:-HEAD} | tee /dev/tty | tr -d '\n' | clipc
-}
 
 # Run a command for every repo found somewhere beneath the current directory.
 #
