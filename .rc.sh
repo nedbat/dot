@@ -153,14 +153,14 @@ fi
 # (such as inside gittreeif).
 g() { git "$@"; }
 
-export GIT_PS1_SHOWSTASHSTATE='y'
-export GIT_PS1_SHOWDIRTYSTATE='y'
+if [[ $SHELL_TYPE == zsh ]]; then
+    compdef g=git
+fi
 
 if [[ $SHELL_TYPE == bash ]]; then
     if [[ -r ~/.git-completion.bash ]]; then
         source ~/.git-completion.bash
         __git_complete g __git_main
-        __git_complete gi __git_main
     fi
 fi
 
