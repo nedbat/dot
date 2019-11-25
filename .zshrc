@@ -12,6 +12,9 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
 
+# I'll be honest: I don't understand these exactly...
+zstyle ':completion:*' completer _complete _correct _approximate
+
 # Space will expand any history references in the current line.
 bindkey " " magic-space
 # Shift-tab cycles in reverse through menu choices.
