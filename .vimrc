@@ -604,6 +604,7 @@ Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
 Plug 'nedbat/irc.vim', { 'for': 'irc' }
 Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_frontmatter = 1
+let g:vim_markdown_follow_anchor = 1
 
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 Plug 'bfrg/vim-qf-preview'
