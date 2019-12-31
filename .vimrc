@@ -573,6 +573,10 @@ Plug 'tpope/vim-git'                                " Git filetypes, etc.
 Plug 'jreybert/vimagit', { 'on': 'Magit' }          " One-screen UI for staging and committing
 
 Plug 'tpope/vim-unimpaired'
+noremap ,l :normal yol<CR>
+noremap ,s :normal yos<CR>
+noremap ,w :normal yow<CR>
+
 Plug 'tpope/vim-repeat'
 
 Plug 'kana/vim-textobj-user'
