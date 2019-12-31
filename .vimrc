@@ -572,7 +572,6 @@ Plug 'tpope/vim-git'                                " Git filetypes, etc.
 
 Plug 'jreybert/vimagit', { 'on': 'Magit' }          " One-screen UI for staging and committing
 
-"Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 
@@ -796,10 +795,6 @@ noremap <Leader><Leader>q :Sayonara!<CR>
 noremap <Leader>w :<C-U>write<CR>
 noremap <Leader><Leader>w :<C-U>wall<CR>
 noremap <Leader>x :exit<CR>
-
-noremap <Leader>2 :setlocal shiftwidth=2 softtabstop=2<CR>
-noremap <Leader>4 :setlocal shiftwidth=4 softtabstop=4<CR>
-noremap <Leader>8 :setlocal shiftwidth=8 softtabstop=8<CR>
 
 " zM is close-all-folds, but I can never remember it.
 nnoremap z0 zxzM
