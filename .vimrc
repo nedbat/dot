@@ -339,6 +339,11 @@ endif
 " 'silent!' here to keep it from complaining if there's no "git" installed.
 silent! call plug#begin()
 
+Plug 'mhinz/vim-startify'
+let g:startify_padding_left = 30
+let g:startify_custom_header = 'startify#pad(startify#fortune#boxed())'
+let g:startify_enable_special = 0
+
 Plug 'kshenoy/vim-signature'
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 let g:SignatureMarkerLineHL = 'SignatureMarkLine'
