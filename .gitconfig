@@ -39,7 +39,7 @@
   brmerge = "!f() { : git checkout ; git merge $@ && git push origin --delete $@ && git branch -d $@; }; f"
 
   # Delete a branch here and on the origin.
-  brdel = "!f() { : git checkout ; git branch -D $@; git push origin --delete $@; }; f"
+  brdel = "!f() { : git checkout ; git branch -D $1; git push ${2:-origin} --delete $1; }; f"
 
   # Cherry-pick, conveniently
   cp = "!f() { git cherry-pick -x $@; }; f"
