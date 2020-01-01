@@ -332,8 +332,8 @@ fi
 # Set shell prompt, if we're interactive.
 if [[ -n $PS1 ]]; then
     plain_prompt() {
-        export PROMPT_COMMAND=
-        export PS1="\n$ "
+        prompt_OFF
+        export PS1=$(printf "\n$ ")
     }
     fancy_prompt() {
         source ~/bin/liquidprompt/liquidprompt
