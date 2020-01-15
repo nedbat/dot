@@ -272,6 +272,7 @@ augroup MiscFiletypes
     autocmd BufNewFile,BufRead .coveragerc set filetype=dosini
     autocmd FileType json setlocal foldmethod=indent
     autocmd FileType yaml setlocal foldmethod=indent
+    autocmd BufNewFile,BufRead */Jenkinsfiles/* set filetype=groovy
 augroup end
 
 " Shell filetype: assume bash syntax
@@ -576,6 +577,7 @@ Plug 'tpope/vim-unimpaired'
 noremap ,l :normal yol<CR>
 noremap ,s :normal yos<CR>
 noremap ,w :normal yow<CR>
+noremap ,, ,
 
 Plug 'tpope/vim-repeat'
 
@@ -586,7 +588,9 @@ Plug 'kana/vim-textobj-fold'                        " Manual-fold text object
 Plug 'qstrahl/vim-dentures'                         " Indent-based text object
 " Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
 Plug 'nedbat/vim-space', { 'branch': 'patch-1' }    " get my fix for end-of-virtual-line
+
 Plug 'wellle/targets.vim'                           " Lots of improvements to text objects
+let g:targets_aiAI = 'ai  '                         " Don't want the A and I mappings
 
 Plug 'wellle/visual-split.vim'
 noremap <Leader>* :VSSplit<CR>
