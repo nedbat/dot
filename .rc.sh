@@ -135,6 +135,9 @@ alias xs='dirs -v'
 alias sep='printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n========================================================================================================================\n"'
 alias a='cd $(pwd -P)'
 
+# Clip output horizontally to not wrap lines in the terminal
+alias ccc='cut -c-$(tput cols)'
+
 if command -v pbcopy >/dev/null; then
     clipc() { pbcopy "$@"; }
     clipv() { pbpaste "$@"; }
