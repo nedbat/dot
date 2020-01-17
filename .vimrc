@@ -796,10 +796,10 @@ noremap <Leader><Leader>p gw}
 nnoremap coa :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
 
 " Duplicate the selection.
-noremap <Leader><Leader>d yPgvo<esc>
+noremap <Leader><Leader>d yPgvo<Esc>
 
 noremap <Leader>q :quit<CR>
-noremap <Leader><Leader>q :Sayonara!<CR>
+noremap <Leader><Leader>q :Sayonara!<CR>s<CR>
 noremap <Leader>w :<C-U>write<CR>
 noremap <Leader><Leader>w :<C-U>wall<CR>
 noremap <Leader>x :exit<CR>
