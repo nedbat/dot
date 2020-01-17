@@ -70,6 +70,9 @@ elif [[ $SHELL_TYPE == zsh ]]; then
     setopt no_auto_pushd
     # Make pushd work the same as Bash.
     setopt no_pushd_minus
+    # Resolve symlinks when changing directories.
+    setopt chase_links
+
     # **.c is short for **/*.c
     setopt glob_star_short
     # Don't wait to verify history expansion.
@@ -127,8 +130,10 @@ alias uuu='cd ../../..'
 alias uuuu='cd ../../../..'
 alias uuuuu='cd ../../../../..'
 alias xp='pushd >/dev/null'
-alias xl='pushd +1 >/dev/null'
 alias x='pushd +1 >/dev/null'
+alias xx='pushd +2 >/dev/null'
+alias xxx='pushd +3 >/dev/null'
+alias xxxx='pushd +4 >/dev/null'
 alias xq='popd >/dev/null'
 alias xs='dirs -v'
 
