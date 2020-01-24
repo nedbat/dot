@@ -340,11 +340,6 @@ endif
 " 'silent!' here to keep it from complaining if there's no "git" installed.
 silent! call plug#begin()
 
-Plug 'mhinz/vim-startify'
-let g:startify_padding_left = 30
-let g:startify_custom_header = 'startify#pad(startify#fortune#boxed())'
-let g:startify_enable_special = 0
-
 Plug 'kshenoy/vim-signature'
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 let g:SignatureMarkerLineHL = 'SignatureMarkLine'
@@ -619,7 +614,6 @@ let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_follow_anchor = 1
 
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
-Plug 'bfrg/vim-qf-preview'
 
 Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
 let g:EditorConfig_preserve_formatoptions = 1
