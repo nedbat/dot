@@ -161,6 +161,10 @@ fi
 # (such as inside gittreeif).
 g() { git "$@"; }
 
+if command -v diff-so-fancy >/dev/null; then
+    export GIT_PAGER='diff-so-fancy | less -iFRQX'
+fi
+
 if [[ $SHELL_TYPE == zsh ]]; then
     compdef g=git
 fi
