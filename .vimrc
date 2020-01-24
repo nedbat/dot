@@ -793,7 +793,7 @@ nnoremap coa :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'fo
 noremap <Leader><Leader>d yPgvo<Esc>
 
 noremap <Leader>q :quit<CR>
-noremap <Leader><Leader>q :Sayonara!<CR>s<CR>
+noremap <Leader><Leader>q :set nomodified<CR>:Sayonara!<CR>
 noremap <Leader>w :<C-U>write<CR>
 noremap <Leader><Leader>w :<C-U>wall<CR>
 noremap <Leader>x :exit<CR>
