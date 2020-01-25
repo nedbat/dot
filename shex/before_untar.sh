@@ -13,6 +13,9 @@ if [[ $(pwd) != $HOME ]]; then
     exit 1
 fi
 
+# Vimrc moved
+rm -vf .vimrc
+
 # Remove things that might be in the account by default that we don't want.
 rm -vf .cshrc .profile 
 

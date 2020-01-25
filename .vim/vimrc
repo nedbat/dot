@@ -1,4 +1,4 @@
-" Ned's .vimrc file
+" Ned's vimrc file
 
 " set verbose=99 verbosefile=/tmp/vim.verbose
 filetype off
