@@ -1057,7 +1057,7 @@ prettiers = {
     'xml':  pretty_xml,
     'json': pretty_json,
     'yaml': interpret_yaml,
-    }
+}
 
 def pretty_it(datatype):
     import vim
