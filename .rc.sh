@@ -138,7 +138,9 @@ alias xq='popd >/dev/null'
 alias xs='dirs -v'
 
 alias sep='printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n========================================================================================================================\n"'
-alias a='cd $(pwd -P)'
+
+# Reset things
+alias a='cd $(pwd -P); title "$WINDOW_TITLE"; wtitle "$WINDOW_TITLE"'
 
 # Clip output horizontally to not wrap lines in the terminal
 alias ccc='cut -c-$(tput cols)'
