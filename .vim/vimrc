@@ -908,6 +908,9 @@ inoremap <silent> qqj <C-O>:update<CR>
 " Quick one-command escape from insert mode.
 inoremap qqo <C-O>
 inoremap qqp <C-O>gwap
+" Insert a newline, but keep typing where I was. Also, delete that newline.
+inoremap qq<CR> <CR><Esc>kA
+imap qqq<CR> <Esc>Jda<Space>
 
 " Allow undoing <C-U> (delete text typed in the current line)
 inoremap <C-U> <C-G>u<C-U>
