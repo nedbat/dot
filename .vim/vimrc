@@ -340,6 +340,9 @@ endif
 " 'silent!' here to keep it from complaining if there's no "git" installed.
 silent! call plug#begin()
 
+" Scratch buffers, including capturing command output.
+Plug 'hauleth/vim-backscratch'
+
 Plug 'kshenoy/vim-signature'
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 let g:SignatureMarkerLineHL = 'SignatureMarkLine'
@@ -727,22 +730,6 @@ call plug#end()
 ""
 "" Custom functions
 ""
-
-" Run a command, but keep the output in a buffer.
-command! -nargs=+ -complete=command Bout call <SID>BufOut(<q-args>)
-function! <SID>BufOut(cmd)
-    redir => output
-    silent execute a:cmd
-    redir END
-    if empty(output)
-        echoerr "no output"
-    else
-        new
-        setlocal buftype=nofile bufhidden=wipe noswapfile nomodified
-        execute('file \[Scratch '.bufnr('%').': '.a:cmd.' \]')
-        silent put =output
-    endif
-endfunction
 
 " From https://github.com/Julian/dotfiles/blob/master/.vimrc
 command! DiffThese call <SID>DiffTheseCommand()
