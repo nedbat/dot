@@ -64,7 +64,7 @@ elif [[ $SHELL_TYPE == zsh ]]; then
     setopt histignorespace
     HISTFILE=~/.history
     SAVEHIST=100000
-    HISTSIZE=10000
+    HISTSIZE=50000
 
     # Don't pushd automatically when changing directories.
     setopt no_auto_pushd
