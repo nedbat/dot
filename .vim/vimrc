@@ -821,8 +821,11 @@ noremap <Leader>v `[v`]
 xnoremap af :<c-u>normal! gg0VG<cr>
 onoremap af :normal vaf<Esc><C-O><C-O>
 
-" xnoremap il :<c-u>normal! ^/\%#[-$] ./e<cr>vg_<cr>
-" xnoremap al :<c-u>normal! ^vg_<cr>
+":xnoremap il g_o?^[-$ \t]\+\zs<CR>
+" xnoremap il :<c-u>normal! ^/\m\%#[-$] ./e<cr>vg_
+" xnoremap il g_o^/\m\%#\([-$] \)\?./e<cr>o
+" xnoremap al ^vg_<cr>
+" xnoremap al g_o0
 " onoremap il :normal vil<cr>
 " onoremap al :normal val<cr>
 
