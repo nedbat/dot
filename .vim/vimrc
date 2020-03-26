@@ -849,9 +849,9 @@ xnoremap <Leader>< <Esc>:setlocal noshiftround<CR>gv<:setlocal shiftround<CR>gv
 xnoremap <Leader>> <Esc>:setlocal noshiftround<CR>gv>:setlocal shiftround<CR>gv
 
 " Remove annoying F1 help.
-inoremap <F1> <Nop>
-nnoremap <F1> <Nop>
+noremap <F1> <Nop>
 vnoremap <F1> <Nop>
+lnoremap <F1> <Nop>
 
 " Jump to start and end of line using the home row keys.
 nnoremap H ^
