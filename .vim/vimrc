@@ -159,6 +159,9 @@ function! StatusOptions()
     if &spell
         let l:opts .= 's'
     endif
+    if &wrap
+        let l:opts .= 'w'
+    endif
     if l:opts != ''
         return '·' . l:opts
     else
@@ -774,7 +777,7 @@ map <silent><Leader><Leader>h :source $VIMRUNTIME/syntax/hitest.vim<CR>
 " Shortcuts to things I want to do often.
 noremap <Leader>p gwap
 noremap <Leader><Leader>p gw}
-nnoremap coa :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
+nnoremap ,a :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
 
 " Duplicate the selection.
 noremap <Leader><Leader>d yPgvo<Esc>
