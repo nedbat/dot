@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Scrub needless files to save space"""
 
 from pathlib import Path
@@ -42,13 +43,13 @@ def rmrf(dirname):
     """Remove completely"""
     shutil.rmtree(dirname)
 
-def cmd(template):
+def cmd(template, doc=None):
     def doit(dirname):
         print(command_output(template.format(dirname=dirname)))
-    doit.__doc__ = template
+    doit.__doc__ = doc or template
     return doit
 
-rm_pyc = cmd("find {dirname} -name '*.pyc' -delete")
+rm_pyc = cmd("find {dirname} -regex '.*\.py[cow]' -delete", "Delete .pyc etc files")
 
 clean(command_output("brew --cache").strip(), rmrf)
 clean("/usr/local/pythonz", cmd("pythonz cleanup --all"))
@@ -58,6 +59,7 @@ clean("~/Library/Caches/pip", rmrf)
 clean("~/.tox", rmrf)
 clean("/usr/local/virtualenvs", rm_pyc)
 clean("/usr/local/pythonz", rm_pyc)
+clean("/usr/local/pyenv", rm_pyc)
 clean("~/log/irc", cmd("afsctool -cvv -9 {dirname}"))
 
 print(f"----\nTOTAL:  {total_saved:15,d}")
