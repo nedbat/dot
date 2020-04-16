@@ -824,13 +824,18 @@ noremap <Leader>v `[v`]
 xnoremap af :<c-u>normal! gg0VG<cr>
 onoremap af :normal vaf<Esc><C-O><C-O>
 
-":xnoremap il g_o?^[-$ \t]\+\zs<CR>
-" xnoremap il :<c-u>normal! ^/\m\%#[-$] ./e<cr>vg_
-" xnoremap il g_o^/\m\%#\([-$] \)\?./e<cr>o
-" xnoremap al ^vg_<cr>
-" xnoremap al g_o0
-" onoremap il :normal vil<cr>
-" onoremap al :normal val<cr>
+" Inner line: ignore some leading punctuation.
+function! VisualLine()
+    " With help from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
+    normal ^
+    if getline(".")[col(".")-1:col(".")] =~ '[-$] '
+        normal ll
+    endif
+    normal vg_
+endfunction
+
+xnoremap il :<C-u>call VisualLine()<CR>
+onoremap il :<C-u>normal vil<CR>
 
 " Adapted from https://gist.github.com/dahu/6ff4de11ca9c5bb25902
 " Toggle colorcolumn..
