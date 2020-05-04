@@ -204,7 +204,7 @@ augroup QuickFixSettings
     autocmd!
     autocmd FileType qf let &l:statusline = '%{StatusQuickfixTitle()}%=%l of %L  %P '
     autocmd FileType qf setlocal nobuflisted colorcolumn= cursorline
-    autocmd FileType qf nnoremap <silent> <buffer> ,,           :colder<CR>
+    autocmd FileType qf nnoremap <silent> <buffer> <nowait> ,   :colder<CR>
     autocmd FileType qf nnoremap <silent> <buffer> .            :cnewer<CR>
     autocmd FileType qf nnoremap <silent> <buffer> q            :quit\|:wincmd b<CR>
     autocmd FileType qf nnoremap <silent> <buffer> <Leader>c    :cclose<CR>
