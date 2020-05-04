@@ -345,6 +345,7 @@ silent! call plug#begin()
 
 " Scratch buffers, including capturing command output.
 Plug 'hauleth/vim-backscratch'
+noremap <Leader><Leader>s :Scratch<Space>
 
 Plug 'kshenoy/vim-signature'
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
