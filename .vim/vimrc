@@ -775,9 +775,34 @@ map <silent><Leader>h :echo
 \ " lo=" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
 map <silent><Leader><Leader>h :source $VIMRUNTIME/syntax/hitest.vim<CR>
 
+" https://gist.github.com/george-b/4a03da0be21e4f39e72d66ad8340d131
+function! OpfuncSteady()
+    if !empty(&operatorfunc)
+        call winrestview(w:opfuncview)
+        unlet w:opfuncview
+        noautocmd set operatorfunc=
+    endif
+endfunction
+
+augroup OpfuncSteady
+    autocmd!
+    autocmd OptionSet operatorfunc let w:opfuncview = winsaveview()
+    autocmd CursorMoved * call OpfuncSteady()
+augroup END
+
+" Wrap a paragraph, but don't break "<a href" across lines.
+function! BetterGW(type, ...)
+    '[,']s/\V<\w\+\zs \ze\w\+/@@@/ge
+    normal! '[gw']
+    '[,']s/\V@@@/ /ge
+endfunction
+
+" Define a better gw
+noremap <silent> gw :set opfunc=BetterGW<CR>g@
+
 " Shortcuts to things I want to do often.
-noremap <Leader>p gwap
-noremap <Leader><Leader>p gw}
+nmap <Leader>p gwap
+nmap <Leader><Leader>p gw}
 nnoremap ,a :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
 
 " Duplicate the selection.
