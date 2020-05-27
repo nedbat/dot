@@ -51,7 +51,7 @@
   pushf = push --force-with-lease
 
   # Find an open-release to switch to
-  oe = "!f() { git checkout $(git branch -a | sed -n -E -e \"/(named|open)-release.$1.*(rc|master)/s@remotes/origin/@@p\"); git pull; }; f"
+  oe = "!f() { git checkout $(git branch -a | sed -n -E -e \"/open-release.$1.*master/s@remotes/origin/@@p\"); git pull; }; f"
   mas = "!f() { git checkout master; git pull; }; f"
 
   fa = fetch --all --prune --tags

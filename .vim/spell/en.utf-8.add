@@ -6,3 +6,5 @@ regexes
 DeprecationWarning
 JSON
 SQLite
+nedbat
+monkeypatching

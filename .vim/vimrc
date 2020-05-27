@@ -346,6 +346,7 @@ silent! call plug#begin()
 " Scratch buffers, including capturing command output.
 Plug 'hauleth/vim-backscratch'
 noremap <Leader><Leader>s :Scratch<Space>
+command! Keep setlocal buftype= buflisted bufhidden=
 
 Plug 'kshenoy/vim-signature'
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
@@ -693,6 +694,14 @@ xmap gx <Plug>(open-url-browser)
 
 " Highlight the effect of commands as you type them.
 Plug 'markonm/traces.vim'
+
+" Instant interpretation of code.
+Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
+let g:codi#interpreters = {
+    \ 'python': {
+        \ 'bin': 'python3',
+        \ },
+    \ }
 
 call plug#end()
 
