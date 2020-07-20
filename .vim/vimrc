@@ -156,6 +156,9 @@ function! StatusOptions()
     if &formatoptions =~# 'a'
         let l:opts .= 'a'
     endif
+    if &list
+        let l:opts .= 'l'
+    endif
     if &spell
         let l:opts .= 's'
     endif
@@ -246,7 +249,7 @@ augroup end
 
 augroup XmlSettings
     autocmd!
-    autocmd BufRead,BufNewFile *.px,*.bx setlocal filetype=xml indentexpr=
+    autocmd BufRead,BufNewFile *.px,*.bx setlocal filetype=xml indentexpr= formatexpr= formatoptions-=c
     " Make plain text in XML be spell-checked.
     autocmd FileType xml syntax spell toplevel
 augroup end
@@ -308,6 +311,7 @@ if exists('+wincolor')
 endif
 
 " Abbreviations
+iabbrev ppxx    import pprint;pprint.pprint()
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-        
 iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-        
 iabbrev staxxx  import inspect;print("\n".join("%30s : %s:%d" % (t[3], t[1], t[2]) for t in inspect.stack()[99:0:-1]))          
@@ -578,6 +582,7 @@ Plug 'jreybert/vimagit', { 'on': 'Magit' }          " One-screen UI for staging 
 
 Plug 'tpope/vim-unimpaired'
 noremap ,l :normal yol<CR>
+noremap ,r :normal yor<CR>
 noremap ,s :normal yos<CR>
 noremap ,w :normal yow<CR>
 noremap ,, ,
@@ -625,7 +630,7 @@ Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 
 Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
 let g:EditorConfig_preserve_formatoptions = 1
-let g:EditorConfig_exclude_patterns = ['.git/*']    " Don't fiddle with anything in a .git directory
+let g:EditorConfig_exclude_patterns = ['^\.git/']   " Don't fiddle with anything in a .git directory
 
 Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
 
@@ -1051,9 +1056,13 @@ nnoremap <expr> ' FileJumpLastPos("'")
 nnoremap <expr> ` FileJumpLastPos("`")
 
 nnoremap gj j
+xnoremap gj j
 nnoremap gk k
+xnoremap gk k
 nnoremap j gj
+xnoremap j gj
 nnoremap k gk
+xnoremap k gk
 
 " qq to record, Q to replay (thanks, junegunn)
 nnoremap Q @q

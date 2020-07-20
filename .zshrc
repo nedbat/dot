@@ -2,6 +2,7 @@ echo '(.zshrc)'
 
 fpath=(/src/zsh-completions/src $fpath)
 
+autoload zmv
 autoload -Uz compinit
 compinit
 

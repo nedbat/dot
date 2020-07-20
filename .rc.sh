@@ -291,12 +291,6 @@ first_of() {
 # Pythons
 alias p='python'
 
-# pythonz
-if [[ -d /usr/local/pythonz ]] ; then
-    export PYTHONZ_ROOT=/usr/local/pythonz
-    source $PYTHONZ_ROOT/etc/bashrc
-fi
-
 # pyenv
 if [[ -d /usr/local/pyenv ]] ; then
     export PYENV_ROOT=/usr/local/pyenv

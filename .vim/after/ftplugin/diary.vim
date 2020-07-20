@@ -28,3 +28,6 @@ function! Today()
     call feedkeys("O" . line . "\n- \n\<ESC>kA")
 endfunction
 command! Today :call Today()
+
+
+" awk '/todo:/{if (hdr) print hdr; hdr="";sub(/^ +/, "");printf "%s:%s:%s\n", FILENAME, FNR, $0} /^=/{hdr=sprintf("%s:%s:%s", FILENAME, FNR, $0)}' ~/work/edx/diary-edx.txt

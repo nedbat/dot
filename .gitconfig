@@ -17,10 +17,18 @@
   di = diff
   s = status -s -b --show-stash
   lhist = log --pretty=me --graph --date=short
+  lha = log --pretty=me --graph --date=short --all
   relnotes = log --pretty=relnote --date=short --no-merges
   h = "!f() { git --no-pager log -n 15 --pretty=me --graph --date=short $@; echo; }; f"
   tags = tag
   fixup = !sh -c 'git rebase -i $(git merge-base HEAD ${1:-origin/master})' -
+
+  # From rafasc in #git
+  # "the idea is that you use it with a list of refs, and the output should show only the necessary history to explain their relationship."
+  lm = "!f(){ : git log ; git lhist --boundary \"${@:-HEAD}\" --not $(git merge-base --octopus $(git rev-parse \"${@:-HEAD}^@\" \"${@/%/^@}\")) --; };f"
+
+  # A list of conflicted files.
+  flict = "!f(){ git ls-files -u | awk '{print $4}' | sort -u; }; f"
 
   # Checkout a local branch for a pull request on GitHub
   #   $ git copr 1234             # gets and switches to pr/1234 from origin
@@ -52,7 +60,7 @@
 
   # Find an open-release to switch to
   oe = "!f() { git checkout $(git branch -a | sed -n -E -e \"/open-release.$1.*master/s@remotes/origin/@@p\"); git pull; }; f"
-  mas = "!f() { git checkout master; git pull; }; f"
+  ma = "!f() { git checkout master; git pull; }; f"
 
   fa = fetch --all --prune --tags
 
