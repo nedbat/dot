@@ -126,3 +126,7 @@
 
 [fetch]
   prune = true
+
+[scriv "create"]
+    edit = true
+    add = true
