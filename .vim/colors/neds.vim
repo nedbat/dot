@@ -63,6 +63,8 @@ highlight DiffDelete    gui=NONE            guifg=DarkGrey      guibg=#f0f0f0
 highlight diffAdded     gui=NONE            guifg=NONE          guibg=#d0ffd0
 highlight diffRemoved   gui=NONE            guifg=NONE          guibg=#ffd0d0
 highlight diffFile                          guifg=Black         guibg=#e0e0e0
+highlight diffLine      gui=NONE                                guibg=#ddddff
+highlight diffSubname                                           guibg=#eeeeff
 
 " Marks and Markers in the gutter
 highlight SignatureMarkText     gui=NONE    guifg=Black         guibg=NONE
@@ -87,6 +89,12 @@ highlight! link ircDo Normal
 " Quickfix previews
 highlight QfPreview guifg=#333333 guibg=#eeeeee
 highlight QfPreviewTitle gui=bold guifg=#000000 guibg=#dddddd
+
+" Fugitive
+highlight fugitiveUnstagedSection gui=bold guibg=#dddddd
+highlight! link fugitiveUnstagedModifier fugitiveUnstagedSection
+highlight! link fugitiveStagedSection fugitiveUnstagedSection
+highlight! link fugitiveStagedModifier fugitiveUnstagedSection
 
 command! Dim highlight Normal guifg=#cccccc
 command! Undim highlight Normal guifg=Black

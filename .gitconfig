@@ -44,7 +44,7 @@
   brdone = "!f() { : git checkout ; brname=\"$(git symbolic-ref --short HEAD)\" && git checkout ${1:-master} && git pull && git branch -d $brname; }; f"
 
   # Merge a branch, and delete it here and on the origin.
-  brmerge = "!f() { : git checkout ; git merge $@ && git push origin --delete $@ && git branch -d $@; }; f"
+  brmerge = "!f() { : git checkout ; git merge $1 &&  git branch -d $1; git push origin --delete $1; }; f"
 
   # Delete a branch here and on the origin.
   brdel = "!f() { : git checkout ; git branch -D $1; git push ${2:-origin} --delete $1; }; f"
