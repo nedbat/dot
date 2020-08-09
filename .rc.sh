@@ -1,29 +1,6 @@
 # Sourced for all interactive shells, $SHELL_TYPE is the shell type.
 # Must work for bash and zsh.
 
-if [[ $SHELL_TYPE == bash ]]; then
-    # Check the window size after each command and, if necessary,
-    # update the values of LINES and COLUMNS.
-    shopt -s checkwinsize
-    # If you bork a ! in bash, this lets you edit the line.
-    shopt -s histreedit
-    # Case-insensitive wildcard matching.
-    shopt -s nocaseglob
-
-    # ** expands recursively
-    if [ "$(shopt -p globstar 2>/dev/null)" ]; then
-        shopt -s globstar
-    else
-        echo "No globstar"
-    fi
-
-    if [ "$(shopt -p autocd 2>/dev/null)" ]; then
-        shopt -s autocd
-    else
-        echo "No autocd"
-    fi
-fi
-
 # Set PATH & MANPATH
 
 # Shared object library
@@ -35,56 +12,6 @@ export PATH=$HOME/bin:/usr/local/bin:/opt/local/bin:$PATH:/usr/sbin
 stty erase ^H
 
 export PYTHONSTARTUP=~/.startup.py
-
-if [[ $SHELL_TYPE == bash ]]; then
-    # Only exit the shell if 10 ^D's are typed.
-    export IGNOREEOF=10
-
-    # Set history settings
-    export HISTFILE=~/.history
-    # Don't record the same command twice in a row
-    export HISTCONTROL=ignoredups
-    # Save 100000 commands in the history file.
-    export HISTSIZE=100000
-    # Don't save 1- or 2-letter commands, or space-started commands, or duplicates.
-    export HISTIGNORE='?:??: *:&'
-    # Append to the history file, don't overwrite it.
-    shopt -s histappend
-    # After every command, flush the writable history to the file.
-    export PROMPT_COMMAND='history -a'
-elif [[ $SHELL_TYPE == zsh ]]; then
-    # Don't write timestamps
-    setopt no_extendedhistory
-    setopt no_sharehistory
-    setopt incappendhistory
-    # Sounds good, but this takes 12sec
-    #setopt histexpiredupsfirst
-    setopt histfindnodups
-    setopt histignoredups
-    setopt histignorespace
-    HISTFILE=~/.history
-    SAVEHIST=100000
-    HISTSIZE=50000
-
-    # Don't pushd automatically when changing directories.
-    setopt no_auto_pushd
-    # Make pushd work the same as Bash.
-    setopt no_pushd_minus
-    # Resolve symlinks when changing directories.
-    setopt chase_links
-
-    # **.c is short for **/*.c
-    setopt glob_star_short
-    # Don't wait to verify history expansion.
-    setopt no_hist_verify
-    # Comments work in interactive shells (bashtags)
-    setopt interactivecomments
-
-    autoload zargs
-    # Use like:
-    #   forall *.db -- sqlite3 {} "select count(*) from file"
-    alias forall='zargs -i{} --'
-fi
 
 #
 # Set the terminal type properly.
