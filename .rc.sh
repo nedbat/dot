@@ -299,8 +299,12 @@ if command -v osascript >/dev/null; then
 fi
 
 # https://werat.github.io/2017/02/04/tmux-ssh-agent-forwarding.html
-if [ ! -S ~/.ssh/ssh_auth_sock ] && [ -S "$SSH_AUTH_SOCK" ]; then
+if [[ ! -S ~/.ssh/ssh_auth_sock ]] && [[ -S "$SSH_AUTH_SOCK" ]]; then
     ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+fi
+
+if [[ ! -z "$TMUX" ]]; then
+    export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 fi
 
 ##
