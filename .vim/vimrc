@@ -578,8 +578,9 @@ noremap <Leader>gv :Gbrowse<CR>
 noremap <Leader>gd :normal <Leader><Leader>1<CR>:Gdiffsplit<CR>
 
 Plug 'tpope/vim-git'                                " Git filetypes, etc.
+Plug 'junegunn/gv.vim'                              " Git commit viewer
 
-Plug 'jreybert/vimagit', { 'on': 'Magit' }          " One-screen UI for staging and committing
+"Plug 'jreybert/vimagit', { 'on': 'Magit' }          " One-screen UI for staging and committing
 
 Plug 'tpope/vim-unimpaired'
 noremap ,l :normal yol<CR>
