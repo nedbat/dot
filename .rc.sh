@@ -1,8 +1,6 @@
 # Sourced for all interactive shells, $SHELL_TYPE is the shell type.
 # Must work for bash and zsh.
 
-# Set PATH & MANPATH
-
 # Shared object library
 export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
 
@@ -298,6 +296,11 @@ if command -v osascript >/dev/null; then
     toast() {
         osascript -e "display notification $(_osaquote "$*") with title \"Hey there\""
     }
+fi
+
+# https://werat.github.io/2017/02/04/tmux-ssh-agent-forwarding.html
+if [ ! -S ~/.ssh/ssh_auth_sock ] && [ -S "$SSH_AUTH_SOCK" ]; then
+    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
 fi
 
 ##
