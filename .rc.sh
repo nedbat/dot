@@ -119,6 +119,10 @@ export TIG_LS_REMOTE="ls-remote-grep -v release-candidate"
 #
 #   $ gittreeif origin/foo 'git log --format="%s" origin/foo ^$(git merge-base origin/master origin/foo)'
 #
+# The directory name is printed before each command.  Use -q to suppress this:
+#
+#   $ gittreeif origin/foo -q git status
+#
 gittreeif() {
     local test_branch="$1"
     shift
