@@ -782,6 +782,19 @@ function! <SID>RemoveFancyCharacters() range
     execute ':'.a:firstline.','.a:lastline.'s/'.join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
 endfunction
 
+command! -range=% FormatProblemDefinition :<line1>,<line2>call <SID>FormatProblemDefinition()
+function! <SID>FormatProblemDefinition() range
+    execute ':'.a:firstline.','.a:lastline.':Pjson'
+    execute ':'.a:firstline.';+3s/data": "/data": """\\\r/'
+    :mark  a
+    :s/\v", *$/\r""",/
+    :mark b
+    :'a,'bs/\\n/\r/ge
+    :'a,'bs/\\t/    /ge
+    :'a,'bs/\\"/"/ge
+    :'a,'bs/\\\\/\\/ge
+endfunction
+
 " Show the syntax highlight group for the current character.
 " Even better: https://gist.github.com/mcantor/7bff61685e8b17acee56d977b025a705
 " from https://github.com/mcantor/dotfiles/blob/master/vim/.vimrc#L604-L646
