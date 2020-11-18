@@ -160,6 +160,10 @@ gittree() {
     gittreeif @ "$@"
 }
 
+# Docker shortcuts
+alias d='docker'
+alias dc='docker-compose'
+
 # Get IP info from IP address on command line or clipboard.
 ipinfo() {
     local ip="$@"
