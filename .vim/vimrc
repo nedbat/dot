@@ -87,7 +87,10 @@ if exists("+cursorline")
     augroup end
 endif
 
-set nrformats=alpha,bin,hex             " Don't infer base 8 when incrementing numbers
+set nrformats=alpha,hex                 " Don't infer base 8 when incrementing numbers
+if has("patch-7.4-1027")
+    set nrformats=alpha,bin,hex         " Don't infer base 8 when incrementing numbers
+endif
 
 ""
 "" Undo
