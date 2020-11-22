@@ -15,6 +15,10 @@ set t_vb=
 
 colorscheme neds                        " Use my colors to whatever extent possible.
 
+if has("mac")
+    set macmeta
+endif
+
 " Set the normal font face and size.
 function! FontNormal()
     if has("gui_win32")

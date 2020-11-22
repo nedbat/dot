@@ -713,6 +713,9 @@ let g:codi#interpreters = {
         \ },
     \ }
 
+" Yank stack
+Plug 'maxbrunsfeld/vim-yankstack'
+
 call plug#end()
 
 " Plugins I tried but didn't end up actually using:
