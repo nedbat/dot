@@ -371,7 +371,7 @@ noremap <silent> <Leader>r :CtrlPMRUFiles<CR>
 noremap <silent> <Leader>b :CtrlPBuffer<CR>
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v(/htmlcov|/node_modules|/__pycache__|\.egg-info)$',
+    \ 'dir': '\v(/htmlcov|/node_modules|/__pycache__|\.egg-info|\.tox)$',
     \ }
 let g:ctrlp_extensions = ['mixed']
 let g:ctrlp_max_files = 0
@@ -385,8 +385,9 @@ let g:ctrlp_prompt_mappings = {
     \ 'ToggleType(1)':          ['<C-F>', '<C-Up>', ',', '<Space>'],
     \ }
 let g:ctrlp_root_markers = ['.treerc']
+let g:ctrlp_show_hidden = 1
 if executable('rg')
-    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+    let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
 endif
 
 Plug 'pearofducks/ansible-vim'
@@ -805,9 +806,9 @@ endfunction
 " Even better: https://gist.github.com/mcantor/7bff61685e8b17acee56d977b025a705
 " from https://github.com/mcantor/dotfiles/blob/master/vim/.vimrc#L604-L646
 map <silent><Leader>h :echo
-\ "hi=" . synIDattr(synID(line("."),col("."),1),"name") .
-\ " trans=" . synIDattr(synID(line("."),col("."),0),"name") .
-\ " lo=" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
+    \ "hi=" . synIDattr(synID(line("."),col("."),1),"name") .
+    \ " trans=" . synIDattr(synID(line("."),col("."),0),"name") .
+    \ " lo=" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name")<CR>
 map <silent><Leader><Leader>h :source $VIMRUNTIME/syntax/hitest.vim<CR>
 
 " https://gist.github.com/george-b/4a03da0be21e4f39e72d66ad8340d131

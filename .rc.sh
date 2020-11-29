@@ -47,7 +47,6 @@ alias m='less'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
-alias rg='rg --no-ignore-messages'
 
 alias u='cd ..'
 alias uu='cd ../..'
@@ -197,6 +196,9 @@ export LESS=-isFJRQWX
 
 # Keep devops from laughing at me :)
 export ANSIBLE_NOCOWS=1
+
+# rg will read options from a config file.
+export RIPGREP_CONFIG_PATH=~/.rgrc
 
 # Set the title of the terminal window.
 title() {

@@ -1,0 +1,7 @@
+# Default switches for ripgrep (rg)
+
+--no-ignore-messages
+
+# Only show some of super-long lines that match
+--max-columns=120
+--max-columns-preview
