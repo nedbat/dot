@@ -326,6 +326,14 @@ if [[ ! -z "$TMUX" ]]; then
     export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 fi
 
+_start_tmux() {
+    # Start or attach to tmux automatically. From https://unix.stackexchange.com/a/490830
+    # For calling from local startup files.
+    if command -v tmux &> /dev/null && [[ -n "$PS1" ]] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [[ -z "$TMUX" ]]; then
+        tmux attach -t default || exec tmux new -s default && exit;
+    fi
+}
+
 ##
 ## Third-party tools
 ##
