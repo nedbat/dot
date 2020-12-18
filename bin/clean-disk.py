@@ -53,6 +53,7 @@ rm_pyc = cmd("find {dirname} -regex '.*\.py[cow]' -delete", "Delete .pyc etc fil
 
 clean(command_output("brew --cache").strip(), rmrf)
 clean("/usr/local/pythonz", cmd("pythonz cleanup --all"))
+clean("/usr/local/pyenv/pyenv/cache", rmrf)
 clean("~/Documents/Zoom", rmrf)
 clean("~/Library/Caches/com.spotify.client", rmrf)
 clean("~/Library/Caches/pip", rmrf)
