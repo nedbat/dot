@@ -266,6 +266,11 @@ if $(python -c "import virtualenvwrapper" &> /dev/null) ; then
     fi
 fi
 
+# miniconda
+if [[ -d /usr/local/miniconda ]] ; then
+    eval "$(/usr/local/miniconda/bin/conda shell.$SHELL_TYPE hook)"
+fi
+
 # Bash completion
 if [[ $SHELL_TYPE == bash ]]; then
     completions=(
