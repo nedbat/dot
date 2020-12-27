@@ -889,13 +889,17 @@ noremap <Leader>v `[v`]
 xnoremap af :<c-u>normal! gg0VG<cr>
 onoremap af :normal vaf<Esc><C-O><C-O>
 
-" Inner line: ignore some leading punctuation.
+" Inner line: ignore some leading punctuation and white space.
 function! VisualLine()
     " With help from https://gist.github.com/romainl/c0a8b57a36aec71a986f1120e1931f20
+    " Go to the first non-white character
     normal ^
-    if getline(".")[col(".")-1:col(".")] =~ '[-$] '
-        normal ll
+    " If the next characters look like line punctuation and space,
+    if getline(".")[col(".")-1:col(".")] =~ '[-$#] '
+        " .. skip the punctuation and find the next non-white character
+        execute "normal l/\\S\<CR>"
     endif
+    " and select to the last non-white character
     normal vg_
 endfunction
 
