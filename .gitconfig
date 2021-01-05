@@ -12,7 +12,7 @@
   br = branch
   co = checkout
   sw = switch
-  ci = commit
+  ci = commit --edit
   d = diff
   di = diff
   s = status -s -b --show-stash
