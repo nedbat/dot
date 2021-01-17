@@ -1126,8 +1126,12 @@ def pretty_json(j):
     return json.dumps(json.loads(j), sort_keys=True, indent=4)
 
 def interpret_yaml(y):
-    import yaml, json
-    return json.dumps(yaml.safe_load(y), sort_keys=True, indent=4)
+    import yaml, json, pprint
+    d = yaml.safe_load(y)
+    try:
+        return json.dumps(d, sort_keys=True, indent=4)
+    except:
+        return pprint.pformat(d)
 
 prettiers = {
     'xml':  pretty_xml,
