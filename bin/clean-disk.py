@@ -64,6 +64,7 @@ clean("~/.tox", rmrf)
 clean("/usr/local/virtualenvs", rm_pyc)
 clean("/usr/local/pythonz", rm_pyc)
 clean("/usr/local/pyenv", rm_pyc)
+clean("/usr/local/pypy", rm_pyc)
 clean("~/log/irc", cmd("afsctool -cvv -9 {dirname}"))
 
 print(f"----\nTOTAL:  {total_saved:15,d}")
