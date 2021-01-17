@@ -55,10 +55,5 @@ setopt nohashdirs
 zle-line-init() rehash
 zle -N zle-line-init
 
-autoload zargs
-# Use like:
-#   forall *.db -- sqlite3 {} "select count(*) from file"
-alias forall='zargs -i{} --'
-
 export SHELL_TYPE=zsh
 source ~/.rc.sh
