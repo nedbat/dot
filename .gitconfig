@@ -5,6 +5,9 @@
 [github]
   user = nedbat
 
+[pull]
+  rebase = true
+
 [alias]
   # In an alias, an initial ":" command indicates what git command completion
   # to use for the alias.
