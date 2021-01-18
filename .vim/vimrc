@@ -616,9 +616,9 @@ Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }     " Sane buffer closing
 Plug 'andymass/vim-matchup', { 'for': ['html', 'xhtml', 'xml'] }
 let g:matchup_matchparen_status_offscreen = 0
 
-Plug 'alvan/vim-closetag'                           " Close HTML/XML tags
-let g:closetag_filetypes = 'html,xhtml,xml'
-let g:closetag_xhtml_filetypes = 'xhtml,xml'
+" Plug 'alvan/vim-closetag'                           " Close HTML/XML tags
+" let g:closetag_filetypes = 'html,xhtml,xml'
+" let g:closetag_xhtml_filetypes = 'xhtml,xml'
 
 Plug 'junegunn/vim-peekaboo'                        " Pop-up panel to show registers
 let g:peekaboo_window = 'vertical botright 50new'
