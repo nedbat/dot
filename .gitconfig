@@ -115,6 +115,7 @@
 
 [rebase]
   autosquash = true
+  autostash = true
   instructionFormat = "%<(80)%s  %an - %ai"
 
 [branch]
