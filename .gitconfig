@@ -1,79 +1,79 @@
 [user]
-  name = Ned Batchelder
-  email = ned@nedbatchelder.com
+    name = Ned Batchelder
+    email = ned@nedbatchelder.com
 
 [github]
-  user = nedbat
+    user = nedbat
 
 [pull]
-  rebase = true
+    rebase = true
 
 [alias]
-  # In an alias, an initial ":" command indicates what git command completion
-  # to use for the alias.
-  amend = commit --amend --no-edit
-  br = branch
-  co = checkout
-  sw = switch
-  ci = commit --edit
-  d = diff
-  di = diff
-  s = status -s -b --show-stash
-  lhist = log --pretty=me --graph --date=short
-  lha = log --pretty=me --graph --date=short --all
-  relnotes = log --pretty=relnote --date=short --no-merges
-  h = "!f() { git --no-pager log -n 15 --pretty=me --graph --date=short $@; echo; }; f"
-  tags = tag
-  fixup = !sh -c 'git rebase -i $(git merge-base HEAD ${1:-origin/master})' -
+    # In an alias, an initial ":" command indicates what git command completion
+    # to use for the alias.
+    amend = commit --amend --no-edit
+    br = branch
+    co = checkout
+    sw = switch
+    ci = commit --edit
+    d = diff
+    di = diff
+    s = status -s -b --show-stash
+    lhist = log --pretty=me --graph --date=short
+    lha = log --pretty=me --graph --date=short --all
+    relnotes = log --pretty=relnote --date=short --no-merges
+    h = "!f() { git --no-pager log -n 15 --pretty=me --graph --date=short $@; echo; }; f"
+    tags = tag
+    fixup = !sh -c 'git rebase -i $(git merge-base HEAD ${1:-origin/master})' -
 
-  # From rafasc in #git
-  # "the idea is that you use it with a list of refs, and the output should show only the necessary history to explain their relationship."
-  lm = "!f(){ : git log ; git lhist --boundary \"${@:-HEAD}\" --not $(git merge-base --octopus $(git rev-parse \"${@:-HEAD}^@\" \"${@/%/^@}\")) --; };f"
+    # From rafasc in #git
+    # "the idea is that you use it with a list of refs, and the output should show only the necessary history to explain their relationship."
+    lm = "!f(){ : git log ; git lhist --boundary \"${@:-HEAD}\" --not $(git merge-base --octopus $(git rev-parse \"${@:-HEAD}^@\" \"${@/%/^@}\")) --; };f"
 
-  # A list of conflicted files.
-  flict = "!f(){ git ls-files -u | awk '{print $4}' | sort -u; }; f"
+    # A list of conflicted files.
+    flict = "!f(){ git ls-files -u | awk '{print $4}' | sort -u; }; f"
 
-  # Checkout a local branch for a pull request on GitHub
-  #   $ git copr 1234             # gets and switches to pr/1234 from origin
-  #   $ git copr 789 otherguy     # gets and switches to pr/789 from otherguy remote
-  # from https://gist.github.com/gnarf/5406589
-  # discussed at http://nedbatchelder.com/blog/201407/fetching_github_pull_requests.html
-  copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && git reset --hard @; }; f"
+    # Checkout a local branch for a pull request on GitHub
+    #   $ git copr 1234             # gets and switches to pr/1234 from origin
+    #   $ git copr 789 otherguy     # gets and switches to pr/789 from otherguy remote
+    # from https://gist.github.com/gnarf/5406589
+    # discussed at http://nedbatchelder.com/blog/201407/fetching_github_pull_requests.html
+    copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && git reset --hard @; }; f"
 
-  # Make a pull request with hub.
-  pr = "!f() { hub pull-request "$@"; }; f"
+    # Make a pull request with hub.
+    pr = "!f() { hub pull-request "$@"; }; f"
 
-  # I'm done with this merged branch, ready to switch back to another one.
-  brdone = "!f() { : git checkout ; brname=\"$(git symbolic-ref --short HEAD)\" && git checkout ${1:-master} && git pull && git branch -d $brname; }; f"
+    # I'm done with this merged branch, ready to switch back to another one.
+    brdone = "!f() { : git checkout ; brname=\"$(git symbolic-ref --short HEAD)\" && git checkout ${1:-master} && git pull && git branch -d $brname; }; f"
 
-  # Merge a branch, and delete it here and on the origin.
-  brmerge = "!f() { : git checkout ; git merge $1 &&  git branch -d $1; git push origin --delete $1; }; f"
+    # Merge a branch, and delete it here and on the origin.
+    brmerge = "!f() { : git checkout ; git merge $1 &&  git branch -d $1; git push origin --delete $1; }; f"
 
-  # Delete a branch here and on the origin.
-  brdel = "!f() { : git checkout ; git branch -D $1; git push ${2:-origin} --delete $1; }; f"
+    # Delete a branch here and on the origin.
+    brdel = "!f() { : git checkout ; git branch -D $1; git push ${2:-origin} --delete $1; }; f"
 
-  # Cherry-pick, conveniently
-  cp = "!f() { git cherry-pick -x $@; }; f"
+    # Cherry-pick, conveniently
+    cp = "!f() { git cherry-pick -x $@; }; f"
 
-  # Show the divergent history of my branch and its upstream
-  y = "!f() { git log --oneline --graph HEAD @{u} $(git merge-base HEAD @{u})^!; }; f"
+    # Show the divergent history of my branch and its upstream
+    y = "!f() { git log --oneline --graph HEAD @{u} $(git merge-base HEAD @{u})^!; }; f"
 
-  # Push -f safely
-  pushf = push --force-with-lease
-  ampf = "!f() { git amend -a; git pushf; }; f"
+    # Push -f safely
+    pushf = push --force-with-lease
+    ampf = "!f() { git amend -a; git pushf; }; f"
 
-  # Find an open-release to switch to
-  oe = "!f() { git checkout $(git branch -a | sed -n -E -e \"/open-release.$1.*master/s@remotes/origin/@@p\"); git pull; }; f"
-  ma = "!f() { git checkout $(git branch -a | sed -n -E -e '/remotes.origin.ma(in|ster)/s@remotes/origin/@@p'); git pull; }; f"
+    # Find an open-release to switch to
+    oe = "!f() { git checkout $(git branch -a | sed -n -E -e \"/open-release.$1.*master/s@remotes/origin/@@p\"); git pull; }; f"
+    ma = "!f() { git checkout $(git branch -a | sed -n -E -e '/remotes.origin.ma(in|ster)/s@remotes/origin/@@p'); git pull; }; f"
 
-  fa = fetch --all --prune --tags
-  pa = push --all
+    fa = fetch --all --prune --tags
+    pa = push --all
 
-  # Get a plain-text diff, for making patches.
-  patch = "!f() { git --no-pager diff --no-color $@; }; f"
+    # Get a plain-text diff, for making patches.
+    patch = "!f() { git --no-pager diff --no-color $@; }; f"
 
-  # Show branches, verbosely, sorted by last touch, with commit messages.
-  brv = "!f() { git branch --sort=-creatordate --color=always --format='%(color:reset)%(creatordate:short) %(color:bold white)%(align:2,right)%(upstream:trackshort)%(end)%(color:nobold) %(align:40,left)%(color:yellow)%(refname:short)%(end) %(color:reset)%(contents:subject)'; }; f"
+    # Show branches, verbosely, sorted by last touch, with commit messages.
+    brv = "!f() { git branch --sort=-creatordate --color=always --format='%(color:reset)%(creatordate:short) %(color:bold white)%(align:2,right)%(upstream:trackshort)%(end)%(color:nobold) %(align:40,left)%(color:yellow)%(refname:short)%(end) %(color:reset)%(contents:subject)'; }; f"
 
 #   git branch --color --format="%(color:blue)%(creatordate:short)%09\
 # %(color:yellow)%(objectname:short=8)%09\
@@ -82,56 +82,56 @@
 # %(color:yellow)%(contents:subject)" \
 # --sort=creatordate | column -s$'\t' -t
 
-  copysha = "!f() { : git checkout ; ~/bin/git-copysha "$@"; }; f"
+    copysha = "!f() { : git checkout ; ~/bin/git-copysha "$@"; }; f"
 
 [color]
-  ui = true
+    ui = true
 
 [color.diff]
-  plain = white
-  old = red
-  new = green
-  meta = white blue
-  whitespace = red reverse
-  frag = cyan reverse
-  func = white dim reverse
+    plain = white
+    old = red
+    new = green
+    meta = white blue
+    whitespace = red reverse
+    frag = cyan reverse
+    func = white dim reverse
 
 [color "diff-highlight"]
-  oldNormal = red
-  oldHighlight = red bold
-  newNormal = green
-  newHighlight = green bold
+    oldNormal = red
+    oldHighlight = red bold
+    newNormal = green
+    newHighlight = green bold
 
 [diff-so-fancy]
-  rulerWidth = 80
-  stripLeadingSymbols = false
-  markEmptyLines = false
+    rulerWidth = 80
+    stripLeadingSymbols = false
+    markEmptyLines = false
 
 [pretty]
-  me = %h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)
-  relnote = %h %C(green dim)%ad%C(reset) %C(cyan)%an%C(reset): %s
+    me = %h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)
+    relnote = %h %C(green dim)%ad%C(reset) %C(cyan)%an%C(reset): %s
 
 [push]
-  default = simple
+    default = simple
 
 [rebase]
-  autosquash = true
-  autostash = true
-  instructionFormat = "%<(80)%s  %an - %ai"
+    autosquash = true
+    autostash = true
+    instructionFormat = "%<(80)%s  %an - %ai"
 
 [branch]
-  autosetupmerge = true
-  autosetuprebase = always
+    autosetupmerge = true
+    autosetuprebase = always
 
 [core]
-  excludesfile = ~/.gitglobal/ignore
-  attributesfile = ~/.gitglobal/attributes
+    excludesfile = ~/.gitglobal/ignore
+    attributesfile = ~/.gitglobal/attributes
 
 [commit]
-  template = ~/.gitglobal/commit
+    template = ~/.gitglobal/commit
 
 [fetch]
-  prune = true
+    prune = true
 
 [scriv "create"]
     edit = true
