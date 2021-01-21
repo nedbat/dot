@@ -166,12 +166,11 @@ __lp_source_config() {
     # NO_COL is special: it will be used at runtime, not just during config loading
     NO_COL="${_LP_OPEN_ESC}${_LP_TI_RESET-}${_LP_CLOSE_ESC}"
 
-    # compute the hash of the hostname
-    # and get the corresponding number in [1-6] (red,green,yellow,blue,purple or cyan)
-    # FIXME Add more formats (bold? 256 colors?)
-    # cksum is separated with tab on SunOS, space on others
-    local cksum="$(hostname | cksum)"
-    __lp_foreground_color "$(( 1 + ${cksum%%[$' \t']*} % 6 ))"
+    # compute the hash of the hostname and get the corresponding number in
+    # [1-6] (red,green,yellow,blue,purple or cyan)
+    local lp_hostname_hash
+    __lp_hostname_hash
+    __lp_foreground_color "$(( 1 + lp_hostname_hash % 6 ))"
     LP_COLOR_HOST_HASH="${_LP_OPEN_ESC}${af_color}${_LP_CLOSE_ESC}"
 
 
@@ -303,7 +302,8 @@ __lp_source_config() {
 
     # Default config file may be the XDG standard ~/.config/liquidpromptrc,
     # but heirloom dotfile has priority.
-    local -a configfiles=("$HOME/.liquidpromptrc" "${XDG_CONFIG_HOME:-"$HOME/.config"}/liquidpromptrc")
+    local -a configfiles
+    configfiles=("$HOME/.liquidpromptrc" "${XDG_CONFIG_HOME:-"$HOME/.config"}/liquidpromptrc")
 
     # trailing ":" is so that ${search#*:} always removes something
     local configfile search="${XDG_CONFIG_DIRS:-/etc/xdg}:"
@@ -372,8 +372,7 @@ lp_activate() {
             add-zsh-hook -d precmd  __lp_runtime_after
         } >/dev/null
 
-        # Patched: https://github.com/nojhan/liquidprompt/issues/641
-        #autoload -Uz compinit && compinit && compdef __lp_theme_zsh_complete lp_theme
+        # Enable the autocomplete if the autocomplete system is initialized.
         __lp_is_function compdef && compdef __lp_theme_zsh_complete lp_theme
     fi
 
@@ -633,6 +632,12 @@ __lp_is_function() {
 __lp_line_count() {
   local var="${1//[!$'\n']}"
   count=${#var}
+}
+
+__lp_hostname_hash() {
+    # cksum is separated with tab on SunOS, space on others
+    local cksum="$(hostname | cksum)"
+    lp_hostname_hash=${cksum%%[$' \t']*}
 }
 
 # Return $PWD with $HOME at the start replaced by "~".
@@ -967,6 +972,12 @@ _lp_software_collections_color() {
     lp_software_collections_color="[${LP_COLOR_VIRTUALENV}${lp_software_collections}${NO_COL}]"
 }
 
+# Same as bash '\l', but can be inlined as a constant as the value will not
+# change during the shell's life.
+_lp_terminal_device() {
+    lp_terminal_device="$(basename -- "$(tty)" 2>/dev/null)"
+}
+
 # Determine what type of user we are
 _lp_user() {
     if (( EUID == 0 )); then
@@ -1125,6 +1136,7 @@ _lp_detached_sessions() {
 _lp_jobcount() {
     (( LP_ENABLE_JOBS )) || return 2
 
+    local jobs
     local -i count
     # Count running jobs
     # The $(...) syntax strips trailing newlines, so add a character to the end
@@ -1185,6 +1197,8 @@ _lp_find_vcs() {
         lp_vcs_root=
         return 2
     fi
+
+    local vcs
 
     lp_vcs_root="$PWD"
     while [[ -n "$lp_vcs_root" ]]; do
@@ -1265,7 +1279,7 @@ _lp_vcs_details_color() {
     fi
 
     local ret has_lines=
-    if _lp_vcs_uncommitted_lines; then
+    if _lp_vcs_uncommitted_files; then
         _lp_vcs_unstaged_lines; ret=$?
         # Only show unstaged changes if the VCS supports staging, otherwise
         # show uncommitted changes
@@ -1274,6 +1288,7 @@ _lp_vcs_details_color() {
         elif (( ret == 1 )); then
             has_lines="+0/-0"
         else
+            _lp_vcs_uncommitted_lines
             has_lines="+$lp_vcs_uncommitted_i_lines/-$lp_vcs_uncommitted_d_lines"
         fi
         lp_vcs_details_color="$LP_COLOR_CHANGES"
@@ -1371,6 +1386,16 @@ _lp_vcs_unstaged_files() {
 # Get the number of changed lines compared to staging.
 _lp_vcs_unstaged_lines() {
     "_lp_${lp_vcs_type}_unstaged_lines" 2>/dev/null
+}
+
+# Get the number of changed files in staging compared to the last or checked out commit.
+_lp_vcs_staged_files() {
+    "_lp_${lp_vcs_type}_staged_files" 2>/dev/null
+}
+
+# Get the number of changed lines in staging compared to the last or checked out commit.
+_lp_vcs_staged_lines() {
+    "_lp_${lp_vcs_type}_staged_lines" 2>/dev/null
 }
 
 # GIT #
@@ -1474,76 +1499,119 @@ _lp_git_untracked_files() {
     (( lp_vcs_untracked_files ))
 }
 
-# Get the number of changed files compared to HEAD.
-_lp_git_uncommitted_files() {
-    local stat
-    stat="$(LC_ALL=C \git diff --shortstat HEAD -- 2>/dev/null)"
+# Get the number of changed files.
+__lp_git_diff_shortstat_files() {  # diff_shortstat
+    local stat=$1
 
     if [[ "$stat" = *changed* ]]; then
         stat="${stat/ file*}"
-        lp_vcs_uncommitted_files=${stat//[$' \t']}
+        lp_git_diff_shortstat_files=${stat//[$' \t']}
     else
         return 1
     fi
+}
+
+# Get the number of changed lines.
+__lp_git_diff_shortstat_lines() {  # diff_shortstat
+    local stat=$1
+
+    stat=${stat/*changed, /} # removing "n file(s) changed"
+
+    if [[ "$stat" = *insertion* ]]; then
+        lp_git_diff_shortstat_i_lines=${stat/ inser*}
+    else
+        lp_git_diff_shortstat_i_lines=0
+    fi
+
+    if [[ "$stat" = *deletion* ]]; then
+        stat=${stat/*\(+\), }
+        lp_git_diff_shortstat_d_lines=${stat/ del*/}
+    else
+        lp_git_diff_shortstat_d_lines=0
+    fi
+
+    (( lp_git_diff_shortstat_i_lines || lp_git_diff_shortstat_d_lines ))
+}
+
+__lp_git_diff_shortstat_uncommitted() {
+    if [[ -z ${_lp_git_diff_shortstat_uncommitted-} ]]; then
+        _lp_git_diff_shortstat_uncommitted="$(LC_ALL=C \git diff --shortstat HEAD -- 2>/dev/null)"
+    fi
+}
+
+# Get the number of changed files compared to HEAD.
+_lp_git_uncommitted_files() {
+    __lp_git_diff_shortstat_uncommitted
+
+    local lp_git_diff_shortstat_files
+    __lp_git_diff_shortstat_files "$_lp_git_diff_shortstat_uncommitted" || return "$?"
+
+    lp_vcs_uncommitted_files=$lp_git_diff_shortstat_files
 }
 
 # Get the number of changed lines compared to HEAD.
 _lp_git_uncommitted_lines() {
-    local stat
-    stat="$(LC_ALL=C \git diff --shortstat HEAD -- 2>/dev/null)"
+    __lp_git_diff_shortstat_uncommitted
 
-    stat=${stat/*changed, /} # removing "n file(s) changed"
+    local lp_git_diff_shortstat_i_lines lp_git_diff_shortstat_d_lines
+    __lp_git_diff_shortstat_lines "$_lp_git_diff_shortstat_uncommitted" || return "$?"
 
-    if [[ "$stat" = *insertion* ]]; then
-        lp_vcs_uncommitted_i_lines=${stat/ inser*}
-    else
-        lp_vcs_uncommitted_i_lines=0
+    lp_vcs_uncommitted_i_lines=$lp_git_diff_shortstat_i_lines
+    lp_vcs_uncommitted_d_lines=$lp_git_diff_shortstat_d_lines
+}
+
+__lp_git_diff_shortstat_unstaged() {
+    if [[ -z ${_lp_git_diff_shortstat_unstaged-} ]]; then
+        _lp_git_diff_shortstat_unstaged="$(LC_ALL=C \git diff --shortstat 2>/dev/null)"
     fi
-
-    if [[ "$stat" = *deletion* ]]; then
-        stat=${stat/*\(+\), }
-        lp_vcs_uncommitted_d_lines=${stat/ del*/}
-    else
-        lp_vcs_uncommitted_d_lines=0
-    fi
-
-    (( lp_vcs_uncommitted_i_lines || lp_vcs_uncommitted_d_lines ))
 }
 
 # Get the number of changed files compared to staging.
 _lp_git_unstaged_files() {
-    local stat
-    stat="$(LC_ALL=C \git diff --shortstat 2>/dev/null)"
+    __lp_git_diff_shortstat_unstaged
 
-    if [[ "$stat" = *changed* ]]; then
-        stat="${stat/ file*}"
-        lp_vcs_unstaged_files=${stat//[$' \t']}
-    else
-        return 1
-    fi
+    local lp_git_diff_shortstat_files
+    __lp_git_diff_shortstat_files "$_lp_git_diff_shortstat_unstaged" || return "$?"
+
+    lp_vcs_unstaged_files=$lp_git_diff_shortstat_files
 }
 
 # Get the number of changed lines compared to staging.
 _lp_git_unstaged_lines() {
-    local stat
-    stat="$(LC_ALL=C \git diff --shortstat 2>/dev/null)"
+    __lp_git_diff_shortstat_unstaged
 
-    stat=${stat/*changed, /} # removing "n file(s) changed"
+    local lp_git_diff_shortstat_i_lines lp_git_diff_shortstat_d_lines
+    __lp_git_diff_shortstat_lines "$_lp_git_diff_shortstat_unstaged" || return "$?"
 
-    if [[ "$stat" = *insertion* ]]; then
-        lp_vcs_unstaged_i_lines=${stat/ inser*}
-    else
-        lp_vcs_unstaged_i_lines=0
+    lp_vcs_unstaged_i_lines=$lp_git_diff_shortstat_i_lines
+    lp_vcs_unstaged_d_lines=$lp_git_diff_shortstat_d_lines
+}
+
+__lp_git_diff_shortstat_staged() {
+    if [[ -z ${_lp_git_diff_shortstat_staged-} ]]; then
+        _lp_git_diff_shortstat_staged="$(LC_ALL=C \git diff --shortstat --cached 2>/dev/null)"
     fi
+}
 
-    if [[ "$stat" = *deletion* ]]; then
-        stat=${stat/*\(+\), }
-        lp_vcs_unstaged_d_lines=${stat/ del*/}
-    else
-        lp_vcs_unstaged_d_lines=0
-    fi
+# Get the number of changed files in staging compared to HEAD.
+_lp_git_staged_files() {
+    __lp_git_diff_shortstat_staged
 
-    (( lp_vcs_unstaged_i_lines || lp_vcs_unstaged_d_lines ))
+    local lp_git_diff_shortstat_files
+    __lp_git_diff_shortstat_files "$_lp_git_diff_shortstat_staged" || return "$?"
+
+    lp_vcs_staged_files=$lp_git_diff_shortstat_files
+}
+
+# Get the number of changed lines in staging compared to HEAD.
+_lp_git_staged_lines() {
+    __lp_git_diff_shortstat_staged
+
+    local lp_git_diff_shortstat_i_lines lp_git_diff_shortstat_d_lines
+    __lp_git_diff_shortstat_lines "$_lp_git_diff_shortstat_staged" || return "$?"
+
+    lp_vcs_staged_i_lines=$lp_git_diff_shortstat_i_lines
+    lp_vcs_staged_d_lines=$lp_git_diff_shortstat_d_lines
 }
 
 # MERCURIAL #
@@ -2191,7 +2259,7 @@ __lp_temp_acpi() {
     local IFS=$' \t\n'
     # Only the integer part is retained
     for i in $(LC_ALL=C \acpi -t |
-            sed 's/.* \(-\?[0-9]*\)\.[0-9]* degrees C$/\1/p'); do
+            sed -n 's/.* \(-\{0,1\}[0-9]*\)\.[0-9]* degrees C$/\1/p'); do
         (( $i > ${lp_temperature:-0} )) && lp_temperature=$i
     done
 }
@@ -2369,9 +2437,8 @@ _lp_default_theme_activate() {
         LP_BRACKET_CLOSE="${LP_MARK_BRACKET_CLOSE}"
     fi
 
-    # Same as bash '\l', but inlined as a constant as the value will not change
-    # during the shell's life
-    LP_TTYN="$(basename -- "$(tty)" 2>/dev/null)"
+    _lp_terminal_device
+    LP_TTYN=$lp_terminal_device
 
     if _lp_time_color; then
         LP_TIME="${lp_time_color} "
@@ -2523,6 +2590,9 @@ __lp_set_prompt() {
     if (( LP_ENABLE_RUNTIME_BELL && _LP_RUNTIME_SECONDS >= LP_RUNTIME_BELL_THRESHOLD )); then
         printf '%s' "$_LP_TI_BELL"
     fi
+
+    # Localize cache data variables
+    local _lp_git_diff_shortstat_uncommitted _lp_git_diff_shortstat_unstaged _lp_git_diff_shortstat_staged
 
     # if change of working directory
     if [[ "${LP_OLD_PWD-}" != "LP:$PWD" ]]; then
