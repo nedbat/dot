@@ -67,7 +67,7 @@
     ma = "!f() { git checkout $(git branch -a | sed -n -E -e '/remotes.origin.ma(in|ster)/s@remotes/origin/@@p'); git pull; }; f"
 
     fa = fetch --all --prune --tags
-    pa = push --all
+    pa = "!f() { git push --all; git push --tags; }; f"
 
     # Get a plain-text diff, for making patches.
     patch = "!f() { git --no-pager diff --no-color $@; }; f"
