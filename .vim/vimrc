@@ -589,7 +589,7 @@ Plug 'tpope/vim-unimpaired'
 noremap ,l :normal yol<CR>
 noremap ,r :normal yor<CR>
 noremap ,s :normal yos<CR>
-noremap ,w :normal yow<CR>
+noremap ,w :normal yow<CR>:setlocal <C-R>=(&wrap ? 'formatoptions-=t' : 'formatoptions+=t')<CR><CR>
 noremap ,, ,
 
 Plug 'tpope/vim-repeat'
