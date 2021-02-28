@@ -535,8 +535,8 @@ noremap <silent> <Leader>K :QuickhlManualReset<CR>
 let g:quickhl_manual_colors = [
     \ "guibg=#F0C0FF guifg=black",
     \ "guibg=#A7FFB7 guifg=black",
-    \ "guibg=#FFB7B7 guifg=black",
-    \ "guibg=#A8D1FF guifg=black",
+    \ "guibg=#FFC7C7 guifg=black",
+    \ "guibg=#B8E1FF guifg=black",
     \ "guibg=#AAFFFF guifg=black",
     \ "guibg=#FCFA69 guifg=black",
     \ "guibg=#CCCCCC guifg=black",
