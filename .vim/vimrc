@@ -705,8 +705,10 @@ endif
 Plug 'dhruvasagar/vim-open-url'
 nmap gx <Plug>(open-url-browser)
 xmap gx <Plug>(open-url-browser)
-nmap gc :OpenInChrome <cfile><CR>
-xmap gc :<C-U>OpenInChrome <C-R>=open_url#get_selection()<CR><CR>
+" https://github.com/dhruvasagar/vim-open-url/issues/7#issuecomment-787398894
+" ('open_url#open_in' only works on mac)
+nmap gc :call open_url#open_in('google chrome', expand('<cfile>'))<cr>
+xmap gc :call open_url#open_in('google chrome', open_url#get_selection())<cr>
 
 " Highlight the effect of commands as you type them.
 Plug 'markonm/traces.vim'
