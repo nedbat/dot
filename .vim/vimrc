@@ -231,7 +231,7 @@ augroup GitCommitSettings
     autocmd!
     " auto-fill paragraphs
     autocmd FileType gitcommit setlocal formatoptions+=a
-    autocmd FileType gitcommit DiffGitCached | wincmd r
+    autocmd FileType gitcommit nnoremap <buffer> <Leader>d :DiffGitCached \| wincmd L<CR>
 augroup end
 
 augroup HgCommitSettings
