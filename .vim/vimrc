@@ -573,9 +573,9 @@ autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugit
 
 Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
 noremap <Leader>gg :Git<space>
-noremap <Leader>gb :Gblame<CR>
+noremap <Leader>gb :Git blame<CR>
 noremap <Leader>go :Git checkout<space>
-noremap <Leader>gp :Gpull<CR>
+noremap <Leader>gp :Git pull<CR>
 noremap <Leader>g\ :Gstatus<CR>:normal <Leader>1<CR>
 noremap <Leader>gu :Gbrowse!<CR>
 noremap <Leader>gv :Gbrowse<CR>
