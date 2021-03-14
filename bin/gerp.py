@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.8
 """
 - gerp *tree* pattern modifiers
 
@@ -24,8 +24,9 @@
 """
 
 import fnmatch, os, os.path, re, subprocess, sys
-import ConfigParser
-from cStringIO import StringIO
+import shlex
+import configparser
+from io import StringIO
 
 INI = ".treerc"
 HOME_INI = "~/.treerc_default"
@@ -142,7 +143,7 @@ class Gerp(object):
         self.find_ini()
 
         # Parse the ini file.
-        self.config = ConfigParser.RawConfigParser(DEFAULTS)
+        self.config = configparser.RawConfigParser(DEFAULTS)
         if self.ini:
             self.config.read(self.ini)
         if self.ini_text:
@@ -187,7 +188,7 @@ class Gerp(object):
             cmd = rg_words + [root]
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
             for line in iter(p.stdout.readline, b''):
-                print(line.rstrip())
+                print(line.rstrip().decode("utf-8"))
 
     def ignores(self):
         ignores = set(IGNORE.split())
@@ -230,7 +231,7 @@ class Gerp(object):
 
         try:
             pat = re.compile(self.pattern)
-        except Exception, e:
+        except Exception as e:
             raise GerpException("Bad pattern: %s" % e)
 
         if self.one:
@@ -255,7 +256,7 @@ class Gerp(object):
                             ftrimmed = f
                             #if ftrimmed.startswith(cur_dir):
                             #    ftrimmed = ftrimmed.replace(cur_dir, "")
-                        print "%s:%d:%s" % (ftrimmed, lineno, line[:-1])
+                        print("%s:%d:%s" % (ftrimmed, lineno, line[:-1]))
 
     def file_match(self, pattern, dirpath, filename):
         """Check if filename in dirpath matches pattern."""
@@ -294,10 +295,10 @@ def main(args):
         gerp = Gerp()
         gerp.from_args(args)
         gerp.run()
-    except GerpException, ge:
-        print >>sys.stderr, str(ge)
+    except GerpException as ge:
+        print(str(ge), file=sys.stderr)
     except KeyboardInterrupt:
-        print >>sys.stderr, "** Stopped"
+        print("** Stopped", file=sys.stderr)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
