@@ -62,8 +62,9 @@
     pushf = push --force-with-lease
     ampf = "!f() { git amend -a; git pushf; }; f"
 
-    # Find an open-release to switch to
+    # Find an open-release to switch to.
     oe = "!f() { git checkout $(git branch -a | sed -n -E -e \"/open-release.$1.*master/s@remotes/origin/@@p\"); git pull; }; f"
+    # Switch to main or master, whichever exists.
     ma = "!f() { git checkout $(git branch -a | sed -n -E -e '/remotes.origin.ma(in|ster)/s@remotes/origin/@@p'); git pull; }; f"
 
     fa = fetch --all --prune --tags
@@ -122,6 +123,10 @@
 [branch]
     autosetupmerge = true
     autosetuprebase = always
+
+[merge]
+    # https://blog.nilbus.com/take-the-pain-out-of-git-conflict-resolution-use-diff3/
+    conflictstyle = diff3
 
 [core]
     excludesfile = ~/.gitglobal/ignore
