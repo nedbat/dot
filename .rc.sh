@@ -9,8 +9,6 @@ export PATH=$HOME/bin:/usr/local/bin:/opt/local/bin:$PATH:/usr/sbin
 
 stty erase ^H
 
-export PYTHONSTARTUP=~/.startup.py
-
 #
 # Set the terminal type properly.
 # TERM is tried as a terminal type. If unknown, a trailing dash component will
@@ -244,27 +242,34 @@ first_of() {
 # Pythons
 alias p='python'
 
-# pyenv
-if [[ -d /usr/local/pyenv ]] ; then
-    export PYENV_ROOT=/usr/local/pyenv
+export PYTHONSTARTUP=~/.startup.py
+
+# Locally installed Python stuff.
+if [[ -d $HOME/.local/bin ]] ; then
+    export PATH="$PATH:$HOME/.local/bin"
 fi
 
+# pyenv
+#if [[ -d /usr/local/pyenv ]] ; then
+#    export PYENV_ROOT=/usr/local/pyenv
+#fi
+
 # Virtualenvwrapper support
-if $(python -c "import virtualenvwrapper" &> /dev/null) ; then
-    virtualenvwrappers=(
-        /usr/local/bin/virtualenvwrapper.sh
-        /etc/bash_completion.d/virtualenvwrapper
-        )
-    virtualenvwrappersh=$(first_of "${virtualenvwrappers[@]}")
-    workon_homes=(
-        /usr/local/virtualenvs
-        $HOME/.virtualenvs
-        )
-    workon_home=$(first_of "${workon_homes[@]}")
-    if [[ -r $virtualenvwrappersh ]] && [[ -d $workon_home ]]; then
-        export WORKON_HOME=$workon_home
-        source $virtualenvwrappersh
-    fi
+virtualenvwrappers=(
+    ~/.local/bin/virtualenvwrapper.sh
+    /usr/local/bin/virtualenvwrapper.sh
+    /etc/bash_completion.d/virtualenvwrapper
+    )
+virtualenvwrappersh=$(first_of "${virtualenvwrappers[@]}")
+workon_homes=(
+    /usr/local/virtualenvs
+    $HOME/.virtualenvs
+    )
+workon_home=$(first_of "${workon_homes[@]}")
+if [[ -r $virtualenvwrappersh ]] && [[ -d $workon_home ]]; then
+    export WORKON_HOME=$workon_home
+    export VIRTUALENVWRAPPER_PYTHON=python3.9
+    source $virtualenvwrappersh
 fi
 
 # miniconda
