@@ -15,6 +15,7 @@ LP_MARK_PERM="@"
 LP_MARK_BRACKET_OPEN=""  # open bracket
 LP_MARK_BRACKET_CLOSE="" # close bracket
 
+LP_COLOR_PATH="$NO_COL$WHITE"
 LP_COLOR_PATH_SEPARATOR=""
 
 if [[ -e /.dockerenv ]] ; then
