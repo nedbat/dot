@@ -40,7 +40,7 @@ setopt no_auto_pushd
 # Make pushd work the same as Bash.
 setopt no_pushd_minus
 # Resolve symlinks when changing directories.
-setopt chase_links
+#setopt chase_links
 
 # **.c is short for **/*.c
 setopt glob_star_short

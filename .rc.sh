@@ -81,7 +81,8 @@ alias xs='dirs -v'
 alias sep='printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n========================================================================================================================\n"'
 
 # Reset things
-alias a='cd $(pwd -P); title "$WINDOW_TITLE"; wtitle "$WINDOW_TITLE"'
+# this used to "cd $(pwd -P)" but I don't remember why.
+alias a='title "$WINDOW_TITLE"; wtitle "$WINDOW_TITLE"'
 
 # Clip output horizontally to not wrap lines in the terminal
 alias ccc='cut -c-$(tput cols)'
@@ -223,6 +224,9 @@ title() {
     #   echo -en "\033]2;$@\007"
     # for iterm2:
     #   http://superuser.com/a/344397
+    # Getting the window number from a terminal:
+    #  _win_num="${ITERM_SESSION_ID%%t*}"
+    #  _win_num="${_win_num#w}"
     export WINDOW_TITLE="$@"
     echo -en "\033];$@\007"
 }
