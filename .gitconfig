@@ -113,6 +113,7 @@
     relnote = %h %C(green dim)%ad%C(reset) %C(cyan)%an%C(reset): %s
 
 [push]
+    followTags = true
     default = simple
 
 [rebase]
