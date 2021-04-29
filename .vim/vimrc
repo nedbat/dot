@@ -21,6 +21,7 @@ set modeline modelines=2                " Read vim settings from the file itself
 set encoding=utf-8
 set fileformat=unix fileformats=unix,dos
 set wildignore=*.o,*~,*.pyc,*.pyo,*\$py.class
+set wildmenu
 
 set foldmethod=syntax foldlevelstart=999
 
