@@ -147,7 +147,7 @@ class Gerp(object):
         if self.ini:
             self.config.read(self.ini)
         if self.ini_text:
-            self.config.readfp(StringIO(self.ini_text))
+            self.config.read_file(StringIO(self.ini_text))
 
         cur_dir = os.getcwd()
         for r in self.config.get(self.section, "root").split('\n'):
