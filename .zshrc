@@ -35,6 +35,9 @@ HISTFILE=~/.history
 SAVEHIST=100000
 HISTSIZE=50000
 
+# Prevent Ctrl-D from exiting the shell
+setopt ignore_eof
+
 # Don't pushd automatically when changing directories.
 setopt no_auto_pushd
 # Make pushd work the same as Bash.
