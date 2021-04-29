@@ -23,14 +23,14 @@ bindkey " " magic-space
 bindkey "^[[Z" reverse-menu-complete
 
 # Don't write timestamps
-setopt no_extendedhistory
-setopt no_sharehistory
-setopt incappendhistory
+setopt no_extended_history
+setopt no_share_history
+setopt inc_append_history
 # Sounds good, but this takes 12sec
 #setopt histexpiredupsfirst
-setopt histfindnodups
-setopt histignoredups
-setopt histignorespace
+setopt hist_find_no_dups
+setopt hist_ignore_dups
+setopt hist_ignore_space
 HISTFILE=~/.history
 SAVEHIST=100000
 HISTSIZE=50000
@@ -50,10 +50,10 @@ setopt glob_star_short
 # Don't wait to verify history expansion.
 setopt no_hist_verify
 # Comments work in interactive shells (bashtags)
-setopt interactivecomments
+setopt interactive_comments
 
 # Hash automatically so that executables are found on install.
-setopt nohashdirs
+setopt no_hash_dirs
 
 zle-line-init() rehash
 zle -N zle-line-init
