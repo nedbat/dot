@@ -229,11 +229,15 @@ title() {
     #  _win_num="${_win_num#w}"
     export WINDOW_TITLE="$@"
     echo -en "\033];$@\007"
+    if [[ -n "$WWINDOW_TITLE" ]]; then
+        wtitle "$WWINDOW_TITLE"
+    fi
 }
 
 # iTerm2 has a Window title in addition to the tab title, which title() sets.
 wtitle() {
     echo -ne "\033]2;$@\007"
+    export WWINDOW_TITLE="$@"
 }
 
 # iTerm2 aliases.
