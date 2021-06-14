@@ -167,6 +167,9 @@ function! StatusOptions()
     if &spell
         let l:opts .= 's'
     endif
+    if &formatoptions =~# 't'
+        let l:opts .= 't'
+    endif
     if &wrap
         let l:opts .= 'w'
     endif
@@ -207,6 +210,14 @@ function! StatusQuickfixTitle()
     endif
     return title
 endfunction
+
+augroup FormatStupidity
+    autocmd!
+    autocmd BufNewFile,BufRead * silent! setlocal formatoptions+=jln
+    " ftplugins are stupid and try to mess with indentkeys.
+    " Idea from https://github.com/Julian/dotfiles/blob/master/.vimrc
+    autocmd BufNewFile,BufRead * setlocal indentkeys=o,O " Only new lines should get auto-indented.
+augroup end
 
 augroup QuickFixSettings
     autocmd!
@@ -254,7 +265,7 @@ augroup end
 
 augroup XmlSettings
     autocmd!
-    autocmd BufRead,BufNewFile *.px,*.bx setlocal filetype=xml indentexpr= formatexpr= formatoptions-=c
+    autocmd BufRead,BufNewFile *.px,*.bx setlocal filetype=xml
     " Make plain text in XML be spell-checked.
     autocmd FileType xml syntax spell toplevel
 augroup end
@@ -288,14 +299,6 @@ augroup end
 
 " Shell filetype: assume bash syntax
 let g:is_bash = 1
-
-augroup FormatStupidity
-    autocmd!
-    autocmd BufNewFile,BufRead * silent! setlocal formatoptions+=jln
-    " ftplugins are stupid and try to mess with indentkeys.
-    " Idea from https://github.com/Julian/dotfiles/blob/master/.vimrc
-    autocmd BufNewFile,BufRead * setlocal indentkeys=o,O " Only new lines should get auto-indented.
-augroup end
 
 if exists('##OptionSet')
     augroup AllFileSettings
@@ -579,8 +582,8 @@ noremap <Leader>gb :Git blame<CR>
 noremap <Leader>go :Git checkout<space>
 noremap <Leader>gp :Git pull<CR>
 noremap <Leader>g\ :Gstatus<CR>:normal <Leader>1<CR>
-noremap <Leader>gu :Gbrowse!<CR>
-noremap <Leader>gv :Gbrowse<CR>
+noremap <Leader>gu :GBrowse!<CR>
+noremap <Leader>gv :GBrowse<CR>
 noremap <Leader>gd :normal <Leader><Leader>1<CR>:Gdiffsplit<CR>
 
 Plug 'tpope/vim-git'                                " Git filetypes, etc.
@@ -625,6 +628,11 @@ let g:matchup_matchparen_status_offscreen = 0
 Plug 'junegunn/vim-peekaboo'                        " Pop-up panel to show registers
 let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
+
+" Choose window by label
+Plug 't9md/vim-choosewin'
+nmap - <Plug>(choosewin)
+let g:choosewin_overlay_enable = 1
 
 Plug 'atimholt/spiffy_foldtext'
 let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{==}"

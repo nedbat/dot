@@ -60,7 +60,7 @@
 
     # Push -f safely
     pushf = push --force-with-lease
-    ampf = "!f() { git amend -a; git pushf; }; f"
+    ampf = "!f() { git amend -a --allow-empty; git pushf; }; f"
 
     # Find an open-release to switch to.
     oe = "!f() { git checkout $(git branch -a | sed -n -E -e \"/open-release.$1.*master/s@remotes/origin/@@p\"); git pull; }; f"

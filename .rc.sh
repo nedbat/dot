@@ -77,6 +77,7 @@ alias x8='pushd +8 >/dev/null'
 alias x9='pushd +9 >/dev/null'
 alias xq='popd >/dev/null'
 alias xs='dirs -v'
+alias xc='dirs -c'
 
 alias sep='printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n========================================================================================================================\n"'
 
