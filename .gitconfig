@@ -20,7 +20,6 @@
     di = diff
     s = status -s -b --show-stash
     lhist = log --pretty=me --graph --date=short
-    lha = log --pretty=me --graph --date=short --all
     relnotes = log --pretty=relnote --date=short --no-merges
     h = "!f() { git --no-pager log -n 15 --pretty=me --graph --date=short $@; echo; }; f"
     tags = tag
@@ -50,7 +49,8 @@
     brmerge = "!f() { : git checkout ; git merge $1 &&  git branch -d $1; git push origin --delete $1; }; f"
 
     # Delete a branch here and on the origin.
-    brdel = "!f() { : git checkout ; git branch -D $1; git push ${2:-origin} --delete $1; }; f"
+    # The switch $1 is to get an entry in the reflog now, in case we need to recover the branch.
+    brdel = "!f() { : git checkout ; git switch $1; git switch -; git branch -D $1; git push ${2:-origin} --delete $1; }; f"
 
     # Cherry-pick, conveniently
     cp = "!f() { git cherry-pick -x $@; }; f"
