@@ -12,6 +12,7 @@ if filewritable(expand('~/.backup'))
     set backup backupdir=~/.backup      " Keep copies of files we're editing
 endif
 set shortmess+=I                        " Don't show the vim intro message
+set shortmess-=S                        " Show [17/56] when searching
 set history=500                         " Keep a LOT of history for commands
 set scrolloff=2                         " Keep two lines visible above/below the cursor when scrolling.
 
