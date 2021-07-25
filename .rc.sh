@@ -259,22 +259,22 @@ first_of() {
 }
 
 # Pythons
-alias p='python'
+alias p='python3'
 
 export PYTHONSTARTUP=~/.startup.py
+export PYTHON_BIN="$(python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))")"
+export PATH="$PATH:$PYTHON_BIN"
 
 # Locally installed Python stuff.
 if [[ -d $HOME/.local/bin ]] ; then
     export PATH="$PATH:$HOME/.local/bin"
 fi
 
-# pyenv
-#if [[ -d /usr/local/pyenv ]] ; then
-#    export PYENV_ROOT=/usr/local/pyenv
-#fi
-
-# Virtualenvwrapper support
+# Virtualenvwrapper support.
+# Use ~/bin/install-pip-etc.sh to get virtualenv and virtualenvwrapper installed
+# in all versions of Python.  Shouldn't need anything in .local.
 virtualenvwrappers=(
+    $PYTHON_BIN/virtualenvwrapper.sh
     ~/.local/bin/virtualenvwrapper.sh
     /usr/local/bin/virtualenvwrapper.sh
     /etc/bash_completion.d/virtualenvwrapper
@@ -287,9 +287,16 @@ workon_homes=(
 workon_home=$(first_of "${workon_homes[@]}")
 if [[ -r $virtualenvwrappersh ]] && [[ -d $workon_home ]]; then
     export WORKON_HOME=$workon_home
-    export VIRTUALENVWRAPPER_PYTHON=python3.9
+    export VIRTUALENVWRAPPER_PYTHON=$(realpath -e $(which python3))
     source $virtualenvwrappersh
 fi
+
+unset PYTHON_BIN
+
+# pyenv
+#if [[ -d /usr/local/pyenv ]] ; then
+#    export PYENV_ROOT=/usr/local/pyenv
+#fi
 
 # miniconda
 if [[ -d /usr/local/miniconda ]] ; then
