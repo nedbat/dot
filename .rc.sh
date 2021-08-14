@@ -393,6 +393,14 @@ if [[ -f ~/.fzf.$SHELL_TYPE ]]; then
     source ~/.fzf.$SHELL_TYPE
 fi
 
+# https://github.com/cantino/mcfly
+if command -v mcfly >/dev/null; then
+    eval "$(mcfly init zsh)"
+    export MCFLY_FUZZY=true
+    export MCFLY_RESULTS=30
+    export MCFLY_HISTORY_LIMIT=10000
+fi
+
 # Read a local file if it exists.
 
 if [[ -f ~/.rc_local.sh ]]; then
