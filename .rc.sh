@@ -7,7 +7,9 @@ export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
 # Execute search path
 export PATH=$HOME/bin:/usr/local/bin:/opt/local/bin:$PATH:/usr/sbin
 
-stty erase ^H
+if [[ -n $PS1 ]]; then
+    stty erase ^H
+fi
 
 #
 # Set the terminal type properly.
