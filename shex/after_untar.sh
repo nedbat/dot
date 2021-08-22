@@ -11,10 +11,10 @@ if [[ -f .path.local ]]; then
     mv .path.local .bashrc.local
 fi
 
-# Some Mac junk got into some tarballs. Clean it.
-if [[ $(uname) != 'Darwin' ]]; then
-    echo "Cleaning Mac junk"
-    find . \( -name '.DS_Store' -o -name '._*' \) -print -delete 2>/dev/null
-fi
+# # Some Mac junk got into some tarballs. Clean it.
+# if [[ $(uname) != 'Darwin' ]]; then
+#     echo "Cleaning Mac junk"
+#     find . \( -name '.DS_Store' -o -name '._*' \) -print -delete 2>/dev/null
+# fi
 
 echo "You can delete dot.sh if you like"
