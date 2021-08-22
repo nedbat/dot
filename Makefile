@@ -56,3 +56,5 @@ clean:					## Get rid of unneeded stuff
 
 dist: $(EXTRACTOR_FILE)			## Copy extractor to a few places
 	cp $(EXTRACTOR_FILE) /src/edx/src
+	scp $(EXTRACTOR_FILE) drop1:.
+	scp $(EXTRACTOR_FILE) dreamhost:.
