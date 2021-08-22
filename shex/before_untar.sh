@@ -46,3 +46,6 @@ rm -rf .vim/plugged
 
 # Old way of handling tar cleanup.
 rm -vf .after_untar .clean_old_dot_files
+
+# This got in somehow.
+rm -rf .mypy_cache
