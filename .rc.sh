@@ -264,8 +264,8 @@ first_of() {
 alias p='python3'
 
 export PYTHONSTARTUP=~/.startup.py
-export PYTHON_BIN="$(python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))")"
-export PATH="$PATH:$PYTHON_BIN"
+export _PYTHON_BIN="$(python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))")"
+export PATH="$PATH:$_PYTHON_BIN"
 export PYTHONPYCACHEPREFIX=/tmp/pyc
 
 # Locally installed Python stuff.
@@ -277,7 +277,7 @@ fi
 # Use ~/bin/install-pip-etc.sh to get virtualenv and virtualenvwrapper installed
 # in all versions of Python.  Shouldn't need anything in .local.
 virtualenvwrappers=(
-    $PYTHON_BIN/virtualenvwrapper.sh
+    $_PYTHON_BIN/virtualenvwrapper.sh
     ~/.local/bin/virtualenvwrapper.sh
     /usr/local/bin/virtualenvwrapper.sh
     /etc/bash_completion.d/virtualenvwrapper
@@ -292,9 +292,11 @@ if [[ -r $virtualenvwrappersh ]] && [[ -d $workon_home ]]; then
     export WORKON_HOME=$workon_home
     export VIRTUALENVWRAPPER_PYTHON=$(realpath -e $(which python3))
     source $virtualenvwrappersh
+else
+    echo "No virtualenvwrapper: did you recently install $_PYTHON_BIN ?"
 fi
 
-unset PYTHON_BIN
+unset _PYTHON_BIN
 
 # pyenv
 #if [[ -d /usr/local/pyenv ]] ; then
