@@ -399,15 +399,19 @@ if [[ -d $HOME/.rbenv/shims ]]; then
 fi
 
 # Added by fzf
-if [[ -f ~/.fzf.$SHELL_TYPE ]]; then
-    source ~/.fzf.$SHELL_TYPE
+if [[ -n $PS1 ]]; then
+    if [[ -f ~/.fzf.$SHELL_TYPE ]]; then
+        source ~/.fzf.$SHELL_TYPE
+    fi
 fi
 
 # https://github.com/cantino/mcfly
-if command -v mcfly >/dev/null; then
-    export MCFLY_RESULTS=30
-    export MCFLY_HISTORY_LIMIT=10000
-    eval "$(mcfly init zsh)"
+if [[ -n $PS1 ]]; then
+    if command -v mcfly >/dev/null; then
+        export MCFLY_RESULTS=30
+        export MCFLY_HISTORY_LIMIT=10000
+        eval "$(mcfly init zsh)"
+    fi
 fi
 
 # Read a local file if it exists.
