@@ -297,7 +297,9 @@ if [[ -r $virtualenvwrappersh ]] && [[ -d $workon_home ]]; then
     export VIRTUALENVWRAPPER_PYTHON=$(realpath -e $(which python3))
     source $virtualenvwrappersh
 else
-    echo "No virtualenvwrapper: did you recently install $_PYTHON_BIN ?"
+    if [[ -n $PS1 ]]; then
+        echo "No virtualenvwrapper: did you recently install $_PYTHON_BIN ? ($(python3 -V))"
+    fi
 fi
 
 unset _PYTHON_BIN
