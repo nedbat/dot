@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# A shell archive for all dot files. Copy to a machine, then:
+# 
+#   prompt> ./dot.sh
+#
+
 # Commands run before untarring.
 
 if [[ ${0##*/} != :SCRIPTNAME: ]]; then
