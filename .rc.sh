@@ -266,7 +266,11 @@ alias p='python3'
 export PYTHONSTARTUP=~/.startup.py
 export _PYTHON_BIN="$(python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))")"
 export PATH="$PATH:$_PYTHON_BIN"
-export PYTHONPYCACHEPREFIX=/tmp/pyc
+if [[ -w /tmp ]] ; then
+    export PYTHONPYCACHEPREFIX=/tmp/$USER-pyc
+    mkdir -p $PYTHONPYCACHEPREFIX
+    chmod 700 $PYTHONPYCACHEPREFIX
+fi
 
 # Locally installed Python stuff.
 if [[ -d $HOME/.local/bin ]] ; then
