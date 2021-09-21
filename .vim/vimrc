@@ -296,6 +296,7 @@ augroup MiscFiletypes
     autocmd FileType json setlocal foldmethod=indent
     autocmd FileType yaml setlocal foldmethod=indent
     autocmd BufNewFile,BufRead */Jenkinsfiles/* set filetype=groovy
+    autocmd BufNewFile,BufRead *.htaccess set filetype=apache
 augroup end
 
 " Shell filetype: assume bash syntax
