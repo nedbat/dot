@@ -298,7 +298,7 @@ if [[ -r $virtualenvwrappersh ]] && [[ -d $workon_home ]]; then
     source $virtualenvwrappersh
 else
     if [[ -n $PS1 ]]; then
-        echo "No virtualenvwrapper: did you recently install $_PYTHON_BIN ? ($(python3 -V))"
+        echo "No virtualenvwrapper for $_PYTHON_BIN ! ($(python3 -V))"
     fi
 fi
 
