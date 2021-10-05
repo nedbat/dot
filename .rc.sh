@@ -248,6 +248,9 @@ wtitle() {
 alias i2clear="printf '\e]50;ClearScrollback\a'"
 alias i2focus="printf '\e]50;StealFocus\a'"
 alias i2profile="printf '\e]50;SetProfile=%s\a'"
+i2toast() {
+    echo -ne "\033]9;$@\007"
+}
 
 # Find the first file that exists in a list of possibilities.
 first_of() {
