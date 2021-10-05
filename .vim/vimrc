@@ -583,7 +583,7 @@ noremap <Leader>gg :Git<space>
 noremap <Leader>gb :Git blame<CR>
 noremap <Leader>go :Git checkout<space>
 noremap <Leader>gp :Git pull<CR>
-noremap <Leader>g\ :Gstatus<CR>:normal <Leader>1<CR>
+noremap <Leader>g\ :Git<CR>:normal <Leader>1<CR>
 noremap <Leader>gu :GBrowse!<CR>
 noremap <Leader>gv :GBrowse<CR>
 noremap <Leader>gd :normal <Leader><Leader>1<CR>:Gdiffsplit<CR>
