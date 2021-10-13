@@ -265,6 +265,8 @@ first_of() {
 
 # Pythons
 alias p='python3'
+alias t='tox -q'
+alias te='tox -q -e'
 
 export PYTHONSTARTUP=~/.startup.py
 export _PYTHON_BIN="$(python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))")"
@@ -305,12 +307,9 @@ else
     fi
 fi
 
-unset _PYTHON_BIN
+export PIP_REQUIRE_VIRTUALENV=true
 
-# pyenv
-#if [[ -d /usr/local/pyenv ]] ; then
-#    export PYENV_ROOT=/usr/local/pyenv
-#fi
+unset _PYTHON_BIN
 
 # miniconda
 if [[ -d /usr/local/miniconda ]] ; then
