@@ -166,6 +166,7 @@ class Gerp(object):
             "--no-heading",
             "--line-number",
             "--no-ignore",
+            "--hidden",
         ]
         for ignore in self.ignores():
             rg_words.extend(["--glob", "!"+ignore])

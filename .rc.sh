@@ -220,6 +220,7 @@ export ANSIBLE_NOCOWS=1
 
 # rg will read options from a config file.
 export RIPGREP_CONFIG_PATH=~/.rgrc
+alias rgw='rg --max-columns=0'
 
 # Set the title of the terminal window.
 title() {

@@ -53,6 +53,10 @@
     # The switch $1 is to get an entry in the reflog now, in case we need to recover the branch.
     brdel = "!f() { : git checkout ; git switch $1; git switch -; git branch -D $1; git push ${2:-origin} --delete $1; }; f"
 
+    # Delete the branch we just switched from.  This is for when "brdone" says it couldn't
+    # delete the branch, because it was a rebase rather than a merge.
+    brdel- = brdel @{-1}
+
     # Cherry-pick, conveniently
     cp = "!f() { git cherry-pick -x $@; }; f"
 
@@ -62,6 +66,7 @@
     # Push -f safely
     pushf = push --force-with-lease
     ampf = "!f() { git amend -a --allow-empty; git pushf; }; f"
+    puo = push -u origin @
 
     # Find an open-release to switch to.
     oe = "!f() { git checkout $(git branch -a | sed -n -E -e \"/open-release.$1.*master/s@remotes/origin/@@p\"); git pull; }; f"
@@ -98,7 +103,7 @@
     meta = white blue
     whitespace = red reverse
     frag = cyan reverse
-    func = white dim reverse
+    func = white reverse
 
 [color "diff-highlight"]
     oldNormal = red

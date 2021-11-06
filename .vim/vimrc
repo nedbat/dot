@@ -338,7 +338,7 @@ digraph :( 9785 :) 9786
 cnoremap <expr> ./ (getcmdtype() == ':' && getcmdline()[getcmdpos()-2] == ' ') ? expand('%:p:h').'/' : './'
 
 " Highlight conflict markers.
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+"match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " Create undo break point when you pause typing for 2 sec.
 set updatetime=2000
@@ -381,6 +381,7 @@ let g:ctrlp_custom_ignore = {
     \ 'dir': '\v(/htmlcov|/node_modules|/__pycache__|\.egg-info|\.tox)$',
     \ }
 let g:ctrlp_extensions = ['mixed']
+let g:ctrlp_match_current_file = 1
 let g:ctrlp_max_files = 0
 let g:ctrlp_max_height = 30
 let g:ctrlp_mruf_max = 1000
@@ -515,6 +516,8 @@ let g:tagbar_type_rst = {
     \ 'sort' : 0,
 \ }
 
+Plug 'habamax/vim-rst'      " .rst syntax
+
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim', { 'on': 'Gist' }
 let g:gist_clip_command = 'pbcopy'
@@ -583,6 +586,7 @@ noremap <Leader>gg :Git<space>
 noremap <Leader>gb :Git blame<CR>
 noremap <Leader>go :Git checkout<space>
 noremap <Leader>gp :Git pull<CR>
+noremap <Leader>gl :Gclog -150<CR>
 noremap <Leader>g\ :Git<CR>:normal <Leader>1<CR>
 noremap <Leader>gu :GBrowse!<CR>
 noremap <Leader>gv :GBrowse<CR>
@@ -597,6 +601,7 @@ noremap ,l :normal yol<CR>
 noremap ,r :normal yor<CR>
 noremap ,s :normal yos<CR>
 noremap ,w :normal yow<CR>:setlocal <C-R>=(&wrap ? 'formatoptions-=t' : 'formatoptions+=t')<CR><CR>
+noremap ,x :setlocal formatexpr=<CR>:setlocal formatoptions-=t<CR>
 noremap ,, ,
 
 Plug 'tpope/vim-repeat'
@@ -709,6 +714,7 @@ if v:version >= 800
     \       'irc': 0,
     \       'diary': 0,
     \       'sh': 0,
+    \       'rst': 0,
     \   }
     \}
 endif

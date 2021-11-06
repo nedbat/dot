@@ -7,6 +7,8 @@
 --max-columns=180
 --max-columns-preview
 
+--hidden
+
 # For searching for pip pins
 --type-add=pip:*.txt
 --type-add=pip:*.in

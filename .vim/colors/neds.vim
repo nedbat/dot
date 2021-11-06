@@ -62,7 +62,9 @@ highlight DiffDelete    gui=NONE            guifg=DarkGrey      guibg=#f0f0f0
 
 highlight diffAdded     gui=NONE            guifg=NONE          guibg=#d0ffd0
 highlight diffRemoved   gui=NONE            guifg=NONE          guibg=#ffd0d0
-highlight diffFile                          guifg=Black         guibg=#e0e0e0
+highlight diffFile                          guifg=Black         guibg=#c0c0e0
+highlight diffNewFile                       guifg=Black         guibg=#e0e0e0
+highlight diffOldFile                       guifg=Black         guibg=#e0e0e0
 highlight diffLine      gui=NONE                                guibg=#ddddff
 highlight diffSubname                                           guibg=#eeeeff
 
