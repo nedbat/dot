@@ -81,6 +81,10 @@ alias xq='popd >/dev/null'
 alias xs='dirs -v'
 alias xc='dirs -c'
 
+# Make a directory and cd into it.
+# https://unix.stackexchange.com/questions/125385/combined-mkdir-and-cd
+mkcd() { mkdir -p -- "$1" && cd -- "$1" }
+
 alias sep='printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n========================================================================================================================\n"'
 
 # Reset things
