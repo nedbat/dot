@@ -8,7 +8,10 @@ import subprocess
 total_saved = 0
 
 def command_output(cmd):
-    return subprocess.check_output(cmd, shell=True).decode("utf-8")
+    try:
+        return subprocess.check_output(cmd, shell=True).decode("utf-8")
+    except Exception as exc:
+        print(exc)
 
 def path_for(dirname):
     return Path(dirname).expanduser()
@@ -52,7 +55,6 @@ def cmd(template, doc=None):
 rm_pyc = cmd("find {dirname} -regex '.*\.py[cow]' -delete", "Delete .pyc etc files")
 
 clean(command_output("brew --cache").strip(), rmrf)
-clean("/usr/local/pythonz", cmd("pythonz cleanup --all"))
 clean("/usr/local/pyenv/pyenv/cache", rmrf)
 clean("~/Documents/Zoom", rmrf)
 clean("~/Library/Caches/com.spotify.client", rmrf)
@@ -62,9 +64,9 @@ clean("~/Library/Caches/pip-tools", rmrf)
 clean("~/Library/Caches/yarn", rmrf)
 clean("~/.tox", rmrf)
 clean("/usr/local/virtualenvs", rm_pyc)
-clean("/usr/local/pythonz", rm_pyc)
 clean("/usr/local/pyenv", rm_pyc)
 clean("/usr/local/pypy", rm_pyc)
+clean("/tmp/nedbatchelder-pyc", rmrf)
 clean("~/log/irc", cmd("afsctool -cvv -9 {dirname}"))
 
 print(f"----\nTOTAL:  {total_saved:15,d}")
