@@ -933,7 +933,7 @@ onoremap il :<C-u>normal vil<CR>
 "   .. at start of line
 nnoremap <silent> <Leader>i :exe "normal m`^\<Leader>\<Leader>i``"<CR>
 "   .. at cursor
-nnoremap <silent> <Leader><Leader>i :exe 'set cc'.(&cc =~ virtcol('.')?'-=':'+=').virtcol('.')<CR>
+nnoremap <silent> <Leader><Leader>i :exe 'setlocal cc'.(&cc =~ virtcol('.')?'-=':'+=').virtcol('.')<CR>
 
 " Backspace and cursor keys wrap to previous/next line.
 set backspace=indent,eol,start
