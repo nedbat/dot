@@ -313,6 +313,7 @@ else
 fi
 
 export PIP_REQUIRE_VIRTUALENV=true
+export PIP_DISABLE_PIP_VERSION_CHECK=1
 
 unset _PYTHON_BIN
 
