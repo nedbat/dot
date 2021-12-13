@@ -184,10 +184,6 @@ gittree() {
     gittreeif @ "$@"
 }
 
-# Docker shortcuts
-alias d='docker'
-alias dc='docker-compose'
-
 # Get IP info from IP address on command line or clipboard.
 ipinfo() {
     local ip="$@"
@@ -310,6 +306,10 @@ else
     if [[ -n $PS1 ]]; then
         echo "No virtualenvwrapper for $_PYTHON_BIN ! ($(python3 -V))"
     fi
+fi
+
+if [[ -d /usr/local/pipx ]] ; then
+    export PIPX_HOME=/usr/local/pipx
 fi
 
 export PIP_REQUIRE_VIRTUALENV=true

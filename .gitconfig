@@ -60,6 +60,7 @@
 
     # Cherry-pick, conveniently
     cp = "!f() { git cherry-pick -x $@; }; f"
+    cpstop = cherry-pick --abort
 
     # Show the divergent history of my branch and its upstream
     y = "!f() { git log --oneline --graph HEAD @{u} $(git merge-base HEAD @{u})^!; }; f"
