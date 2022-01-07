@@ -190,7 +190,6 @@ let filestatus .= ' %<%f  '
 let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
 let filestatus .= ' %2*%{fugitive#head(6)}%* '
 let filestatus .= '%='
-let filestatus .= '%2*%{LastInsertedMode()}%{LastInsertedSeparator()}%{LastInsertedContents()}%* '
 let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}%2*%{StatusOptions()}%*'
 let filestatus .= ' %{StatusEncodingAndFormat()}'
 let filestatus .= ' %2*%l,%c%*'
@@ -357,8 +356,6 @@ endif
 " https://github.com/junegunn/vim-plug
 " 'silent!' here to keep it from complaining if there's no "git" installed.
 silent! call plug#begin()
-
-Plug 'Osse/vim-last-inserted'
 
 " Scratch buffers, including capturing command output.
 Plug 'hauleth/vim-backscratch'

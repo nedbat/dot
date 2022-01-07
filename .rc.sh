@@ -304,6 +304,8 @@ if [[ -r $virtualenvwrappersh ]] && [[ -d $workon_home ]]; then
     source $virtualenvwrappersh
 else
     if [[ -n $PS1 ]]; then
+        # To fix this message:
+        #   PIP_REQUIRE_VIRTUALENV= python3.10 -m pip install virtualenvwrapper
         echo "No virtualenvwrapper for $_PYTHON_BIN ! ($(python3 -V))"
     fi
 fi

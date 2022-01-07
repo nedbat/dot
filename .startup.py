@@ -3,8 +3,8 @@
 
 print("(.startup.py)")
 
-import collections, datetime, itertools, json, math, os, pprint, re, sys, time
-print("(imported collections, datetime, itertools, json, math, os, pprint, re, sys, time)")
+import collections, datetime, dis, itertools, json, math, os, pprint, re, sys, time
+print("(imported collections, datetime, dis, itertools, json, math, os, pprint, re, sys, time)")
 
 try:
     import numpy as np
