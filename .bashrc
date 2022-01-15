@@ -16,13 +16,17 @@ shopt -s nocaseglob
 if [ "$(shopt -p globstar 2>/dev/null)" ]; then
     shopt -s globstar
 else
-    echo "No globstar"
+    if [[ -n $PS1 ]]; then
+        echo "No globstar"
+    fi
 fi
 
 if [ "$(shopt -p autocd 2>/dev/null)" ]; then
     shopt -s autocd
 else
-    echo "No autocd"
+    if [[ -n $PS1 ]]; then
+        echo "No autocd"
+    fi
 fi
 
 # Only exit the shell if 10 ^D's are typed.
