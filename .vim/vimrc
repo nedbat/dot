@@ -336,6 +336,7 @@ digraph :( 9785 :) 9786
 " ./ in the command line expands to the directory of the current file,
 "   but only after a space.
 cnoremap <expr> ./ (getcmdtype() == ':' && getcmdline()[getcmdpos()-2] == ' ') ? expand('%:p:h').'/' : './'
+cnoremap // */
 
 " Highlight conflict markers.
 "match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
