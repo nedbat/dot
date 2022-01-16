@@ -291,21 +291,15 @@ fi
 # Virtualenvwrapper support.
 # Use ~/bin/install-pip-etc.sh to get virtualenv and virtualenvwrapper installed
 # in all versions of Python.  Shouldn't need anything in .local.
-virtualenvwrappers=(
-    $_PYTHON_BIN/virtualenvwrapper.sh
-    ~/.local/bin/virtualenvwrapper.sh
-    /usr/local/bin/virtualenvwrapper.sh
-    /etc/bash_completion.d/virtualenvwrapper
-    )
-virtualenvwrappersh=$(first_of "${virtualenvwrappers[@]}")
+virtualenvwrappersh=$(command -v virtualenvwrapper.sh)
 workon_homes=(
     /usr/local/virtualenvs
     $HOME/.virtualenvs
     )
 workon_home=$(first_of "${workon_homes[@]}")
-if [[ -r $virtualenvwrappersh ]] && [[ -d $workon_home ]]; then
+if [[ -r "$virtualenvwrappersh" ]] && [[ -d "$workon_home" ]]; then
     export WORKON_HOME=$workon_home
-    export VIRTUALENVWRAPPER_PYTHON=$(realpath -e $(which python3))
+    export VIRTUALENVWRAPPER_PYTHON=$(python3 -c "import os.path,sys; print(os.path.realpath(sys.executable))")
     source $virtualenvwrappersh
 else
     if [[ -n $PS1 ]]; then
