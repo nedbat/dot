@@ -1,11 +1,21 @@
 # Sourced for all interactive shells, $SHELL_TYPE is the shell type.
 # Must work for bash and zsh.
 
+# Execute search path. Later entries here win.
+for d in \
+    /opt/local/bin \
+    /opt/homebrew/bin \
+    /usr/local/bin \
+    $HOME/.local/bin \
+    $HOME/bin \
+; do
+    if [[ -d $d ]]; then
+        export PATH=$d:$PATH
+    fi
+done
+
 # Shared object library
 export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
-
-# Execute search path
-export PATH=$HOME/bin:/usr/local/bin:/opt/local/bin:$PATH:/usr/sbin
 
 if [[ -n $PS1 ]]; then
     stty erase ^H
@@ -187,7 +197,7 @@ gittree() {
 # Get IP info from IP address on command line or clipboard.
 ipinfo() {
     local ip="$@"
-    if [[ -z "$ip" ]] ; then
+    if [[ -z "$ip" ]]; then
         local ip="$(clipv)"
     fi
     curl ipinfo.io/$(echo "$ip" | tr -C '[0-9a-f.:\n]' .)
@@ -199,7 +209,7 @@ alias set_env='$(set_env.py $(git ls-files))'
 
 # e means gvim, vim or vi, depending on what's installed.
 export EDITOR=vim
-if [[ -x /Applications/MacVim.app/Contents/MacOS/Vim ]] ; then
+if [[ -x /Applications/MacVim.app/Contents/MacOS/Vim ]]; then
     alias e='/Applications/MacVim.app/Contents/MacOS/Vim --servername VIM --remote-silent'
     alias vim=/Applications/MacVim.app/Contents/MacOS/Vim
     export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
@@ -272,15 +282,10 @@ alias te='tox -q -e'
 export PYTHONSTARTUP=~/.startup.py
 export _PYTHON_BIN="$(python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))")"
 export PATH="$PATH:$_PYTHON_BIN"
-if [[ -w /tmp ]] ; then
+if [[ -w /tmp ]]; then
     export PYTHONPYCACHEPREFIX=/tmp/$USER-pyc
     mkdir -p $PYTHONPYCACHEPREFIX
     chmod 700 $PYTHONPYCACHEPREFIX
-fi
-
-# Locally installed Python stuff.
-if [[ -d $HOME/.local/bin ]] ; then
-    export PATH="$PATH:$HOME/.local/bin"
 fi
 
 # Virtualenvwrapper support.
@@ -310,7 +315,7 @@ else
     fi
 fi
 
-if [[ -d /usr/local/pipx ]] ; then
+if [[ -d /usr/local/pipx ]]; then
     export PIPX_HOME=/usr/local/pipx
 fi
 
@@ -320,7 +325,7 @@ export PIP_DISABLE_PIP_VERSION_CHECK=1
 unset _PYTHON_BIN
 
 # miniconda
-if [[ -d /usr/local/miniconda ]] ; then
+if [[ -d /usr/local/miniconda ]]; then
     eval "$(/usr/local/miniconda/bin/conda shell.$SHELL_TYPE hook)"
 fi
 
@@ -337,11 +342,11 @@ if [[ $SHELL_TYPE == bash ]]; then
 fi
 
 # Find stuff that might be installed, and put it on our path.
-if [[ -d /Applications/Postgres.app ]] ; then
+if [[ -d /Applications/Postgres.app ]]; then
     export PATH="$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin"
 fi
 
-if [[ -d /usr/local/Cellar/gettext ]] ; then
+if [[ -d /usr/local/Cellar/gettext ]]; then
     # Find the latest gettext, and add it to the PATH.
     # \ls is to get unaliased ls.
     export PATH="$PATH:$(\ls -d1 /usr/local/Cellar/gettext/*/bin | tail -1)"
