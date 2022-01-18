@@ -194,8 +194,6 @@ __lp_source_config() {
     LP_PS1=${LP_PS1:-""}
     LP_PS1_PREFIX=${LP_PS1_PREFIX:-""}
     LP_PS1_POSTFIX=${LP_PS1_POSTFIX:-""}
-    LP_MARK_KUBECONTEXT=${LP_MARK_KUBECONTEXT:-"⎈"}
-    LP_DELIMITER_KUBECONTEXT=${LP_DELIMITER_KUBECONTEXT:-""}
 
     LP_ENABLE_PERM=${LP_ENABLE_PERM:-1}
     LP_ENABLE_SHORTEN_PATH=${LP_ENABLE_SHORTEN_PATH:-1}
@@ -216,7 +214,6 @@ __lp_source_config() {
     LP_ENABLE_RUNTIME_BELL=${LP_ENABLE_RUNTIME_BELL:-0}
     LP_ENABLE_VIRTUALENV=${LP_ENABLE_VIRTUALENV:-1}
     LP_ENABLE_SCLS=${LP_ENABLE_SCLS:-1}
-    LP_ENABLE_AWS_PROFILE=${LP_ENABLE_AWS_PROFILE:-1}
     LP_ENABLE_VCS_ROOT=${LP_ENABLE_VCS_ROOT:-0}
     LP_ENABLE_TITLE=${LP_ENABLE_TITLE:-0}
     LP_ENABLE_SCREEN_TITLE=${LP_ENABLE_SCREEN_TITLE:-0}
@@ -227,7 +224,6 @@ __lp_source_config() {
     LP_ENABLE_COLOR=${LP_ENABLE_COLOR:-1}
     LP_ENABLE_ERROR=${LP_ENABLE_ERROR:-1}
     LP_ENABLE_DIRSTACK=${LP_ENABLE_DIRSTACK:-0}
-    LP_ENABLE_KUBECONTEXT=${LP_ENABLE_KUBECONTEXT:-0}
 
     LP_MARK_DEFAULT="${LP_MARK_DEFAULT:-$_LP_MARK_SYMBOL}"
     LP_MARK_BATTERY="${LP_MARK_BATTERY:-"⌁"}"
@@ -292,8 +288,6 @@ __lp_source_config() {
     LP_COLOR_RUNTIME=${LP_COLOR_RUNTIME:-$YELLOW}
     LP_COLOR_VIRTUALENV=${LP_COLOR_VIRTUALENV:-$CYAN}
     LP_COLOR_DIRSTACK=${LP_COLOR_DIRSTACK:-$BOLD_YELLOW}
-    LP_COLOR_KUBECONTEXT=${LP_COLOR_KUBECONTEXT:-$CYAN}
-    LP_COLOR_AWS_PROFILE=${LP_COLOR_AWS_PROFILE:-$YELLOW}
 
     if [[ -z "${LP_COLORMAP-}" ]]; then
         LP_COLORMAP=(
@@ -492,8 +486,6 @@ lp_activate() {
     else
         _lp_require_tool BATT acpi
     fi
-
-    _lp_require_tool KUBECONTEXT kubectl
 
     unset -f _lp_require_tool
 
@@ -1151,28 +1143,6 @@ _lp_software_collections_color() {
     lp_software_collections_color="[${LP_COLOR_VIRTUALENV}${lp_software_collections}${NO_COL}]"
 }
 
-
-_lp_kubernetes_context() {
-    (( LP_ENABLE_KUBECONTEXT )) || return 2
-
-    local kubernetes_context
-    kubernetes_context=$(kubectl config current-context 2>/dev/null) || return 1
-
-    if [[ -n "$LP_DELIMITER_KUBECONTEXT" ]]; then
-        kubernetes_context="${kubernetes_context%%${LP_DELIMITER_KUBECONTEXT}*}"
-    fi
-
-    local ret
-    __lp_escape "$kubernetes_context"
-    lp_kubernetes_context=$ret
-}
-
-_lp_kubernetes_context_color() {
-    _lp_kubernetes_context || return "$?"
-
-    lp_kubernetes_context_color="[${LP_MARK_KUBECONTEXT}${LP_COLOR_KUBECONTEXT}${lp_kubernetes_context}${NO_COL}]"
-}
-
 # Same as bash '\l', but can be inlined as a constant as the value will not
 # change during the shell's life.
 _lp_terminal_device() {
@@ -1316,26 +1286,6 @@ _lp_dirstack_color() {
     _lp_dirstack || return "$?"
 
     lp_dirstack_color="${LP_COLOR_DIRSTACK}${LP_MARK_DIRSTACK}${lp_dirstack}${NO_COL}"
-}
-
-_lp_aws_profile() {
-    (( LP_ENABLE_AWS_PROFILE )) || return 2
-
-    local ret
-
-    local aws_profile="${AWS_PROFILE-${AWS_DEFAULT_PROFILE-}}"
-    if [[ -n $aws_profile ]]; then
-        __lp_escape "${aws_profile}"
-        lp_aws_profile=$ret
-    else
-        return 1
-    fi
-}
-
-_lp_aws_profile_color() {
-    _lp_aws_profile || return "$?"
-
-    lp_aws_profile_color="[${LP_COLOR_AWS_PROFILE}${lp_aws_profile}${NO_COL}]"
 }
 
 ################
@@ -1919,7 +1869,7 @@ _lp_hg_head_status() {
 _lp_hg_stash_count() {
     local shelves count
     shelves="$(\hg shelve --list 2>/dev/null; printf x)"
-    _lp_line_count "${shelves%x}"
+    __lp_line_count "${shelves%x}"
     lp_vcs_stash_count="$count"
     (( lp_vcs_stash_count ))
 }
@@ -2007,7 +1957,7 @@ _lp_svn_uncommitted_files() {
     # svn status is unsafe with newline chars in filenames, which will throw
     # off this count
     files="$(\svn status --quiet 2>/dev/null; printf x)"
-    _lp_line_count "${files%x}"
+    __lp_line_count "${files%x}"
     lp_vcs_uncommitted_files="$count"
     (( lp_vcs_uncommitted_files ))
 }
@@ -2084,7 +2034,7 @@ _lp_fossil_head_status() {
 _lp_fossil_stash_count() {
     local stashes count
     stashes="$(\fossil stash list 2>/dev/null; printf x)"
-    _lp_line_count "${stashes%x}"
+    __lp_line_count "${stashes%x}"
     # Each stash takes up two lines, and no stashes is one line
     lp_vcs_stash_count=$(( count / 2 ))
     (( lp_vcs_stash_count ))
@@ -2094,7 +2044,7 @@ _lp_fossil_stash_count() {
 _lp_fossil_untracked_files() {
     local extras count
     extras="$(\fossil extras 2>/dev/null; printf x)"
-    _lp_line_count "${extras%x}"
+    __lp_line_count "${extras%x}"
     lp_vcs_untracked_files=$count
     (( lp_vcs_untracked_files ))
 }
@@ -2103,7 +2053,7 @@ _lp_fossil_untracked_files() {
 _lp_fossil_uncommitted_files() {
     local files
     files="$(\fossil changes 2>/dev/null; printf x)"
-    _lp_line_count "${files%x}"
+    __lp_line_count "${files%x}"
     lp_vcs_uncommitted_files=$count
     (( lp_vcs_uncommitted_files ))
 }
@@ -2478,7 +2428,9 @@ __lp_temp_sensors() {
     local IFS=$' \t\n'
     for i in $(LC_ALL=C \sensors -u 2>/dev/null |
             sed -n 's/^  temp[0-9][0-9]*_input: \([0-9]*\)\..*$/\1/p'); do
-        (( $i > ${lp_temperature:-0} )) && lp_temperature=$i
+        if [[ -z ${lp_temperature-} ]] || (( $i > ${lp_temperature:-0} )); then
+            lp_temperature=$i
+        fi
     done
 }
 
@@ -2489,7 +2441,9 @@ __lp_temp_acpi() {
     # Only the integer part is retained
     for i in $(LC_ALL=C \acpi -t |
             sed -n 's/.* \(-\{0,1\}[0-9]*\)\.[0-9]* degrees C$/\1/p'); do
-        (( $i > ${lp_temperature:-0} )) && lp_temperature=$i
+        if [[ -z ${lp_temperature-} ]] || (( $i > ${lp_temperature:-0} )); then
+            lp_temperature=$i
+        fi
     done
 }
 
@@ -2508,7 +2462,7 @@ __lp_temp_detect() {
         # Check that we can retrieve temperature at least once
         "$_LP_TEMP_FUNCTION" 2>/dev/null
         # If $lp_temperature is set, success!
-        [[ -n "$lp_temperature" ]] && return 0
+        [[ -n "${lp_temperature-}" ]] && return 0
         unset _LP_TEMP_FUNCTION
     done
     return 1
@@ -2518,9 +2472,9 @@ __lp_temp_detect() {
 _lp_temperature() {
     (( LP_ENABLE_TEMP )) || return 2
 
-    lp_temperature=0
     "$_LP_TEMP_FUNCTION"
 
+    [[ -z ${lp_temperature-} ]] && return 1
     (( lp_temperature >= LP_TEMP_THRESHOLD ))
 }
 
@@ -2745,22 +2699,10 @@ _lp_default_theme_prompt_data() {
         LP_VENV=
     fi
 
-    if _lp_kubernetes_context_color; then
-        LP_KUBECONTEXT=" $lp_kubernetes_context_color"
-    else
-        LP_KUBECONTEXT=
-    fi
-
     if _lp_software_collections_color; then
         LP_SCLS=" $lp_software_collections_color"
     else
         LP_SCLS=
-    fi
-
-    if _lp_aws_profile_color; then
-        LP_AWS_PROFILE=" $lp_aws_profile_color"
-    else
-        LP_AWS_PROFILE=
     fi
 
     if _lp_runtime_color; then
@@ -2796,7 +2738,7 @@ _lp_default_theme_prompt_template() {
         # add user, host and permissions colon
         PS1+="${LP_BRACKET_OPEN}${LP_USER}${LP_HOST}${LP_PERM}"
 
-        PS1+="${LP_PWD}${LP_DIRSTACK}${LP_BRACKET_CLOSE}${LP_SCLS}${LP_AWS_PROFILE}${LP_VENV}${LP_KUBECONTEXT}${LP_PROXY}"
+        PS1+="${LP_PWD}${LP_DIRSTACK}${LP_BRACKET_CLOSE}${LP_SCLS}${LP_VENV}${LP_PROXY}"
 
         # Add VCS infos
         # If root, the info has not been collected unless LP_ENABLE_VCS_ROOT
