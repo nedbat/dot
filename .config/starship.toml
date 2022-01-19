@@ -1,0 +1,69 @@
+# Starship configuration
+# https://starship.rs/config
+
+format = """
+[\
+$username\
+$hostname\
+$python\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$nodejs\
+$conda\
+$env_var\
+$custom\
+]()\
+$line_break\
+$shlvl\
+$jobs\
+$sudo\
+$status\
+$cmd_duration\
+$character\
+"""
+add_newline = false
+
+[character]
+format = "[❯](bold) "
+
+[cmd_duration]
+min_time = 10_000
+show_notifications = true
+min_time_to_notify = 60_000
+
+[conda]
+format = "[$symbol$environment]($style) "
+
+[directory]
+truncate_to_repo = false
+fish_style_pwd_dir_length = 2
+
+[git_branch]
+format = '\($branch\) '
+
+[git_metrics]
+disabled = false
+format = '([+$added]($added_style))([-$deleted]($deleted_style))'
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+modified = ''
+ahead = "▲${count}"
+diverged = "▲${ahead_count}▼${behind_count}"
+behind = "▼${count}"
+
+[python]
+format = '[(\($virtualenv\) )]($style)'
+
+[shlvl]
+disabled = false
+
+[status]
+disabled = false
+
+[sudo]
+disabled = false
