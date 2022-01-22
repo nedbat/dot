@@ -137,8 +137,8 @@ if [[ $SHELL_TYPE == bash ]]; then
     fi
 fi
 
-# Don't show all the release-candidate branches in edx-platform
-export TIG_LS_REMOTE="ls-remote-grep -v release-candidate"
+# Use our own ~/bin/git-ref-grep to filter references based on a line in .treerc
+export TIG_LS_REMOTE=git-ref-grep
 
 # Run a command for every repo found somewhere beneath the current directory.
 #

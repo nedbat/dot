@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#
+# Put this into .treerc to limit the refs that tig labels:
+#
+#   [default]
+#   tig-ref-grep = -v -e 'origin/release-candidate-' -e 'release-\d\d\d\d-\d\d'
+#
+# then:
+#
+#   export TIG_LS_REMOTE=git-ref-grep
+#
+
+grep_args=$(grep tig-ref-grep .treerc | cut -d = -f 2)
+if [[ -n $grep_args ]]; then
+    git show-ref --head --dereference | eval "grep $grep_args"
+else
+    git show-ref --head --dereference
+fi
