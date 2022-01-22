@@ -1,22 +1,20 @@
 # Starship configuration
 # https://starship.rs/config
 
-format = """
-[\
+format = """\
 $username\
 $hostname\
+$conda\
 $python\
+$nodejs\
+$env_var\
 $directory\
 $git_branch\
 $git_commit\
 $git_state\
 $git_metrics\
 $git_status\
-$nodejs\
-$conda\
-$env_var\
 $custom\
-]()\
 $line_break\
 $shlvl\
 $jobs\
@@ -25,15 +23,14 @@ $status\
 $cmd_duration\
 $character\
 """
-add_newline = false
+add_newline = true
 
 [character]
 format = "[❯](bold) "
 
 [cmd_duration]
+format = "[$duration]($style) "
 min_time = 10_000
-show_notifications = true
-min_time_to_notify = 60_000
 
 [conda]
 format = "[$symbol$environment]($style) "
@@ -41,6 +38,8 @@ format = "[$symbol$environment]($style) "
 [directory]
 truncate_to_repo = false
 fish_style_pwd_dir_length = 2
+read_only = "🛇"
+read_only_style = "red bold"
 
 [git_branch]
 format = '\($branch\) '
@@ -55,6 +54,10 @@ modified = ''
 ahead = "▲${count}"
 diverged = "▲${ahead_count}▼${behind_count}"
 behind = "▼${count}"
+
+[nodejs]
+format = "[$symbol($version )]($style)"
+symbol = "𝕁"
 
 [python]
 format = '[(\($virtualenv\) )]($style)'
