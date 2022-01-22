@@ -403,6 +403,8 @@ Plug 'pearofducks/ansible-vim'
 let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
 let g:ansible_name_highlight = 'd'
 
+Plug 'lambdalisue/fern.vim'
+
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 if v:version >= 700
     let g:NERDTreeIgnore = [
