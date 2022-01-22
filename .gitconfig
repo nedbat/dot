@@ -12,6 +12,7 @@
     # In an alias, an initial ":" command indicates what git command completion
     # to use for the alias.
     amend = commit --amend --no-edit
+    edit = commit --amend --only
     br = branch
     co = checkout
     sw = switch
