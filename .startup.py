@@ -6,12 +6,12 @@ print("(.startup.py)")
 import collections, datetime, dis, itertools, json, math, os, pprint, re, sys, time
 print("(imported collections, datetime, dis, itertools, json, math, os, pprint, re, sys, time)")
 
-try:
-    import numpy as np
-except ImportError:
-    pass
-else:
-    print("(imported numpy as np)")
+# try:
+#     import numpy as np
+# except ImportError:
+#     pass
+# else:
+#     print("(imported numpy as np)")
 
 pp = pprint.pprint
 
