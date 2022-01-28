@@ -6,7 +6,6 @@ $username\
 $hostname\
 $conda\
 $python\
-$nodejs\
 $env_var\
 $directory\
 $git_branch\
@@ -24,6 +23,7 @@ $cmd_duration\
 $character\
 """
 add_newline = true
+command_timeout = 750
 
 [character]
 format = "[❯](bold) "
@@ -54,6 +54,7 @@ modified = ''
 ahead = "▲${count}"
 diverged = "▲${ahead_count}▼${behind_count}"
 behind = "▼${count}"
+deleted = "×"
 
 [nodejs]
 format = "[$symbol($version )]($style)"
