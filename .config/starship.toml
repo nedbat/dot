@@ -71,3 +71,6 @@ disabled = false
 
 [sudo]
 disabled = false
+format = "[$symbol]($style) "
+symbol = "§"
+style = "red bold"
