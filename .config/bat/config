@@ -1,0 +1,4 @@
+# https://github.com/sharkdp/bat 
+--style=numbers
+--theme=gruvbox-dark
+--italic-text=always
