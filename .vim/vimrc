@@ -746,6 +746,11 @@ let g:codi#interpreters = {
 " Yank stack
 Plug 'maxbrunsfeld/vim-yankstack'
 
+" Color schemes
+Plug 'tomasr/molokai'
+Plug 'ayu-theme/ayu-vim'
+Plug 'nanotech/jellybeans.vim'
+
 call plug#end()
 
 " Plugins I tried but didn't end up actually using:
@@ -786,6 +791,25 @@ call plug#end()
 ""
 "" Custom functions
 ""
+
+" For taking snapshots of code.
+command! CodeSnapOn call <SID>CodeSnapOn()
+function! <SID>CodeSnapOn()
+    colorscheme ayu
+    RainbowToggle
+    hi Comment gui=italic guifg=#33cc33
+    set guifont=RecMonoSemicasual-Regular:h24
+    set colorcolumn=
+    call feedkeys("gg>G>G>GO\n\n\n\<ESC>")
+endfunction
+
+command! CodeSnapOff call <SID>CodeSnapOff()
+function! <SID>CodeSnapOff()
+    colorscheme neds
+    RainbowToggle
+    call FontNormal()
+    call feedkeys("gg4dd<G<G<G")
+endfunction
 
 " From https://github.com/Julian/dotfiles/blob/master/.vimrc
 command! DiffThese call <SID>DiffTheseCommand()
