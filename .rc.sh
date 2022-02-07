@@ -229,7 +229,7 @@ export LESS=-isFJRQWX
 export ANSIBLE_NOCOWS=1
 
 # rg will read options from a config file.
-export RIPGREP_CONFIG_PATH=~/.rgrc
+export RIPGREP_CONFIG_PATH=~/.config/rg.rc
 alias rgw='rg --max-columns=0'
 
 # Set the title of the terminal window.
@@ -279,7 +279,7 @@ alias p='python3'
 alias t='tox -q'
 alias te='tox -q -e'
 
-export PYTHONSTARTUP=~/.startup.py
+export PYTHONSTARTUP=~/.config/startup.py
 export _PYTHON_BIN="$(python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))")"
 export PATH="$PATH:$_PYTHON_BIN"
 if [[ -w /tmp ]]; then
