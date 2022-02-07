@@ -33,6 +33,8 @@ format = "[$duration]($style) "
 min_time = 10_000
 
 [conda]
+# Conda likes to change the prompt, use this to stop it so starship wins:
+#   conda config --set changeps1 False
 format = "[$symbol$environment]($style) "
 
 [directory]

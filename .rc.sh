@@ -319,6 +319,8 @@ export PIP_DISABLE_PIP_VERSION_CHECK=1
 unset _PYTHON_BIN
 
 # miniconda
+# Conda likes to change the prompt, use this to stop it so other fancier prompts win:
+#   conda config --set changeps1 False
 if [[ -d /usr/local/miniconda ]]; then
     eval "$(/usr/local/miniconda/bin/conda shell.$SHELL_TYPE hook)"
 fi

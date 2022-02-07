@@ -656,6 +656,8 @@ Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_follow_anchor = 1
 
+Plug 'cespare/vim-toml'                             " Not needed after Vim 8.2.3519
+
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 
 Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
