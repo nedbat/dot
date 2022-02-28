@@ -1,0 +1,8 @@
+# Starship configuration
+# https://starship.rs/config
+
+format = """$character"""
+add_newline = true
+
+[character]
+format = "[-> %%](bold) "

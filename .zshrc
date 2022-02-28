@@ -55,8 +55,45 @@ setopt interactive_comments
 # Hash automatically so that executables are found on install.
 setopt no_hash_dirs
 
-zle-line-init() rehash
+# Can use compact forms of command:  for i in 1 2 3; echo $i
+setopt short_loops
+# Disable silly =command expansion (same as $(which command) )
+setopt no_equals
+
+#zle-line-init() rehash
+#zle -N zle-line-init
+
+# From: https://github.com/spaceship-prompt/spaceship-prompt/issues/775#issuecomment-977161851
+zle-line-init() {
+  emulate -L zsh
+
+  [[ $CONTEXT == start ]] || return 0
+
+  while true; do
+    zle .recursive-edit
+    local -i ret=$?
+    [[ $ret == 0 && $KEYS == $'\4' ]] || break
+    [[ -o ignore_eof ]] || exit 0
+  done
+
+  local saved_prompt=$PROMPT
+  local saved_rprompt=$RPROMPT
+  PROMPT='$(STARSHIP_CONFIG=~/.config/starship-transient.toml starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
+  RPROMPT=''
+  zle .reset-prompt
+  PROMPT=$saved_prompt
+  RPROMPT=$saved_rprompt
+
+  if (( ret )); then
+    zle .send-break
+  else
+    zle .accept-line
+  fi
+  return ret
+}
+
 zle -N zle-line-init
+
 
 export SHELL_TYPE=zsh
 source ~/.rc.sh
