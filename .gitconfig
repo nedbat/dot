@@ -25,7 +25,7 @@
     relnotes = log --pretty=relnote --date=short --no-merges
     h = "!f() { git --no-pager log -n 15 --pretty=me --graph --date=short $@; echo; }; f"
     tags = tag
-    fixup = !sh -c 'git rebase -i $(git merge-base HEAD ${1:-origin/master})' -
+    #fixup = !sh -c 'git rebase -i $(git merge-base HEAD ${1:-origin/master})' -
 
     # From rafasc in #git
     # "the idea is that you use it with a list of refs, and the output should show only the necessary history to explain their relationship."
@@ -94,7 +94,15 @@
 # %(color:yellow)%(contents:subject)" \
 # --sort=creatordate | column -s$'\t' -t
 
-    copysha = "!f() { : git checkout ; ~/bin/git-copysha "$@"; }; f"
+    copysha = "!f() { \
+        : git checkout \
+        ~/bin/git-copysha "$@" \
+    }; f"
+
+    movebranch = "!f() { \
+        : git checkout \
+        git rebase --onto $2 $(git merge-base $1 @) \
+    }; f"
 
 [color]
     ui = true
