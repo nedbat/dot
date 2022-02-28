@@ -21,21 +21,14 @@ endif
 
 " Set the normal font face and size.
 function! FontNormal()
-    if has("gui_win32")
+    if has('win32') || has('win64') || has('mac')
         set guifont=Consolas:h13
         set printfont=Consolas:h9
-        set linespace=0
     else
-        if has("mac")
-            set guifont=Consolas:h13
-            set printfont=Consolas:h9
-            set linespace=0
-        else
-            set guifont=Consolas\ 13
-            set printfont=Consolas\ 9
-            set linespace=0
-        endif
+        set guifont=Consolas\ 13
+        set printfont=Consolas\ 9
     endif
+    set linespace=0
     set lines=999 columns=999           " Maximize the window
 endfunction
 

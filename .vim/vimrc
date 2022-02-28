@@ -223,7 +223,7 @@ augroup end
 augroup QuickFixSettings
     autocmd!
     autocmd FileType qf let &l:statusline = '%{StatusQuickfixTitle()}%=%l of %L  %P '
-    autocmd FileType qf setlocal nobuflisted colorcolumn= cursorline
+    autocmd FileType qf setlocal nobuflisted colorcolumn= cursorline scrolloff=0
     autocmd FileType qf nnoremap <silent> <buffer> <nowait> ,   :colder<CR>
     autocmd FileType qf nnoremap <silent> <buffer> .            :cnewer<CR>
     autocmd FileType qf nnoremap <silent> <buffer> q            :quit\|:wincmd b<CR>
@@ -648,6 +648,7 @@ let g:choosewin_overlay_enable = 1
 Plug 'atimholt/spiffy_foldtext'
 let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{==}"
 
+" Other syntaxes
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
 "Plug 'trapd00r/irc.vim', { 'for': 'irc' }
@@ -657,6 +658,8 @@ let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_follow_anchor = 1
 
 Plug 'cespare/vim-toml'                             " Not needed after Vim 8.2.3519
+Plug 'jparise/vim-graphql'
+Plug 'Glench/Vim-Jinja2-Syntax'
 
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 
@@ -752,6 +755,7 @@ Plug 'maxbrunsfeld/vim-yankstack'
 Plug 'tomasr/molokai'
 Plug 'ayu-theme/ayu-vim'
 Plug 'nanotech/jellybeans.vim'
+Plug 'Rigellute/shades-of-purple.vim'
 
 call plug#end()
 
@@ -798,11 +802,12 @@ call plug#end()
 command! CodeSnapToggle call <SID>CodeSnapToggle()
 function! <SID>CodeSnapToggle()
     if get(g:, 'colors_name', 'default') == 'neds'
-        colorscheme ayu
+        "colorscheme ayu
+        "hi Comment gui=italic guifg=#33cc33
+        colorscheme jellybeans
+        set guifont=RecMonoSemicasual-Regular:h18
+        setlocal colorcolumn=
         RainbowToggle
-        hi Comment gui=italic guifg=#33cc33
-        set guifont=RecMonoSemicasual-Regular:h24
-        set colorcolumn=
         call feedkeys("gg>G>G>GO\n\n\n\<ESC>")
     else
         colorscheme neds
@@ -894,6 +899,7 @@ noremap <silent> gw :set opfunc=BetterGW<CR>g@
 nmap <Leader>p gwap
 nmap <Leader><Leader>p gw}
 nnoremap ,a :setlocal <C-R>=(&formatoptions =~# "a") ? 'formatoptions-=a' : 'formatoptions+=a'<CR><CR>
+nmap <Leader><Leader>b :write\|:!~/.local/bin/black -q %<CR><CR>
 
 " Duplicate the selection.
 noremap <Leader><Leader>d yPgvo<Esc>
