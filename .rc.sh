@@ -63,6 +63,7 @@ alias df='df -k'
 alias l='ls -lFhH'
 alias la='l -A'
 alias m='less'
+alias k='clear'
 
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
