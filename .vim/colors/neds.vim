@@ -74,7 +74,7 @@ highlight SignatureMarkerText   gui=NONE    guifg=Black         guibg=NONE
 highlight SignatureMarkLine     gui=NONE    guifg=NONE          guibg=#ffffd0
 
 " Terminal-in-vim
-highlight Terminal                          guifg=Green         guibg=#666666
+highlight Terminal                          guifg=Green         guibg=#333333
 
 " IRC logs
 highlight ircDate       gui=NONE            guifg=#888888

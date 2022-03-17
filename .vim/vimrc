@@ -10,6 +10,7 @@ set directory-=.                        " Don't store .swp files in the current 
 set updatecount=0                       " Don't create .swp files at all.
 if filewritable(expand('~/.backup'))
     set backup backupdir=~/.backup      " Keep copies of files we're editing
+    set backupskip=                     "   all of them, even in /tmp
 endif
 set shortmess+=I                        " Don't show the vim intro message
 set shortmess-=S                        " Show [17/56] when searching
@@ -241,6 +242,11 @@ augroup HelpSettings
     autocmd FileType help nnoremap <silent> <buffer> q :quit<CR>
 augroup end
 
+augroup TerminalSettings | autocmd!
+    autocmd TerminalWinOpen * let &l:statusline = '     %f'
+    autocmd TerminalWinOpen * set colorcolumn=
+augroup end
+
 augroup GitCommitSettings
     autocmd!
     " auto-fill paragraphs
@@ -315,8 +321,8 @@ endif
 if exists('+wincolor')
     augroup DimUnfocusedWin
         autocmd!
-        autocmd WinEnter * setlocal wincolor=
-        autocmd WinLeave * setlocal wincolor=FadeBg
+        "autocmd WinEnter * setlocal wincolor=
+        "autocmd WinLeave * setlocal wincolor=FadeBg
     augroup end
 endif
 
@@ -403,7 +409,7 @@ Plug 'pearofducks/ansible-vim'
 let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
 let g:ansible_name_highlight = 'd'
 
-Plug 'lambdalisue/fern.vim'
+" Plug 'lambdalisue/fern.vim'
 
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
 if v:version >= 700
@@ -626,6 +632,7 @@ noremap <Leader>* :VSSplit<CR>
 noremap <Leader><Leader>* :VSResize<CR>
 
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }     " Sane buffer closing
+noremap <Leader><Leader>q :set nomodified<CR>:Sayonara!<CR>
 
 " Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
 " Plug 'Valloric/MatchTagAlways'                      " Highlights paired HTML tags
@@ -641,9 +648,9 @@ let g:peekaboo_window = 'vertical botright 50new'
 let g:peekaboo_delay = 750
 
 " Choose window by label
-Plug 't9md/vim-choosewin'
-nmap - <Plug>(choosewin)
-let g:choosewin_overlay_enable = 1
+" Plug 't9md/vim-choosewin'
+" nmap - <Plug>(choosewin)
+" let g:choosewin_overlay_enable = 1
 
 Plug 'atimholt/spiffy_foldtext'
 let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{==}"
@@ -757,6 +764,16 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'nanotech/jellybeans.vim'
 Plug 'Rigellute/shades-of-purple.vim'
 
+augroup ColorSchemeFixes
+    " https://gist.github.com/romainl/379904f91fa40533175dfaec4c833f2f
+    autocmd!
+    autocmd ColorScheme shades_of_purple highlight Comment gui=italic guifg=#00d020
+    autocmd ColorScheme shades_of_purple highlight pythonError gui=None guifg=#88ccaa
+    autocmd ColorScheme shades_of_purple let g:rainbow_conf['guifgs'] = ['#ffff80', '#80ffff', '#80ff80']
+    autocmd ColorScheme ayu highlight Comment gui=italic guifg=#33cc33
+    autocmd ColorScheme neds let g:rainbow_conf['guifgs'] = ['royalblue3', 'darkorange3', 'seagreen4', 'firebrick']
+augroup end
+
 call plug#end()
 
 " Plugins I tried but didn't end up actually using:
@@ -802,16 +819,15 @@ call plug#end()
 command! CodeSnapToggle call <SID>CodeSnapToggle()
 function! <SID>CodeSnapToggle()
     if get(g:, 'colors_name', 'default') == 'neds'
-        "colorscheme ayu
-        "hi Comment gui=italic guifg=#33cc33
-        colorscheme jellybeans
+        colorscheme shades_of_purple
         set guifont=RecMonoSemicasual-Regular:h18
+        set linespace=2
         setlocal colorcolumn=
-        RainbowToggle
+        "RainbowToggleOff
         call feedkeys("gg>G>G>GO\n\n\n\<ESC>")
     else
         colorscheme neds
-        RainbowToggle
+        "RainbowToggleOn
         call FontNormal()
         call feedkeys("gg4dd<G<G<G")
     endif
@@ -905,7 +921,6 @@ nmap <Leader><Leader>b :write\|:!~/.local/bin/black -q %<CR><CR>
 noremap <Leader><Leader>d yPgvo<Esc>
 
 noremap <Leader>q :quit<CR>
-noremap <Leader><Leader>q :set nomodified<CR>:Sayonara!<CR>
 noremap <Leader>w :<C-U>write<CR>
 noremap <Leader><Leader>w :<C-U>wall<CR>
 noremap <Leader>x :exit<CR>
