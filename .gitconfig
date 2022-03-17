@@ -104,6 +104,10 @@
         git rebase --onto $2 $(git merge-base $1 @) \
     }; f"
 
+    squash = "!f() { \
+        GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash ${1:-@~10}; \
+    }; f"
+
 [color]
     ui = true
 
