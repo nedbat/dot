@@ -101,4 +101,11 @@ highlight! link fugitiveStagedModifier fugitiveUnstagedSection
 command! Dim highlight Normal guifg=#cccccc
 command! Undim highlight Normal guifg=Black
 
+" My diary.vim
+highlight diaryDate     gui=bold            guifg=NONE          guibg=#ddddff
+highlight diaryTodo     gui=NONE            guifg=NONE          guibg=#ffcccc
+highlight diaryXodo     gui=NONE            guifg=NONE          guibg=#eeeeee
+highlight diaryDone     gui=NONE            guifg=NONE          guibg=#ddffdd
+highlight diaryProg     gui=NONE            guifg=NONE          guibg=#ffdd33
+
 " vim: tabstop=4 softtabstop=4 shiftwidth=4 expandtab
