@@ -369,6 +369,11 @@ Plug 'hauleth/vim-backscratch'
 noremap <Leader><Leader>s :Scratch<Space>
 command! Keep setlocal buftype= buflisted bufhidden=
 
+" Auto-cd to a file's project root.
+Plug 'airblade/vim-rooter'
+let g:rooter_silent_chdir = 1
+let g:rooter_change_directory_for_non_project_files = 'current'
+
 Plug 'kshenoy/vim-signature'
 let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
 let g:SignatureMarkerLineHL = 'SignatureMarkLine'
@@ -548,6 +553,7 @@ nmap <silent> <Leader>k <Plug>(quickhl-manual-this)
 xmap <silent> <Leader>k <Plug>(quickhl-manual-this)
 " Highlight the current word, but only as whole words.
 nmap <silent> <Leader><Leader>k <Plug>(quickhl-manual-this-whole-word)
+xmap <silent> <Leader><Leader>k <Plug>(quickhl-manual-this-whole-word)
 " Unhighlight all words.
 noremap <silent> <Leader>K :QuickhlManualReset<CR>
 
@@ -769,6 +775,9 @@ augroup ColorSchemeFixes
     autocmd!
     autocmd ColorScheme shades_of_purple highlight Comment gui=italic guifg=#00d020
     autocmd ColorScheme shades_of_purple highlight pythonError gui=None guifg=#88ccaa
+    autocmd ColorScheme shades_of_purple highlight Constant guifg=#ffa080
+    autocmd ColorScheme shades_of_purple highlight link pythonConditional Statement
+    autocmd ColorScheme shades_of_purple highlight focus guibg=#5d5c83
     autocmd ColorScheme shades_of_purple let g:rainbow_conf['guifgs'] = ['#ffff80', '#80ffff', '#80ff80']
     autocmd ColorScheme ayu highlight Comment gui=italic guifg=#33cc33
     autocmd ColorScheme neds let g:rainbow_conf['guifgs'] = ['royalblue3', 'darkorange3', 'seagreen4', 'firebrick']
@@ -823,11 +832,14 @@ function! <SID>CodeSnapToggle()
         set guifont=RecMonoSemicasual-Regular:h18
         set linespace=2
         setlocal colorcolumn=
-        "RainbowToggleOff
+        highlight atnedbat guifg=#5c5c82
+        syntax match atnedbat /\v\@nedbat/
         call feedkeys("gg>G>G>GO\n\n\n\<ESC>")
+        " match focus /i=i/
     else
+        highlight clear atnedbat
+        syntax clear atnedbat
         colorscheme neds
-        "RainbowToggleOn
         call FontNormal()
         call feedkeys("gg4dd<G<G<G")
     endif

@@ -39,7 +39,7 @@
     #   $ git copr 789 otherguy     # gets and switches to pr/789 from otherguy remote
     # from https://gist.github.com/gnarf/5406589
     # discussed at http://nedbatchelder.com/blog/201407/fetching_github_pull_requests.html
-    copr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1 && git reset --hard @; }; f"
+    copr = "!f() { git fetch -fu ${2:-origin} pull/$1/head:pr/$1 && git checkout pr/$1 && git reset --hard @; }; f"
 
     # Make a pull request with hub.
     pr = "!f() { hub pull-request "$@"; }; f"

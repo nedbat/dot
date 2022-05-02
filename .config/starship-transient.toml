@@ -5,4 +5,4 @@ format = """$character"""
 add_newline = true
 
 [character]
-format = "[-> %%](bold) "
+format = "[%%](bold) "
