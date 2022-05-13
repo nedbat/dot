@@ -829,21 +829,40 @@ command! CodeSnapToggle call <SID>CodeSnapToggle()
 function! <SID>CodeSnapToggle()
     if get(g:, 'colors_name', 'default') == 'neds'
         colorscheme shades_of_purple
+        set nonumber
         set guifont=RecMonoSemicasual-Regular:h18
         set linespace=2
+        let g:html_font = ["Rec Mono SemiCasual", "Consolas"]
         setlocal colorcolumn=
         highlight atnedbat guifg=#5c5c82
-        syntax match atnedbat /\v\@nedbat/
+        syntax match atnedbat / \v\@nedbat$/
+        " So that we can print ...#... examples as plain text.
+        syntax match notComment /[^ ]#.*$/
         call feedkeys("gg>G>G>GO\n\n\n\<ESC>")
         " match focus /i=i/
     else
         highlight clear atnedbat
         syntax clear atnedbat
         colorscheme neds
+        set number
         call FontNormal()
         call feedkeys("gg4dd<G<G<G")
     endif
 endfunction
+
+" From habamax https://0x0.st/omfo.txt
+" Use like:
+"   :call SynInclude('sql', 10, 20)
+def SynInclude(syn: string, start: number, end: number)
+    unlet! b:current_syntax
+    exe 'syn include @SyntaxInclude_' .. syn .. ' syntax/' .. syn .. '.vim'
+    exe 'syn region SyntaxCodeBlock_' .. syn
+          \ .. ' start=#\%' .. start .. 'l#'
+          \ .. ' end=#\%' .. end .. 'l#'
+          \ .. ' keepend'
+          \ .. ' contains=@NoSpell,@SyntaxInclude_' .. syn
+enddef
+
 
 " From https://github.com/Julian/dotfiles/blob/master/.vimrc
 command! DiffThese call <SID>DiffTheseCommand()
