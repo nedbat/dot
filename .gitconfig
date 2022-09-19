@@ -77,6 +77,7 @@
     ma = "!f() { git checkout $(git branch -a | sed -n -E -e '/remotes.origin.ma(in|ster)$/s@remotes/origin/@@p'); git pull; }; f"
     # Switch to the origin's default branch (like ma, but more accurate and slower)
     mma = "!f() { git checkout $(git remote show origin | sed -n -E -e '/HEAD branch/s/.*: //p'); git pull; }; f"
+    pupff = "!f() { git pull upstream $(git branch -a | sed -n -E -e '/remotes.origin.ma(in|ster)$/s@remotes/origin/@@p') --ff-only; git push; }; f"
 
     fa = fetch --all --prune --tags
     pa = "!f() { git push --all; git push --tags; }; f"
@@ -165,3 +166,6 @@
 [scriv "create"]
     edit = true
     add = true
+
+[init]
+    defaultBranch = main

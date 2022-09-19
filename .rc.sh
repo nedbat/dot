@@ -1,6 +1,17 @@
 # Sourced for all interactive shells, $SHELL_TYPE is the shell type.
 # Must work for bash and zsh.
 
+# Find the first file that exists in a list of possibilities.
+first_of() {
+    for f; do
+        if [[ -r $f ]]; then
+            echo "$f"
+            return 0    # found
+        fi
+    done
+    return 1  # not found
+}
+
 # Execute search path. Later entries here win.
 for d in \
     /opt/local/bin \
@@ -63,7 +74,11 @@ alias df='df -k'
 alias l='ls -lFhH'
 alias la='l -A'
 alias m='less'
-alias k='clear'
+
+if [[ $SHELL_TYPE == zsh ]]; then
+    # https://twitter.com/dailyzshtip/status/1534925273703096322
+    alias lsd='l -d *(/D)'
+fi
 
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -198,10 +213,15 @@ alias set_env='$(set_env.py $(git ls-files))'
 
 # e means gvim, vim or vi, depending on what's installed.
 export EDITOR=vim
-if [[ -x /Applications/MacVim.app/Contents/MacOS/Vim ]]; then
-    alias e='/Applications/MacVim.app/Contents/MacOS/Vim --servername VIM --remote-silent'
-    alias vim=/Applications/MacVim.app/Contents/MacOS/Vim
-    export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+possible_vims=(
+    /usr/local/bin/mvim
+    /Applications/MacVim.app/Contents/MacOS/Vim
+)
+the_vim=$(first_of "${possible_vims[@]}")
+if [[ -x $the_vim ]]; then
+    alias e="$the_vim --servername VIM --remote-silent"
+    alias vim="$the_vim -v"
+    export EDITOR="$the_vim -v"
 elif type -P gvim &>/dev/null; then
     alias e='gvim --servername GVIM --remote-silent'
 elif type -P vim &>/dev/null; then
@@ -252,16 +272,11 @@ i2toast() {
     echo -ne "\033]9;$@\007"
 }
 
-# Find the first file that exists in a list of possibilities.
-first_of() {
-    for f; do
-        if [[ -r $f ]]; then
-            echo "$f"
-            return 0    # found
-        fi
-    done
-    return 1  # not found
-}
+if [[ -n "$ITERM_PROFILE" ]]; then
+    alias k='i2clear'
+else
+    alias k='clear'
+fi
 
 # Pythons
 alias p='python3'

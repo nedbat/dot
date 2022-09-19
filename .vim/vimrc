@@ -189,7 +189,7 @@ let filestatus .= '%3*%{&readonly ? (&modified ? " + " : " ∅ ") : ""}%*'
 let filestatus .= '%{&readonly? "" : &modified ? "" : &modifiable ? "   " : ""}'
 let filestatus .= ' %<%f  '
 let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
-let filestatus .= ' %2*%{fugitive#head(6)}%* '
+let filestatus .= ' %2*%{FugitiveHead(6)}%* '
 let filestatus .= '%='
 let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}%2*%{StatusOptions()}%*'
 let filestatus .= ' %{StatusEncodingAndFormat()}'
@@ -410,9 +410,9 @@ if executable('rg')
     let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
 endif
 
-Plug 'pearofducks/ansible-vim'
-let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
-let g:ansible_name_highlight = 'd'
+" Plug 'pearofducks/ansible-vim'
+" let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
+" let g:ansible_name_highlight = 'd'
 
 " Plug 'lambdalisue/fern.vim'
 
@@ -829,15 +829,21 @@ command! CodeSnapToggle call <SID>CodeSnapToggle()
 function! <SID>CodeSnapToggle()
     if get(g:, 'colors_name', 'default') == 'neds'
         colorscheme shades_of_purple
-        set nonumber
-        set guifont=RecMonoSemicasual-Regular:h18
+        "set nonumber
+        set guifont=RecMonoHalfCasual-Regular:h18
         set linespace=2
         let g:html_font = ["Rec Mono SemiCasual", "Consolas"]
         setlocal colorcolumn=
         highlight atnedbat guifg=#5c5c82
         syntax match atnedbat / \v\@nedbat$/
+        highlight error_line guifg=#ff6633
+        syntax match error_line /^ *!!!.*$/
         " So that we can print ...#... examples as plain text.
         syntax match notComment /[^ ]#.*$/
+        " Doctest marks blanklines with <BLANKLINE>, make those invisible.
+        " #2c2c52 is the background in shades_of_purple
+        highlight blankline guifg=#2c2c52
+        syntax match blankline /[<]BLANKLINE[>]/
         call feedkeys("gg>G>G>GO\n\n\n\<ESC>")
         " match focus /i=i/
     else
@@ -998,7 +1004,7 @@ function! VisualLine()
     " Go to the first non-white character
     normal ^
     " If the next characters look like line punctuation and space,
-    if getline(".")[col(".")-1:col(".")] =~ '[-$#] '
+    if getline(".")[col(".")-1:col(".")] =~ '[-$#%] '
         " .. skip the punctuation and find the next non-white character
         execute "normal l/\\S\<CR>"
     endif

@@ -1,5 +1,5 @@
 # https://github.com/sharkdp/bat 
 --style=numbers,grid
---theme=Coldark-Dark
+--theme=TwoDark #Coldark-Dark
 --italic-text=always
 --terminal-width=-5
