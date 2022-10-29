@@ -38,6 +38,8 @@ copyvim:				## Copy vim support files
 
 IGNORE_DIFF = \( -name 'plugged' -o -name '.git' \)
 difffiles:				## Compare these files to $HOME
+	@echo '# Use this target like this:'
+	@echo '#    . <(make difffiles)'
 	@find . $(IGNORE_DIFF) -prune -o -type f -exec diff -q ~/{} {} \; 2>/dev/null | awk '{print "cp " $$2 " " $$4}'
 
 CYG_SSH = /home/ned/.ssh

@@ -379,7 +379,7 @@ if [[ -n $PS1 ]]; then
 fi
 
 # Pasting to gist
-if [[ -f /usr/local/bin/gist ]]; then
+if command -v gist >/dev/null; then
     # gistv [FILENAME]: paste the clipboard to Gist
     gistv() {
         gist -Ppc -f ${1:-something.txt}

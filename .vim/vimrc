@@ -597,16 +597,18 @@ Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statu
 autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
 
 Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
-noremap <Leader>gg :Git<space>
+noremap <Leader>g\ :Git<CR>:normal <Leader>1<CR>
 noremap <Leader>gb :Git blame<CR>
+noremap <Leader>gd :normal <Leader><Leader>1<CR>:Gdiffsplit<CR>
+noremap <Leader>gg :Git<space>
+noremap <Leader>gh :bot :Git log --oneline -20<CR>
+noremap <Leader>gi :Gist<CR>
+noremap <Leader>gl :Gclog -150<CR>
+noremap <Leader><Leader>gl :Gclog -- %<CR>          " Show the git log for the current file
 noremap <Leader>go :Git checkout<space>
 noremap <Leader>gp :Git pull<CR>
-noremap <Leader>gl :Gclog -150<CR>
-noremap <Leader>g\ :Git<CR>:normal <Leader>1<CR>
-noremap <Leader>gm :bot :Git log --oneline -20<CR>
 noremap <Leader>gu :GBrowse!<CR>
 noremap <Leader>gv :GBrowse<CR>
-noremap <Leader>gd :normal <Leader><Leader>1<CR>:Gdiffsplit<CR>
 
 Plug 'tpope/vim-git'                                " Git filetypes, etc.
 "Plug 'junegunn/gv.vim'                              " Git commit viewer
@@ -842,8 +844,8 @@ function! <SID>CodeSnapToggle()
         syntax match notComment /[^ ]#.*$/
         " Doctest marks blanklines with <BLANKLINE>, make those invisible.
         " #2c2c52 is the background in shades_of_purple
-        highlight blankline guifg=#2c2c52
-        syntax match blankline /[<]BLANKLINE[>]/
+        highlight invisible guifg=#2c2c52
+        syntax match invisible /[<]BLANKLINE[>]/
         call feedkeys("gg>G>G>GO\n\n\n\<ESC>")
         " match focus /i=i/
     else
@@ -1004,7 +1006,7 @@ function! VisualLine()
     " Go to the first non-white character
     normal ^
     " If the next characters look like line punctuation and space,
-    if getline(".")[col(".")-1:col(".")] =~ '[-$#%] '
+    if getline(".")[col(".")-1:col(".")] =~ '[-$#%>] '
         " .. skip the punctuation and find the next non-white character
         execute "normal l/\\S\<CR>"
     endif
