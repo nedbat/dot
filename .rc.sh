@@ -416,6 +416,14 @@ _start_tmux() {
     fi
 }
 
+opvars() {
+    export $(
+        op item get ${PWD/#$HOME/'~'} --fields label=vars --vault "Environment variables" --format json |
+        jq -r .value |
+        sed -e '/^#/d'
+    )
+}
+
 ##
 ## Third-party tools
 ##
