@@ -424,6 +424,15 @@ opvars() {
     )
 }
 
+unopvars() {
+    unset $(
+        op item get ${PWD/#$HOME/'~'} --fields label=vars --vault "Environment variables" --format json |
+        jq -r .value |
+        sed -e '/^#/d' |
+        sed -e '/./s/=.*$//'
+    )
+}
+
 ##
 ## Third-party tools
 ##
