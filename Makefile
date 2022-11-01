@@ -41,7 +41,11 @@ difffiles:				## Compare these files to $HOME
 	@echo '# Use this target like this:'
 	@echo '#    . <(make difffiles)'
 	@find . $(IGNORE_DIFF) -prune -o -type f -exec diff -q ~/{} {} \; 2>/dev/null | awk '{print "cp " $$2 " " $$4}'
-	@echo 'cp ~/.config/shellrc/* .config/shellrc'
+
+update:					## Copy files from directories that should always be in sync
+	@for d in .vim/{after,autoload,colors,ftplugin,indent,spell,syntax} .config/shellrc; do \
+		cp -R ~/$$d/* ./$$d/ ; \
+	done
 
 CYG_SSH = /home/ned/.ssh
 
