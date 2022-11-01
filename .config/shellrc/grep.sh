@@ -1,0 +1,9 @@
+# grep and rg
+
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+
+# rg will read options from a config file.
+export RIPGREP_CONFIG_PATH=~/.config/rg.rc
+alias rgw='rg --max-columns=0'

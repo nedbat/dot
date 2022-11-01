@@ -47,3 +47,13 @@ export PROMPT_COMMAND='history -a'
 
 export SHELL_TYPE=bash
 source ~/.config/rc.sh
+
+# Bash completion
+completions=(
+    /usr/local/etc/bash_completion
+    /etc/bash_completion
+)
+completion_source=$(_first_of "${completions[@]}")
+if [[ -f $completion_source ]]; then
+    source $completion_source
+fi

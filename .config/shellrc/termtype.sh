@@ -1,0 +1,33 @@
+#
+# Set the terminal type properly.
+# TERM is tried as a terminal type. If unknown, a trailing dash component will
+# be stripped, and repeat.  So "xterm-256color-italic" will fallback to
+# "xterm-256color", and then to "xterm" if needed.
+#
+# To make xterm-256color-italic work:
+# https://alexpearce.me/2014/05/italics-in-iterm2-vim-tmux/
+#
+# $ cat > xterm-256color-italic.terminfo
+# xterm-256color-italic|xterm with 256 colors and italic,
+#   sitm=\E[3m, ritm=\E[23m,
+#   use=xterm-256color,
+# $ tic xterm-256color-italic.terminfo
+#
+
+while true; do
+    if tput longname >/dev/null 2>&1; then
+        # This is a known terminal.
+        break
+    fi
+    if [[ $TERM != *-* ]]; then
+        # No more qualifiers to strip off.
+        break
+    fi
+    echo "Couldn't use TERM=${TERM}, trying ${TERM%-*}"
+    # Remove the last dash-separated component and try again.
+    export TERM=${TERM%-*}
+done
+
+if [[ -n $PS1 ]]; then
+    stty erase ^H
+fi
