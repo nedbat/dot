@@ -19,6 +19,9 @@ if [[ $(pwd) != $HOME ]]; then
     exit 1
 fi
 
+# Re-organized shell startup
+rm -vf .rc.sh
+
 # Vimrc moved
 rm -vf .vimrc
 

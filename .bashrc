@@ -46,4 +46,4 @@ shopt -s histappend
 export PROMPT_COMMAND='history -a'
 
 export SHELL_TYPE=bash
-source ~/.rc.sh
+source ~/.config/rc.sh

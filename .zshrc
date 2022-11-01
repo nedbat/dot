@@ -96,4 +96,4 @@ zle -N zle-line-init
 
 
 export SHELL_TYPE=zsh
-source ~/.rc.sh
+source ~/.config/rc.sh
