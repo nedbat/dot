@@ -5,7 +5,7 @@ if [[ -n $PS1 ]]; then
             export PS1=$(printf "\n$ ")
         }
         fancy_prompt() {
-            eval "$(starship init zsh)"
+            eval "$(starship init $SHELL_TYPE)"
         }
     else
         plain_prompt() {
