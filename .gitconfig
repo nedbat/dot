@@ -50,16 +50,16 @@
     brdone = "!f() { : git show ; brname=\"$(git symbolic-ref --short HEAD)\" && git checkout ${1:-master} && git pull && git branch -d $brname; }; f"
 
     # Merge a branch, and delete it here and on the origin.
-    brmerge = "!f() { : git show ; git merge $1 &&  git branch -d $1; git push origin --delete $1; }; f"
+    brmerge = "!f() { : git show ; git merge $1 && git branch -d $1 && git push origin --delete $1; }; f"
 
     # Delete a branch here and on the origin.
     # The switch $1 is to get an entry in the reflog now, in case we need to recover the branch.
-    brdel = "!f() { : git show ; git switch $1; git switch -; git branch -D $1; git push ${2:-origin} --delete $1; }; f"
+    brdel = "!f() { : git show ; git switch $1 && git switch - && git branch -D $1 && git push ${2:-origin} --delete $1; }; f"
 
     # Delete the branch we just switched from.  This is for when "brdone" says it couldn't
     # delete the branch, because it was a rebase rather than a merge. It doesn't try to
     # delete the branch on the remote, because "@{-1}" isn't valid there.
-    brdel- = "!f() { git switch @{-1}; git switch -; git branch -D @{-1}; }; f"
+    brdel- = "!f() { git switch @{-1} && git switch - && git branch -D @{-1}; }; f"
 
     # Cherry-pick, conveniently
     cp = "!f() { git cherry-pick -x $@; }; f"
