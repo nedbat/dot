@@ -8,23 +8,15 @@
 #
 
 _opvar_data() {
-    op item get ${PWD/#$HOME/'~'} --fields label=vars --vault "Environment variables" --format json |
-    jq -r .value |
-    sed -e '/^#/d' -e '/^$/d'
+    op item get ${PWD/#$HOME/'~'} --fields label=vars --vault "Environment variables" --format json
 }
 
 # Define the local secure variables.
 opvars() {
-    local jdata=$(_opvar_data)
-    if [[ -n $jdata ]]; then
-        export $jdata
-    fi
+    eval $(_opvar_data | python ~/.config/shellrc/opvars.py export)
 }
 
 # Undefine the local secure variables.
 unopvars() {
-    local jdata=$(_opvar_data)
-    if [[ -n $jdata ]]; then
-        unset $(echo $jdata | sed -e '/./s/=.*$//')
-    fi
+    eval $(_opvar_data | python ~/.config/shellrc/opvars.py unset)
 }
