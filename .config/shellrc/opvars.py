@@ -1,6 +1,7 @@
 # Do the data munging for the opvars and unopvars aliases in opvars.sh
 
 import json
+import shlex
 import sys
 
 op = sys.argv[1]
@@ -27,4 +28,4 @@ else:
             args.append(line.partition('=')[0])
 
     if args:
-        print(op, " ".join(args))
+        print(op, " ".join(map(shlex.quote, args)))
