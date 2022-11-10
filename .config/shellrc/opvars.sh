@@ -6,6 +6,9 @@
 #       VARIABLE_NAME=secret_value_123123123123123
 #       OTHER_KEY=moar_secrets
 #
+#       # Blank lines are fine. Use quotes if needed:
+#       CRAZY="this needs to be a whole string"
+#
 
 _opvar_data() {
     op item get ${PWD/#$HOME/'~'} --fields label=vars --vault "Environment variables" --format json
