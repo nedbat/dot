@@ -6,8 +6,9 @@
 #       VARIABLE_NAME=secret_value_123123123123123
 #       OTHER_KEY=moar_secrets
 #
-#       # Blank lines are fine. Use quotes if needed:
-#       CRAZY="this needs to be a whole string"
+#       # Blank lines are fine. The value after = is used exactly.
+#       # Only use quotes if you want quotes in the value.
+#       CRAZY=this needs to be a whole string
 #
 
 _opvar_data() {
