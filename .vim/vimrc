@@ -303,6 +303,7 @@ augroup MiscFiletypes
     autocmd FileType yaml setlocal foldmethod=indent
     autocmd BufNewFile,BufRead */Jenkinsfiles/* set filetype=groovy
     autocmd BufNewFile,BufRead *.htaccess set filetype=apache
+    autocmd BufReadCmd *.whl call zip#Browse(expand("<amatch>"))
 augroup end
 
 " Shell filetype: assume bash syntax
