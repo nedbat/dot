@@ -7,7 +7,7 @@ export PYTHONSTARTUP=~/.config/startup.py
 export _PYTHON_BIN="$(python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))")"
 export PATH="$PATH:$_PYTHON_BIN"
 if [[ -w /tmp ]]; then
-    export PYTHONPYCACHEPREFIX=/tmp/$USER-pyc
+    export PYTHONPYCACHEPREFIX=/tmp/$(whoami)-pyc
     mkdir -p $PYTHONPYCACHEPREFIX
     chmod 700 $PYTHONPYCACHEPREFIX
 fi
