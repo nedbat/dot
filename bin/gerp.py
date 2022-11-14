@@ -112,6 +112,7 @@ class Gerp(object):
         if not os.path.isdir(folder):
             folder = os.path.split(folder)[0]
         folder0 = folder
+        repo_folder = None
         while folder:
             # Does this folder have .treerc?
             try_ini = os.path.join(folder, INI)
@@ -122,8 +123,8 @@ class Gerp(object):
             # Is this folder the root of a repo?
             for root_marker in ROOT_MARKERS:
                 try_root = os.path.join(folder, root_marker)
-                if os.path.exists(try_root):
-                    folder0 = folder
+                if os.path.exists(try_root) and repo_folder is None:
+                    repo_folder = folder
                     break
             next_folder = os.path.split(folder)[0]
             if next_folder == folder:
@@ -131,7 +132,7 @@ class Gerp(object):
             folder = next_folder
         if self.ini is None:
             # Didn't find a .treerc, use the self.tree folder as the root.
-            self.ini_dir = folder0
+            self.ini_dir = repo_folder or folder0
             home_default_ini = os.path.expanduser(HOME_INI)
             if os.path.exists(home_default_ini):
                 self.ini = home_default_ini
