@@ -1,3 +1,32 @@
+# The base utility Python Dockerfile.
+
+# To make a final image that needs other things installed, make another
+# file, bug1234.dockerfile:
+#
+#   FROM nedbat/base
+#   
+#   USER root
+#   
+# if you need more OS packages:
+#   RUN sudo apt-get update
+#   RUN sudo apt-get install -y --no-install-recommends \
+#           ###*** The OS packages you need installed:
+#           libcurl4-gnutls-dev \
+#           libgnutls28-dev
+#
+# always:
+#   RUN SUDO_FORCE_REMOVE=yes sudo -E apt-get remove -y sudo
+#
+#   USER me
+#   WORKDIR /home/me
+#   
+# if you need more user stuff:
+#   ###*** The user stuff you need installed:
+#   RUN git clone --depth=1 https://github.com/someone/someproject.git
+#   RUN python3.9 -m pip install nox
+#   
+#   WORKDIR someproject
+
 FROM ubuntu:jammy
 
 ARG APT_INSTALL="apt-get install -y --no-install-recommends"
@@ -26,7 +55,6 @@ RUN \
     locale-gen en_US.UTF-8 && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     dpkg-reconfigure tzdata && \
-    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     :
 
 RUN \
@@ -47,7 +75,7 @@ RUN \
 
 RUN \
     groupadd me && \
-    useradd -g me -G sudo -s /usr/bin/zsh -m me && \
+    useradd -g me -s /usr/bin/bash -m me && \
     :
 
 USER me
@@ -65,6 +93,7 @@ RUN \
 # Install some tools that make it easier to run more tools.
 RUN \
     PIP_REQUIRE_VIRTUALENV= python3 -m pip install --no-warn-script-location \
+        nox \
         tox \
         virtualenvwrapper \
         && \
