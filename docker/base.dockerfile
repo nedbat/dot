@@ -62,13 +62,16 @@ RUN \
     rm ./dot.sh ./term.terminfo && \
     :
 
+# Install some tools that make it easier to run more tools.
 RUN \
-    PIP_REQUIRE_VIRTUALENV= python3 -m pip install virtualenvwrapper && \
+    PIP_REQUIRE_VIRTUALENV= python3 -m pip install --no-warn-script-location \
+        tox \
+        virtualenvwrapper \
+        && \
     mkdir ~/.virtualenvs && \
-    for d in \
-        premkproject postmkproject initialize premkvirtualenv postmkvirtualenv \
-        prermvirtualenv postrmvirtualenv predeactivate postdeactivate \
-        preactivate postactivate get_env_details; do \
-        mkdir ~/.virtualenvs/$d; \
-    done && \
+    :
+
+# Run the rc file once to let things like virtualenvwrapper initialize.
+RUN \
+    bash ~/.bashrc && \
     :
