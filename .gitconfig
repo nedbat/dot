@@ -1,13 +1,4 @@
-[user]
-    name = Ned Batchelder
-    email = ned@nedbatchelder.com
-    signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEQoprVcqNTHlfyo93mMK8FTe3QfQLkoKF7X7aSNrlIG
-
-[github]
-    user = nedbat
-
-[pull]
-    rebase = true
+# Global git configuration
 
 [alias]
     # In an alias, an initial ":" command indicates what git command completion
@@ -111,6 +102,10 @@
         git -c sequence.editor=: rebase -i --autosquash --autostash ${1:-@~10}; \
     }; f"
 
+[branch]
+    autosetupmerge = true
+    autosetuprebase = always
+
 [color]
     ui = true
 
@@ -129,14 +124,41 @@
     newNormal = green
     newHighlight = green bold
 
+[commit]
+    template = ~/.gitglobal/commit
+    gpgsign = true
+
+[core]
+    excludesfile = ~/.gitglobal/ignore
+    attributesfile = ~/.gitglobal/attributes
+
 [diff-so-fancy]
     rulerWidth = 80
     stripLeadingSymbols = false
     markEmptyLines = false
 
+[fetch]
+    prune = true
+
+[github]
+    user = nedbat
+
+[gpg]
+    format = ssh
+
+[init]
+    defaultBranch = main
+
+[merge]
+    # https://blog.nilbus.com/take-the-pain-out-of-git-conflict-resolution-use-diff3/
+    conflictstyle = diff3
+
 [pretty]
     me = %h %C(green dim)%ad%C(reset)%C(auto)%d%C(reset) %s %C(cyan)%an%C(reset)
     relnote = %h %C(green dim)%ad%C(reset) %C(cyan)%an%C(reset): %s
+
+[pull]
+    rebase = true
 
 [push]
     followTags = true
@@ -148,34 +170,14 @@
     updateRefs = true
     instructionFormat = "%<(80)%s  %an - %ai"
 
-[branch]
-    autosetupmerge = true
-    autosetuprebase = always
-
-[merge]
-    # https://blog.nilbus.com/take-the-pain-out-of-git-conflict-resolution-use-diff3/
-    conflictstyle = diff3
-
-[core]
-    excludesfile = ~/.gitglobal/ignore
-    attributesfile = ~/.gitglobal/attributes
-
-[commit]
-    template = ~/.gitglobal/commit
-    gpgsign = true
-
-[tag]
-    gpgsign = true
-
-[fetch]
-    prune = true
-
 [scriv "create"]
     edit = true
     add = true
 
-[init]
-    defaultBranch = main
+[tag]
+    gpgsign = true
 
-[gpg]
-    format = ssh
+[user]
+    name = Ned Batchelder
+    email = ned@nedbatchelder.com
+    signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEQoprVcqNTHlfyo93mMK8FTe3QfQLkoKF7X7aSNrlIG
