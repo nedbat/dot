@@ -146,6 +146,9 @@
 [gpg]
     format = ssh
 
+[gpg "ssh"]
+    program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
 [init]
     defaultBranch = main
 
@@ -176,6 +179,15 @@
 
 [tag]
     gpgsign = true
+
+[url "git@github.com:"]
+    # Git remotes of "git@github.com" should really be pushed using ssh.
+    pushInsteadOf = git@github.com:
+
+[url "https://github.com/"]
+    # Git remotes of "git@github.com" should be pulled over https,
+    # to reduce the need to unlock 1Password.
+    insteadOf = git@github.com:
 
 [user]
     name = Ned Batchelder
