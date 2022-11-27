@@ -19,6 +19,10 @@ if [[ $(pwd) != $HOME ]]; then
     exit 1
 fi
 
+# Moved git stuff into .config/git
+rm -vf .gitconfig .tigrc
+rm -vrf .gitglobal
+
 # Re-organized shell startup
 rm -vf .rc.sh
 
@@ -26,7 +30,7 @@ rm -vf .rc.sh
 rm -vf .vimrc
 
 # Remove things that might be in the account by default that we don't want.
-rm -vf .cshrc .profile 
+rm -vf .cshrc .profile
 
 # Remove things we used to use.
 rm -vf .sh_environment .sh_environment.Linux
