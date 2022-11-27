@@ -125,12 +125,8 @@
     newHighlight = green bold
 
 [commit]
-    template = ~/.gitglobal/commit
+    template = ~/.config/git/commit
     gpgsign = true
-
-[core]
-    excludesfile = ~/.gitglobal/ignore
-    attributesfile = ~/.gitglobal/attributes
 
 [diff-so-fancy]
     rulerWidth = 80

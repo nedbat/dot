@@ -5,7 +5,7 @@ set blame-view = id:yes,color file-name:no author:abbreviated,maxwidth=20 date:d
 set mouse = yes
 set ignore-case = true
 #set git-colors = no
-source ~/.gitglobal/molokai-like-theme.tigrc
+source ~/.config/git/molokai-like-theme.tigrc
 
 # vim-like
 bind generic g none
