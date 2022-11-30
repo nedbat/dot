@@ -102,6 +102,29 @@
         git -c sequence.editor=: rebase -i --autosquash --autostash ${1:-@~10}; \
     }; f"
 
+    # See the status of CI action runs on the current branch.
+    #   $ gh help formatting
+    #   'color': https://github.com/mgutz/ansi
+    runs = "!f() { \
+        gh run list \
+            --branch $(git rev-parse --abbrev-ref HEAD) \
+            --json status,conclusion,url,startedAt,workflowName,displayTitle \
+            --template '\
+                {{- tablerow \"STATUS\" \"RESULT\" \"WORKFLOW\" \"STARTED\" \"COMMIT\" \"\" -}} \
+                {{- range . -}} \
+                {{- $ccolor := \"green+b\" -}} \
+                {{- if eq .conclusion \"failure\"}}{{ $ccolor = \"red+b\" }}{{ end -}} \
+                {{- tablerow \
+                    .status \
+                    (.conclusion | color $ccolor) \
+                    (.workflowName | truncate 15 | color \"white+b\") \
+                    (timeago .startedAt) \
+                    (.displayTitle | truncate 35 | color \"white\") \
+                    (.url | color \"blue+d\") \
+                    -}}\
+                {{- end }}'; \
+    }; f"
+
 [branch]
     autosetupmerge = true
     autosetuprebase = always
