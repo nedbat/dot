@@ -42,6 +42,8 @@
 
     # Merge a branch, and delete it here and on the origin.
     brmerge = "!f() { : git show ; git merge $1 && git branch -d $1 && git push origin --delete $1; }; f"
+    # Merge the branch we just switched from.
+    brmerge- = "!f() { git brmerge $(git rev-parse --abbrev-ref @{-1}); }; f"
 
     # Delete a branch here and on the origin.
     # The switch $1 is to get an entry in the reflog now, in case we need to recover the branch.
@@ -105,8 +107,9 @@
     # See the status of CI action runs on the current branch.
     #   $ gh help formatting
     #   'color': https://github.com/mgutz/ansi
-    runs = "!f() { \
+    runs0 = "!f() { \
         gh run list \
+            --limit ${1:-10} \
             --branch $(git rev-parse --abbrev-ref HEAD) \
             --json status,conclusion,url,startedAt,workflowName,displayTitle \
             --template '\
@@ -123,6 +126,14 @@
                     (.url | color \"blue+d\") \
                     -}}\
                 {{- end }}'; \
+    }; f"
+
+    runs = "!f() { \
+        gh run list \
+            --limit ${1:-10} \
+            --branch $(git rev-parse --abbrev-ref HEAD) \
+            --json=$(echo $(gh run list --json 2>&1) | sed -e 's/.*: //' -e 's/ /,/g') | \
+        display_runs; \
     }; f"
 
 [branch]
