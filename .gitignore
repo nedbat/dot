@@ -6,3 +6,4 @@ dot.sh
 .vim/bundle
 .vim/plugged
 .vim/autoload/plug.vim
+.DS_Store
