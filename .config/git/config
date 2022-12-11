@@ -136,6 +136,22 @@
         display_runs; \
     }; f"
 
+    # If this is a private repo, change the remote from git@github.com to github_private.
+    # You can remap github_private: to github like this:
+    #
+    #   [url "git@github.com:"]
+    #       insteadOf = github_private:
+    #
+    # This requires the gh command: https://cli.github.com/
+    #
+    fix-private-remotes = "!f() { \
+        if [[ $(gh api 'repos/{owner}/{repo}' --template '{{.visibility}}') == private ]]; then \
+            for rem in $(git remote); do \
+                git config remote.$rem.url $(git config remote.$rem.url | sed -e 's/git@github.com:/github_private:/'); \
+            done \
+        fi; \
+    }; f"
+
 [branch]
     autosetupmerge = true
     autosetuprebase = always
@@ -213,7 +229,7 @@
 [url "git@github.com:"]
     # Git remotes of "git@github.com" should really be pushed using ssh.
     pushInsteadOf = git@github.com:
-    # Private repos need ssh in both directions.
+    # Private repos need ssh in both directions.  See the "fix-private-remotes" alias.
     insteadOf = github_private:
 
 [url "https://github.com/"]

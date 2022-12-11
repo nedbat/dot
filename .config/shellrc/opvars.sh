@@ -1,4 +1,5 @@
 # Secure environment variables from 1password.
+#
 # In vault "Environment variables", create entries named for directories (like
 # "~/coverage").  The "vars" field is formatted like this:
 #
@@ -12,15 +13,26 @@
 #
 
 _opvar_data() {
-    op item get ${PWD/#$HOME/'~'} --fields label=vars --vault "Environment variables" --format json
+    op item get ${1:-${PWD/#$HOME/'~'}} --fields label=vars --vault "Environment variables" --format json
 }
 
 # Define the local secure variables.
+#
+#   opvars [name]
+#
+#   Loads the variables stored from the "name" item in the "Environment variables"
+#   vault.  "name" defaults to the current directory, with $HOME replaced by "~".
+#
 opvars() {
-    eval $(_opvar_data | python ~/.config/shellrc/opvars.py export)
+    eval $(_opvar_data "$@" | python3 ~/.config/shellrc/opvars.py export)
 }
 
 # Undefine the local secure variables.
+# 
+#   unopvars
+#
+#   Unset all of the variables that have ever been set by `opvars`.
+#
 unopvars() {
-    eval $(_opvar_data | python ~/.config/shellrc/opvars.py unset)
+    eval $(python3 ~/.config/shellrc/opvars.py unset)
 }

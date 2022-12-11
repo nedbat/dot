@@ -1,31 +1,63 @@
 # Do the data munging for the opvars and unopvars aliases in opvars.sh
 
 import json
+import os
 import shlex
 import sys
 
-op = sys.argv[1]
+OPVARS_VAR = "_OPVARS"
 
-try:
-    jdata = json.load(sys.stdin)
-except:
-    # For when 1Password isn't logged in, or can't find the values.
-    pass
-else:
-    assigns = jdata["value"]
+def read_values():
+    try:
+        jdata = json.load(sys.stdin)
+    except:
+        # For when 1Password isn't logged in, or can't find the values.
+        pass
+    else:
+        return jdata["value"]
 
-    args = []
-    for line in assigns.splitlines():
-        line = line.strip()
-        if line.startswith("#"):
-            continue
-        if not line:
-            continue
+def cmd(line):
+    print(line, end="; ")
 
-        if op == "export":
+def end_cmd():
+    print(":")
+
+def main():
+    op = sys.argv[1]
+    opvars = set(os.environ.get(OPVARS_VAR, "").split())
+
+    if op == "export":
+        oldvars = set(opvars)
+        newvars = []
+        args = []
+        assigns = read_values()
+        if not assigns:
+            return
+        for line in assigns.splitlines():
+            line = line.strip()
+            if line.startswith("#"):
+                continue
+            if not line:
+                continue
+
             args.append(line)
-        elif op == "unset":
-            args.append(line.partition('=')[0])
+            varname = line.partition('=')[0]
+            opvars.add(varname)
+            newvars.append(varname)
+            if varname in oldvars:
+                oldvars.remove(varname)
 
-    if args:
-        print(op, " ".join(map(shlex.quote, args)))
+        if args:
+            cmd(f"export {' '.join(map(shlex.quote, args))}")
+            cmd(f"export {OPVARS_VAR}='{' '.join(opvars)}'")
+            cmd(f"echo set these: {' '.join(newvars)}")
+            if oldvars:
+                cmd(f"echo still set: {' '.join(oldvars)}")
+
+    elif op == "unset":
+        cmd(f"unset {' '.join(opvars)}")
+        cmd(f"echo removed: {' '.join(sorted(opvars))}")
+
+    end_cmd()
+
+main()
