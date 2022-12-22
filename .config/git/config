@@ -145,9 +145,12 @@
     # This requires the gh command: https://cli.github.com/
     #
     fix-private-remotes = "!f() { \
-        if [[ $(gh api 'repos/{owner}/{repo}' --template '{{.visibility}}') == private ]]; then \
+        vis=$(gh api 'repos/{owner}/{repo}' --template '{{.visibility}}'); \
+        if [[ $vis == private ]]; then \
             for rem in $(git remote); do \
-                git config remote.$rem.url $(git config remote.$rem.url | sed -e 's/git@github.com:/github_private:/'); \
+                echo Updating remote $rem; \
+                git config remote.$rem.url $(git config remote.$rem.url | \
+                    sed -e 's/git@github.com:/github_private:/'); \
             done \
         fi; \
     }; f"
