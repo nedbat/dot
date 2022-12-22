@@ -44,6 +44,11 @@ fish_style_pwd_dir_length = 2
 read_only = "🛇"
 read_only_style = "red bold"
 
+[env_var._OPVARS_PROMPT]
+default = ''
+format = '[$env_value]($style)'
+style = "red bold"
+
 [git_branch]
 format = '\($branch\) '
 

@@ -6,6 +6,7 @@ import shlex
 import sys
 
 OPVARS_VAR = "_OPVARS"
+PROMPT_VAR = f"{OPVARS_VAR}_PROMPT"
 
 def read_values():
     try:
@@ -50,12 +51,14 @@ def main():
         if args:
             cmd(f"export {' '.join(map(shlex.quote, args))}")
             cmd(f"export {OPVARS_VAR}='{' '.join(opvars)}'")
+            cmd(f"export {PROMPT_VAR}='*** '")
             cmd(f"echo set these: {' '.join(newvars)}")
             if oldvars:
                 cmd(f"echo still set: {' '.join(oldvars)}")
 
     elif op == "unset":
         cmd(f"unset {' '.join(opvars)}")
+        cmd(f"export {PROMPT_VAR}=''")
         cmd(f"echo removed: {' '.join(sorted(opvars))}")
 
     end_cmd()
