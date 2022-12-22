@@ -673,7 +673,6 @@ Plug 'plasticboy/vim-markdown'
 let g:vim_markdown_frontmatter = 1
 let g:vim_markdown_follow_anchor = 1
 
-Plug 'cespare/vim-toml'                             " Not needed after Vim 8.2.3519
 Plug 'jparise/vim-graphql'
 Plug 'Glench/Vim-Jinja2-Syntax'
 
@@ -692,8 +691,7 @@ Plug 'szw/vim-maximizer', { 'on': 'MaximizerToggle' }   " Maximize current split
 noremap <Leader>= :MaximizerToggle!<CR>
 
 " Display more information with ga
-Plug 'manicmaniac/betterga'
-let g:betterga_template = '<{ci.char}> "{ci.name}" ({ci.category}) {ci.ord} {ci.hex}'
+Plug 'tpope/vim-characterize'
 
 " JavaScript niceness
 Plug 'pangloss/vim-javascript'                      " Basic JavaScript highlighting
