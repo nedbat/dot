@@ -986,9 +986,9 @@ noremap <silent> <Leader>1 :only!\|:NERDTreeToggle\|:vertical resize 30\|:wincmd
 noremap <silent> <Leader><Leader>1 :only!<CR>
 
 " More intuitive splits.
-nnoremap <Leader>_ <C-W>s
+nnoremap <Leader>_ <C-W>s<C-W>j
 nnoremap <Leader><Bar> <C-W>v
-nnoremap <Leader><Leader>_ :only!<CR><C-W>s
+nnoremap <Leader><Leader>_ :only!<CR><C-W>s<C-W>j
 nnoremap <Leader><Leader><Bar> :only!<CR><C-W>v
 autocmd VimResized * :wincmd =
 
