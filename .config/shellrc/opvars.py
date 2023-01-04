@@ -51,7 +51,8 @@ def main():
         if args:
             cmd(f"export {' '.join(map(shlex.quote, args))}")
             cmd(f"export {OPVARS_VAR}='{' '.join(opvars)}'")
-            cmd(f"export {PROMPT_VAR}='*** '")
+            stars = "*" * len(opvars)
+            cmd(f"export {PROMPT_VAR}='{stars} '")
             cmd(f"echo set these: {' '.join(newvars)}")
             if oldvars:
                 cmd(f"echo still set: {' '.join(oldvars)}")
