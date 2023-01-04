@@ -1180,6 +1180,9 @@ nnoremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
 xnoremap <Leader>a y:call RunGrep(substitute(@", ' ', '.', 'g'))<CR>
 nnoremap <silent> <Leader>c :botright copen<CR>
 
+" temp, while getting coverage up to speed on mypy
+noremap <Leader><Leader>m :write \| :cgetexpr system("~/coverage/trunk/.tox/mypy/bin/mypy " . shellescape(expand('%'))) \| :botright copen<CR>
+
 " Adapted from:
 " Barry Arthur 2014 06 25 Jump to the last cursor position in a File Jump
 function! FileJumpLastPos(jump_type)
