@@ -43,9 +43,9 @@ if has("syntax")
 endif
 colorscheme nedsterm                    " Color scheme to use for terminals.
 
-if exists('+colorcolumn')
-    set colorcolumn=80
-endif
+"if exists('+colorcolumn')
+"    set colorcolumn=80
+"endif
 
 set tabstop=8                           " Real tab characters take up 8 spaces
 set softtabstop=4                       "   but indent by 4 when typing tab while editing.
