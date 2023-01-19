@@ -155,6 +155,18 @@
         fi; \
     }; f"
 
+[blame]
+    # This can't be global because git whines if the file doesn't exist...
+    # Use this command per-repo where the file does exist:
+    #   $ git config blame.ignoreRevsFile .git-blame-ignore-revs
+    #
+    #   ignoreRevsFile = .git-blame-ignore-revs
+
+    # Mark any lines that have had a commit skipped using --ignore-rev with a `?`
+    markIgnoredLines = true
+    # Mark any lines that were added in a skipped commit and can not be attributed with a `*`
+    markUnblamableLines = true
+
 [branch]
     autosetupmerge = true
     autosetuprebase = always
