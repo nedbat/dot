@@ -21,3 +21,11 @@ fi
 
 # Use our own ~/bin/git-ref-grep to filter references based on a line in .treerc
 export TIG_LS_REMOTE=git-ref-grep
+
+# A pager to get exactly one screen of output (taking the prompt into account),
+# like this:
+#
+#   % 1s git log
+#
+# Define GIT_PAGER and PAGER to be sure it works.
+alias 1s='PAGER="head -n $(($(tput lines)-4))" GIT_PAGER=$PAGER'
