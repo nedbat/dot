@@ -679,6 +679,10 @@ let g:vim_markdown_follow_anchor = 1
 Plug 'jparise/vim-graphql'
 Plug 'Glench/Vim-Jinja2-Syntax'
 
+" I couldn't get these to do anything...
+" Plug 'inkarkat/vim-ingo-library'
+" Plug 'inkarkat/vim-SyntaxRange'
+
 Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 
 Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
@@ -1037,6 +1041,10 @@ xnoremap > >gv
 " Indent in visual, but don't adjust relative indents in the block.
 xnoremap <Leader>< <Esc>:setlocal noshiftround<CR>gv<:setlocal shiftround<CR>gv
 xnoremap <Leader>> <Esc>:setlocal noshiftround<CR>gv>:setlocal shiftround<CR>gv
+
+" Search for visually-selected text
+xnoremap * y/\V<C-R>"<CR>
+xnoremap # y?\V<C-R>"<CR>
 
 " Remove annoying F1 help.
 noremap <F1> <Nop>

@@ -6,6 +6,7 @@ syntax match diaryDate /\v^\= \d\d?\/\d.*$/
 syntax match diaryTodo /\v- todo:.*$/
 syntax match diaryXodo /\v- xodo:.*$/
 syntax match diaryDone /\v- done:.*$/
+syntax match diaryDone /\v- togh:.*$/
 syntax match diaryProg /\v- prog:.*$/
 syntax region foldManual start="{{{" end="}}}" transparent fold
 syntax region foldDay start=/\v^\=/ end=/\v\ze\n\=/ transparent fold
