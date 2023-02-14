@@ -1,3 +1,6 @@
+echo "File mappings:"
+echo "  ~/coverage/trunk is at /cov"
+echo "  here ($PWD) is at /here"
 docker run \
     --rm --interactive --tty \
     --env=TERM \
