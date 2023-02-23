@@ -1,0 +1,13 @@
+# Default .treerc for directories without one.
+[default]
+ignore =
+    htmlcov
+    .tox*
+    *.so *.pyd
+    *.gz *.zip
+    _build _spell
+    *.egg *.egg-info
+    node_modules
+    .mypy_cache
+    .pytest_cache
+    coverage.xml
