@@ -128,13 +128,15 @@
                 {{- end }}'; \
     }; f"
 
-    runs = "!f() { \
+    # Get the raw data for action runs on the current branch.
+    rawruns = "!f() { \
         gh run list \
             --limit ${1:-10} \
             --branch $(git rev-parse --abbrev-ref HEAD) \
-            --json=$(echo $(gh run list --json 2>&1) | sed -e 's/.*: //' -e 's/ /,/g') | \
-        display_runs; \
+            --json=$(echo $(gh run list --json 2>&1) | sed -e 's/.*: //' -e 's/ /,/g') ; \
     }; f"
+
+    runs = "!f() { git rawruns ${1:-10} | display_runs; }; f"
 
     # If this is a private repo, change the remote from git@github.com to github_private.
     # You can remap github_private: to github like this:
