@@ -104,39 +104,13 @@
         git -c sequence.editor=: rebase -i --autosquash --autostash ${1:-@~10}; \
     }; f"
 
-    # See the status of CI action runs on the current branch.
-    #   $ gh help formatting
-    #   'color': https://github.com/mgutz/ansi
-    runs0 = "!f() { \
-        gh run list \
-            --limit ${1:-10} \
-            --branch $(git rev-parse --abbrev-ref HEAD) \
-            --json status,conclusion,url,startedAt,workflowName,displayTitle \
-            --template '\
-                {{- tablerow \"STATUS\" \"RESULT\" \"WORKFLOW\" \"STARTED\" \"COMMIT\" \"\" -}} \
-                {{- range . -}} \
-                {{- $ccolor := \"green+b\" -}} \
-                {{- if eq .conclusion \"failure\"}}{{ $ccolor = \"red+b\" }}{{ end -}} \
-                {{- tablerow \
-                    .status \
-                    (.conclusion | color $ccolor) \
-                    (.workflowName | truncate 15 | color \"white+b\") \
-                    (timeago .startedAt) \
-                    (.displayTitle | truncate 35 | color \"white\") \
-                    (.url | color \"blue+d\") \
-                    -}}\
-                {{- end }}'; \
+    # See the current GHA runs on this branch.
+    # https://nedbatchelder.com/blog/202303/watchgha.html
+    runs = "!f() { \
+        watch_gha_runs \
+            \"$(git remote get-url origin)\" \
+            \"$(git rev-parse --abbrev-ref HEAD)\"; \
     }; f"
-
-    # Get the raw data for action runs on the current branch.
-    rawruns = "!f() { \
-        gh run list \
-            --limit ${1:-10} \
-            --branch $(git rev-parse --abbrev-ref HEAD) \
-            --json=$(echo $(gh run list --json 2>&1) | sed -e 's/.*: //' -e 's/ /,/g') ; \
-    }; f"
-
-    runs = "!f() { git rawruns ${1:-10} | display_runs; }; f"
 
     # If this is a private repo, change the remote from git@github.com to github_private.
     # You can remap github_private: to github like this:
