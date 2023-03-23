@@ -791,6 +791,8 @@ augroup ColorSchemeFixes
     autocmd ColorScheme neds let g:rainbow_conf['guifgs'] = ['royalblue3', 'darkorange3', 'seagreen4', 'firebrick']
 augroup end
 
+Plug 'taze55/vim-dirdifftree'
+
 call plug#end()
 
 " Plugins I tried but didn't end up actually using:
