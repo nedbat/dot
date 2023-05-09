@@ -13,6 +13,6 @@ cat shex/after_untar.sh >> $script
 printf "exit 0
 __PAYLOAD_BELOW__
 " >> $script
-base64 --break=70 $payload >> $script
+base64 -b 70 -i $payload -o - >> $script
 
 chmod +x $script
