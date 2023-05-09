@@ -28,7 +28,7 @@ nnoremap <silent> <buffer> [d ?\v^\= \d<CR>:nohl<CR>zvzz
 function! Today()
     let line = strftime("= %m/%d/%Y, %A")
     let line = substitute(substitute(line, ' 0', ' ', 'g'), '/0', '/', 'g')
-    call feedkeys("O" . line . "\n- \n\<ESC>kA")
+    call feedkeys("gg]dO" . line . "\n- \n\<ESC>kA")
 endfunction
 command! Today :call Today()
 

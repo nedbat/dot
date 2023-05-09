@@ -107,7 +107,7 @@
     # See the current GHA runs on this branch.
     # https://nedbatchelder.com/blog/202303/watchgha.html
     runs = "!f() { \
-        watch_gha_runs \
+        watch_gha_runs $@ \
             \"$(git remote get-url origin)\" \
             \"$(git rev-parse --abbrev-ref HEAD)\"; \
     }; f"
