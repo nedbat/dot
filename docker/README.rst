@@ -21,11 +21,17 @@ example, bug1553.dockerfile::
     # Bug-specific steps:
     RUN git clone --depth=1 https://github.com/FlexMeasures/flexmeasures
     WORKDIR flexmeasures
-    RUN python3.9 -m pip install -r requirements/app.txt 
-    RUN python3.9 -m pip install -r requirements/test.txt
+
+    # Create a virtualenv, and "activate" it.
+    RUN python3.9 -m venv .venv
+    ENV PATH=".venv/bin:$PATH"
+
+    RUN make install-pip-tools
+    RUN sed -i.bak 's/pip install -e/pip install -e ./' Makefile
+    RUN make install-for-test
 
     # Use `|| true` so that failing tests won't stop Docker from making an image.
-    RUN python3.9 -m coverage run --branch --source=flexmeasures -m pytest flexmeasures || true
+    RUN python3 -m pytest --cov=flexmeasures --cov-config .coveragerc || true
 
 You can make this file in any directory, and work from there.
 Then this builds the Docker image::
