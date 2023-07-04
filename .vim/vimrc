@@ -301,6 +301,7 @@ augroup MiscFiletypes
     autocmd BufNewFile,BufRead .coveragerc set filetype=dosini
     autocmd FileType json setlocal foldmethod=indent
     autocmd FileType yaml setlocal foldmethod=indent
+    autocmd BufNewFile,BufRead .cff set filetype=yaml
     autocmd BufNewFile,BufRead */Jenkinsfiles/* set filetype=groovy
     autocmd BufNewFile,BufRead *.htaccess set filetype=apache
     autocmd BufReadCmd *.whl call zip#Browse(expand("<amatch>"))
@@ -599,7 +600,7 @@ Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statu
 autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
 
 Plug 'rbong/vim-flog', { 'on': 'Flogsplit' }
-let g:flog_default_arguments = {
+let g:flog_default_opts = {
     \ 'max_count': 200,
     \ }
 

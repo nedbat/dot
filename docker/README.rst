@@ -8,6 +8,15 @@ To build an image::
 
     $ ./build.sh main
 
+Running in a simple generic environment is::
+
+    $ ~/docker/run.sh main
+    File mappings:
+      ~/coverage/trunk is at /cov
+      here (/src/bugs/bug1646) is at /here
+    (.bashrc)
+    b @main@~ $
+
 To make a custom image for a particular bug, make a new Dockerfile. For
 example, bug1553.dockerfile::
 
