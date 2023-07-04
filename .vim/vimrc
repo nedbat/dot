@@ -242,10 +242,12 @@ augroup HelpSettings
     autocmd FileType help nnoremap <silent> <buffer> q :quit<CR>
 augroup end
 
-augroup TerminalSettings | autocmd!
-    autocmd TerminalWinOpen * let &l:statusline = '     %f'
-    autocmd TerminalWinOpen * set colorcolumn=
-augroup end
+if v:version >= 820
+    augroup TerminalSettings | autocmd!
+        autocmd TerminalWinOpen * let &l:statusline = '     %f'
+        autocmd TerminalWinOpen * set colorcolumn=
+    augroup end
+endif
 
 augroup GitCommitSettings
     autocmd!
@@ -867,18 +869,20 @@ function! <SID>CodeSnapToggle()
     endif
 endfunction
 
-" From habamax https://0x0.st/omfo.txt
-" Use like:
-"   :call SynInclude('sql', 10, 20)
-def SynInclude(syn: string, start: number, end: number)
-    unlet! b:current_syntax
-    exe 'syn include @SyntaxInclude_' .. syn .. ' syntax/' .. syn .. '.vim'
-    exe 'syn region SyntaxCodeBlock_' .. syn
-          \ .. ' start=#\%' .. start .. 'l#'
-          \ .. ' end=#\%' .. end .. 'l#'
-          \ .. ' keepend'
-          \ .. ' contains=@NoSpell,@SyntaxInclude_' .. syn
-enddef
+if v:version >= 900
+    " From habamax https://0x0.st/omfo.txt
+    " Use like:
+    "   :call SynInclude('sql', 10, 20)
+    def SynInclude(syn: string, start: number, end: number)
+        unlet! b:current_syntax
+        exe 'syn include @SyntaxInclude_' .. syn .. ' syntax/' .. syn .. '.vim'
+        exe 'syn region SyntaxCodeBlock_' .. syn
+              \ .. ' start=#\%' .. start .. 'l#'
+              \ .. ' end=#\%' .. end .. 'l#'
+              \ .. ' keepend'
+              \ .. ' contains=@NoSpell,@SyntaxInclude_' .. syn
+    enddef
+endif
 
 
 " From https://github.com/Julian/dotfiles/blob/master/.vimrc
