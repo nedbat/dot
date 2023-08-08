@@ -44,7 +44,7 @@ def clean(dirname, cmd=None):
 
 def rmrf(dirname):
     """Remove completely"""
-    shutil.rmtree(dirname)
+    shutil.rmtree(dirname, ignore_errors=True)
 
 def cmd(template, doc=None):
     def doit(dirname):
