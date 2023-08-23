@@ -1,0 +1,5 @@
+# From: https://alexpearce.me/2014/05/italics-in-iterm2-vim-tmux/
+# Run this with `tic` to define xterm-256color-italic
+xterm-256color-italic|xterm with 256 colors and italic,
+  sitm=\E[3m, ritm=\E[23m,
+  use=xterm-256color,

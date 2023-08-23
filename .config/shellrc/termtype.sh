@@ -5,14 +5,7 @@
 # "xterm-256color", and then to "xterm" if needed.
 #
 # To make xterm-256color-italic work:
-# https://alexpearce.me/2014/05/italics-in-iterm2-vim-tmux/
-#
-# $ cat > xterm-256color-italic.terminfo
-# xterm-256color-italic|xterm with 256 colors and italic,
-#   sitm=\E[3m, ritm=\E[23m,
-#   use=xterm-256color,
-# $ tic xterm-256color-italic.terminfo
-#
+# $ tic .config/shellrc/xterm-256color-italic.terminfo
 
 while true; do
     if tput longname >/dev/null 2>&1; then
