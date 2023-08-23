@@ -11,6 +11,7 @@ dot.tar
 dot.tgz
 dot.zip
 dot.sh
+elsewhere
 Makefile
 README.txt
 *.itermcolors
