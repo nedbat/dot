@@ -58,9 +58,13 @@ def main():
                 cmd(f"echo still set: {' '.join(oldvars)}")
 
     elif op == "unset":
-        cmd(f"unset {' '.join(opvars)}")
+        if opvars:
+            cmd(f"unset {' '.join(opvars)}")
+            cmd(f"echo removed: {' '.join(sorted(opvars))}")
+        else:
+            cmd(f"echo Nothing set")
         cmd(f"export {PROMPT_VAR}=''")
-        cmd(f"echo removed: {' '.join(sorted(opvars))}")
+        cmd(f"unset {OPVARS_VAR}")
 
     end_cmd()
 
