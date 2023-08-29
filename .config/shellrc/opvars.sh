@@ -37,6 +37,8 @@ unopvars() {
     eval $(python3 ~/.config/shellrc/opvars.py unset)
 }
 
+alias deopvars=unopvars
+
 # Other 1Password shell plugins.
 if [[ -r ~/.config/op/plugins.sh ]]; then
     source ~/.config/op/plugins.sh
