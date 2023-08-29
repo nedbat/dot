@@ -1,8 +1,33 @@
 # Starship configuration
 # https://starship.rs/config
 
-format = """$character"""
+format = """\
+$env_var\
+$sudo\
+$status\
+$cmd_duration\
+$character\
+"""
 add_newline = true
 
 [character]
 format = "[%](bold) "
+
+[cmd_duration]
+format = "[$duration]($style) "
+min_time = 10_000
+
+[env_var._OPVARS_PROMPT]
+default = ''
+format = '[$env_value]($style)'
+style = "red bold"
+
+[status]
+disabled = false
+format = '[*$status]($style) '
+
+[sudo]
+disabled = false
+format = "[$symbol]($style) "
+symbol = "§"
+style = "red bold"
