@@ -43,7 +43,12 @@ difffiles:				## Compare these files to $HOME
 	@find . $(IGNORE_DIFF) -prune -o -type f -exec diff -q ~/{} {} \; 2>/dev/null | awk '{print "cp " $$2 " " $$4}'
 
 update:					## Copy files from directories that should always be in sync
-	for d in .vim/{after,autoload,colors,ftplugin,indent,spell,syntax} .config/shellrc docker; do \
+	for d in \
+		.vim/{after,autoload,colors,ftplugin,indent,spell,syntax} \
+		.config/shellrc \
+		docker \
+		.hammerspoon \
+	; do \
 		cp -R ~/$$d/* ./$$d/ ; \
 	done
 	elsewhere/copy.sh

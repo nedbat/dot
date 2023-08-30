@@ -29,6 +29,19 @@ end
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "O", mouseHighlight)
 
 
+-- AClock spoon
+hs.loadSpoon("AClock")
+spoon.AClock["textColor"] = {hex="#FF0000", alpha=0.8}
+spoon.AClock["textFont"] = "Recursive Casual Bold"
+spoon.AClock["textSize"] = 200
+spoon.AClock["format"] = "%I:%M"
+spoon.AClock["height"] = 600
+spoon.AClock["width"] = 800
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "K", function()
+  spoon.AClock:toggleShow()
+end)
+
+
 -- Text-mode "menu bar indicator" replacement
 canvas = nil
 function createCanvas()
