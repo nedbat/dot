@@ -31,15 +31,18 @@ hs.hotkey.bind({"ctrl", "alt", "cmd"}, "O", mouseHighlight)
 
 -- AClock spoon
 hs.loadSpoon("AClock")
-spoon.AClock["textColor"] = {hex="#FF0000", alpha=0.8}
+spoon.AClock["textColor"] = {red=.8}
 spoon.AClock["textFont"] = "Recursive Casual Bold"
-spoon.AClock["textSize"] = 200
+spoon.AClock["textSize"] = 300
 spoon.AClock["format"] = "%I:%M"
 spoon.AClock["height"] = 600
-spoon.AClock["width"] = 800
+spoon.AClock["width"] = 1000
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "K", function()
-  spoon.AClock:toggleShow()
+    spoon.AClock:toggleShow()
 end)
+clock_screen_watcher = hs.screen.watcher.newWithActiveScreen(
+    function() spoon.AClock:init() end
+):start()
 
 
 -- Text-mode "menu bar indicator" replacement
