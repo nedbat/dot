@@ -617,6 +617,7 @@ noremap <Leader>gl :Flogsplit<CR>
 noremap <Leader><Leader>gl :Flogsplit -path=%<CR>    " Show the git log for the current file
 noremap <Leader>go :Git checkout<space>
 noremap <Leader>gp :Git pull<CR>
+noremap <Leader>gr :Git rm %<CR>
 noremap <Leader>gu :GBrowse!<CR>
 noremap <Leader>gv :GBrowse<CR>
 
