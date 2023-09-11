@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Scrub needless files to save space"""
 
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -73,7 +74,9 @@ clean("/src", rm_tox)
 clean("/usr/local/virtualenvs", rm_pyc)
 clean("/usr/local/pyenv", rm_pyc)
 clean("/usr/local/pypy", rm_pyc)
-clean("/tmp/nedbatchelder-pyc", rmrf)
+pycdir = os.environ.get("PYTHONPYCACHEPREFIX", "")
+if pycdir:
+    clean(pycdir, rmrf)
 clean("~/log/irc", cmd("afsctool -cvv -9 {dirname}"))
 
 print(f"----\nTOTAL:  {total_saved:15,d}")
