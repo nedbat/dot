@@ -31,7 +31,7 @@ hs.hotkey.bind({"ctrl", "alt", "cmd"}, "O", mouseHighlight)
 
 -- AClock spoon
 hs.loadSpoon("AClock")
-spoon.AClock["textColor"] = {red=.8}
+spoon.AClock["textColor"] = {red=.6, alpha=.75}
 spoon.AClock["textFont"] = "Recursive Casual Bold"
 spoon.AClock["textSize"] = 300
 spoon.AClock["format"] = "%I:%M"
