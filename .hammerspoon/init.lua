@@ -78,9 +78,37 @@ function createCanvas()
 end
 
 function drawInfo()
-    local openPop = io.popen("/usr/local/bin/python3.10 ~/bin/textstatuses.py")
-    canvas[2].text = openPop:read("*a")
-    openPop:close()
+    text = ""
+    text = text .. os.date("%I:%M\n%b %d\n"):gsub("^0", ""):gsub(" 0", "")
+
+    if hs.battery.isCharging() then
+        charge = "+"
+    elseif hs.battery.isCharged() then
+        charge = ""
+    else
+        charge = "-"
+    end
+    text = text .. string.format("%d%%%s\n", hs.battery.percentage(), charge)
+
+    audio = hs.audiodevice.current()
+    if audio.muted then
+        vol = "\u{20e5}"
+    elseif audio.volume then
+        vol = string.format("%d", math.floor(audio.volume + 0.5))
+    else
+        vol = "—"
+    end
+    text = text .. "\u{24cb}" .. vol .. "\n"
+
+    wifirate = hs.wifi.interfaceDetails().transmitRate
+    text = text .. string.format("%d\u{2933}\n", wifirate)
+
+    ssid = hs.wifi.currentNetwork()
+    if string.len(ssid) > 5 then
+        ssid = string.sub(ssid, 1, 3) .. string.sub(ssid, string.len(ssid)-1)
+    end
+    text = text .. ssid
+    canvas[2].text = text
 end
 
 createCanvas()
