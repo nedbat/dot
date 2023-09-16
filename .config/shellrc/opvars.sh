@@ -29,15 +29,13 @@ opvars() {
 
 # Undefine the local secure variables.
 # 
-#   unopvars
+#   deopvars
 #
 #   Unset all of the variables that have ever been set by `opvars`.
 #
-unopvars() {
+deopvars() {
     eval $(python3 ~/.config/shellrc/opvars.py unset)
 }
-
-alias deopvars=unopvars
 
 # Other 1Password shell plugins.
 if [[ -r ~/.config/op/plugins.sh ]]; then
