@@ -58,7 +58,7 @@ function createCanvas()
         x = fullFrame.x,
         y = frame.y,
         w = frame.x - fullFrame.x,
-        h = 175,
+        h = 225,
     })
     canvas[1] = {
         type = "rectangle",
@@ -78,8 +78,12 @@ function createCanvas()
 end
 
 function drawInfo()
-    text = ""
-    text = text .. os.date("%I:%M\n%b %d\n"):gsub("^0", ""):gsub(" 0", "")
+    lines = {}
+
+    time = os.date("%I:%M"):gsub("^0", "")
+    table.insert(lines, time)
+    date = os.date("%b %d"):gsub(" 0", "")
+    table.insert(lines, date)
 
     if hs.battery.isCharging() then
         charge = "+"
@@ -88,27 +92,28 @@ function drawInfo()
     else
         charge = "-"
     end
-    text = text .. string.format("%d%%%s\n", hs.battery.percentage(), charge)
+    table.insert(lines, string.format("\u{2301}%d%%%s", hs.battery.percentage(), charge))
 
     audio = hs.audiodevice.current()
     if audio.muted then
-        vol = "\u{20e5}"
+        vol = "\u{20E5}"    -- COMBINING REVERSE SOLIDUS OVERLAY
     elseif audio.volume then
         vol = string.format("%d", math.floor(audio.volume + 0.5))
     else
-        vol = "—"
+        vol = "—"           -- EM DASH
     end
-    text = text .. "\u{24cb}" .. vol .. "\n"
+    table.insert(lines, string.format("\u{24CB}%s", vol))   -- CIRCLED LATIN CAPITAL LETTER V
 
     wifirate = hs.wifi.interfaceDetails().transmitRate
-    text = text .. string.format("%d\u{2933}\n", wifirate)
+    table.insert(lines, string.format("\u{2933}%d", wifirate))     -- WAVE ARROW POINTING DIRECTLY RIGHT
 
     ssid = hs.wifi.currentNetwork()
     if string.len(ssid) > 5 then
         ssid = string.sub(ssid, 1, 3) .. string.sub(ssid, string.len(ssid)-1)
     end
-    text = text .. ssid
-    canvas[2].text = text
+    table.insert(lines, ssid)
+
+    canvas[2].text = table.concat(lines, "\n")
 end
 
 createCanvas()
