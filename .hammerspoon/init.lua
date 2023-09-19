@@ -58,7 +58,7 @@ function createCanvas()
         x = fullFrame.x,
         y = frame.y,
         w = frame.x - fullFrame.x,
-        h = 225,
+        h = fullFrame.h / 2,
     })
     canvas[1] = {
         type = "rectangle",
@@ -92,20 +92,20 @@ function drawInfo()
     else
         charge = "-"
     end
-    table.insert(lines, string.format("\u{2301}%d%%%s", hs.battery.percentage(), charge))
+    table.insert(lines, string.format("%d%%%s", hs.battery.percentage(), charge))
 
     audio = hs.audiodevice.current()
     if audio.muted then
-        vol = "\u{20E5}"    -- COMBINING REVERSE SOLIDUS OVERLAY
+        vol = " \u{2009}\u{1F568}"          -- THIN SPACE; RIGHT SPEAKER
     elseif audio.volume then
-        vol = string.format("%d", math.floor(audio.volume + 0.5))
+        vol = string.format("\u{1F56A}%d", math.floor(audio.volume + 0.5))  -- RIGHT SPEAKER WITH THREE SOUND WAVES
     else
-        vol = "—"           -- EM DASH
+        vol = " \u{2009}\u{1F568}\u{2014}"  -- THIN SPACE; RIGHT SPEAKER; EM DASH
     end
-    table.insert(lines, string.format("\u{24CB}%s", vol))   -- CIRCLED LATIN CAPITAL LETTER V
+    table.insert(lines, vol)
 
     wifirate = hs.wifi.interfaceDetails().transmitRate
-    table.insert(lines, string.format("\u{2933}%d", wifirate))     -- WAVE ARROW POINTING DIRECTLY RIGHT
+    table.insert(lines, string.format("%d\u{2933}", wifirate))  -- WAVE ARROW POINTING DIRECTLY RIGHT
 
     ssid = hs.wifi.currentNetwork()
     if string.len(ssid) > 5 then
