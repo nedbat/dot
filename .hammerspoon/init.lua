@@ -1,3 +1,21 @@
+-- other stuff:
+-- https://github.com/miromannino/miro-windows-manager
+
+-- reload on save: https://github.com/Porco-Rosso/PorcoSpoon/blob/main/init.lua#L1-L14
+function reloadConfig(files)
+    doReload = false
+    for _,file in pairs(files) do
+        if file:sub(-4) == ".lua" then
+            doReload = true
+        end
+    end
+    if doReload then
+        hs.reload()
+    end
+end
+myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
+hs.alert.show("Hammerspoon loaded")
+
 -- MouseCircle example (tweaked)
 mouseCircle = nil
 mouseCircleTimer = nil
@@ -88,19 +106,19 @@ function drawInfo()
     if hs.battery.isCharging() then
         charge = "+"
     elseif hs.battery.isCharged() then
-        charge = ""
+        charge = "="
     else
         charge = "-"
     end
-    table.insert(lines, string.format("%d%%%s", hs.battery.percentage(), charge))
+    table.insert(lines, string.format("%s%d%%", charge, hs.battery.percentage()))
 
     audio = hs.audiodevice.current()
     if audio.muted then
-        vol = " \u{2009}\u{1F568}"          -- THIN SPACE; RIGHT SPEAKER
+        vol = "<|"
     elseif audio.volume then
-        vol = string.format("\u{1F56A}%d", math.floor(audio.volume + 0.5))  -- RIGHT SPEAKER WITH THREE SOUND WAVES
+        vol = string.format("<%d", math.floor(audio.volume + 0.5))
     else
-        vol = " \u{2009}\u{1F568}\u{2014}"  -- THIN SPACE; RIGHT SPEAKER; EM DASH
+        vol = "<\u{2014}"  -- EM DASH
     end
     table.insert(lines, vol)
 
@@ -118,13 +136,19 @@ end
 
 createCanvas()
 
+function audioCallback(evt)
+    -- The audio watcher fires on volume change, but the volume setting takes
+    -- some time to update.  Redraw a bunch to get the info as soon as we can.
+    for t = 0.5,5,0.5 do
+        hs.timer.doAfter(t, drawInfo)
+    end
+end
+
 -- Start over when any screen geometry changes.
 watcher = hs.screen.watcher.newWithActiveScreen(createCanvas):start()
 -- Redraw every 10 seconds.
 timer = hs.timer.doEvery(10, drawInfo)
 -- Redraw when any audio setting changes.
 for i, dev in ipairs(hs.audiodevice.allOutputDevices()) do
-    dev:watcherCallback(drawInfo):watcherStart()
+    dev:watcherCallback(audioCallback):watcherStart()
 end
-
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "Q", hs.reload)
