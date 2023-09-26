@@ -63,6 +63,21 @@ clock_screen_watcher = hs.screen.watcher.newWithActiveScreen(
 ):start()
 
 
+-- https://github.com/miromannino/miro-windows-manager
+hs.loadSpoon("MiroWindowsManager")
+
+local mirohyper = {"shift", "alt", "cmd"}
+hs.window.animationDuration = 0.0
+spoon.MiroWindowsManager.sizes = {3/2, 2, 3, 1}
+spoon.MiroWindowsManager:bindHotkeys({
+    up = {mirohyper, "up"},
+    right = {mirohyper, "right"},
+    down = {mirohyper, "down"},
+    left = {mirohyper, "left"},
+    fullscreen = {mirohyper, "f"},
+    nextscreen = {mirohyper, "n"}
+})
+
 -- Text-mode "menu bar indicator" replacement
 canvas = nil
 function createCanvas()
@@ -110,22 +125,23 @@ function drawInfo()
     else
         charge = "-"
     end
-    table.insert(lines, string.format("%s%d%%", charge, hs.battery.percentage()))
+    table.insert(lines, string.format("%d%%%s", hs.battery.percentage(), charge))
 
     audio = hs.audiodevice.current()
     if audio.muted then
         vol = "<|"
+        vol = "\u{2297}"
     elseif audio.volume then
-        vol = string.format("<%d", math.floor(audio.volume + 0.5))
+        vol = string.format("\u{229A}%d", math.floor(audio.volume + 0.5))
     else
-        vol = "<\u{2014}"  -- EM DASH
+        vol = "\u{2296}\u{2192}"  -- EM DASH
     end
     table.insert(lines, vol)
 
     wifirate = hs.wifi.interfaceDetails().transmitRate
     table.insert(lines, string.format("%d\u{2933}", wifirate))  -- WAVE ARROW POINTING DIRECTLY RIGHT
 
-    ssid = hs.wifi.currentNetwork()
+    ssid = hs.wifi.currentNetwork() or "None"
     if string.len(ssid) > 5 then
         ssid = string.sub(ssid, 1, 3) .. string.sub(ssid, string.len(ssid)-1)
     end
@@ -136,19 +152,11 @@ end
 
 createCanvas()
 
-function audioCallback(evt)
-    -- The audio watcher fires on volume change, but the volume setting takes
-    -- some time to update.  Redraw a bunch to get the info as soon as we can.
-    for t = 0.5,5,0.5 do
-        hs.timer.doAfter(t, drawInfo)
-    end
-end
-
 -- Start over when any screen geometry changes.
 watcher = hs.screen.watcher.newWithActiveScreen(createCanvas):start()
--- Redraw every 10 seconds.
-timer = hs.timer.doEvery(10, drawInfo)
+-- Redraw every 3 seconds.
+timer = hs.timer.doEvery(3, drawInfo)
 -- Redraw when any audio setting changes.
 for i, dev in ipairs(hs.audiodevice.allOutputDevices()) do
-    dev:watcherCallback(audioCallback):watcherStart()
+    dev:watcherCallback(drawInfo):watcherStart()
 end
