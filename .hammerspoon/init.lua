@@ -115,7 +115,7 @@ function drawInfo()
 
     time = os.date("%I:%M"):gsub("^0", "")
     table.insert(lines, time)
-    date = os.date("%b %d"):gsub(" 0", "")
+    date = os.date("%b %d"):gsub(" 0", " ")
     table.insert(lines, date)
 
     if hs.battery.isCharging() then
