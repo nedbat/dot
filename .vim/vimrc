@@ -24,6 +24,7 @@ set encoding=utf-8
 set fileformat=unix fileformats=unix,dos
 set wildignore=*.o,*~,*.pyc,*.pyo,*\$py.class
 set wildmenu
+set wildoptions=pum                     " Use a pop-up menu for cmdline completion
 
 set foldmethod=syntax foldlevelstart=999
 
@@ -42,10 +43,6 @@ if has("syntax")
     syntax on                           " Turn on syntax coloring
 endif
 colorscheme nedsterm                    " Color scheme to use for terminals.
-
-"if exists('+colorcolumn')
-"    set colorcolumn=80
-"endif
 
 set tabstop=8                           " Real tab characters take up 8 spaces
 set softtabstop=4                       "   but indent by 4 when typing tab while editing.
@@ -322,14 +319,6 @@ if exists('##OptionSet')
     augroup end
 endif
 
-if exists('+wincolor')
-    augroup DimUnfocusedWin
-        autocmd!
-        "autocmd WinEnter * setlocal wincolor=
-        "autocmd WinLeave * setlocal wincolor=FadeBg
-    augroup end
-endif
-
 " Abbreviations
 iabbrev ppxx    import pprint;pprint.pprint()
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
@@ -347,6 +336,15 @@ digraph :( 9785 :) 9786
 "   but only after a space.
 cnoremap <expr> ./ (getcmdtype() == ':' && getcmdline()[getcmdpos()-2] == ' ') ? expand('%:p:h').'/' : './'
 cnoremap // */
+
+" https://vim.fandom.com/wiki/Moving_lines_up_or_down
+" but without the re-indenting.
+nnoremap <A-j> :m .+1<CR>
+nnoremap <A-k> :m .-2<CR>
+inoremap <A-j> <Esc>:m .+1<CR>gi
+inoremap <A-k> <Esc>:m .-2<CR>gi
+vnoremap <A-j> :m '>+1<CR>gv
+vnoremap <A-k> :m '<-2<CR>gv
 
 " Highlight conflict markers.
 "match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -542,15 +540,6 @@ let g:gist_clip_command = 'pbcopy'
 let g:gist_detect_filetype = 1
 let g:gist_post_private = 1
 
-" Plug 'lfv89/vim-interestingwords'
-" " This was useful: http://htmlcolorcodes.com/color-chart/
-" let g:interestingWordsGUIColors = [
-"     \ '#F0C0FF', '#A7FFB7', '#FFB7B7', '#A8D1FF', '#AAFFFF',
-"     \ '#FCFA69', '#CCCCCC', '#F39C12', '#D6D450', '#999999',
-"     \ '#A569BD', '#27AE60', '#DB5345', '#3E96D1', '#B78264',
-"     \ ]
-" noremap <silent> <Leader><Leader>k :call RecolorAllWords()<CR>
-
 Plug 't9md/vim-quickhl'
 " Highlight the current word.
 nmap <silent> <Leader>k <Plug>(quickhl-manual-this)
@@ -565,9 +554,9 @@ let g:quickhl_manual_colors = [
     \ "guibg=#F0C0FF guifg=black",
     \ "guibg=#A7FFB7 guifg=black",
     \ "guibg=#FFC7C7 guifg=black",
-    \ "guibg=#B8E1FF guifg=black",
-    \ "guibg=#AAFFFF guifg=black",
-    \ "guibg=#FCFA69 guifg=black",
+    \ "guibg=#77D1FF guifg=black",
+    \ "guibg=#AAEEFF guifg=black",
+    \ "guibg=#FCFA99 guifg=black",
     \ "guibg=#CCCCCC guifg=black",
     \ "guibg=#F39C12 guifg=black",
     \ "guibg=#D6D450 guifg=black",
@@ -580,6 +569,9 @@ let g:quickhl_manual_colors = [
     \ ]
 
 " https://github.com/inkarkat/vim-mark could be a replacement for quickhl
+
+" Enable this to see the CSS colors above...
+"Plug 'ap/vim-css-color'
 
 Plug 'vim-python/python-syntax'
 let g:python_highlight_class_vars = 1
@@ -600,6 +592,17 @@ let g:is_pythonsense_suppress_object_keymaps = 1    " we want to use af ourselve
 Plug 'tpope/vim-git'                                " Git filetypes, etc.
 Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statusbar
 autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
+
+" From https://github.com/tpope/vim-fugitive/issues/1510:
+function! s:ftplugin_fugitive() abort
+    nnoremap <buffer> <silent> cc :Git commit --quiet<CR>
+    nnoremap <buffer> <silent> ca :Git commit --quiet --amend<CR>
+    nnoremap <buffer> <silent> ce :Git commit --quiet --amend --no-edit<CR>
+endfunction
+augroup QuietFugitiveCommits
+    autocmd!
+    autocmd FileType fugitive call s:ftplugin_fugitive()
+augroup end
 
 Plug 'rbong/vim-flog', { 'on': 'Flogsplit' }
 let g:flog_default_opts = {
@@ -691,7 +694,7 @@ Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
 
 Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
 let g:EditorConfig_preserve_formatoptions = 1
-let g:EditorConfig_exclude_patterns = ['^\.git/']   " Don't fiddle with anything in a .git directory
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', '^\.git/']   " Don't fiddle with anything in a .git directory
 
 Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
 
@@ -1255,7 +1258,11 @@ def pretty_json(j):
     import json
     return json.dumps(json.loads(j), sort_keys=True, indent=4)
 
-def interpret_yaml(y):
+def pretty_toml(t):
+    import json, tomllib
+    return json.dumps(tomllib.loads(t), sort_keys=True, indent=4)
+
+def pretty_yaml(y):
     import yaml, json, pprint
     d = yaml.safe_load(y)
     try:
@@ -1266,7 +1273,8 @@ def interpret_yaml(y):
 prettiers = {
     'xml':  pretty_xml,
     'json': pretty_json,
-    'yaml': interpret_yaml,
+    'toml': pretty_toml,
+    'yaml': pretty_yaml,
 }
 
 def pretty_it(datatype):
@@ -1279,5 +1287,6 @@ EOF_PY
 
     command! -range=% Pxml :<line1>,<line2>python3 pretty_it('xml')
     command! -range=% Pjson :<line1>,<line2>python3 pretty_it('json')
+    command! -range=% Ptoml :<line1>,<line2>python3 pretty_it('toml')
     command! -range=% Pyaml :<line1>,<line2>python3 pretty_it('yaml')
 endif
