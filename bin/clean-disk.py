@@ -42,10 +42,11 @@ def clean(dirname, cmd=None):
     if output.strip():
         print(output.rstrip())
     after = get_size(dirpath)
+    saved = before - after
     print(f"after:  {after:15,d}")
-    print(f"saved:  {before-after:15,d}")
+    print(f"saved:  {saved:15,d}")
     global total_saved
-    total_saved += before - after
+    total_saved += saved
 
 
 def rmrf(dirname):
@@ -56,6 +57,12 @@ def cmd(template, doc=None, harden=False):
     def doit(dirname):
         print(command_output(template.format(dirname=dirname), harden=harden))
     doit.__doc__ = doc or template
+    return doit
+
+def make(targets):
+    def doit(dirname):
+        print(command_output(f"make --quiet --directory '{dirname}' {targets}"))
+    doit.__doc__ = f"make {targets}"
     return doit
 
 rm_pyc = cmd(r"find {dirname} -regex '.*\.py[cow]' -delete", "Delete .pyc etc files")
@@ -69,6 +76,7 @@ clean("~/Library/Caches/pip", rmrf)
 clean("~/Library/Caches/pipenv", rmrf)
 clean("~/Library/Caches/pip-tools", rmrf)
 clean("~/Library/Caches/yarn", rmrf)
+clean("~/.dropbox/Crashpad/completed", rmrf)
 clean("~", rm_tox)
 clean("/src", rm_tox)
 clean("/usr/local/virtualenvs", rm_pyc)
@@ -78,5 +86,13 @@ pycdir = os.environ.get("PYTHONPYCACHEPREFIX", "")
 if pycdir:
     clean(pycdir, rmrf)
 clean("~/log/irc", cmd("afsctool -cvv -9 {dirname}"))
+for d in [
+    "coverage/trunk",
+    "scriv",
+    "coverage/django_coverage_plugin",
+    "cog",
+    "web/stellated",
+]:
+    clean(f"~/{d}", make("sterile"))
 
-print(f"----\nTOTAL:  {total_saved:15,d}")
+print(f"----\nTOTAL saved:  {total_saved:15,d}")
