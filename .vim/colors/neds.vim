@@ -51,8 +51,8 @@ highlight User3                             guifg=White         guibg=Red
 highlight ColorColumn                                           guibg=#fff8f8
 
 " Pop-up menu
-highlight Pmenu         gui=italic          guifg=#666666       guibg=#dddddd
-highlight PmenuSel      gui=bold            guifg=Black         guibg=Yellow
+highlight Pmenu         gui=NONE            guifg=#666666       guibg=#ffffcc
+highlight PmenuSel      gui=bold            guifg=Black         guibg=#cccc00
 
 " Diff colors
 highlight DiffAdd       gui=NONE            guifg=Red           guibg=#fff0f0
