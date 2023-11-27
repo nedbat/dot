@@ -33,3 +33,7 @@ alias 1s='PAGER="head -n $(($(tput lines)-4))" GIT_PAGER=$PAGER'
 # Watch the actions, and when they pass, merge to main and push.
 alias gshipit='watch_gha_runs --wait-for-start --poll 15 && g ma && g brmerge- && g push'
 alias wgha='watch_gha_runs'
+
+# Make it easier to work with merge conflicts.
+alias eflict='e $(git flict)'
+alias gaflict='git add $(git flict)'
