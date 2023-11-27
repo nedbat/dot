@@ -324,7 +324,7 @@ iabbrev ppxx    import pprint;pprint.pprint()
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
 iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-
 iabbrev staxxx  import inspect;print("\n".join("%30s : %s:%d" % (t[3], t[1], t[2]) for t in inspect.stack()[99:0:-1]))
-iabbrev tmpfooxx    with open("/tmp/foo.out", "a") as f: print(f"", file=f)
+iabbrev tmpfooxx    with open("/tmp/foo.out", "a") as f:<cr>print(f"", file=f)
 iabbrev loremx      lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt.
 iabbrev loremxx     lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
 iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.
@@ -535,7 +535,7 @@ let g:tagbar_type_rst = {
 Plug 'habamax/vim-rst'      " .rst syntax
 
 Plug 'mattn/webapi-vim'
-Plug 'mattn/gist-vim', { 'on': 'Gist' }
+Plug 'mattn/vim-gist', { 'on': 'Gist' }
 let g:gist_clip_command = 'pbcopy'
 let g:gist_detect_filetype = 1
 let g:gist_post_private = 1
@@ -920,19 +920,6 @@ function! <SID>RemoveFancyCharacters() range
     execute ':'.a:firstline.','.a:lastline.'s/'.join(keys(typo), '\|').'/\=typo[submatch(0)]/ge'
 endfunction
 
-command! -range=% FormatProblemDefinition :<line1>,<line2>call <SID>FormatProblemDefinition()
-function! <SID>FormatProblemDefinition() range
-    execute ':'.a:firstline.','.a:lastline.':Pjson'
-    execute ':'.a:firstline.';+3s/data": "/data": """\\\r/'
-    :mark  a
-    :s/\v", *$/\r""",/
-    :mark b
-    :'a,'bs/\\n/\r/ge
-    :'a,'bs/\\t/    /ge
-    :'a,'bs/\\"/"/ge
-    :'a,'bs/\\\\/\\/ge
-endfunction
-
 " Show the syntax highlight group for the current character.
 " Even better: https://gist.github.com/mcantor/7bff61685e8b17acee56d977b025a705
 " from https://github.com/mcantor/dotfiles/blob/master/vim/.vimrc#L604-L646
@@ -1170,6 +1157,18 @@ function! RunGrep(word)
         botright copen
     endif
 endfunction
+
+" Useful when combing through debug logs. I wrote it to replace process ids
+" with a meaningful shorthand.
+function! ReplaceWord(word)
+    call inputsave()
+    let l:cmdline = input('replace ' . a:word . ' with: ')
+    call inputrestore()
+    let l:save_view = winsaveview()
+    execute ':keeppatterns %s/' . a:word . '/' . l:cmdline . '/g'
+    call winrestview(l:save_view)
+endfunction
+command! ReplaceWord :call ReplaceWord(expand("<cword>"))
 
 " Inspired by https://github.com/jboner/vim-config/blob/master/autoload/l9/quickfix.vim#L62-L82
 " Compares quickfix entries for sorting.
