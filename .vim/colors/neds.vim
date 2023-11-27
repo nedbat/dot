@@ -98,6 +98,10 @@ highlight! link fugitiveUnstagedModifier fugitiveUnstagedSection
 highlight! link fugitiveStagedSection fugitiveUnstagedSection
 highlight! link fugitiveStagedModifier fugitiveUnstagedSection
 
+highlight flogRef gui=bold guifg=NONE guibg=#ddddff
+highlight! link flogRefHead flogRef
+highlight! link flogRefHeadBranch flogRef
+
 command! Dim highlight Normal guifg=#cccccc
 command! Undim highlight Normal guifg=Black
 
