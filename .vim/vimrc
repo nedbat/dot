@@ -1,6 +1,6 @@
 " Ned's vimrc file
 
-" set verbose=99 verbosefile=/tmp/vim.verbose
+" set verbose=15 verbosefile=/tmp/vim.verbose
 filetype off
 
 " Windows thinks personal vim stuff should be in ~/vimfiles, make it look in ~/.vim instead
@@ -519,8 +519,8 @@ let g:tagbar_type_markdown = {
 Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
 let g:tagbar_type_rst = {
     \ 'ctagstype' : 'rst',
-    \ 'ctagsbin' : expand('~/.vim/plugged/rst2ctags/rst2ctags.py'),
-    \ 'ctagsargs' : '-f - --sort=yes',
+    \ 'ctagsbin' : 'python2.7',
+    \ 'ctagsargs' : '~/.vim/plugged/rst2ctags/rst2ctags.py -f - --sort=yes',
     \ 'kinds' : [
         \ 's:sections',
         \ 'i:images'
