@@ -94,9 +94,10 @@
         ~/bin/git-copysha "$@" \
     }; f"
 
+    # https://nedbatchelder.com/blog/202202/moving_a_git_branch_to_a_new_base.html
     movebranch = "!f() { \
         : git show ; \
-        git rebase --onto $2 $(git merge-base $1 @) \
+        git rebase --onto $2 $(git merge-base $1 @); \
     }; f"
 
     squash = "!f() { \
