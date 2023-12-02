@@ -68,7 +68,7 @@ hs.loadSpoon("MiroWindowsManager")
 
 local mirohyper = {"shift", "alt", "cmd"}
 hs.window.animationDuration = 0.0
-spoon.MiroWindowsManager.sizes = {3/2, 2, 3, 1}
+spoon.MiroWindowsManager.sizes = {4/3, 3/2, 2/1, 3/1, 1}
 spoon.MiroWindowsManager:bindHotkeys({
     up = {mirohyper, "up"},
     right = {mirohyper, "right"},
