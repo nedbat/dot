@@ -1,6 +1,7 @@
 # e means gvim, vim or vi, depending on what's installed.
 export EDITOR=vim
 possible_vims=(
+    /opt/homebrew/bin/mvim
     /usr/local/bin/mvim
     /Applications/MacVim.app/Contents/MacOS/Vim
 )
