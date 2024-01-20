@@ -235,3 +235,4 @@
     signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEQoprVcqNTHlfyo93mMK8FTe3QfQLkoKF7X7aSNrlIG
 
 # vim: set filetype=gitconfig:
+[safe]
