@@ -49,11 +49,12 @@ is_ipython = 'In' in globals()
 if not is_ipython:
     hook_up_history()
 
-try:
-    import rich.pretty; rich.pretty.install()
-    import rich.traceback; rich.traceback.install()
-except ImportError:
-    pass
+if 0:
+    try:
+        import rich.pretty; rich.pretty.install()
+        import rich.traceback; rich.traceback.install()
+    except ImportError:
+        pass
 
 # Get rid of globals we don't want.
 del is_ipython, hook_up_history
