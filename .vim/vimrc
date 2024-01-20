@@ -285,9 +285,14 @@ augroup end
 augroup RequirementsSettings
     autocmd!
     autocmd BufRead,BufNewFile requirements.txt set filetype=conf
+    autocmd BufRead,BufNewFile requirements.in set filetype=conf
+    autocmd BufRead,BufNewFile requirements.pip set filetype=conf
     autocmd BufRead,BufNewFile */requirements/*.txt set filetype=conf
+    autocmd BufRead,BufNewFile */requirements/*.in set filetype=conf
+    autocmd BufRead,BufNewFile */requirements/*.pip set filetype=conf
     autocmd BufRead,BufNewFile */requirements/**/*.txt set filetype=conf
     autocmd BufRead,BufNewFile */requirements/**/*.in set filetype=conf
+    autocmd BufRead,BufNewFile */requirements/**/*.pip set filetype=conf
 augroup end
 
 " Fix the filetype for various files.
@@ -320,6 +325,7 @@ if exists('##OptionSet')
 endif
 
 " Abbreviations
+iabbrev jdxx    import json,sys; json.dump(XXX, sys.stdout, indent=4)
 iabbrev ppxx    import pprint;pprint.pprint()
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
 iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-
@@ -798,7 +804,9 @@ augroup ColorSchemeFixes
     autocmd ColorScheme neds let g:rainbow_conf['guifgs'] = ['royalblue3', 'darkorange3', 'seagreen4', 'firebrick']
 augroup end
 
-Plug 'taze55/vim-dirdifftree'
+Plug 'taze55/vim-dirdifftree', { 'on': 'DirDiffTree' }
+
+Plug 'chrisbra/vim-diff-enhanced'
 
 call plug#end()
 
