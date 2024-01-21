@@ -68,6 +68,5 @@ clean:					## Get rid of unneeded stuff
 	find . -print0 | xargs -0 xattr -c
 
 dist: $(EXTRACTOR_FILE)			## Copy extractor to a few places
-	cp $(EXTRACTOR_FILE) /src/edx/src
 	scp $(EXTRACTOR_FILE) drop1:.
 	scp $(EXTRACTOR_FILE) dreamhost:.
