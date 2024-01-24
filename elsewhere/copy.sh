@@ -1,4 +1,12 @@
 # This directory has miscellaneous other files that go in random places.
-# cp ~/Library/Application\ Support/Choosy/behaviours.plist elsewhere/choosy_behaviors.plist
-cp /usr/local/pyenv/rc.sh elsewhere/pyenv_rc.sh
-brew list -1 > elsewhere/brew_list
+
+for f in \
+    ~/Library/Application\ Support/Choosy/behaviors.plist \
+    /usr/local/pyenv/rc.sh \
+    /etc/synthetic.conf \
+    /src/python/build.sh \
+; do
+    if [[ -f $f ]]; then
+        cp $f elsewhere/${f//\//__}
+    fi
+done

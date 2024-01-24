@@ -51,6 +51,7 @@ update:					## Copy files from directories that should always be in sync
 	; do \
 		cp -R ~/$$d/* ./$$d/ ; \
 	done
+	brew list -1 > elsewhere/brew_list
 	elsewhere/copy.sh
 
 CYG_SSH = /home/ned/.ssh
