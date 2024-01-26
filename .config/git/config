@@ -168,7 +168,10 @@
 
 [commit]
     template = ~/.config/git/commit
-    gpgsign = true
+    # Signing is security theater, so don't.
+    # https://blog.glyph.im/2024/01/unsigned-commits.html
+    # https://hachyderm.io/@nedbat/111817091444698270
+    #gpgsign = true
 
 [diff-so-fancy]
     rulerWidth = 80
