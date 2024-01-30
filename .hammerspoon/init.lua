@@ -141,6 +141,9 @@ function drawInfo()
     wifirate = hs.wifi.interfaceDetails().transmitRate
     table.insert(lines, string.format("%d\u{2933}", wifirate))  -- WAVE ARROW POINTING DIRECTLY RIGHT
 
+    -- Have to enable location services for Hammerspoon to get the wifi name.
+    -- https://github.com/Hammerspoon/hammerspoon/issues/3537
+    -- hs.location.get()
     ssid = hs.wifi.currentNetwork() or "None"
     if string.len(ssid) > 5 then
         ssid = string.sub(ssid, 1, 3) .. string.sub(ssid, string.len(ssid)-1)
