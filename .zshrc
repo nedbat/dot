@@ -1,6 +1,14 @@
 echo '(.zshrc)'
 
-fpath=(/src/zsh-completions/src $fpath)
+# Places to find more zsh completions
+for d in \
+    /src/zsh-completions/src \
+    /opt/homebrew/share/zsh/site-functions \
+; do
+    if [[ -d $d ]]; then
+        fpath=($d $fpath)
+    fi
+done
 
 autoload zmv
 autoload -Uz compinit
