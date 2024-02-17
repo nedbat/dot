@@ -1,3 +1,5 @@
+# Run by interactive zshells
+
 echo '(.zshrc)'
 
 # Places to find more zsh completions
