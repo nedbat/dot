@@ -21,6 +21,9 @@ cscope
 ctags
 dav1d
 diff-so-fancy
+docker
+docker-completion
+docker-compose
 enchant
 entr
 eslint
@@ -62,6 +65,7 @@ icu4c
 imagemagick
 imath
 isl
+jansson
 jasper
 jbig2dec
 jpeg
@@ -203,6 +207,7 @@ tig
 tree
 tree-sitter
 unbound
+universal-ctags
 webp
 wget
 x264
