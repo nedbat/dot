@@ -106,4 +106,8 @@ zle -N zle-line-init
 
 
 export SHELL_TYPE=zsh
+# We shouldn't need to read env.sh again, because it was already read by .zshenv.
+# But something is pushing things onto the front of PATH, and env.sh pushes the
+# things we want at the front.
+source ~/.config/env.sh
 source ~/.config/rc.sh
