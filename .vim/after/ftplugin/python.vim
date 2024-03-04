@@ -1,7 +1,7 @@
 if exists('+colorcolumn')
-    " Put the colorcolumn just after the last OK column, to match what
-    " .editorconfig does.
-    setlocal colorcolumn=81,101,121
+    " Standard widths.  .editorconfig puts them one-past, so the project's
+    " Desired width will appear as a double-width line.
+    setlocal colorcolumn=80,100,120
 endif
 
 setlocal textwidth=79
