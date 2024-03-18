@@ -165,6 +165,7 @@ class Gerp(object):
         rg_words = [
             "rg",
             "--no-heading",
+            "--with-filename",
             "--line-number",
             "--no-ignore",
             "--hidden",
@@ -186,8 +187,13 @@ class Gerp(object):
             pattern = "[-]" + pattern[1:]
         rg_words.extend(["--regexp", pattern])
 
-        for root in self.roots:
-            cmd = rg_words + [root]
+        if self.one:
+            starts = [self.tree]
+        else:
+            starts = self.roots
+
+        for start in starts:
+            cmd = rg_words + [start]
             p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
             for line in iter(p.stdout.readline, b''):
                 print(line.rstrip().decode("utf-8"))
