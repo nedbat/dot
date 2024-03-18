@@ -1057,6 +1057,10 @@ noremap <F1> <Nop>
 vnoremap <F1> <Nop>
 lnoremap <F1> <Nop>
 
+" I never mean to look up words under the cursor.
+noremap K <Nop>
+vnoremap K <Nop>
+
 " Jump to start and end of line using the home row keys.
 nnoremap H ^
 xnoremap H ^
