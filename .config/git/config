@@ -39,6 +39,15 @@
 
     # I'm done with this merged branch, ready to switch back to another one.
     brdone = "!f() { : git show ; brname=\"$(git symbolic-ref --short HEAD)\" && git checkout ${1:-master} && git pull && git branch -d $brname; }; f"
+    brdone2 = "!f() { \
+        : git show; \
+        local brname=\"$(git symbolic-ref --short HEAD)\" && \
+        local mainster=\"$(git branch -a | sed -n -E -e '/remotes.origin.ma(in|ster)$/s@remotes/origin/@@p')\" && \
+        git checkout ${1:-$mainster} && \
+        git pull && \
+        git branch -d $brname && \
+        git push origin --delete $brname; \
+    }; f"
 
     # Merge a branch, and delete it here and on the origin.
     brmerge = "!f() { : git show ; git merge $1 && git branch -d $1 && git push origin --delete $1; }; f"
@@ -54,6 +63,8 @@
     # delete the branch on the remote, because "@{-1}" isn't valid there.
     brdel- = "!f() { git switch @{-1} && git switch - && git branch -D @{-1}; }; f"
 
+    brnedbat = "!f() { git branch --all --color | grep nedbat; }; f"
+
     # Cherry-pick, conveniently
     cp = "!f() { git cherry-pick -x $@; }; f"
     cpstop = cherry-pick --abort
@@ -66,8 +77,6 @@
     ampf = "!f() { git amend -a --allow-empty; git pushf; }; f"
     puo = push -u origin @
 
-    # Find an open-release to switch to.
-    oe = "!f() { git checkout $(git branch -a | sed -n -E -e \"/open-release.$1.*master/s@remotes/origin/@@p\"); git pull; }; f"
     # Switch to main or master, whichever exists.
     ma = "!f() { git checkout $(git branch -a | sed -n -E -e '/remotes.origin.ma(in|ster)$/s@remotes/origin/@@p'); git pull; }; f"
     # Switch to the origin's default branch (like ma, but more accurate and slower)
