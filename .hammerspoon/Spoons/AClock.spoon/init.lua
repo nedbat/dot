@@ -70,11 +70,11 @@ function obj:init()
     textColor = self.textColor,
     textAlignment = "center",
   }
-  local mainScreen = hs.screen.primaryScreen()
+  local mainScreen = hs.screen'Built%-in'
   local mainRes = mainScreen:fullFrame()
   self.canvas:frame({
-    x = (mainRes.w-self.width)/2,
-    y = (mainRes.h-self.height)/2,
+    x = mainRes.x + (mainRes.w-self.width)/2,
+    y = mainRes.y + (mainRes.h-self.height)/2,
     w = self.width,
     h = self.height,
   })
