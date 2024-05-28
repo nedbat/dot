@@ -623,13 +623,14 @@ noremap <Leader>gg :Git<space>
 noremap <Leader>gh :bot :Git log --oneline -20<CR>
 noremap <Leader>gi :Gist<CR>
 noremap <Leader>gl :Flogsplit<CR>
-noremap <Leader><Leader>gl :Flogsplit -path=%<CR>    " Show the git log for the current file
+noremap <Leader><Leader>gl :Flogsplit -path=%<CR>   " Show the git log for the current file
 noremap <Leader>go :Git checkout<space>
 noremap <Leader>gp :Git pull<CR>
 noremap <Leader>gr :Git rm %<CR>
 noremap <Leader>gu :GBrowse!<CR>
 noremap <Leader>gv :GBrowse<CR>
 
+Plug 'hotwatermorning/auto-git-diff'                " auto-display diffs during `git rebase -i`
 
 Plug 'tpope/vim-unimpaired'
 noremap ,l :normal yol<CR>
