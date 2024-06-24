@@ -3,7 +3,7 @@ alias p='python3'
 alias te='tox -q -e'
 
 ten0k() {
-    tox -q -e $1 -- -n 0 -k $2
+    tox -q -e $1 -- -n 0 -k $2 $3 $4 $5
 }
 
 # For special cases, define a local function:

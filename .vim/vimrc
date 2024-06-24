@@ -185,7 +185,7 @@ let filestatus .= ' %1*%{&readonly ? "" : &modified ? " + " : &modifiable ? "" :
 let filestatus .= '%3*%{&readonly ? (&modified ? " + " : " ∅ ") : ""}%*'
 let filestatus .= '%{&readonly? "" : &modified ? "" : &modifiable ? "   " : ""}'
 let filestatus .= ' %<%f  '
-let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
+"let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
 let filestatus .= ' %2*%{FugitiveHead(6)}%* '
 let filestatus .= '%='
 let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}%2*%{StatusOptions()}%*'
@@ -330,7 +330,7 @@ iabbrev ppxx    import pprint;pprint.pprint()
 iabbrev pdbxx   import pdb,sys as __sys;__sys.stdout=__sys.__stdout__;pdb.set_trace() # -={XX}=-={XX}=-={XX}=-
 iabbrev pudbxx  import pudb,sys as __sys;__sys.stdout=__sys.__stdout__;pudb.set_trace() # -={XX}=-={XX}=-={XX}=-
 iabbrev staxxx  import inspect;print("\n".join("%30s : %s:%d" % (t[3], t[1], t[2]) for t in inspect.stack()[99:0:-1]))
-iabbrev tmpfooxx    with open("/tmp/foo.out", "a") as f:<cr>print(f"", file=f)
+iabbrev tmpfooxx    import contextlib<cr>with open("/tmp/foo.out", "a") as f:<cr>with contextlib.redirect_stdout(f):<cr>print(f"")
 iabbrev loremx      lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt.
 iabbrev loremxx     lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.
 iabbrev loremxxx    lorem ipsum quia dolor sit amet consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur.
@@ -389,7 +389,8 @@ let g:SignatureMarkerLineHL = 'SignatureMarkLine'
 "Plug 'mgedmin/coverage-highlight.vim'
 "Plug '~/coverage/coverage-highlight.vim'
 
-Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
+" It doesn't work usefully: different files aren't highlighted
+"Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
 
 Plug 'ctrlpvim/ctrlp.vim', { 'on': ['CtrlP', 'CtrlPMRUFiles', 'CtrlPBuffer'] }
 noremap <silent> <Leader>e :CtrlP<CR>
