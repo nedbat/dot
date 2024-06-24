@@ -24,7 +24,9 @@ set encoding=utf-8
 set fileformat=unix fileformats=unix,dos
 set wildignore=*.o,*~,*.pyc,*.pyo,*\$py.class
 set wildmenu
-set wildoptions=pum                     " Use a pop-up menu for cmdline completion
+if v:version >= 900
+    set wildoptions=pum                 " Use a pop-up menu for cmdline completion
+endif
 
 set foldmethod=syntax foldlevelstart=999
 
