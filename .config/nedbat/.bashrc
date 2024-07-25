@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Add this line to .bashrc (or create it with this line):
+#   source ~/.config/nedbat/.bashrc
+
 if [[ -n $PS1 ]]; then
     echo '(.bashrc)'
 fi

@@ -1,3 +1,6 @@
+# Add this line to .zshrc (or create it with this line):
+#   source ~/.config/nedbat/.zshrc
+#
 # Run by interactive zshells
 
 echo '(.zshrc)'
