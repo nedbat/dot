@@ -196,8 +196,9 @@
 [gpg]
     format = ssh
 
-[gpg "ssh"]
-    program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+# Figure out later how to conditionalize this per-machine.
+#[gpg "ssh"]
+#    program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 
 [init]
     defaultBranch = main
@@ -230,16 +231,17 @@
 [tag]
     gpgsign = true
 
-[url "git@github.com:"]
-    # Git remotes of "git@github.com" should really be pushed using ssh.
-    pushInsteadOf = git@github.com:
-    # Private repos need ssh in both directions.  See the "fix-private-remotes" alias.
-    insteadOf = github_private:
-
-[url "https://github.com/"]
-    # Git remotes of "git@github.com" should be pulled over https,
-    # to reduce the need to unlock 1Password.
-    insteadOf = git@github.com:
+# Commented out for now, maybe I don't need them anymore?  The second clause prompted me for a user name for https://github.com
+#[url "git@github.com:"]
+#    # Git remotes of "git@github.com" should really be pushed using ssh.
+#    pushInsteadOf = git@github.com:
+#    # Private repos need ssh in both directions.  See the "fix-private-remotes" alias.
+#    insteadOf = github_private:
+#
+#[url "https://github.com/"]
+#    # Git remotes of "git@github.com" should be pulled over https,
+#    # to reduce the need to unlock 1Password.
+#    insteadOf = git@github.com:
 
 [user]
     name = Ned Batchelder
@@ -247,4 +249,3 @@
     signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEQoprVcqNTHlfyo93mMK8FTe3QfQLkoKF7X7aSNrlIG
 
 # vim: set filetype=gitconfig:
-[safe]
