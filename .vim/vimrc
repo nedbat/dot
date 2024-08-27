@@ -188,7 +188,9 @@ let filestatus .= '%3*%{&readonly ? (&modified ? " + " : " ∅ ") : ""}%*'
 let filestatus .= '%{&readonly? "" : &modified ? "" : &modifiable ? "   " : ""}'
 let filestatus .= ' %<%f  '
 "let filestatus .= '%2*%{tagbar#currenttag(" %s ", "", "f")}%*'
-let filestatus .= ' %2*%{FugitiveHead(6)}%* '
+if exists('*FugitiveHead')
+    let filestatus .= ' %2*%{FugitiveHead(6)}%* '
+endif
 let filestatus .= '%='
 let filestatus .= '%{strlen(&filetype) ? &filetype : "none"}%2*%{StatusOptions()}%*'
 let filestatus .= ' %{StatusEncodingAndFormat()}'
@@ -370,449 +372,452 @@ endif
 "" Plugins
 ""
 
-" https://github.com/junegunn/vim-plug
-" 'silent!' here to keep it from complaining if there's no "git" installed.
-silent! call plug#begin()
+if exists('*plug#begin')
 
-" Scratch buffers, including capturing command output.
-Plug 'hauleth/vim-backscratch'
-noremap <Leader><Leader>s :Scratch<Space>
-command! Keep setlocal buftype= buflisted bufhidden=
+    " https://github.com/junegunn/vim-plug
+    " 'silent!' here to keep it from complaining if there's no "git" installed.
+    silent! call plug#begin()
 
-" Auto-cd to a file's project root.
-Plug 'airblade/vim-rooter'
-let g:rooter_silent_chdir = 1
-let g:rooter_change_directory_for_non_project_files = 'current'
+    " Scratch buffers, including capturing command output.
+    Plug 'hauleth/vim-backscratch'
+    noremap <Leader><Leader>s :Scratch<Space>
+    command! Keep setlocal buftype= buflisted bufhidden=
 
-Plug 'kshenoy/vim-signature'
-let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
-let g:SignatureMarkerLineHL = 'SignatureMarkLine'
+    " Auto-cd to a file's project root.
+    Plug 'airblade/vim-rooter'
+    let g:rooter_silent_chdir = 1
+    let g:rooter_change_directory_for_non_project_files = 'current'
 
-"Plug 'mgedmin/coverage-highlight.vim'
-"Plug '~/coverage/coverage-highlight.vim'
+    Plug 'kshenoy/vim-signature'
+    let g:SignatureIncludeMarks = 'abcdefghijklmnopqrstuvwxyz'
+    let g:SignatureMarkerLineHL = 'SignatureMarkLine'
 
-" It doesn't work usefully: different files aren't highlighted
-"Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
+    "Plug 'mgedmin/coverage-highlight.vim'
+    "Plug '~/coverage/coverage-highlight.vim'
 
-Plug 'ctrlpvim/ctrlp.vim', { 'on': ['CtrlP', 'CtrlPMRUFiles', 'CtrlPBuffer'] }
-noremap <silent> <Leader>e :CtrlP<CR>
-noremap <Leader><Leader>e :e<Space>
-noremap <silent> <Leader>r :CtrlPMRUFiles<CR>
-noremap <silent> <Leader>b :CtrlPBuffer<CR>
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v(/htmlcov|/node_modules|/__pycache__|\.egg-info|\.tox)$',
-    \ }
-let g:ctrlp_extensions = ['mixed']
-let g:ctrlp_match_current_file = 1
-let g:ctrlp_max_files = 0
-let g:ctrlp_max_height = 30
-let g:ctrlp_mruf_max = 1000
-let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
-let g:ctrlp_open_multiple_files = '2vjr'
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("h")':   ['<c-cr>', '<c-s>'],
-    \ 'PrtDeleteEnt()':         ['<C-X>', '<F7>'],
-    \ 'ToggleType(1)':          ['<C-F>', '<C-Up>', ',', '<Space>'],
-    \ }
-let g:ctrlp_root_markers = ['.treerc']
-let g:ctrlp_show_hidden = 1
-if executable('rg')
-    let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
-endif
+    " It doesn't work usefully: different files aren't highlighted
+    "Plug 'will133/vim-dirdiff', { 'on': 'DirDiff' }
 
-" Plug 'pearofducks/ansible-vim'
-" let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
-" let g:ansible_name_highlight = 'd'
-
-" Plug 'lambdalisue/fern.vim'
-
-Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
-if v:version >= 700
-    let g:NERDTreeIgnore = [
-        \ '\.pyc$', '\.pyo$', '\.pyd$', '\$py\.class$',
-        \ '\.o$', '\.so$',
-        \ '^__pycache__$', '\.egg-info$',
-        \ 'node_modules',
-    \ ]
-    let g:NERDTreeSortOrder = ['^_.*', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
-    let g:NERDTreeShowBookmarks = 0
-    let g:NERDTreeMinimalUI = 1
-    let g:NERDTreeBookmarksSort = 0
-    let g:NERDTreeCascadeOpenSingleChildDir = 1
-    let g:NERDTreeQuitOnOpen = 2        " Close bookmarks after using a bookmark
-    if has("gui_win32")
-        let g:NERDTreeDirArrows = 0
+    Plug 'ctrlpvim/ctrlp.vim', { 'on': ['CtrlP', 'CtrlPMRUFiles', 'CtrlPBuffer'] }
+    noremap <silent> <Leader>e :CtrlP<CR>
+    noremap <Leader><Leader>e :e<Space>
+    noremap <silent> <Leader>r :CtrlPMRUFiles<CR>
+    noremap <silent> <Leader>b :CtrlPBuffer<CR>
+    let g:ctrlp_clear_cache_on_exit = 0
+    let g:ctrlp_custom_ignore = {
+        \ 'dir': '\v(/htmlcov|/node_modules|/__pycache__|\.egg-info|\.tox)$',
+        \ }
+    let g:ctrlp_extensions = ['mixed']
+    let g:ctrlp_match_current_file = 1
+    let g:ctrlp_max_files = 0
+    let g:ctrlp_max_height = 30
+    let g:ctrlp_mruf_max = 1000
+    let g:ctrlp_mruf_exclude = '^/private/var/folders/.*\|.*hg-editor-.*\|.*fugitiveblame$'
+    let g:ctrlp_open_multiple_files = '2vjr'
+    let g:ctrlp_prompt_mappings = {
+        \ 'AcceptSelection("h")':   ['<c-cr>', '<c-s>'],
+        \ 'PrtDeleteEnt()':         ['<C-X>', '<F7>'],
+        \ 'ToggleType(1)':          ['<C-F>', '<C-Up>', ',', '<Space>'],
+        \ }
+    let g:ctrlp_root_markers = ['.treerc']
+    let g:ctrlp_show_hidden = 1
+    if executable('rg')
+        let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
     endif
-    noremap <silent> <Leader>f :NERDTreeFind<CR>
-else
-    " Don't load NERDTree, it will just complain.
-    let g:loaded_nerd_tree = 1
-endif
 
-noremap <silent> <Leader><Leader>f :let @+ = expand("%:p") \| :echo @+ . " (cwd: " . getcwd() . ")"<CR>
+    " Plug 'pearofducks/ansible-vim'
+    " let g:ansible_attribute_highlight = 'ab'    " highlight all attributes, brightly.
+    " let g:ansible_name_highlight = 'd'
 
-" Tried this, couldn't get it to do anything:
-" Plug 'Xuyuanp/nerdtree-git-plugin'
+    " Plug 'lambdalisue/fern.vim'
 
-Plug 'scrooloose/nerdcommenter', {
-\ 'on': [
-    \ '<Plug>NERDCommenterComment',
-    \ '<Plug>NERDCommenterUncomment'
-    \ ]
-\ }
+    Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
+    if v:version >= 700
+        let g:NERDTreeIgnore = [
+            \ '\.pyc$', '\.pyo$', '\.pyd$', '\$py\.class$',
+            \ '\.o$', '\.so$',
+            \ '^__pycache__$', '\.egg-info$',
+            \ 'node_modules',
+        \ ]
+        let g:NERDTreeSortOrder = ['^_.*', '\/$', '*', '\.swp$',  '\.bak$', '\~$']
+        let g:NERDTreeShowBookmarks = 0
+        let g:NERDTreeMinimalUI = 1
+        let g:NERDTreeBookmarksSort = 0
+        let g:NERDTreeCascadeOpenSingleChildDir = 1
+        let g:NERDTreeQuitOnOpen = 2        " Close bookmarks after using a bookmark
+        if has("gui_win32")
+            let g:NERDTreeDirArrows = 0
+        endif
+        noremap <silent> <Leader>f :NERDTreeFind<CR>
+    else
+        " Don't load NERDTree, it will just complain.
+        let g:loaded_nerd_tree = 1
+    endif
 
-" Don't map all the keys
-let g:NERDCreateDefaultMappings = 0
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
-" Allow commenting and inverting empty lines (useful when commenting a region)
-let g:NERDCommentEmptyLines = 1
+    noremap <silent> <Leader><Leader>f :let @+ = expand("%:p") \| :echo @+ . " (cwd: " . getcwd() . ")"<CR>
 
-map <Leader>cc <Plug>NERDCommenterComment
-map <Leader>cu <Plug>NERDCommenterUncomment
+    " Tried this, couldn't get it to do anything:
+    " Plug 'Xuyuanp/nerdtree-git-plugin'
 
-Plug 'majutsushi/tagbar'                            " Tagbar, no 'on', so that statusbar will have tags
-let g:tagbar_width = 40
-let g:tagbar_zoomwidth = 30
-let g:tagbar_sort = 0                               " sort by order in file
-let g:tagbar_show_visibility = 0
-let g:tagbar_show_linenumbers = 0
-let g:tagbar_autofocus = 1
-let g:tagbar_autoclose = 1
-let g:tagbar_iconchars = ['+', '-']
-nnoremap <silent> <Leader>t :TagbarToggle<CR>
-
-let g:tagbar_type_css = {
-    \ 'ctagstype' : 'Css',
-    \ 'kinds' : [
-        \ 'c:classes',
-        \ 's:selectors',
-        \ 'i:ids',
-        \ 't:tags',
-        \ 'm:media'
-    \ ]
-\ }
-
-let g:tagbar_type_html = {
-    \ 'ctagstype' : 'html',
-    \ 'sort' : 0,
-    \ 'kinds' : [
-        \ 'h:headings'
-    \ ]
-\ }
-
-let g:tagbar_type_scss = {
-    \ 'ctagstype' : 'Scss',
-    \ 'kinds' : [
-        \ 'c:classes',
-        \ 's:selectors',
-        \ 'i:ids',
-        \ 't:tags',
-        \ 'd:media',
-        \ 'm:mixins',
-        \ 'v:variables'
-    \ ]
-\ }
-
-let g:tagbar_type_markdown = {
-    \ 'ctagstype' : 'markdown',
-    \ 'kinds' : [
-        \ 'h:headings',
-        \ 'l:links',
-        \ 'i:images'
-    \ ],
-    \ "sort" : 0
-\ }
-
-Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
-let g:tagbar_type_rst = {
-    \ 'ctagstype' : 'rst',
-    \ 'ctagsbin' : 'python2.7',
-    \ 'ctagsargs' : '~/.vim/plugged/rst2ctags/rst2ctags.py -f - --sort=yes',
-    \ 'kinds' : [
-        \ 's:sections',
-        \ 'i:images'
-    \ ],
-    \ 'sro' : '|',
-    \ 'kind2scope' : {
-        \ 's' : 'section',
-    \ },
-    \ 'sort' : 0,
-\ }
-
-Plug 'habamax/vim-rst'      " .rst syntax
-
-Plug 'mattn/webapi-vim'
-Plug 'mattn/vim-gist', { 'on': 'Gist' }
-let g:gist_clip_command = 'pbcopy'
-let g:gist_detect_filetype = 1
-let g:gist_post_private = 1
-
-Plug 't9md/vim-quickhl'
-" Highlight the current word.
-nmap <silent> <Leader>k <Plug>(quickhl-manual-this)
-xmap <silent> <Leader>k <Plug>(quickhl-manual-this)
-" Highlight the current word, but only as whole words.
-nmap <silent> <Leader><Leader>k <Plug>(quickhl-manual-this-whole-word)
-xmap <silent> <Leader><Leader>k <Plug>(quickhl-manual-this-whole-word)
-" Unhighlight all words.
-noremap <silent> <Leader>K :QuickhlManualReset<CR>
-
-let g:quickhl_manual_colors = [
-    \ "guibg=#F0C0FF guifg=black",
-    \ "guibg=#A7FFB7 guifg=black",
-    \ "guibg=#FFC7C7 guifg=black",
-    \ "guibg=#77D1FF guifg=black",
-    \ "guibg=#AAEEFF guifg=black",
-    \ "guibg=#FCFA99 guifg=black",
-    \ "guibg=#CCCCCC guifg=black",
-    \ "guibg=#F39C12 guifg=black",
-    \ "guibg=#D6D450 guifg=black",
-    \ "guibg=#999999 guifg=white",
-    \ "guibg=#A569BD guifg=white",
-    \ "guibg=#27AE60 guifg=white",
-    \ "guibg=#DB5345 guifg=white",
-    \ "guibg=#3E96D1 guifg=white",
-    \ "guibg=#B78264 guifg=white",
-    \ ]
-
-" https://github.com/inkarkat/vim-mark could be a replacement for quickhl
-
-" Enable this to see the CSS colors above...
-"Plug 'ap/vim-css-color'
-
-Plug 'vim-python/python-syntax'
-let g:python_highlight_class_vars = 1
-let g:python_highlight_string_formatting = 1
-let g:python_highlight_string_format = 1
-let g:python_highlight_string_templates = 1
-let g:python_highlight_indent_errors = 1
-let g:python_highlight_space_errors = 0
-let g:python_highlight_doctests = 1
-
-let g:pyindent_open_paren = 'shiftwidth()'
-let g:pyindent_nested_paren = 'shiftwidth()'
-let g:pyindent_continue = 'shiftwidth()'
-
-Plug 'jeetsukumaran/vim-pythonsense'                " Python-specific motions and text objects
-let g:is_pythonsense_suppress_object_keymaps = 1    " we want to use af ourselves
-
-Plug 'tpope/vim-git'                                " Git filetypes, etc.
-Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statusbar
-autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
-
-" From https://github.com/tpope/vim-fugitive/issues/1510:
-function! s:ftplugin_fugitive() abort
-    nnoremap <buffer> <silent> cc :Git commit --quiet<CR>
-    nnoremap <buffer> <silent> ca :Git commit --quiet --amend<CR>
-    nnoremap <buffer> <silent> ce :Git commit --quiet --amend --no-edit<CR>
-endfunction
-augroup QuietFugitiveCommits
-    autocmd!
-    autocmd FileType fugitive call s:ftplugin_fugitive()
-augroup end
-
-Plug 'rbong/vim-flog', { 'on': 'Flogsplit' }
-let g:flog_default_opts = {
-    \ 'max_count': 200,
+    Plug 'scrooloose/nerdcommenter', {
+    \ 'on': [
+        \ '<Plug>NERDCommenterComment',
+        \ '<Plug>NERDCommenterUncomment'
+        \ ]
     \ }
 
-Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
-noremap <Leader>g\ :Git<CR>:normal <Leader>1<CR>
-noremap <Leader>gb :Git blame<CR>
-noremap <Leader>gd :normal <Leader><Leader>1<CR>:Gdiffsplit<CR>
-noremap <Leader>gg :Git<space>
-noremap <Leader>gh :bot :Git log --oneline -20<CR>
-noremap <Leader>gi :Gist<CR>
-noremap <Leader>gl :Flogsplit<CR>
-noremap <Leader><Leader>gl :Flogsplit -path=%<CR>   " Show the git log for the current file
-noremap <Leader>go :Git checkout<space>
-noremap <Leader>gp :Git pull<CR>
-noremap <Leader>gr :Git rm %<CR>
-noremap <Leader>gu :GBrowse!<CR>
-noremap <Leader>gv :GBrowse<CR>
+    " Don't map all the keys
+    let g:NERDCreateDefaultMappings = 0
+    " Align line-wise comment delimiters flush left instead of following code indentation
+    let g:NERDDefaultAlign = 'left'
+    " Allow commenting and inverting empty lines (useful when commenting a region)
+    let g:NERDCommentEmptyLines = 1
 
-Plug 'hotwatermorning/auto-git-diff'                " auto-display diffs during `git rebase -i`
+    map <Leader>cc <Plug>NERDCommenterComment
+    map <Leader>cu <Plug>NERDCommenterUncomment
 
-Plug 'tpope/vim-unimpaired'
-noremap ,l :normal yol<CR>
-noremap ,r :normal yor<CR>
-noremap ,s :normal yos<CR>
-noremap ,w :normal yow<CR>:setlocal <C-R>=(&wrap ? 'formatoptions-=t' : 'formatoptions+=t')<CR><CR>
-noremap ,x :setlocal formatexpr=<CR>:setlocal formatoptions-=t<CR>
-noremap ,, ,
+    Plug 'majutsushi/tagbar'                            " Tagbar, no 'on', so that statusbar will have tags
+    let g:tagbar_width = 40
+    let g:tagbar_zoomwidth = 30
+    let g:tagbar_sort = 0                               " sort by order in file
+    let g:tagbar_show_visibility = 0
+    let g:tagbar_show_linenumbers = 0
+    let g:tagbar_autofocus = 1
+    let g:tagbar_autoclose = 1
+    let g:tagbar_iconchars = ['+', '-']
+    nnoremap <silent> <Leader>t :TagbarToggle<CR>
 
-Plug 'tpope/vim-repeat'
+    let g:tagbar_type_css = {
+        \ 'ctagstype' : 'Css',
+        \ 'kinds' : [
+            \ 'c:classes',
+            \ 's:selectors',
+            \ 'i:ids',
+            \ 't:tags',
+            \ 'm:media'
+        \ ]
+    \ }
 
-Plug 'kana/vim-textobj-user'
-Plug 'Julian/vim-textobj-variable-segment'
-Plug 'kana/vim-textobj-line'                        " Whole-line text object
-Plug 'kana/vim-textobj-fold'                        " Manual-fold text object
-Plug 'qstrahl/vim-dentures'                         " Indent-based text object
-" Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
-Plug 'nedbat/vim-space', { 'branch': 'patch-1' }    " get my fix for end-of-virtual-line
+    let g:tagbar_type_html = {
+        \ 'ctagstype' : 'html',
+        \ 'sort' : 0,
+        \ 'kinds' : [
+            \ 'h:headings'
+        \ ]
+    \ }
 
-Plug 'wellle/targets.vim'                           " Lots of improvements to text objects
-let g:targets_aiAI = 'ai  '                         " Don't want the A and I mappings
+    let g:tagbar_type_scss = {
+        \ 'ctagstype' : 'Scss',
+        \ 'kinds' : [
+            \ 'c:classes',
+            \ 's:selectors',
+            \ 'i:ids',
+            \ 't:tags',
+            \ 'd:media',
+            \ 'm:mixins',
+            \ 'v:variables'
+        \ ]
+    \ }
 
-Plug 'wellle/visual-split.vim'
-noremap <Leader>* :VSSplit<CR>
-noremap <Leader><Leader>* :VSResize<CR>
+    let g:tagbar_type_markdown = {
+        \ 'ctagstype' : 'markdown',
+        \ 'kinds' : [
+            \ 'h:headings',
+            \ 'l:links',
+            \ 'i:images'
+        \ ],
+        \ "sort" : 0
+    \ }
 
-Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }     " Sane buffer closing
-noremap <Leader><Leader>q :set nomodified<CR>:Sayonara!<CR>
-
-" Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
-" Plug 'Valloric/MatchTagAlways'                      " Highlights paired HTML tags
-Plug 'andymass/vim-matchup', { 'for': ['html', 'xhtml', 'xml'] }
-let g:matchup_matchparen_status_offscreen = 0
-
-" Plug 'alvan/vim-closetag'                           " Close HTML/XML tags
-" let g:closetag_filetypes = 'html,xhtml,xml'
-" let g:closetag_xhtml_filetypes = 'xhtml,xml'
-
-Plug 'junegunn/vim-peekaboo'                        " Pop-up panel to show registers
-let g:peekaboo_window = 'vertical botright 50new'
-let g:peekaboo_delay = 750
-
-" Choose window by label
-" Plug 't9md/vim-choosewin'
-" nmap - <Plug>(choosewin)
-" let g:choosewin_overlay_enable = 1
-
-Plug 'atimholt/spiffy_foldtext'
-let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{==}"
-
-" Other syntaxes
-Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
-"Plug 'trapd00r/irc.vim', { 'for': 'irc' }
-Plug 'nedbat/irc.vim', { 'for': 'irc' }
-Plug 'plasticboy/vim-markdown'
-let g:vim_markdown_frontmatter = 1
-let g:vim_markdown_follow_anchor = 1
-
-Plug 'jparise/vim-graphql'
-Plug 'Glench/Vim-Jinja2-Syntax'
-
-" I couldn't get these to do anything...
-" Plug 'inkarkat/vim-ingo-library'
-" Plug 'inkarkat/vim-SyntaxRange'
-
-Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
-
-Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
-let g:EditorConfig_preserve_formatoptions = 1
-let g:EditorConfig_exclude_patterns = ['fugitive://.*', '^\.git/']   " Don't fiddle with anything in a .git directory
-
-Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
-
-" Ctrl-A, Ctrl-E, etc, when typing.
-Plug 'tpope/vim-rsi'
-
-Plug 'szw/vim-maximizer', { 'on': 'MaximizerToggle' }   " Maximize current split
-noremap <Leader>= :MaximizerToggle!<CR>
-
-" Display more information with ga
-Plug 'tpope/vim-characterize'
-
-" JavaScript niceness
-Plug 'pangloss/vim-javascript'                      " Basic JavaScript highlighting
-Plug 'mxw/vim-jsx'                                  " Support jsx for React
-let g:jsx_ext_required = 0
-
-if v:version >= 800
-    Plug 'luochen1990/rainbow'                      " Parens in multiple colors
-    let g:rainbow_active = 1
-    let g:rainbow_conf = {
-    \   'guifgs': ['royalblue3', 'darkorange3', 'seagreen4', 'firebrick'],
-    \   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
-    \   'operators': '_,_',
-    \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-    \   'separately': {
-    \       '*': {},
-    \       'lisp': {
-    \           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
-    \       },
-    \       'tex': {
-    \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
-    \       },
-    \       'vim': {
-    \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
-    \       },
-    \       'xml': {
-    \           'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
-    \           'operators': '',
-    \       },
-    \       'xhtml': {
-    \           'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
-    \           'operators': '',
-    \       },
-    \       'html': {
-    \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
-    \           'operators': '',
-    \       },
-    \       'htmldjango': 0,
-    \       'php': {
-    \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold', 'start=/(/ end=/)/ containedin=@htmlPreproc contains=@phpClTop', 'start=/\[/ end=/\]/ containedin=@htmlPreproc contains=@phpClTop', 'start=/{/ end=/}/ containedin=@htmlPreproc contains=@phpClTop'],
-    \       },
-    \       'css': 0,
-    \       'irc': 0,
-    \       'diary': 0,
-    \       'sh': 0,
-    \       'rst': 0,
-    \   }
-    \}
-endif
-
-" Open URLs, because netrw's gx is broken: https://github.com/vim/vim/issues/1386
-Plug 'dhruvasagar/vim-open-url'
-nmap gx <Plug>(open-url-browser)
-xmap gx <Plug>(open-url-browser)
-" https://github.com/dhruvasagar/vim-open-url/issues/7#issuecomment-787398894
-" ('open_url#open_in' only works on mac)
-nmap gc :call open_url#open_in('google chrome', expand('<cfile>'))<cr>
-xmap gc :call open_url#open_in('google chrome', open_url#get_selection())<cr>
-
-" Highlight the effect of commands as you type them.
-Plug 'markonm/traces.vim'
-
-" Instant interpretation of code.
-Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
-let g:codi#interpreters = {
-    \ 'python': {
-        \ 'bin': 'python3',
+    Plug 'jszakmeister/rst2ctags'                       " Tag support for .rst files
+    let g:tagbar_type_rst = {
+        \ 'ctagstype' : 'rst',
+        \ 'ctagsbin' : 'python2.7',
+        \ 'ctagsargs' : '~/.vim/plugged/rst2ctags/rst2ctags.py -f - --sort=yes',
+        \ 'kinds' : [
+            \ 's:sections',
+            \ 'i:images'
+        \ ],
+        \ 'sro' : '|',
+        \ 'kind2scope' : {
+            \ 's' : 'section',
         \ },
+        \ 'sort' : 0,
     \ }
 
-" Yank stack
-Plug 'maxbrunsfeld/vim-yankstack'
+    Plug 'habamax/vim-rst'      " .rst syntax
 
-" Color schemes
-Plug 'tomasr/molokai'
-Plug 'ayu-theme/ayu-vim'
-Plug 'nanotech/jellybeans.vim'
-Plug 'Rigellute/shades-of-purple.vim'
+    Plug 'mattn/webapi-vim'
+    Plug 'mattn/vim-gist', { 'on': 'Gist' }
+    let g:gist_clip_command = 'pbcopy'
+    let g:gist_detect_filetype = 1
+    let g:gist_post_private = 1
 
-augroup ColorSchemeFixes
-    " https://gist.github.com/romainl/379904f91fa40533175dfaec4c833f2f
-    autocmd!
-    autocmd ColorScheme shades_of_purple highlight Comment gui=italic guifg=#00d020
-    autocmd ColorScheme shades_of_purple highlight pythonError gui=None guifg=#88ccaa
-    autocmd ColorScheme shades_of_purple highlight Constant guifg=#ffa080
-    autocmd ColorScheme shades_of_purple highlight link pythonConditional Statement
-    autocmd ColorScheme shades_of_purple highlight focus guibg=#5d5c83
-    autocmd ColorScheme shades_of_purple let g:rainbow_conf['guifgs'] = ['#ffff80', '#80ffff', '#80ff80']
-    autocmd ColorScheme ayu highlight Comment gui=italic guifg=#33cc33
-    autocmd ColorScheme neds let g:rainbow_conf['guifgs'] = ['royalblue3', 'darkorange3', 'seagreen4', 'firebrick']
-augroup end
+    Plug 't9md/vim-quickhl'
+    " Highlight the current word.
+    nmap <silent> <Leader>k <Plug>(quickhl-manual-this)
+    xmap <silent> <Leader>k <Plug>(quickhl-manual-this)
+    " Highlight the current word, but only as whole words.
+    nmap <silent> <Leader><Leader>k <Plug>(quickhl-manual-this-whole-word)
+    xmap <silent> <Leader><Leader>k <Plug>(quickhl-manual-this-whole-word)
+    " Unhighlight all words.
+    noremap <silent> <Leader>K :QuickhlManualReset<CR>
 
-Plug 'taze55/vim-dirdifftree', { 'on': 'DirDiffTree' }
+    let g:quickhl_manual_colors = [
+        \ "guibg=#F0C0FF guifg=black",
+        \ "guibg=#A7FFB7 guifg=black",
+        \ "guibg=#FFC7C7 guifg=black",
+        \ "guibg=#77D1FF guifg=black",
+        \ "guibg=#AAEEFF guifg=black",
+        \ "guibg=#FCFA99 guifg=black",
+        \ "guibg=#CCCCCC guifg=black",
+        \ "guibg=#F39C12 guifg=black",
+        \ "guibg=#D6D450 guifg=black",
+        \ "guibg=#999999 guifg=white",
+        \ "guibg=#A569BD guifg=white",
+        \ "guibg=#27AE60 guifg=white",
+        \ "guibg=#DB5345 guifg=white",
+        \ "guibg=#3E96D1 guifg=white",
+        \ "guibg=#B78264 guifg=white",
+        \ ]
 
-Plug 'chrisbra/vim-diff-enhanced'
+    " https://github.com/inkarkat/vim-mark could be a replacement for quickhl
 
-call plug#end()
+    " Enable this to see the CSS colors above...
+    "Plug 'ap/vim-css-color'
+
+    Plug 'vim-python/python-syntax'
+    let g:python_highlight_class_vars = 1
+    let g:python_highlight_string_formatting = 1
+    let g:python_highlight_string_format = 1
+    let g:python_highlight_string_templates = 1
+    let g:python_highlight_indent_errors = 1
+    let g:python_highlight_space_errors = 0
+    let g:python_highlight_doctests = 1
+
+    let g:pyindent_open_paren = 'shiftwidth()'
+    let g:pyindent_nested_paren = 'shiftwidth()'
+    let g:pyindent_continue = 'shiftwidth()'
+
+    Plug 'jeetsukumaran/vim-pythonsense'                " Python-specific motions and text objects
+    let g:is_pythonsense_suppress_object_keymaps = 1    " we want to use af ourselves
+
+    Plug 'tpope/vim-git'                                " Git filetypes, etc.
+    Plug 'tpope/vim-fugitive'                           " No 'on': it's in the statusbar
+    autocmd FileType git noremap <silent> <buffer> <Leader><Leader>f :let @+ = fugitive#Object(@%) \| :echo @+<CR>
+
+    " From https://github.com/tpope/vim-fugitive/issues/1510:
+    function! s:ftplugin_fugitive() abort
+        nnoremap <buffer> <silent> cc :Git commit --quiet<CR>
+        nnoremap <buffer> <silent> ca :Git commit --quiet --amend<CR>
+        nnoremap <buffer> <silent> ce :Git commit --quiet --amend --no-edit<CR>
+    endfunction
+    augroup QuietFugitiveCommits
+        autocmd!
+        autocmd FileType fugitive call s:ftplugin_fugitive()
+    augroup end
+
+    Plug 'rbong/vim-flog', { 'on': 'Flogsplit' }
+    let g:flog_default_opts = {
+        \ 'max_count': 200,
+        \ }
+
+    Plug 'tpope/vim-rhubarb'                            " GitHub support for fugitive
+    noremap <Leader>g\ :Git<CR>:normal <Leader>1<CR>
+    noremap <Leader>gb :Git blame<CR>
+    noremap <Leader>gd :normal <Leader><Leader>1<CR>:Gdiffsplit<CR>
+    noremap <Leader>gg :Git<space>
+    noremap <Leader>gh :bot :Git log --oneline -20<CR>
+    noremap <Leader>gi :Gist<CR>
+    noremap <Leader>gl :Flogsplit<CR>
+    noremap <Leader><Leader>gl :Flogsplit -path=%<CR>   " Show the git log for the current file
+    noremap <Leader>go :Git checkout<space>
+    noremap <Leader>gp :Git pull<CR>
+    noremap <Leader>gr :Git rm %<CR>
+    noremap <Leader>gu :GBrowse!<CR>
+    noremap <Leader>gv :GBrowse<CR>
+
+    Plug 'hotwatermorning/auto-git-diff'                " auto-display diffs during `git rebase -i`
+
+    Plug 'tpope/vim-unimpaired'
+    noremap ,l :normal yol<CR>
+    noremap ,r :normal yor<CR>
+    noremap ,s :normal yos<CR>
+    noremap ,w :normal yow<CR>:setlocal <C-R>=(&wrap ? 'formatoptions-=t' : 'formatoptions+=t')<CR><CR>
+    noremap ,x :setlocal formatexpr=<CR>:setlocal formatoptions-=t<CR>
+    noremap ,, ,
+
+    Plug 'tpope/vim-repeat'
+
+    Plug 'kana/vim-textobj-user'
+    Plug 'Julian/vim-textobj-variable-segment'
+    Plug 'kana/vim-textobj-line'                        " Whole-line text object
+    Plug 'kana/vim-textobj-fold'                        " Manual-fold text object
+    Plug 'qstrahl/vim-dentures'                         " Indent-based text object
+    " Plug 'vim-utils/vim-space'                          " Space text object: di<Space>
+    Plug 'nedbat/vim-space', { 'branch': 'patch-1' }    " get my fix for end-of-virtual-line
+
+    Plug 'wellle/targets.vim'                           " Lots of improvements to text objects
+    let g:targets_aiAI = 'ai  '                         " Don't want the A and I mappings
+
+    Plug 'wellle/visual-split.vim'
+    noremap <Leader>* :VSSplit<CR>
+    noremap <Leader><Leader>* :VSResize<CR>
+
+    Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }     " Sane buffer closing
+    noremap <Leader><Leader>q :set nomodified<CR>:Sayonara!<CR>
+
+    " Plug 'gregsexton/MatchTag'                          " Highlights paired HTML tags
+    " Plug 'Valloric/MatchTagAlways'                      " Highlights paired HTML tags
+    Plug 'andymass/vim-matchup', { 'for': ['html', 'xhtml', 'xml'] }
+    let g:matchup_matchparen_status_offscreen = 0
+
+    " Plug 'alvan/vim-closetag'                           " Close HTML/XML tags
+    " let g:closetag_filetypes = 'html,xhtml,xml'
+    " let g:closetag_xhtml_filetypes = 'xhtml,xml'
+
+    Plug 'junegunn/vim-peekaboo'                        " Pop-up panel to show registers
+    let g:peekaboo_window = 'vertical botright 50new'
+    let g:peekaboo_delay = 750
+
+    " Choose window by label
+    " Plug 't9md/vim-choosewin'
+    " nmap - <Plug>(choosewin)
+    " let g:choosewin_overlay_enable = 1
+
+    Plug 'atimholt/spiffy_foldtext'
+    let g:SpiffyFoldtext_format = "%c %<%f{ }« %n »%l{==}"
+
+    " Other syntaxes
+    Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
+    Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss'] }
+    "Plug 'trapd00r/irc.vim', { 'for': 'irc' }
+    Plug 'nedbat/irc.vim', { 'for': 'irc' }
+    Plug 'plasticboy/vim-markdown'
+    let g:vim_markdown_frontmatter = 1
+    let g:vim_markdown_follow_anchor = 1
+
+    Plug 'jparise/vim-graphql'
+    Plug 'Glench/Vim-Jinja2-Syntax'
+
+    " I couldn't get these to do anything...
+    " Plug 'inkarkat/vim-ingo-library'
+    " Plug 'inkarkat/vim-SyntaxRange'
+
+    Plug 'sk1418/QFGrep'                                " Filter quickfix: \g \v \r
+
+    Plug 'editorconfig/editorconfig-vim'                " Obey .editorconfig files
+    let g:EditorConfig_preserve_formatoptions = 1
+    let g:EditorConfig_exclude_patterns = ['fugitive://.*', '^\.git/']   " Don't fiddle with anything in a .git directory
+
+    Plug 'bogado/file-line'                             " Enables opening and jumping to line with: foo.txt:345
+
+    " Ctrl-A, Ctrl-E, etc, when typing.
+    Plug 'tpope/vim-rsi'
+
+    Plug 'szw/vim-maximizer', { 'on': 'MaximizerToggle' }   " Maximize current split
+    noremap <Leader>= :MaximizerToggle!<CR>
+
+    " Display more information with ga
+    Plug 'tpope/vim-characterize'
+
+    " JavaScript niceness
+    Plug 'pangloss/vim-javascript'                      " Basic JavaScript highlighting
+    Plug 'mxw/vim-jsx'                                  " Support jsx for React
+    let g:jsx_ext_required = 0
+
+    if v:version >= 800
+        Plug 'luochen1990/rainbow'                      " Parens in multiple colors
+        let g:rainbow_active = 1
+        let g:rainbow_conf = {
+        \   'guifgs': ['royalblue3', 'darkorange3', 'seagreen4', 'firebrick'],
+        \   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+        \   'operators': '_,_',
+        \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+        \   'separately': {
+        \       '*': {},
+        \       'lisp': {
+        \           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+        \       },
+        \       'tex': {
+        \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+        \       },
+        \       'vim': {
+        \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+        \       },
+        \       'xml': {
+        \           'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
+        \           'operators': '',
+        \       },
+        \       'xhtml': {
+        \           'parentheses': ['start=/\v\<\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'))?)*\>/ end=#</\z1># fold'],
+        \           'operators': '',
+        \       },
+        \       'html': {
+        \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+        \           'operators': '',
+        \       },
+        \       'htmldjango': 0,
+        \       'php': {
+        \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold', 'start=/(/ end=/)/ containedin=@htmlPreproc contains=@phpClTop', 'start=/\[/ end=/\]/ containedin=@htmlPreproc contains=@phpClTop', 'start=/{/ end=/}/ containedin=@htmlPreproc contains=@phpClTop'],
+        \       },
+        \       'css': 0,
+        \       'irc': 0,
+        \       'diary': 0,
+        \       'sh': 0,
+        \       'rst': 0,
+        \   }
+        \}
+    endif
+
+    " Open URLs, because netrw's gx is broken: https://github.com/vim/vim/issues/1386
+    Plug 'dhruvasagar/vim-open-url'
+    nmap gx <Plug>(open-url-browser)
+    xmap gx <Plug>(open-url-browser)
+    " https://github.com/dhruvasagar/vim-open-url/issues/7#issuecomment-787398894
+    " ('open_url#open_in' only works on mac)
+    nmap gc :call open_url#open_in('google chrome', expand('<cfile>'))<cr>
+    xmap gc :call open_url#open_in('google chrome', open_url#get_selection())<cr>
+
+    " Highlight the effect of commands as you type them.
+    Plug 'markonm/traces.vim'
+
+    " Instant interpretation of code.
+    Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
+    let g:codi#interpreters = {
+        \ 'python': {
+            \ 'bin': 'python3',
+            \ },
+        \ }
+
+    " Yank stack
+    Plug 'maxbrunsfeld/vim-yankstack'
+
+    " Color schemes
+    Plug 'tomasr/molokai'
+    Plug 'ayu-theme/ayu-vim'
+    Plug 'nanotech/jellybeans.vim'
+    Plug 'Rigellute/shades-of-purple.vim'
+
+    augroup ColorSchemeFixes
+        " https://gist.github.com/romainl/379904f91fa40533175dfaec4c833f2f
+        autocmd!
+        autocmd ColorScheme shades_of_purple highlight Comment gui=italic guifg=#00d020
+        autocmd ColorScheme shades_of_purple highlight pythonError gui=None guifg=#88ccaa
+        autocmd ColorScheme shades_of_purple highlight Constant guifg=#ffa080
+        autocmd ColorScheme shades_of_purple highlight link pythonConditional Statement
+        autocmd ColorScheme shades_of_purple highlight focus guibg=#5d5c83
+        autocmd ColorScheme shades_of_purple let g:rainbow_conf['guifgs'] = ['#ffff80', '#80ffff', '#80ff80']
+        autocmd ColorScheme ayu highlight Comment gui=italic guifg=#33cc33
+        autocmd ColorScheme neds let g:rainbow_conf['guifgs'] = ['royalblue3', 'darkorange3', 'seagreen4', 'firebrick']
+    augroup end
+
+    Plug 'taze55/vim-dirdifftree', { 'on': 'DirDiffTree' }
+
+    Plug 'chrisbra/vim-diff-enhanced'
+
+    call plug#end()
+endif
 
 " Plugins I tried but didn't end up actually using:
 "
@@ -1250,12 +1255,15 @@ xnoremap Q :'<,'>normal @q<CR>
 runtime macros/matchit.vim
 
 " Figure out if Python is properly configured.
-try
-    python3 1+1
-    let python_works = 1
-catch /^Vim\%((\a\+)\)\=:E/ 
-    let python_works = 0
-endtry
+let python_works = 0
+if has("python3")
+    try
+        python3 1+1
+        let python_works = 1
+    catch /^Vim\%((\a\+)\)\=:E/ 
+        let python_works = 0
+    endtry
+endif
 
 " Custom formatters
 if python_works
