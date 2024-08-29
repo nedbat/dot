@@ -11,7 +11,7 @@ ten0k() {
 #       .tox/$1/bin/python3 igor.py test_with_tracer c -n 0 -k $2
 #   }
 
-export PYTHONSTARTUP=~/.config/startup.py
+export PYTHONSTARTUP=$XDG_CONFIG_HOME/startup.py
 export _PYTHON_BIN="$(python3 -c "import sysconfig; print(sysconfig.get_path('scripts'))")"
 export PATH="$PATH:$_PYTHON_BIN"
 if [[ -w /tmp ]]; then

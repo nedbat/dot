@@ -3,7 +3,7 @@
 
 # Source the stuff in .config/shellrc
 
-for MODULE in ~/.config/shellrc/*.sh; do
+for MODULE in $XDG_CONFIG_HOME/shellrc/*.sh; do
     source $MODULE
 done
 

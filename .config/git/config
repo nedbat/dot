@@ -176,7 +176,7 @@
     newHighlight = green bold
 
 [commit]
-    template = ~/.config/git/commit
+    template = ~/dotroot/.config/git/commit
     # Signing is security theater, so don't.
     # https://blog.glyph.im/2024/01/unsigned-commits.html
     # https://hachyderm.io/@nedbat/111817091444698270
@@ -243,9 +243,9 @@
 #    # to reduce the need to unlock 1Password.
 #    insteadOf = git@github.com:
 
-[user]
-    name = Ned Batchelder
-    email = ned@nedbatchelder.com
-    signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEQoprVcqNTHlfyo93mMK8FTe3QfQLkoKF7X7aSNrlIG
-
+# [user]
+#     name = Ned Batchelder
+#     email = ned@nedbatchelder.com
+#     signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEQoprVcqNTHlfyo93mMK8FTe3QfQLkoKF7X7aSNrlIG
+ 
 # vim: set filetype=gitconfig:

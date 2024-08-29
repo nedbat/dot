@@ -5,6 +5,12 @@
 
 echo '(.zshrc)'
 
+if [[ -d $HOME/dotroot ]]; then
+    export XDG_CONFIG_HOME=$HOME/dotroot/.config
+else
+    export XDG_CONFIG_HOME=$HOME/.config
+fi
+
 # Places to find more zsh completions
 for d in \
     /src/zsh-completions/src \
@@ -76,41 +82,43 @@ setopt no_equals
 #zle-line-init() rehash
 #zle -N zle-line-init
 
+# Transient prompt for starship
 # From: https://github.com/spaceship-prompt/spaceship-prompt/issues/775#issuecomment-977161851
-zle-line-init() {
-  emulate -L zsh
-
-  [[ $CONTEXT == start ]] || return 0
-
-  while true; do
-    zle .recursive-edit
-    local -i ret=$?
-    [[ $ret == 0 && $KEYS == $'\4' ]] || break
-    [[ -o ignore_eof ]] || exit 0
-  done
-
-  local saved_prompt=$PROMPT
-  local saved_rprompt=$RPROMPT
-  PROMPT='$(STARSHIP_CONFIG=~/.config/starship-transient.toml starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
-  RPROMPT=''
-  zle .reset-prompt
-  PROMPT=$saved_prompt
-  RPROMPT=$saved_rprompt
-
-  if (( ret )); then
-    zle .send-break
-  else
-    zle .accept-line
-  fi
-  return ret
-}
-
-zle -N zle-line-init
+if command -v starship >/dev/null; then
+    zle-line-init() {
+      emulate -L zsh
+    
+      [[ $CONTEXT == start ]] || return 0
+    
+      while true; do
+        zle .recursive-edit
+        local -i ret=$?
+        [[ $ret == 0 && $KEYS == $'\4' ]] || break
+        [[ -o ignore_eof ]] || exit 0
+      done
+    
+      local saved_prompt=$PROMPT
+      local saved_rprompt=$RPROMPT
+      PROMPT='$(STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship-transient.toml starship prompt --terminal-width="$COLUMNS" --keymap="${KEYMAP:-}" --status="$STARSHIP_CMD_STATUS" --pipestatus="${STARSHIP_PIPE_STATUS[*]}" --cmd-duration="${STARSHIP_DURATION:-}" --jobs="$STARSHIP_JOBS_COUNT")'
+      RPROMPT=''
+      zle .reset-prompt
+      PROMPT=$saved_prompt
+      RPROMPT=$saved_rprompt
+    
+      if (( ret )); then
+        zle .send-break
+      else
+        zle .accept-line
+      fi
+      return ret
+    }
+    zle -N zle-line-init
+fi
 
 
 export SHELL_TYPE=zsh
 # We shouldn't need to read env.sh again, because it was already read by .zshenv.
 # But something is pushing things onto the front of PATH, and env.sh pushes the
 # things we want at the front.
-source ~/.config/env.sh
-source ~/.config/rc.sh
+source $XDG_CONFIG_HOME/env.sh
+source $XDG_CONFIG_HOME/rc.sh
