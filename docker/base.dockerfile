@@ -33,9 +33,9 @@ ARG APT_INSTALL="apt-get install -y --no-install-recommends"
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV TZ=America/New_York
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 RUN \
     apt-get update && \
@@ -60,7 +60,7 @@ RUN \
 RUN \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update && \
-    for v in 7 8 9 10 11 12; do \
+    for v in 8 9 10 11 12; do \
         $APT_INSTALL python3.$v python3.$v-dev python3.$v-venv; \
     done && \
     :
@@ -81,6 +81,7 @@ RUN \
 USER me
 WORKDIR /home/me
 
+# build.sh gets dot.sh from ~/dot, and deletes it when done.
 COPY dot.sh ./dot.sh
 RUN \
     ./dot.sh && \
