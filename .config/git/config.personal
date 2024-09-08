@@ -1,0 +1,19 @@
+# gitconfig for personal use.  Copy this to ~/.gitconfig.ned or something.
+# The .zshrc sets GIT_CONFIG_GLOBAL to point to this in the home dir.
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[user]
+    name = Ned Batchelder
+    email = ned@nedbatchelder.com
+    signingkey = key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEQoprVcqNTHlfyo93mMK8FTe3QfQLkoKF7X7aSNrlIG
+ 
+[include]
+    # When copying to the home directory, adjust this to point to the common configuration file.
+    path = ~/.config/git/config
+
+# vim: set filetype=gitconfig:

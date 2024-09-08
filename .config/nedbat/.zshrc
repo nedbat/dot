@@ -11,6 +11,10 @@ else
     export XDG_CONFIG_HOME=$HOME/.config
 fi
 
+if [[ -f $HOME/.gitconfig.$USER ]]; then
+    export GIT_CONFIG_GLOBAL=$HOME/.gitconfig.$USER
+fi
+
 # Places to find more zsh completions
 for d in \
     /src/zsh-completions/src \

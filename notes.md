@@ -1,0 +1,5 @@
+- We don't assume we own ~/.zshrc: we add one line to it
+- We don't assume ~/.zshenv, ~/.zlogin, etc, exist
+- We can move .config somewhere else by creating a symlink at ~/dotroot that points to a directory with .config in it
+- XDG_CONFIG_HOME should always be set and used to find .config/
+- A .gitconfig.ned file might exist and should be the global config if it does. It can [include] the common configs.
