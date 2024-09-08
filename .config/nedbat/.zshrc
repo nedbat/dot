@@ -83,6 +83,9 @@ setopt short_loops
 # Disable silly =command expansion (same as $(which command) )
 setopt no_equals
 
+# I need @^ to mean @^
+setopt no_extended_glob
+
 #zle-line-init() rehash
 #zle -N zle-line-init
 
