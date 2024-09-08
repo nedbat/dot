@@ -372,7 +372,7 @@ endif
 "" Plugins
 ""
 
-if exists('*plug#begin')
+if !empty(globpath(&rtp, 'autoload/plug.vim'))
 
     " https://github.com/junegunn/vim-plug
     " 'silent!' here to keep it from complaining if there's no "git" installed.
