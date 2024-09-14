@@ -16,4 +16,15 @@
     # When copying to the home directory, adjust this to point to the common configuration file.
     path = ~/.config/git/config
 
+[url "git@github.com:"]
+    # Git remotes of "git@github.com" should really be pushed using ssh.
+    pushInsteadOf = git@github.com:
+    # Private repos need ssh in both directions.  See the "fix-private-remotes" alias.
+    insteadOf = github_private:
+
+[url "https://github.com/"]
+    # Git remotes of "git@github.com" should be pulled over https,
+    # to reduce the need to unlock 1Password.
+    insteadOf = git@github.com:
+
 # vim: set filetype=gitconfig:
