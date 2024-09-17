@@ -36,7 +36,6 @@ min_time = 10_000
 # Conda likes to change the prompt, use this to stop it so starship wins:
 #   conda config --set changeps1 False
 format = "[$symbol$environment]($style) "
-symbol = "∮ଦ "      # Contour Integral + Oriya Letter Da 
 
 [directory]
 truncate_to_repo = false
