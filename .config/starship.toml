@@ -63,6 +63,11 @@ diverged = "▲${ahead_count}▼${behind_count}"
 behind = "▼${count}"
 deleted = "×"
 
+[hostname]
+format = "[$ssh_symbol$hostname]($style) "
+ssh_symbol = "𝕊 "
+style = "bold green"
+
 [nodejs]
 format = "[$symbol($version )]($style)"
 symbol = "𝕁"
@@ -82,3 +87,6 @@ disabled = false
 format = "[$symbol]($style) "
 symbol = "§"
 style = "red bold"
+
+[username]
+format = "[$user]($style) "
