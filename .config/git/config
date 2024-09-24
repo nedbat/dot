@@ -100,7 +100,7 @@
 
     copysha = "!f() { \
         : git show ; \
-        ~/bin/git-copysha "$@" \
+        $XDG_CONFIG_HOME/../bin/git-copysha "$@"; \
     }; f"
 
     # https://nedbatchelder.com/blog/202202/moving_a_git_branch_to_a_new_base.html
