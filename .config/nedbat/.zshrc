@@ -5,11 +5,7 @@
 
 echo '(.zshrc)'
 
-if [[ -d $HOME/dotroot ]]; then
-    export XDG_CONFIG_HOME=$HOME/dotroot/.config
-else
-    export XDG_CONFIG_HOME=$HOME/.config
-fi
+export XDG_CONFIG_HOME=$HOME/.config
 
 if [[ -f $HOME/.gitconfig.$USER ]]; then
     export GIT_CONFIG_GLOBAL=$HOME/.gitconfig.$USER
