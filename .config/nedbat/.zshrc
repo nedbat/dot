@@ -15,6 +15,7 @@ fi
 for d in \
     /src/zsh-completions/src \
     /opt/homebrew/share/zsh/site-functions \
+    $XDG_CONFIG_HOME/zsh-completions \
 ; do
     if [[ -d $d ]]; then
         fpath=($d $fpath)
