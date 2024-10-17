@@ -30,10 +30,10 @@ $(EXTRACTOR_FILE): $(TGZ_FILE)
 	@echo "prompt> ./$(EXTRACTOR_FILE)"
 
 copyvim:				## Copy vim support files
-	rsync -a -v --delete --exclude=.git ~/.vim/plugged .vim
-	mkdir -p .vim/autoload
-	cp ~/.vim/autoload/plug.vim .vim/autoload/plug.vim
-	cp -R ~/.vim/spell .vim
+	rsync -a -v --delete --exclude=.git ~/.config/vim/plugged .config/vim
+	mkdir -p .config/vim/autoload
+	cp ~/.config/vim/autoload/plug.vim .config/vim/autoload/plug.vim
+	cp -R ~/.config/vim/spell .config/vim
 
 
 IGNORE_DIFF = \( -name 'plugged' -o -name '.git' \)
@@ -44,7 +44,7 @@ difffiles:				## Compare these files to $HOME
 
 update:					## Copy files from directories that should always be in sync
 	for d in \
-		.vim/{after,autoload,colors,ftplugin,indent,spell,syntax} \
+		.config/vim/{after,autoload,colors,ftplugin,indent,spell,syntax} \
 		.config/shellrc \
 		docker \
 		.hammerspoon \

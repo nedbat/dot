@@ -29,6 +29,9 @@ rm -vf .rc.sh
 # Vimrc moved
 rm -vf .vimrc
 
+# All vim settings moved
+rm -vrf .vim
+
 # Remove things that might be in the account by default that we don't want.
 rm -vf .cshrc .profile
 

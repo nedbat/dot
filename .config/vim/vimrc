@@ -4,7 +4,7 @@
 filetype off
 
 " Windows thinks personal vim stuff should be in ~/vimfiles, make it look in ~/.vim instead
-set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
+"set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
 
 set directory-=.                        " Don't store .swp files in the current directory
 set updatecount=0                       " Don't create .swp files at all.

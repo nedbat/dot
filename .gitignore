@@ -3,8 +3,8 @@ dot.tgz
 dot.zip
 dot.sh
 .ssh
-.vim/bundle
-.vim/plugged
-.vim/autoload/plug.vim
-.vim/autoload/plug.vim.old
+.config/vim/bundle
+.config/vim/plugged
+.config/vim/autoload/plug.vim
+.config/vim/autoload/plug.vim.old
 .DS_Store
