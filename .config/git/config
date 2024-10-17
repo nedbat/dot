@@ -38,8 +38,8 @@
     pr = "!f() { hub pull-request "$@"; }; f"
 
     # I'm done with this merged branch, ready to switch back to another one.
-    brdone = "!f() { : git show ; brname=\"$(git symbolic-ref --short HEAD)\" && git checkout ${1:-master} && git pull && git branch -d $brname; }; f"
-    brdone2 = "!f() { \
+    brdoneold = "!f() { : git show ; brname=\"$(git symbolic-ref --short HEAD)\" && git checkout ${1:-master} && git pull && git branch -d $brname; }; f"
+    brdone = "!f() { \
         : git show; \
         local brname=\"$(git symbolic-ref --short HEAD)\" && \
         local mainster=\"$(git branch -a | sed -n -E -e '/remotes.origin.ma(in|ster)$/s@remotes/origin/@@p')\" && \
