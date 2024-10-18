@@ -163,3 +163,34 @@ timer = hs.timer.doEvery(3, drawInfo)
 for i, dev in ipairs(hs.audiodevice.allOutputDevices()) do
     dev:watcherCallback(drawInfo):watcherStart()
 end
+
+
+--
+-- App switching
+--
+
+-- for index, app in ipairs(hs.application.runningApplications()) do
+--     print(app, app:title())
+-- end
+
+ctrlCmdShortcuts = {
+    {"D", "Discord"},
+    {"F", "Spotify"},
+    {"G", "Messenger"},
+    {"H", "Google Chrome"},
+    {"I", "Textual 7"},
+    {"M", "Mail"},
+    {"P", "Preview"},
+    {"Q", "Visual Studio Code"},
+    {"S", "Slack"},
+    {"T", "iTerm"},
+    {"V", "MacVim"},
+    {"X", "Firefox"},
+    {"Z", "Zoom"},
+}
+ 
+for i,shortcut in ipairs(ctrlCmdShortcuts) do
+    hs.hotkey.bind({"ctrl", "alt", "cmd"}, shortcut[1], function()
+        hs.application.launchOrFocus(shortcut[2])
+    end)
+end
