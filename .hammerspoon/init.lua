@@ -173,7 +173,7 @@ end
 --     print(app, app:title())
 -- end
 
-ctrlCmdShortcuts = {
+appShortcuts = {
     {"D", "Discord"},
     {"F", "Spotify"},
     {"G", "Messenger"},
@@ -188,9 +188,29 @@ ctrlCmdShortcuts = {
     {"X", "Firefox"},
     {"Z", "Zoom"},
 }
- 
-for i,shortcut in ipairs(ctrlCmdShortcuts) do
+
+for i, shortcut in ipairs(appShortcuts) do
     hs.hotkey.bind({"ctrl", "alt", "cmd"}, shortcut[1], function()
         hs.application.launchOrFocus(shortcut[2])
+    end)
+end
+
+--
+-- Media control
+--
+
+mediaShortcuts = {
+    {"up", "MUTE"},
+    {"left", "SOUND_DOWN"},
+    {"right", "SOUND_UP"},
+    {"end", "NEXT"},
+    {"home", "PREVIOUS"},
+    {"pageup", "PLAY"},
+}
+
+for i, shortcut in ipairs(mediaShortcuts) do
+    hs.hotkey.bind({"ctrl", "alt", "cmd"}, shortcut[1], function()
+        hs.eventtap.event.newSystemKeyEvent(shortcut[2], true):post()
+        hs.eventtap.event.newSystemKeyEvent(shortcut[2], false):post()
     end)
 end
