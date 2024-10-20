@@ -186,7 +186,7 @@ appShortcuts = {
     {"T", "iTerm"},
     {"V", "MacVim"},
     {"X", "Firefox"},
-    {"Z", "Zoom"},
+    {"Z", "zoom.us"},
 }
 
 for i, shortcut in ipairs(appShortcuts) do
