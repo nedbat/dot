@@ -51,7 +51,11 @@ setopt inc_append_history
 setopt hist_find_no_dups
 setopt hist_ignore_dups
 setopt hist_ignore_space
-HISTFILE=~/.history
+if [[ -d /mnt/notebooks/ned ]]; then
+    HISTFILE=/mnt/notebooks/ned/zsh_history
+else
+    HISTFILE=~/.history
+fi
 SAVEHIST=100000
 HISTSIZE=50000
 
