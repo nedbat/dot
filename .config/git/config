@@ -22,7 +22,7 @@
 
     # From rafasc in #git
     # "the idea is that you use it with a list of refs, and the output should show only the necessary history to explain their relationship."
-    lm = "!f(){ : git log ; git lhist --boundary \"${@:-HEAD}\" --not $(git merge-base --octopus $(git rev-parse \"${@:-HEAD}^@\" \"${@/%/^@}\")) --; };f"
+    lm = "!f(){ : git log; git lhist --boundary \"${@:-HEAD}\" --not $(git merge-base --octopus $(git rev-parse \"${@:-HEAD}^@\" \"${@/%/^@}\")) --; };f"
 
     # A list of conflicted files.
     flict = "!f(){ git ls-files -u | awk '{print $4}' | sort -u; }; f"
@@ -32,7 +32,11 @@
     #   $ git copr 789 otherguy     # gets and switches to pr/789 from otherguy remote
     # from https://gist.github.com/gnarf/5406589
     # discussed at http://nedbatchelder.com/blog/201407/fetching_github_pull_requests.html
-    copr = "!f() { git fetch -fu ${2:-origin} pull/$1/head:pr/$1 && git checkout pr/$1 && git reset --hard @; }; f"
+    copr = "!f() { \
+        git fetch -fu ${2:-origin} pull/$1/head:pr/$1 && \
+        git checkout pr/$1 && \
+        git reset --hard @; \
+    }; f"
 
     # Make a pull request with hub.
     pr = "!f() { hub pull-request "$@"; }; f"
@@ -49,13 +53,21 @@
     }; f"
 
     # Merge a branch, and delete it here and on the origin.
-    brmerge = "!f() { : git show ; git merge $1 && git branch -d $1 && git push origin --delete $1; }; f"
+    brmerge = "!f() { \
+        : git show; \
+        git merge $1 && \
+        git branch -d $1 && \
+        git push origin --delete $1; \
+    }; f"
+
     # Merge the branch we just switched from.
-    brmerge- = "!f() { git brmerge $(git rev-parse --abbrev-ref @{-1}); }; f"
+    brmerge- = "!f() { \
+        git brmerge $(git rev-parse --abbrev-ref @{-1}); \
+    }; f"
 
     # Delete a branch here and on the origin.
     # The switch $1 is to get an entry in the reflog now, in case we need to recover the branch.
-    brdel = "!f() { : git show ; git switch $1 && git switch - && git branch -D $1 && git push ${2:-origin} --delete $1; }; f"
+    brdel = "!f() { : git show; git switch $1 && git switch - && git branch -D $1 && git push ${2:-origin} --delete $1; }; f"
 
     # Delete the branch we just switched from.  This is for when "brdone" says it couldn't
     # delete the branch, because it was a rebase rather than a merge. It doesn't try to
@@ -121,18 +133,18 @@
     }; f"
 
     copysha = "!f() { \
-        : git show ; \
+        : git show; \
         $XDG_CONFIG_HOME/../bin/git-copysha "$@"; \
     }; f"
 
     # https://nedbatchelder.com/blog/202202/moving_a_git_branch_to_a_new_base.html
     movebranch = "!f() { \
-        : git show ; \
+        : git show; \
         git rebase --onto $2 $(git merge-base $1 @); \
     }; f"
 
     squash = "!f() { \
-        : git show ; \
+        : git show; \
         git -c sequence.editor=: rebase -i --autosquash --autostash ${1:-@~10}; \
     }; f"
 
