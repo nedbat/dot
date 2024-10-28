@@ -1140,7 +1140,7 @@ inoremap <C-L> <C-X><C-L>
 inoremap <C-N> <C-X><C-N>
 inoremap <C-P> <C-X><C-P>
 
-" Use CTRL-Q to do what CTRL-V used to do
+" Use CTRL-Q to do what CTRL-V used to do: start visual block mode
 noremap <C-Q> <C-V>
 
 " Searching
