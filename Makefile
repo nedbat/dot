@@ -1,4 +1,4 @@
-.PHONY: help tar tgz zip shell copyvim difffiles clean dist
+.PHONY: help tar tgz zip shell copyvim difffiles outdiff update clean dist
 
 KEY_FILE = .ssh/other_authorized_keys
 TAR_FILE = dot.tar
@@ -35,12 +35,16 @@ copyvim:				## Copy vim support files
 	cp ~/.config/vim/autoload/plug.vim .config/vim/autoload/plug.vim
 	cp -R ~/.config/vim/spell .config/vim
 
-
+# copy files from home to dot
 IGNORE_DIFF = \( -name 'plugged' -o -name '.git' \)
 difffiles:				## Compare these files to $HOME
 	@echo '# Use this target like this:'
 	@echo '#    . <(make difffiles)'
 	@find . $(IGNORE_DIFF) -prune -o -type f -exec diff -q ~/{} {} \; 2>/dev/null | awk '{print "cp " $$2 " " $$4}'
+
+# find files to maybe copy from dot to home.
+outdiff:
+	@find . $(IGNORE_DIFF) -prune -o -type f -exec diff -q ~/{} {} \; 2>/dev/null | awk '{print "diff " $$4 " " $$2 "         # cp " $$4 " " $$2}'
 
 update:					## Copy files from directories that should always be in sync
 	for d in \
