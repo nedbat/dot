@@ -1,7 +1,9 @@
 # Git etc stuff
 
 # A function instead of an alias so that g will work when non-interactive
-# (such as inside gittreeif).
+# (such as inside gittreeif).  But in some places the alias already exists,
+# so remove it first.
+unalias g 2>/dev/null
 g() { git "$@"; }
 
 if command -v diff-so-fancy >/dev/null; then
