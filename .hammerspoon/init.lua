@@ -184,6 +184,7 @@ appShortcuts = {
     {"Q", "Visual Studio Code"},
     {"S", "Slack"},
     {"T", "iTerm"},
+    {"U", "Tuple"},
     {"V", "MacVim"},
     {"X", "Firefox"},
     {"Z", "zoom.us"},
