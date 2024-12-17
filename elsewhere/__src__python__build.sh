@@ -1,4 +1,4 @@
-make distclean
+git clean -fdx .
 ./configure --prefix=/usr/local/cpython --with-openssl=$(brew --prefix openssl)
 make -j
 rm -rf /usr/local/cpython/*

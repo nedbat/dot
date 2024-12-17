@@ -2,7 +2,7 @@
 
 for f in \
     ~/Library/Application\ Support/Choosy/behaviors.plist \
-    /usr/local/pyenv/{rc,install}.sh \
+    /usr/local/pyenv/{{rc,install}.sh,make_pr.py} \
     /etc/synthetic.conf \
     /src/python/build.sh \
 ; do

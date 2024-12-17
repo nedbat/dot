@@ -9,6 +9,7 @@ aspell
 ast-grep
 autoconf
 automake
+bash
 bat
 brotli
 c-ares
@@ -31,7 +32,6 @@ docker-compose
 enchant
 entr
 eslint
-exa
 fd
 ffmpeg
 flac
@@ -63,9 +63,10 @@ graphviz
 gts
 harfbuzz
 highway
+hub
 icoutils
-icu4c
 icu4c@75
+icu4c@76
 imagemagick
 imath
 jansson
@@ -115,6 +116,7 @@ libssh
 libssh2
 libtasn1
 libtiff
+libtommath
 libtool
 libunibreak
 libunistring
@@ -135,7 +137,6 @@ litecli
 little-cms2
 llvm
 llvm@16
-llvm@18
 lua
 luajit
 lz4
@@ -166,7 +167,8 @@ pango
 pcre2
 pipx
 pixman
-pkg-config
+pkgconf
+podman
 popt
 pre-commit
 protobuf
@@ -219,3 +221,4 @@ zlib
 zstd
 1password-cli
 hammerspoon
+macfuse
