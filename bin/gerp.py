@@ -167,9 +167,11 @@ class Gerp(object):
             "--no-heading",
             "--with-filename",
             "--line-number",
-            "--no-ignore",
             "--hidden",
         ]
+        if not self.ini:
+            rg_words.append("--no-ignore")
+
         for ignore in self.ignores():
             rg_words.extend(["--glob", "!"+ignore])
 
