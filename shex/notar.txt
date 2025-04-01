@@ -13,6 +13,7 @@ dot.zip
 dot.sh
 elsewhere
 Makefile
+notes.md
 README.txt
 *.itermcolors
 .DS_Store
