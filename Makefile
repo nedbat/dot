@@ -70,7 +70,7 @@ clean:					## Get rid of unneeded stuff
 	-rm -f $(EXTRACTOR_FILE)
 	find . -name '.DS_Store' -delete
 	find . -name '._*' -delete
-	find . -print0 | xargs -0 xattr -c
+	find . -type f -perm -200 -print0 | xargs -0 xattr -c
 
 dist: $(EXTRACTOR_FILE)			## Copy extractor to a few places
 	scp $(EXTRACTOR_FILE) drop1:.
