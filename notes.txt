@@ -1,0 +1,34 @@
+- todo: better doc for the post-install steps needed
+- todo: new dirs in ~/.config don't get copied to ~/dot/.config
+- files are in .config/nedbat/.[a-z], they need to be sourced from their home equivalents
+    for f in ~/.config/nedbat/.[a-z]*; do
+        echo $f is $(basename $f)
+        echo "source $f" >> ~/$(basename $f)
+    done
+- minimal brew list:
+    git
+    starship
+    macvim
+    hammerspoon
+    rg
+    eza
+- done: notes.md shouldn't end up in the tarball
+- hammerspoon needs to enable accessibility through its ui
+    - and enable location services.
+        - in the hammerspoon console, run this lua: print(hs.location.get())
+        - then in system settings - privacy - location services, enable hammerspoon
+- textual:
+    - re-connect the custom style
+    - choose franklin gothic book 18pt
+    - style - developers - modify custom stylesheet rules
+        - * {line-height: 1.25}
+
+# From $JOB-1:
+- We don't assume we own ~/.zshrc: we add one line to it
+- We don't assume ~/.zshenv, ~/.zlogin, etc, exist
+- We can move .config somewhere else by creating a symlink at ~/dotroot that points to a directory with .config in it
+- XDG_CONFIG_HOME should always be set and used to find .config/
+- A .gitconfig.ned file might exist and should be the global config if it does. It can [include] the common configs.
+
+
+# vim: noshiftround foldmethod=marker foldlevel=0 ft=diary
