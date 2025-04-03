@@ -20,7 +20,8 @@ if [[ $(pwd) != $HOME ]]; then
 fi
 
 # Moved git stuff into .config/git
-rm -vf .gitconfig .tigrc
+mv -v .gitconfig .gitconfig.old.$(date "+%Y%M%d%H%M%S")
+rm -vf .tigrc
 rm -vrf .gitglobal
 
 # Re-organized shell startup

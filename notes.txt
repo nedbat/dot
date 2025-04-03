@@ -1,3 +1,4 @@
+- done: never delete well-known files: move them aside instead
 - todo: better doc for the post-install steps needed
 - todo: new dirs in ~/.config don't get copied to ~/dot/.config
 - files are in .config/nedbat/.[a-z], they need to be sourced from their home equivalents
