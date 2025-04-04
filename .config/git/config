@@ -16,6 +16,7 @@
     lhistg = log --pretty=me --date=short -G
     relnotes = log --pretty=relnote --date=short --no-merges
     h = "!f() { git --no-pager log -n 20 --pretty=me --graph --date=short $@; }; f"
+    hh = "!f() { git --no-pager log -n 20 --pretty=me --graph --date=short --first-parent $@; }; f"
     ha = "!f() { git --no-pager log -n 35 --pretty=me --graph --date=short --all; }; f"
     tags = tag
     #fixup = !sh -c 'git rebase -i $(git merge-base HEAD ${1:-origin/master})' -
