@@ -33,6 +33,7 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' rehash true
+zstyle ':completion:*' format '(completing %d)'
 
 # I'll be honest: I don't understand these exactly...
 zstyle ':completion:*' completer _complete _correct _approximate
@@ -51,11 +52,7 @@ setopt inc_append_history
 setopt hist_find_no_dups
 setopt hist_ignore_dups
 setopt hist_ignore_space
-if [[ -d /mnt/notebooks/ned ]]; then
-    HISTFILE=/mnt/notebooks/ned/zsh_history
-else
-    HISTFILE=~/.history
-fi
+HISTFILE=~/.history
 SAVEHIST=100000
 HISTSIZE=50000
 
