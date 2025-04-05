@@ -24,6 +24,9 @@
     - style - developers - modify custom stylesheet rules
         - * {line-height: 1.25}
 
+- todo: no need to link to .config from .gitconfig.personal
+- todo: forking commands to add a remote
+
 # From $JOB-1:
 - We don't assume we own ~/.zshrc: we add one line to it
 - We don't assume ~/.zshenv, ~/.zlogin, etc, exist
