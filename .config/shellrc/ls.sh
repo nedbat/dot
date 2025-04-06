@@ -5,9 +5,10 @@ export CLICOLOR=1
 
 if command -v eza &>/dev/null; then
     export EZA_CONFIG_DIR=$XDG_CONFIG_HOME/eza
-    alias l="eza --long --classify --group --group-directories-first --git"
+    alias l="eza --long --classify --group-directories-first --git"
     alias la="l -A"
     alias lsd="l -A --only-dirs"
+    alias lt="l --tree"
 else
     alias l="ls -lFhH"
     alias la="l -A"
