@@ -28,12 +28,13 @@ compinit
 
 zstyle ':completion:*' use-cache yes
 zstyle ':completion:*' cache-path ~/.zsh/cache
-zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' rehash true
-zstyle ':completion:*' format '(completing %d)'
+zstyle ':completion:*' format '%F{225}╒═══ %d ═══╕%f' # 225 is thistle1 #ffd7ff
+zstyle ':completion:*' group-name ''
 
 # I'll be honest: I don't understand these exactly...
 zstyle ':completion:*' completer _complete _correct _approximate

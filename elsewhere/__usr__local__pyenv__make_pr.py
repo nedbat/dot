@@ -16,10 +16,11 @@ def get_python_checksums(version, vdir):
     
     checksums = {}
     for file in files:
-        response = requests.get(f"{base_url}/{file}")
+        url = f"{base_url}/{file}"
+        response = requests.get(url)
         response.raise_for_status()
-        content = response.content
-        checksums[file] = hashlib.sha256(content).hexdigest()
+        sha256 = hashlib.sha256(response.content).hexdigest()
+        checksums[file] = sha256
     return checksums
 
 def run_git_command(args):
@@ -36,7 +37,7 @@ def update_pyenv_file(old_version, new_version):
     # Basic file update as before
     content = old_file.read_text()
     content = content.replace(str(old_version), str(new_version))
-    
+
     old_vdir = re.sub(r"[abc]\d+", "", old_version)
     new_vdir = re.sub(r"[abc]\d+", "", new_version)
     checksums = get_python_checksums(new_version, new_vdir)
@@ -44,8 +45,11 @@ def update_pyenv_file(old_version, new_version):
     # Update checksums and URLs
     for filename, sha256 in checksums.items():
         content = re.sub(
-            f"python/{old_vdir}/{filename}#([0-9a-f]){{64}}",
-            f"python/{new_vdir}/{filename}#{sha256}",
+            # Because of the content replace above, the directories and
+            # filenames are already the new version. We just need to put in the
+            # new hashes.
+            rf"python/{new_vdir}/{filename}#([0-9a-f]){{64}}",
+            rf"python/{new_vdir}/{filename}#{sha256}",
             content,
         )
     

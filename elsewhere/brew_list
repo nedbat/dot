@@ -17,6 +17,7 @@ c-ares
 ca-certificates
 cairo
 cffi
+chezmoi
 cjson
 cloc
 cmake
@@ -35,6 +36,7 @@ double-conversion
 enchant
 entr
 eslint
+eza
 fd
 ffmpeg
 fish

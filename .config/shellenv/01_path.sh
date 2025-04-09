@@ -2,6 +2,7 @@
 for d in \
     /opt/local/bin \
     /opt/homebrew/bin \
+    /home/linuxbrew/.linuxbrew/bin \
     /usr/local/bin \
     $HOME/.local/bin \
     $HOME/bin \

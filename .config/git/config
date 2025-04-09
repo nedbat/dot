@@ -226,9 +226,6 @@
 [fetch]
     prune = true
 
-[github]
-    user = nedbat
-
 [init]
     defaultBranch = main
 

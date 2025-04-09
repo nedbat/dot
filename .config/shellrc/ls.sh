@@ -1,6 +1,7 @@
 # ls stuff
 
 export LSCOLORS=gxfxDxDxxxDxDxxxxxgxgx
+unset LS_COLORS
 export CLICOLOR=1
 
 if command -v eza &>/dev/null; then
