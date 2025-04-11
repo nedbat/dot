@@ -29,7 +29,10 @@ compinit
 zstyle ':completion:*' use-cache yes
 zstyle ':completion:*' cache-path ~/.zsh/cache
 zstyle ':completion:*' menu select
-zstyle ':completion:*' list-colors ''
+# Directories are shown in white
+# https://github.com/zsh-users/zsh/blob/master/Functions/Misc/colors
+zstyle -d ':completion:*:default' list-colors
+zstyle ':completion:*' list-colors 'di=01;37'
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' rehash true
