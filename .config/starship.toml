@@ -65,6 +65,7 @@ deleted = "×"
 
 [hostname]
 format = "[$ssh_symbol$hostname]($style) "
+ssh_only = false
 ssh_symbol = "𝕊 "
 style = "bold green"
 

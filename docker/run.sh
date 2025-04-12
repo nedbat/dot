@@ -8,4 +8,4 @@ docker run \
     --mount=type=bind,source=$HOME/coverage/trunk,target=/cov,readonly \
     --mount=type=bind,source=$PWD,target=/here \
     nedbat/$1 \
-    /bin/bash
+    /usr/bin/zsh

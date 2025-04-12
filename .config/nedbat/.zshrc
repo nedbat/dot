@@ -27,7 +27,7 @@ autoload -Uz compinit
 compinit
 
 zstyle ':completion:*' use-cache yes
-zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' cache-path ~/.cache/zsh
 zstyle ':completion:*' menu select
 # Directories are shown in white
 # https://github.com/zsh-users/zsh/blob/master/Functions/Misc/colors

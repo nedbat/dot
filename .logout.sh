@@ -1,1 +1,1 @@
-source ~/.config/nedbat/.logout.sh
+source /Users/ned/.config/nedbat/.logout.sh # cznedbat 

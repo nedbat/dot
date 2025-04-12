@@ -1,4 +1,4 @@
-cp ~/dot/dot.sh . 
-docker build --file=$1.dockerfile --tag=nedbat/$1 --progress=plain .
+slug=$1
+shift 1
+docker build --file=$slug.dockerfile --tag=nedbat/$slug --progress=plain "$@" .
 docker image prune --force
-rm dot.sh

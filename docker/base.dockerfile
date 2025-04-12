@@ -27,7 +27,7 @@
 #   
 #   WORKDIR someproject
 
-FROM ubuntu:jammy
+FROM ubuntu:noble
 
 ARG APT_INSTALL="apt-get install -y --no-install-recommends"
 ARG DEBIAN_FRONTEND=noninteractive
@@ -42,15 +42,18 @@ RUN \
     $APT_INSTALL \
         build-essential \
         curl \
+        eza \
         git \
         gpg-agent \
         litecli \
         locales \
         python3-pip \
+        ripgrep \
         software-properties-common \
         sudo \
         tzdata \
         vim \
+        zsh \
         && \
     locale-gen en_US.UTF-8 && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
@@ -60,7 +63,7 @@ RUN \
 RUN \
     add-apt-repository ppa:deadsnakes/ppa && \
     apt-get update && \
-    for v in 8 9 10 11 12; do \
+    for v in 9 10 11 12 13; do \
         $APT_INSTALL python3.$v python3.$v-dev python3.$v-venv; \
     done && \
     :
@@ -75,25 +78,34 @@ RUN \
 
 RUN \
     groupadd me && \
-    useradd -g me -s /usr/bin/bash -m me && \
+    useradd -g me -s /usr/bin/zsh -m me && \
+    :
+
+RUN \
+    mkdir -p /home/linuxbrew && \
+    chown me /home/linuxbrew && \
     :
 
 USER me
 WORKDIR /home/me
 
-# build.sh gets dot.sh from ~/dot, and deletes it when done.
-COPY dot.sh ./dot.sh
 RUN \
-    ./dot.sh && \
-    echo "Stop the sudo instructions during login" > .hushlogin && \
-    echo "xterm-256color-italic|xterm with 256 colors and italic,sitm=\E[3m,ritm=\E[23m,use=xterm-256color," > ./term.terminfo && \
-    tic ./term.terminfo && \
-    rm ./dot.sh ./term.terminfo && \
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+RUN \
+    /home/linuxbrew/.linuxbrew/bin/brew install starship && \
+    /home/linuxbrew/.linuxbrew/bin/brew install --build-from-source chezmoi && \
+    /home/linuxbrew/.linuxbrew/bin/brew uninstall go && \
+    /home/linuxbrew/.linuxbrew/bin/brew cleanup --prune=all && \
+    :
+
+RUN \
+    /home/linuxbrew/.linuxbrew/bin/chezmoi init --apply https://github.com/nedbat/dotfiles.git && \
     :
 
 # Install some tools that make it easier to run more tools.
 RUN \
-    PIP_REQUIRE_VIRTUALENV= python3 -m pip install --no-warn-script-location \
+    PIP_REQUIRE_VIRTUALENV= python3 -m pip install --break-system-packages --no-warn-script-location \
         nox \
         tox \
         virtualenvwrapper \
@@ -103,5 +115,5 @@ RUN \
 
 # Run the rc file once to let things like virtualenvwrapper initialize.
 RUN \
-    bash ~/.bashrc && \
+    zsh ~/.zshrc && \
     :
