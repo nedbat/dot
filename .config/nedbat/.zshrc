@@ -6,10 +6,7 @@
 echo '(.zshrc)'
 
 export XDG_CONFIG_HOME=$HOME/.config
-
-if [[ -f $HOME/.gitconfig.$USER ]]; then
-    export GIT_CONFIG_GLOBAL=$HOME/.gitconfig.$USER
-fi
+export XDG_CACHE_HOME=$HOME/.cache
 
 # Places to find more zsh completions
 for d in \
@@ -24,10 +21,10 @@ done
 
 autoload zmv
 autoload -Uz compinit
-compinit
+compinit -d $XDG_CACHE_HOME/zsh/zcompdump
 
 zstyle ':completion:*' use-cache yes
-zstyle ':completion:*' cache-path ~/.cache/zsh
+zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zsh
 zstyle ':completion:*' menu select
 # Directories are shown in white
 # https://github.com/zsh-users/zsh/blob/master/Functions/Misc/colors
@@ -36,7 +33,7 @@ zstyle ':completion:*' list-colors 'di=01;37'
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' rehash true
-zstyle ':completion:*' format '%F{225}╒═══ %d ═══╕%f' # 225 is thistle1 #ffd7ff
+zstyle ':completion:*' format '%F{219}╒═══ %d ═══╕%f' # 219 is "plum1" #ffafff
 zstyle ':completion:*' group-name ''
 
 # I'll be honest: I don't understand these exactly...

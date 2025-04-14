@@ -79,6 +79,7 @@ RUN \
 RUN \
     groupadd me && \
     useradd -g me -s /usr/bin/zsh -m me && \
+    passwd -d me && \
     :
 
 RUN \
@@ -96,7 +97,7 @@ RUN \
     /home/linuxbrew/.linuxbrew/bin/brew install starship && \
     /home/linuxbrew/.linuxbrew/bin/brew install --build-from-source chezmoi && \
     /home/linuxbrew/.linuxbrew/bin/brew uninstall go && \
-    /home/linuxbrew/.linuxbrew/bin/brew cleanup --prune=all && \
+    /home/linuxbrew/.linuxbrew/bin/brew cleanup --scrub --prune=all && \
     :
 
 RUN \

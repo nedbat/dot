@@ -1,5 +1,9 @@
 # Git etc stuff
 
+if [[ -f $HOME/.gitconfig.$USER ]]; then
+    export GIT_CONFIG_GLOBAL=$HOME/.gitconfig.$USER
+fi
+
 # A function instead of an alias so that g will work when non-interactive
 # (such as inside gittreeif).  But in some places the alias already exists,
 # so remove it first.
