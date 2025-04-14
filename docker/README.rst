@@ -1,4 +1,4 @@
-Support files for utility Docker images.  These files are git-managed in ~/dot.
+Support files for utility Docker images.
 
 A base image is created with base.dockerfile.  A second Dockerfile is needed to
 finish building a safe usable image.  main.dockerfile is the simplest second
