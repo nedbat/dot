@@ -3,15 +3,31 @@
 " set verbose=15 verbosefile=/tmp/vim.verbose
 filetype off
 
+" Set XDG locations for use elsewhere.
+if empty($XDG_CACHE_HOME)
+    let $XDG_CACHE_HOME = $HOME . "/.cache"
+endif
+if empty($XDG_CONFIG_HOME)
+    let $XDG_CONFIG_HOME = $HOME . "/.config"
+endif
+if empty($XDG_DATA_HOME)
+    let $XDG_DATA_HOME = $HOME . "/.local/share"
+endif
+if empty($XDG_STATE_HOME)
+    let $XDG_STATE_HOME = $HOME . "/.local/state"
+endif
+
 " Windows thinks personal vim stuff should be in ~/vimfiles, make it look in ~/.vim instead
 "set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
 
 set directory-=.                        " Don't store .swp files in the current directory
 set updatecount=0                       " Don't create .swp files at all.
-if filewritable(expand('~/.backup'))
-    set backup backupdir=~/.backup      " Keep copies of files we're editing
+if filewritable(expand('$XDG_STATE_HOME/vim/backup'))
+    set backup                          " Keep copies of files we're editing
+    set backupdir=$XDG_STATE_HOME/vim/backup
     set backupskip=                     "   all of them, even in /tmp
 endif
+set viminfofile=$XDG_STATE_HOME/vim/viminfo
 set shortmess+=I                        " Don't show the vim intro message
 set shortmess-=S                        " Show [17/56] when searching
 set history=500                         " Keep a LOT of history for commands
@@ -114,19 +130,20 @@ function! CleanOldFiles(path, days)
 endfunction
 
 if exists("+undofile")
-    let my_undodir = $HOME . '/.vimundo'
+    let my_undodir = $XDG_STATE_HOME . "/vim/undo"
     if !isdirectory(my_undodir)
         if exists("*mkdir")
-            call mkdir(my_undodir)
+            call mkdir(my_undodir, 'p')
         endif
     endif
     if isdirectory(my_undodir)
-        set undofile undodir=~/.vimundo         " Save undo's after file closes
+        set undofile                            " Save undo's after file closes
+        set undodir=$XDG_STATE_HOME/vim/undo    " Save them here
         set undolevels=1000                     " How many undos
         set undoreload=10000                    " Number of lines to save for undo
 
-        " Remove undo files which have not been modified for 2 days.
-        call CleanOldFiles(&undodir, 2)
+        " Remove undo files which have not been modified for 30 days.
+        call CleanOldFiles(&undodir, 30)
     endif
 endif
 
@@ -536,7 +553,7 @@ if !empty(globpath(&rtp, 'autoload/plug.vim'))
     let g:tagbar_type_rst = {
         \ 'ctagstype' : 'rst',
         \ 'ctagsbin' : 'python2.7',
-        \ 'ctagsargs' : '~/.vim/plugged/rst2ctags/rst2ctags.py -f - --sort=yes',
+        \ 'ctagsargs' : '~/.config/vim/plugged/rst2ctags/rst2ctags.py -f - --sort=yes',
         \ 'kinds' : [
             \ 's:sections',
             \ 'i:images'
@@ -1224,9 +1241,6 @@ noremap <Leader>s :call RunGrep('')<CR>
 nnoremap <Leader>a :call RunGrep('<C-R><C-W>')<CR>
 xnoremap <Leader>a y:call RunGrep(substitute(@", ' ', '.', 'g'))<CR>
 nnoremap <silent> <Leader>c :botright copen<CR>
-
-" temp, while getting coverage up to speed on mypy
-noremap <Leader><Leader>m :write \| :cgetexpr system("~/coverage/trunk/.tox/mypy/bin/mypy " . shellescape(expand('%'))) \| :botright copen<CR>
 
 " Adapted from:
 " Barry Arthur 2014 06 25 Jump to the last cursor position in a File Jump

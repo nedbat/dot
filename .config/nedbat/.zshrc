@@ -5,9 +5,6 @@
 
 echo '(.zshrc)'
 
-export XDG_CONFIG_HOME=$HOME/.config
-export XDG_CACHE_HOME=$HOME/.cache
-
 # Places to find more zsh completions
 for d in \
     /src/zsh-completions/src \
@@ -53,7 +50,7 @@ setopt inc_append_history
 setopt hist_find_no_dups
 setopt hist_ignore_dups
 setopt hist_ignore_space
-HISTFILE=~/.history
+HISTFILE=$XDG_STATE_HOME/shell_history
 SAVEHIST=100000
 HISTSIZE=50000
 
